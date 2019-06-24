@@ -6,6 +6,7 @@
 package rexsdesktop;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import rexsdesktop.view.LoginSingUp;
 
 /**
@@ -18,10 +19,16 @@ public class RexsDesktop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LoginSingUp inicio = new LoginSingUp();
-        inicio.setLocationRelativeTo(null);
-        inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        inicio.setVisible(true);
+         SwingUtilities.invokeLater ( new Runnable ()
+        {
+            public void run ()
+            {
+                LoginSingUp inicio = new LoginSingUp();
+                inicio.setLocationRelativeTo(null);
+                inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                inicio.setVisible(true);
+            }
+        } );
     }
     
 }
