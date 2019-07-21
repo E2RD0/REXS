@@ -24,13 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public final class rubikFont {
+public final class RubikFonts {
     static Font light;
     static Font medium;
     static Font bold;  
-    public rubikFont() {
+    public RubikFonts() {
             try {
-                 rubikFont.light = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("resources/Rubik-Light.ttf"));
+                 RubikFonts.light = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("resources/Rubik-Light.ttf"));
             } catch (FontFormatException | IOException ex) {
                 ex.printStackTrace();
             }
