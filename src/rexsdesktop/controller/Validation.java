@@ -13,8 +13,7 @@ public class Validation {
     
     
     public static boolean isStringEmptyOrNull(String string){
-        string = string.trim();
-        return !(string != null && !string.isEmpty() && !string.isBlank());
+        return !(string != null && !string.trim().isEmpty() && !string.trim().isBlank());
     }
     public static class VerificadorNombre{
         public static String mensaje = "";
@@ -110,6 +109,29 @@ public class Validation {
                         }
                     }
 
+                }
+	}
+    }
+    
+    public static class VerificadorLogin{
+        public static String mensajeEmail = "";
+        public static String mensajePassword = "";
+	public static boolean verify(String email, String password) {
+            mensajeEmail = "";
+            mensajePassword = "";
+                if (isStringEmptyOrNull(email) || isStringEmptyOrNull(password)) {
+                    if (isStringEmptyOrNull(password)) {
+                        mensajePassword = "El campo no puede estar vacío.";
+                    }
+                    if (isStringEmptyOrNull(email)) {
+                        mensajeEmail = "El campo no puede estar vacío.";
+                    }
+                    return false;
+                }
+                else{
+                    mensajeEmail ="";
+                    mensajePassword = "";
+                    return true;
                 }
 	}
     }

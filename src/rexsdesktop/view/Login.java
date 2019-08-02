@@ -9,13 +9,21 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.Border;
+import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 
@@ -26,6 +34,7 @@ import rexsdesktop.controller.Validation;
 public class Login extends javax.swing.JFrame {
 
     RubikFonts f = new RubikFonts();
+    Timer t;
     public Login() {
         initComponents();
         cambiarCardLayoutPanel("InicioSesion");
@@ -40,10 +49,27 @@ public class Login extends javax.swing.JFrame {
         btnSignGoogle1.setContentAreaFilled(false);
         btnSignFacebook1.setContentAreaFilled(false);
     }
-    public final void cambiarCardLayoutPanel(String nombre)
+    public void cambiarCardLayoutPanel(String nombre)
     {
         CardLayout cl = (CardLayout)(CardLayoutPanel.getLayout());
         cl.show(CardLayoutPanel, nombre);
+    }
+    public void resetCampos(){
+        txtNombreCompletoR.setText("");
+        txtEmailR.setText("");
+        txtPasswordR.setText("");
+        txtEmail.setText("");
+        txtPassword.setText("");
+        lblErrorPasswordR.setText("");
+        lblErrorEmailR.setText("");
+        lblErrorNombre.setText("");
+        lblErrorEmail.setText("");
+        lblErrorPasswordR.setText("");
+        txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+        txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
+        txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtPassword.setBackground(new java.awt.Color(249, 250, 255));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,11 +86,11 @@ public class Login extends javax.swing.JFrame {
         pnlIniciarSesion = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         btnCardRecuperarClave = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -74,6 +100,9 @@ public class Login extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         btnSignGoogle = new javax.swing.JButton();
         btnSignFacebook = new javax.swing.JButton();
+        lblErrorEmail = new javax.swing.JLabel();
+        lblErrorPassword = new javax.swing.JLabel();
+        lblErrorGeneral = new javax.swing.JLabel();
         pnlRegistro = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -124,6 +153,9 @@ public class Login extends javax.swing.JFrame {
         jLabel33 = new javax.swing.JLabel();
         jPasswordField4 = new javax.swing.JPasswordField();
         pnlExito = new javax.swing.JPanel();
+        lblTituloExito = new javax.swing.JLabel();
+        lblMensajeExito = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -157,10 +189,15 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/rexslogo.png"))); // NOI18N
 
-        jTextField1.setBackground(new java.awt.Color(249, 250, 255));
-        jTextField1.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(46, 56, 77));
-        jTextField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtEmail.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(135, 152, 173));
@@ -174,11 +211,16 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(176, 186, 201));
         jLabel5.setText("CONTRASEÑA");
 
-        jPasswordField1.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField1.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField1.setEchoChar('\u2022');
+        txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+        txtPassword.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(46, 56, 77));
+        txtPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtPassword.setEchoChar('\u2022');
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
 
         btnCardRecuperarClave.setBackground(new java.awt.Color(255, 255, 255));
         btnCardRecuperarClave.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
@@ -246,45 +288,64 @@ public class Login extends javax.swing.JFrame {
         btnSignFacebook.setBorderPainted(false);
         btnSignFacebook.setIconTextGap(0);
 
+        lblErrorEmail.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblErrorEmail.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblErrorPassword.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblErrorPassword.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblErrorGeneral.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblErrorGeneral.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout pnlIniciarSesionLayout = new javax.swing.GroupLayout(pnlIniciarSesion);
         pnlIniciarSesion.setLayout(pnlIniciarSesionLayout);
         pnlIniciarSesionLayout.setHorizontalGroup(
             pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIniciarSesionLayout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnIniciarSesion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCardRecuperarClave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
-                        .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCardRegistro)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(137, 137, 137))
             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                 .addGap(154, 154, 154)
                 .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSignGoogle, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSignFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                        .addComponent(lblErrorEmail)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                        .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnIniciarSesion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnCardRecuperarClave))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
+                                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
+                                        .addGap(14, 14, 14)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnCardRegistro)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(137, 137, 137))
+                    .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                        .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblErrorGeneral)
+                            .addComponent(lblErrorPassword))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         pnlIniciarSesionLayout.setVerticalGroup(
             pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,16 +356,22 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(45, 45, 45)
+                .addGap(13, 13, 13)
+                .addComponent(lblErrorGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel4)
                 .addGap(1, 1, 1)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(lblErrorEmail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(lblErrorPassword)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCardRecuperarClave)
                         .addGap(18, 18, 18)
@@ -846,18 +913,47 @@ public class Login extends javax.swing.JFrame {
 
         CardLayoutPanel.add(pnlRecuperarClaveCambiar, "RecuperarClaveCambiar");
 
+        pnlExito.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTituloExito.setFont(new java.awt.Font("Rubik Light", 0, 24)); // NOI18N
+        lblTituloExito.setForeground(new java.awt.Color(46, 56, 77));
+        lblTituloExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTituloExito.setText("¡Registro exitoso!");
+        lblTituloExito.setPreferredSize(new java.awt.Dimension(131, 28));
+
+        lblMensajeExito.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        lblMensajeExito.setForeground(new java.awt.Color(135, 152, 173));
+        lblMensajeExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMensajeExito.setText("<html> <div style='text-align: center;'>Ya puedes iniciar sesión con las<br>credenciales con las que te registraste</div></html>");
+
+        jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/success.png"))); // NOI18N
+
         javax.swing.GroupLayout pnlExitoLayout = new javax.swing.GroupLayout(pnlExito);
         pnlExito.setLayout(pnlExitoLayout);
         pnlExitoLayout.setHorizontalGroup(
             pnlExitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(pnlExitoLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addGroup(pnlExitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTituloExito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMensajeExito, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         pnlExitoLayout.setVerticalGroup(
             pnlExitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlExitoLayout.createSequentialGroup()
+                .addContainerGap(184, Short.MAX_VALUE)
+                .addComponent(jLabel34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblTituloExito, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMensajeExito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(220, 220, 220))
         );
 
-        CardLayoutPanel.add(pnlExito, "card7");
+        CardLayoutPanel.add(pnlExito, "Exito");
 
         getContentPane().add(CardLayoutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -870,10 +966,12 @@ public class Login extends javax.swing.JFrame {
 
     private void btnCardRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardRegistroActionPerformed
         cambiarCardLayoutPanel("Registro");
+        resetCampos();
     }//GEN-LAST:event_btnCardRegistroActionPerformed
 
     private void btnCardInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesionActionPerformed
         cambiarCardLayoutPanel("InicioSesion");
+        resetCampos();
     }//GEN-LAST:event_btnCardInicioSesionActionPerformed
 
     private void btnCardInicioSesion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesion1ActionPerformed
@@ -881,12 +979,59 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCardInicioSesion1ActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        Admin fAdmin = new Admin();
-        this.setVisible(false);
-        fAdmin.setLocationRelativeTo(null);
-        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        fAdmin.setVisible(true);
-        this.dispose();
+        String email = txtEmail.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        if (!Validation.VerificadorLogin.verify(email, password)) {
+            if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
+                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+            }
+            else{
+                txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
+                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+            }
+            else{
+                txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
+            lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
+        }
+        else{
+            txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+            txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+            lblErrorEmail.setText("");
+            lblErrorPassword.setText("");      
+            if (User.iniciarSesion(email, password)) {
+                System.out.println("Inicio Correcto");
+                if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
+                    if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
+                        Admin fAdmin = new Admin();
+                        this.setVisible(false);
+                        fAdmin.setLocationRelativeTo(null);
+                        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                        fAdmin.setVisible(true);
+                        this.dispose();
+                    }
+                    else{
+                        lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
+                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                        txtPassword.setBackground(new java.awt.Color(255, 204, 204)); 
+                    }
+                }
+                else{
+                        lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
+                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                        txtPassword.setBackground(new java.awt.Color(255, 204, 204)); 
+                    }
+            }
+            else{
+                lblErrorGeneral.setText("Usuario o contraseña incorrectos");
+                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                System.out.println("Incio Incorrecto");
+            }
+        }  
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnCardInicioSesion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesion2ActionPerformed
@@ -935,8 +1080,19 @@ public class Login extends javax.swing.JFrame {
             if (User.nuevoUsuario(nombre, correo, password,"Visitante" , "Activo")) {
                 txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
                 lblErrorEmailR.setText("");
-                System.out.println("Registro correcto");
+                cambiarCardLayoutPanel("Exito");
+                resetCampos();
+                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                executorService.scheduleAtFixedRate(new Runnable() {
+                    @Override
+                    public void run() {
+                        cambiarCardLayoutPanel("InicioSesion");
+                        executorService.shutdownNow();
+                    }
+                }, 2, 1, TimeUnit.SECONDS);
+                
             }
+                
             else{
                 if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
                     txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
@@ -971,15 +1127,26 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailRKeyReleased
 
     private void txtPasswordRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordRKeyReleased
-        String password = String.valueOf(txtPasswordR.getPassword());
-        if (!Validation.VerificadorPassword.verify(password)) {
-            txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
-            txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-                lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+        lblErrorGeneral.setText("");
     }//GEN-LAST:event_txtPasswordRKeyReleased
+
+    private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
+        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+        lblErrorGeneral.setText("");
+        lblErrorEmail.setText("");
+        lblErrorPassword.setText("");
+    }//GEN-LAST:event_txtEmailKeyReleased
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+        lblErrorGeneral.setText("");
+        lblErrorEmail.setText("");
+        lblErrorPassword.setText("");
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -1057,6 +1224,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1064,27 +1232,32 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JPasswordField jPasswordField4;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JLabel lblErrorEmail;
     private javax.swing.JLabel lblErrorEmailR;
+    private javax.swing.JLabel lblErrorGeneral;
     private javax.swing.JLabel lblErrorNombre;
+    private javax.swing.JLabel lblErrorPassword;
     private javax.swing.JLabel lblErrorPasswordR;
+    private javax.swing.JLabel lblMensajeExito;
+    private javax.swing.JLabel lblTituloExito;
     private javax.swing.JPanel pnlExito;
     private javax.swing.JPanel pnlIniciarSesion;
     private javax.swing.JPanel pnlRecuperarClave;
     private javax.swing.JPanel pnlRecuperarClaveCambiar;
     private javax.swing.JPanel pnlRecuperarClaveCodigo;
     private javax.swing.JPanel pnlRegistro;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailR;
     private javax.swing.JTextField txtNombreCompletoR;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordR;
     // End of variables declaration//GEN-END:variables
 }

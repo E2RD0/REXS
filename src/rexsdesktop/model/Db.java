@@ -55,6 +55,62 @@ public class Db {
             return true;
         }
     }
+    public String getHash(String email){
+        try{
+        String query = "SELECT clave from usuario where email = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setString(1, email);
+        ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            else{
+                return "";
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+            return "";
+        }
+    }
+    public ResultSet getUsuario(String email){
+        try{
+        String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setString(1, email);
+        ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            }
+            else{
+                return null;
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+            return null;
+        }
+    }
+    
+    public ResultSet getUsuario(int id){
+        try{
+        String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where idUsuario = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setInt(1, id);
+        ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            }
+            else{
+                return null;
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+            return null;
+        }
+    }
+    
     public int getIdTipoUsuario(String tipo){
         try{
         String query = "SELECT idTipoUsuario FROM tipoUsuario WHERE tipo = ?";
