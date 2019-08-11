@@ -97,6 +97,24 @@ public class Db {
             return "";
         }
     }
+    public String getHash(int id){
+        try{
+        String query = "SELECT clave from usuario where idUsuario = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setInt(1, id);
+        ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            else{
+                return "";
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+            return "";
+        }
+    }
     public ResultSet getUsuario(String email){
         try{
         String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
@@ -202,4 +220,24 @@ public class Db {
                 } catch (IOException ex) {
                     System.out.println(ex);
                 }*/
+
+    public boolean actualizarContraUsuario(String hash, int id) {
+        boolean r = false;
+        try{
+        String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setString(1, hash);
+        cmd.setInt(2, id);
+        if(cmd.executeUpdate() > 0){
+            r = true;
+            }
+        cmd.close();
+        cn.close();
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+        }
+                
+        return r;
+    }
 }

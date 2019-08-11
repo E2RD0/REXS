@@ -27,6 +27,7 @@ import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
+
 /**
  *
  * @author user
@@ -39,10 +40,10 @@ public class Admin extends javax.swing.JFrame {
     public Admin() {
         /*Scrollbar Look and Feel*/
         UIManager.put("ScrollBar.width", 8);
-        UIManager.put("ScrollBar.thumb", new ColorUIResource(new Color(189,189,189)));
-        UIManager.put("ScrollBar.thumbDarkShadow", new ColorUIResource(new Color(189,189,189)));
-        UIManager.put("ScrollBar.thumbShadow", new ColorUIResource(new Color(189,189,189)));
-        UIManager.put("ScrollBar.thumbHighlight", new ColorUIResource(new Color(189,189,189)));
+        UIManager.put("ScrollBar.thumb", new ColorUIResource(new Color(189, 189, 189)));
+        UIManager.put("ScrollBar.thumbDarkShadow", new ColorUIResource(new Color(189, 189, 189)));
+        UIManager.put("ScrollBar.thumbShadow", new ColorUIResource(new Color(189, 189, 189)));
+        UIManager.put("ScrollBar.thumbHighlight", new ColorUIResource(new Color(189, 189, 189)));
         UIManager.put("ScrollBarUI", "rexsdesktop.view.MyScrollbarUI");
         /*END Scrollbar Look and Feel*/
         initComponents();
@@ -58,36 +59,37 @@ public class Admin extends javax.swing.JFrame {
         pnlActiveAjustes.setBackground(bgNormal);
         makeActiveMenuItem(btnInicio, pnlActiveInicio, lblDashboard, "Dashboard");
         /*END Menu*/
-        /*Scrollbar movement*/
-        pnlAjustes.getVerticalScrollBar().setPreferredSize(new Dimension(10,Integer.MAX_VALUE));
+ /*Scrollbar movement*/
+        pnlAjustes.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
         pnlAjustes.getVerticalScrollBar().setUnitIncrement(16);
-        pnlDashboard.getVerticalScrollBar().setPreferredSize(new Dimension(10,Integer.MAX_VALUE));
+        pnlDashboard.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
         pnlDashboard.getVerticalScrollBar().setUnitIncrement(16);
         jpnlTableUsuarios.getVerticalScrollBar().setUnitIncrement(10);
-        jpnlDia1.getVerticalScrollBar().setPreferredSize(new Dimension(6,Integer.MAX_VALUE));
+        jpnlDia1.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia1.getVerticalScrollBar().setUnitIncrement(10);
-        jpnlDia2.getVerticalScrollBar().setPreferredSize(new Dimension(6,Integer.MAX_VALUE));
+        jpnlDia2.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia2.getVerticalScrollBar().setUnitIncrement(10);
-        jpnlDia3.getVerticalScrollBar().setPreferredSize(new Dimension(6,Integer.MAX_VALUE));
+        jpnlDia3.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia3.getVerticalScrollBar().setUnitIncrement(10);
-        jpnlDia4.getVerticalScrollBar().setPreferredSize(new Dimension(6,Integer.MAX_VALUE));
+        jpnlDia4.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia4.getVerticalScrollBar().setUnitIncrement(10);
-        jpnlDia5.getVerticalScrollBar().setPreferredSize(new Dimension(6,Integer.MAX_VALUE));
+        jpnlDia5.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia5.getVerticalScrollBar().setUnitIncrement(10);
         jpnlTableNiveles.getVerticalScrollBar().setUnitIncrement(10);
         jpnlTableEspecialidades.getVerticalScrollBar().setUnitIncrement(10);
         jpnlTableSecciones.getVerticalScrollBar().setUnitIncrement(10);
         /*END Scrollbar movement*/
-        /*Datos de usuario en ajustes*/
+ /*Datos de usuario en ajustes*/
         loadAjustes();
         /*Datos de usuario en ajustes*/
-    }   
-    private void resetearModalUsuario(){
-       txtEmailUsuarioModal.setText("");
-       txtNombreUsuarioModal.setText("");
-       txtClaveUsuarioModal.setText("");
-       cbxTipoUsuarioModal.setSelectedIndex(0);
-       cbxEstadoUsuarioModal.setSelectedIndex(0);
+    }
+
+    private void resetearModalUsuario() {
+        txtEmailUsuarioModal.setText("");
+        txtNombreUsuarioModal.setText("");
+        txtClaveUsuarioModal.setText("");
+        cbxTipoUsuarioModal.setSelectedIndex(0);
+        cbxEstadoUsuarioModal.setSelectedIndex(0);
     }
     //final JDialog modalUsuario = new JDialog(this, "Prueba", true);
     ImageIcon iconDashboard = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconHome.png"));
@@ -101,54 +103,48 @@ public class Admin extends javax.swing.JFrame {
     ImageIcon iconUbicaciones = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconMap.png"));
     ImageIcon iconUbicacionesActive = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconMapActive.png"));
     ImageIcon iconActividades = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconCalendar.png"));
-    ImageIcon iconActividadesActive= new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconCalendarActive.png"));
+    ImageIcon iconActividadesActive = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconCalendarActive.png"));
     ImageIcon iconAjustes = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconSettings.png"));
     ImageIcon iconAjustesActive = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/MenuIconSettingsActive.png"));
 
-    Color colorActive = new Color(46,91,255);
+    Color colorActive = new Color(46, 91, 255);
     Color colorNormal = new Color(176, 186, 201);
-    Color bgActive = new Color(238,242,255);
-    Color bgNormal = new Color(255,255,255);
+    Color bgActive = new Color(238, 242, 255);
+    Color bgNormal = new Color(255, 255, 255);
 
-    private void makeActiveMenuItem(JPanel btn, JPanel activeInd, JLabel lbl, String img){
-        CardLayout cl = (CardLayout)(pnlCardLayoutAdmin.getLayout());
-        if(pnlActiveInicio.getBackground() == colorActive){
+    private void makeActiveMenuItem(JPanel btn, JPanel activeInd, JLabel lbl, String img) {
+        CardLayout cl = (CardLayout) (pnlCardLayoutAdmin.getLayout());
+        if (pnlActiveInicio.getBackground() == colorActive) {
             btnInicio.setBackground(bgNormal);
             pnlActiveInicio.setBackground(bgNormal);
             lblDashboard.setIcon(iconDashboard);
             lblDashboard.setForeground(colorNormal);
-        }
-        else if(pnlActiveAnaliticas.getBackground() == colorActive){
+        } else if (pnlActiveAnaliticas.getBackground() == colorActive) {
             btnAnaliticas.setBackground(bgNormal);
             pnlActiveAnaliticas.setBackground(bgNormal);
             lblAnaliticas.setIcon(iconAnaliticas);
             lblAnaliticas.setForeground(colorNormal);
-        }
-        else if(pnlActiveUsuarios.getBackground() == colorActive){
+        } else if (pnlActiveUsuarios.getBackground() == colorActive) {
             btnUsuarios.setBackground(bgNormal);
             pnlActiveUsuarios.setBackground(bgNormal);
             lblUsuarios.setIcon(iconUsuarios);
             lblUsuarios.setForeground(colorNormal);
-        }
-        else if(pnlActiveProyectos.getBackground() == colorActive){
+        } else if (pnlActiveProyectos.getBackground() == colorActive) {
             btnProyectos.setBackground(bgNormal);
             pnlActiveProyectos.setBackground(bgNormal);
             lblProyectos.setIcon(iconProyectos);
             lblProyectos.setForeground(colorNormal);
-        }
-        else if(pnlActiveUbicaciones.getBackground() == colorActive){
+        } else if (pnlActiveUbicaciones.getBackground() == colorActive) {
             btnUbicaciones.setBackground(bgNormal);
             pnlActiveUbicaciones.setBackground(bgNormal);
             lblUbicaciones.setIcon(iconUbicaciones);
             lblUbicaciones.setForeground(colorNormal);
-        }
-        else if(pnlActiveActividades.getBackground() == colorActive){
+        } else if (pnlActiveActividades.getBackground() == colorActive) {
             btnActividades.setBackground(bgNormal);
             pnlActiveActividades.setBackground(bgNormal);
             lblActividades.setIcon(iconActividades);
             lblActividades.setForeground(colorNormal);
-        }
-        else if(pnlActiveAjustes.getBackground() == colorActive){
+        } else if (pnlActiveAjustes.getBackground() == colorActive) {
             btnAjustes.setBackground(bgNormal);
             pnlActiveAjustes.setBackground(bgNormal);
             lblAjustes.setIcon(iconAjustes);
@@ -157,7 +153,7 @@ public class Admin extends javax.swing.JFrame {
         btn.setBackground(bgActive);
         activeInd.setBackground(colorActive);
         lbl.setForeground(colorActive);
-        switch (img){
+        switch (img) {
             case "Dashboard":
                 lbl.setIcon(iconDashboardActive);
                 break;
@@ -181,7 +177,7 @@ public class Admin extends javax.swing.JFrame {
                 break;
         }
         cl.show(pnlCardLayoutAdmin, img);
-}
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -6913,11 +6909,10 @@ public class Admin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        if(pnlMenu.getWidth() == 150){
-        pnlMenu.setSize(56, pnlMenu.getHeight());
-        }
-        else if(pnlMenu.getWidth() == 56){
-        pnlMenu.setSize(150, pnlMenu.getHeight());
+        if (pnlMenu.getWidth() == 150) {
+            pnlMenu.setSize(56, pnlMenu.getHeight());
+        } else if (pnlMenu.getWidth() == 56) {
+            pnlMenu.setSize(150, pnlMenu.getHeight());
         }
     }//GEN-LAST:event_btnMenuActionPerformed
 
@@ -6926,7 +6921,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioMouseClicked
 
     private void btnAnaliticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAnaliticasMouseClicked
-       makeActiveMenuItem(btnAnaliticas, pnlActiveAnaliticas, lblAnaliticas, "Analiticas");
+        makeActiveMenuItem(btnAnaliticas, pnlActiveAnaliticas, lblAnaliticas, "Analiticas");
     }//GEN-LAST:event_btnAnaliticasMouseClicked
 
     private void btnAnaliticasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAnaliticasMouseEntered
@@ -7091,7 +7086,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarSeccionActionPerformed
 
     private void pnlNivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlNivelMouseClicked
-        CardLayout cl = (CardLayout)(pnlCardLayoutAdmin.getLayout());
+        CardLayout cl = (CardLayout) (pnlCardLayoutAdmin.getLayout());
         cl.show(pnlCardLayoutAdmin, "Seccion");
     }//GEN-LAST:event_pnlNivelMouseClicked
 
@@ -7104,7 +7099,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarLista1ActionPerformed
 
     private void jLabel210MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel210MouseClicked
-        CardLayout cl = (CardLayout)(pnlCardLayoutAdmin.getLayout());
+        CardLayout cl = (CardLayout) (pnlCardLayoutAdmin.getLayout());
         cl.show(pnlCardLayoutAdmin, "Ubicaciones");
     }//GEN-LAST:event_jLabel210MouseClicked
 
@@ -7138,57 +7133,54 @@ public class Admin extends javax.swing.JFrame {
         List<JCheckBox> checked = new ArrayList<>();
         buttons.add(checkUsuarios);
         buttons.add(checkProyectos);
-        buttons.add(checkVotaciones );
+        buttons.add(checkVotaciones);
         buttons.add(checkActividades);
         buttons.add(checkUbicaciones);
-        for ( JCheckBox checkbox : buttons ) {
-            if( checkbox.isSelected() )
-            {
+        for (JCheckBox checkbox : buttons) {
+            if (checkbox.isSelected()) {
                 checked.add(checkbox);
                 countSelected++;
             }
         }
-        if (countSelected > 0) {                                       
-            JFileChooser chooser = new JFileChooser(); 
+        if (countSelected > 0) {
+            JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Escoje la carpeta para guardar el respaldo");
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            chooser.setAcceptAllFileFilterUsed(false);   
-            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-                String usuarios[][] = { {"usuario", "users"}, {"tipoUsuario", "usersType"}, {"estadoUsuario", "usersState"}};
-                String proyectos[][] = { {"proyecto", "projects"}, {"recursoProyecto", "projectsResources"}, {"integranteProyecto", "membersProject"}};
-                String votaciones[][] = { {"votacion", "score"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String usuarios[][] = {{"usuario", "users"}, {"tipoUsuario", "usersType"}, {"estadoUsuario", "usersState"}};
+                String proyectos[][] = {{"proyecto", "projects"}, {"recursoProyecto", "projectsResources"}, {"integranteProyecto", "membersProject"}};
+                String votaciones[][] = {{"votacion", "score"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
                 String ubicaciones[][] = {{"seccionNivel", "sectionsLevel"}, {"nivel", "levels"}, {"ubicacion", "locations"}, {"especialidad", "especiality"}};
-                String actividades[][] = { {"actividad", "activity"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
-                String [][] a = null;
-                for ( JCheckBox checkbox : checked ) {
-                  switch (checkbox.getText()){
-                      case "Usuarios":
-                          a = General.merge(a, usuarios);
-                          break;
-                      case "Proyectos":
-                          a = General.merge(a, proyectos);
-                          break;
-                      case "Votaciones":
-                          a = General.merge(a, votaciones);
-                          break;
-                      case "Actividades":
-                          a = General.merge(a, actividades);
-                          break;
-                      case "Ubicaciones y secciones":
-                          a = General.merge(a, ubicaciones);
-                          break;
-                  }
-                }
-                  if (General.generarBackup(String.valueOf(chooser.getSelectedFile()), a)) {
-                    
+                String actividades[][] = {{"actividad", "activity"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
+                String[][] a = null;
+                for (JCheckBox checkbox : checked) {
+                    switch (checkbox.getText()) {
+                        case "Usuarios":
+                            a = General.merge(a, usuarios);
+                            break;
+                        case "Proyectos":
+                            a = General.merge(a, proyectos);
+                            break;
+                        case "Votaciones":
+                            a = General.merge(a, votaciones);
+                            break;
+                        case "Actividades":
+                            a = General.merge(a, actividades);
+                            break;
+                        case "Ubicaciones y secciones":
+                            a = General.merge(a, ubicaciones);
+                            break;
                     }
-                  else{}
+                }
+                if (General.generarBackup(String.valueOf(chooser.getSelectedFile()), a)) {
 
-              }
-            else {
-              }
-        }
-        else{
+                } else {
+                }
+
+            } else {
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Debes seleccionar al menos un elemento.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBackupActionPerformed
@@ -7221,11 +7213,10 @@ public class Admin extends javax.swing.JFrame {
     private void checkCombinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCombinarActionPerformed
         if (checkCombinar.isSelected()) {
             lblAjustesBackup.setText("(No se eliminara nada del sistema pero puede que se omitan datos del respaldo).");
+        } else {
+            lblAjustesBackup.setText("");
         }
-        else{
-        lblAjustesBackup.setText("");
-        }
-        
+
     }//GEN-LAST:event_checkCombinarActionPerformed
 
     private void btnActualizarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilActionPerformed
@@ -7234,64 +7225,76 @@ public class Admin extends javax.swing.JFrame {
         String password = String.valueOf(txtAjustesContraA.getPassword());
         String newPassword = String.valueOf(txtAjustesContraN.getPassword());
         String newPasswordC = String.valueOf(txtAjustesContraNC.getPassword());
-        
+
         if (!Validation.VerificadorNombre.verify(nombre)) {
             txtAjustesNombre.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtAjustesNombre.setBackground(new java.awt.Color(249, 250, 255));
         }
         if (!Validation.VerificadorEmail.verify(correo)) {
             txtAjustesEmail.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
         }
         if (!(Validation.isStringEmptyOrNull(password) && Validation.isStringEmptyOrNull(newPassword) && Validation.isStringEmptyOrNull(newPasswordC))) {
             if (!Validation.VerificadorPassword.verify(newPassword)) {
                 txtAjustesContraN.setBackground(new java.awt.Color(255, 204, 204));
-            }
-            else{
+            } else {
                 txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
                 if (newPassword.equals(newPasswordC)) {
                     txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
                     lblAErrorContraNC.setText("");
-                }
-                else{
+                    if (User.actualizarContraUsuario(password, newPassword, CurrentUser.idUsuario)) {
+                        JOptionPane.showMessageDialog(this, "Se cambio la contraseña.", "Cambio de contraseña", JOptionPane.INFORMATION_MESSAGE);
+                        txtAjustesContraA.setBackground(new java.awt.Color(249, 250, 255));
+                        txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
+                        txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
+                        lblAErrorContra.setText("");
+                        lblAErrorContraN.setText("");
+                        lblAErrorContraNC.setText("");
+                    } else {
+                        if (User.mensajeError.equals("")) {
+                            txtAjustesContraA.setBackground(new java.awt.Color(255, 204, 204));
+                            lblAErrorContra.setText("Contraseña incorrecta.");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "No se pudo cambio la contraseña.", "Cambio de contraseña", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                    }
+                } else {
                     txtAjustesContraNC.setBackground(new java.awt.Color(255, 204, 204));
                     lblAErrorContraNC.setText("Las contraseñas no coinciden.");
                 }
             }
             lblAErrorContraN.setText(Validation.VerificadorPassword.mensaje);
-        }
-        else{
+        } else {
             txtAjustesContraA.setBackground(new java.awt.Color(249, 250, 255));
             txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
             txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
-            lblAErrorContra.setText("");            
+            lblAErrorContra.setText("");
             lblAErrorContraN.setText("");
             lblAErrorContraNC.setText("");
         }
-        
+
         lblAErrorEmail.setText(Validation.VerificadorEmail.mensaje);
         lblAErrorNombre.setText(Validation.VerificadorNombre.mensaje);
-        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo)){
-            if (User.actualizarPerfilUsuario(nombre, correo, CurrentUser.idUsuario)) {
-                txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
-                lblAErrorEmail.setText("");
-                JOptionPane.showMessageDialog(this, "Datos actualizados con exito", "Actualizar perfil", JOptionPane.INFORMATION_MESSAGE);
-                loadAjustes();
-            }
-                
-            else{
-                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
-                    txtAjustesEmail.setBackground(new java.awt.Color(255, 204, 204));
-                    lblAErrorEmail.setText("Ya existe un usuario con la dirección de correo electrónico.");
+        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo)) {
+            if (!(CurrentUser.email.equals(correo) && CurrentUser.nombreCompleto.equals(nombre))) {
+                if (User.actualizarPerfilUsuario(nombre, correo, CurrentUser.idUsuario)) {
+                    txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
+                    lblAErrorEmail.setText("");
+                    JOptionPane.showMessageDialog(this, "Datos actualizados con exito", "Actualizar perfil", JOptionPane.INFORMATION_MESSAGE);
+                    loadAjustes();
+                } else {
+                    if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+                        txtAjustesEmail.setBackground(new java.awt.Color(255, 204, 204));
+                        lblAErrorEmail.setText("Ya existe un usuario con la dirección de correo electrónico.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, User.mensajeError, "Actualizar perfil", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-                else{
-                    JOptionPane.showMessageDialog(this, User.mensajeError, "Actualizar perfil", JOptionPane.ERROR_MESSAGE);
-                }
             }
+
         }
     }//GEN-LAST:event_btnActualizarPerfilActionPerformed
     /**
@@ -7864,46 +7867,52 @@ public class Admin extends javax.swing.JFrame {
         txtAjustesEmail.setText(CurrentUser.email);
     }
 }
-   class RoundedPanel extends JPanel
-    {
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        public RoundedPanel(LayoutManager layout, int radius) {
-            super(layout);
-            cornerRadius = radius;
+
+class RoundedPanel extends JPanel {
+
+    private Color backgroundColor;
+    private int cornerRadius = 15;
+
+    public RoundedPanel(LayoutManager layout, int radius) {
+        super(layout);
+        cornerRadius = radius;
+    }
+
+    public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
+        super(layout);
+        cornerRadius = radius;
+        backgroundColor = bgColor;
+    }
+
+    public RoundedPanel(int radius) {
+        super();
+        cornerRadius = radius;
+
+    }
+
+    public RoundedPanel(int radius, Color bgColor) {
+        super();
+        cornerRadius = radius;
+        backgroundColor = bgColor;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Dimension arcs = new Dimension(cornerRadius, cornerRadius);
+        int width = getWidth();
+        int height = getHeight();
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //Draws the rounded panel with borders.
+        if (backgroundColor != null) {
+            graphics.setColor(backgroundColor);
+        } else {
+            graphics.setColor(getBackground());
         }
-        public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
-            super(layout);
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-        public RoundedPanel(int radius) {
-            super();
-            cornerRadius = radius;
-            
-        }
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
+        graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
+        graphics.setColor(getForeground());
 //            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
 //            
-        }
     }
+}

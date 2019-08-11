@@ -70,6 +70,21 @@ public class User {
             return false;
         }
     }
+    public static boolean actualizarContraUsuario(String oldPassword,String newPassword, int id){
+        Db db = new Db();
+        mensajeError = "";
+        if (compareHash(oldPassword, db.getHash(id))) {
+            String hash = hashPW(newPassword);
+             if(db.actualizarContraUsuario(hash, id)){
+                 mensajeError = "";
+                 return true;
+             }
+             else{
+                mensajeError = "Hubo un error al actualizar el usuario. Intenta de nuevo.";
+             }
+        }
+        return false;
+    }
     public static boolean usuarioExiste(String email){
         Db db = new Db();
         return db.usuarioExiste(email);
