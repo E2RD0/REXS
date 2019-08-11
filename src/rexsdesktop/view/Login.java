@@ -35,6 +35,8 @@ public class Login extends javax.swing.JFrame {
 
     RubikFonts f = new RubikFonts();
     Timer t;
+    String correo = null;
+
     public Login() {
         initComponents();
         cambiarCardLayoutPanel("InicioSesion");
@@ -49,12 +51,13 @@ public class Login extends javax.swing.JFrame {
         btnSignGoogle1.setContentAreaFilled(false);
         btnSignFacebook1.setContentAreaFilled(false);
     }
-    public void cambiarCardLayoutPanel(String nombre)
-    {
-        CardLayout cl = (CardLayout)(CardLayoutPanel.getLayout());
+
+    public void cambiarCardLayoutPanel(String nombre) {
+        CardLayout cl = (CardLayout) (CardLayoutPanel.getLayout());
         cl.show(CardLayoutPanel, nombre);
     }
-    public void resetCampos(){
+
+    public void resetCampos() {
         txtNombreCompletoR.setText("");
         txtEmailR.setText("");
         txtPasswordR.setText("");
@@ -72,6 +75,7 @@ public class Login extends javax.swing.JFrame {
         txtEmail.setBackground(new java.awt.Color(249, 250, 255));
         txtPassword.setBackground(new java.awt.Color(249, 250, 255));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,22 +132,23 @@ public class Login extends javax.swing.JFrame {
         pnlRecuperarClave = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtEmailRecu = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel("<html>Ingresa el correo electrónico con el que te registraste.</html>");
         jLabel19 = new javax.swing.JLabel();
         btnEnviarCodigo = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         btnCardInicioSesion1 = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel("<html>Enviaremos un código de verificación para comprobar que eres tú.</html>");
+        lblErrorEmailRecu = new javax.swing.JLabel("<html>Enviaremos un código de verificación<br> para comprobar que eres tú.</html>");
         pnlRecuperarClaveCodigo = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel("<html>Ingresa el código alfanumérico que fue enviado a \"eduardodavidestrada1@gmail.com\".</html>");
+        jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtPIN = new javax.swing.JTextField();
         btnVerificarCodigo = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         btnCardInicioSesion2 = new javax.swing.JButton();
+        lblErrorPIN = new javax.swing.JLabel();
         pnlRecuperarClaveCambiar = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -632,10 +637,15 @@ public class Login extends javax.swing.JFrame {
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/rexslogo.png"))); // NOI18N
 
-        jTextField4.setBackground(new java.awt.Color(249, 250, 255));
-        jTextField4.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(46, 56, 77));
-        jTextField4.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
+        txtEmailRecu.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtEmailRecu.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmailRecu.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEmailRecu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailRecuKeyReleased(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(135, 152, 173));
@@ -673,32 +683,36 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel20.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(135, 152, 173));
+        lblErrorEmailRecu.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        lblErrorEmailRecu.setForeground(new java.awt.Color(135, 152, 173));
 
         javax.swing.GroupLayout pnlRecuperarClaveLayout = new javax.swing.GroupLayout(pnlRecuperarClave);
         pnlRecuperarClave.setLayout(pnlRecuperarClaveLayout);
         pnlRecuperarClaveLayout.setHorizontalGroup(
             pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRecuperarClaveLayout.createSequentialGroup()
+            .addGroup(pnlRecuperarClaveLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
-                .addGroup(pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEnviarCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveLayout.createSequentialGroup()
+                .addGroup(pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRecuperarClaveLayout.createSequentialGroup()
+                        .addComponent(lblErrorEmailRecu)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRecuperarClaveLayout.createSequentialGroup()
                         .addGroup(pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEnviarCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEmailRecu, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveLayout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel22)
-                                .addGap(5, 5, 5)
-                                .addComponent(btnCardInicioSesion1)))
-                        .addGap(0, 35, Short.MAX_VALUE)))
-                .addGap(137, 137, 137))
+                                .addGroup(pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveLayout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel22)
+                                        .addGap(5, 5, 5)
+                                        .addComponent(btnCardInicioSesion1)))
+                                .addGap(0, 38, Short.MAX_VALUE)))
+                        .addGap(137, 137, 137))))
         );
         pnlRecuperarClaveLayout.setVerticalGroup(
             pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -712,10 +726,10 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel19)
                 .addGap(1, 1, 1)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmailRecu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addComponent(lblErrorEmailRecu)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEnviarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlRecuperarClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -743,10 +757,15 @@ public class Login extends javax.swing.JFrame {
         jLabel25.setForeground(new java.awt.Color(176, 186, 201));
         jLabel25.setText("CÓDIGO");
 
-        jTextField5.setBackground(new java.awt.Color(249, 250, 255));
-        jTextField5.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(46, 56, 77));
-        jTextField5.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtPIN.setBackground(new java.awt.Color(249, 250, 255));
+        txtPIN.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtPIN.setForeground(new java.awt.Color(46, 56, 77));
+        txtPIN.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtPIN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPINKeyReleased(evt);
+            }
+        });
 
         btnVerificarCodigo.setBackground(new java.awt.Color(46, 91, 255));
         btnVerificarCodigo.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
@@ -777,6 +796,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        lblErrorPIN.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblErrorPIN.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout pnlRecuperarClaveCodigoLayout = new javax.swing.GroupLayout(pnlRecuperarClaveCodigo);
         pnlRecuperarClaveCodigo.setLayout(pnlRecuperarClaveCodigoLayout);
         pnlRecuperarClaveCodigoLayout.setHorizontalGroup(
@@ -784,11 +806,12 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRecuperarClaveCodigoLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblErrorPIN, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
                     .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnVerificarCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPIN, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveCodigoLayout.createSequentialGroup()
                         .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,8 +820,8 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jLabel27)
                                 .addGap(5, 5, 5)
                                 .addComponent(btnCardInicioSesion2)))
-                        .addGap(0, 35, Short.MAX_VALUE)))
-                .addGap(137, 137, 137))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(68, 68, 68))
         );
         pnlRecuperarClaveCodigoLayout.setVerticalGroup(
             pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -812,14 +835,16 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel25)
                 .addGap(1, 1, 1)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addComponent(txtPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(lblErrorPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVerificarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(btnCardInicioSesion2))
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(pnlRecuperarClaveCodigo, "RecuperarClaveCodigo");
@@ -985,24 +1010,21 @@ public class Login extends javax.swing.JFrame {
         if (!Validation.VerificadorLogin.verify(email, password)) {
             if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
                 txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-            }
-            else{
+            } else {
                 txtEmail.setBackground(new java.awt.Color(249, 250, 255));
             }
             if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
                 txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-            }
-            else{
+            } else {
                 txtPassword.setBackground(new java.awt.Color(249, 250, 255));
             }
             lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
             lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
-        }
-        else{
+        } else {
             txtEmail.setBackground(new java.awt.Color(249, 250, 255));
             txtPassword.setBackground(new java.awt.Color(249, 250, 255));
             lblErrorEmail.setText("");
-            lblErrorPassword.setText("");      
+            lblErrorPassword.setText("");
             if (User.iniciarSesion(email, password)) {
                 System.out.println("Inicio Correcto");
                 if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
@@ -1013,26 +1035,23 @@ public class Login extends javax.swing.JFrame {
                         fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
                         fAdmin.setVisible(true);
                         this.dispose();
-                    }
-                    else{
+                    } else {
                         lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
                         txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                        txtPassword.setBackground(new java.awt.Color(255, 204, 204)); 
+                        txtPassword.setBackground(new java.awt.Color(255, 204, 204));
                     }
+                } else {
+                    lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
+                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
                 }
-                else{
-                        lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
-                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                        txtPassword.setBackground(new java.awt.Color(255, 204, 204)); 
-                    }
-            }
-            else{
+            } else {
                 lblErrorGeneral.setText("Usuario o contraseña incorrectos");
                 txtEmail.setBackground(new java.awt.Color(255, 204, 204));
                 txtPassword.setBackground(new java.awt.Color(255, 204, 204));
                 System.out.println("Incio Incorrecto");
             }
-        }  
+        }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnCardInicioSesion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesion2ActionPerformed
@@ -1040,7 +1059,17 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCardInicioSesion2ActionPerformed
 
     private void btnEnviarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarCodigoActionPerformed
-        cambiarCardLayoutPanel("RecuperarClaveCodigo");
+        correo = txtEmailRecu.getText();
+
+        if (!Validation.VerificadorEmail.verify(correo)) {
+            txtEmailRecu.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
+            cambiarCardLayoutPanel("RecuperarClaveCodigo");
+            jLabel24.setText("<html> Ingresa el código alfanumérico que fue enviado a<br>" + correo + "</html>");
+            User.enviarCorreo(correo);
+        }
+        lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
     }//GEN-LAST:event_btnEnviarCodigoActionPerformed
 
     private void btnCambiarClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarClaveActionPerformed
@@ -1048,37 +1077,49 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambiarClaveActionPerformed
 
     private void btnVerificarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarCodigoActionPerformed
-        cambiarCardLayoutPanel("RecuperarClaveCambiar");
+        String pin = txtPIN.getText();
+        pin = pin.trim();
+        if (Validation.isStringEmptyOrNull(pin)) {
+            lblErrorPIN.setText("El campo no puede estar vacío.");
+        } else {
+            lblErrorPIN.setText("");
+            if (User.verificarPin(pin, correo)) {
+                System.out.println("Verificado correctamente");
+                cambiarCardLayoutPanel("RecuperarClaveCambiar");
+            } else {
+                System.out.println("Pin equivocado");
+                txtPIN.setBackground(new java.awt.Color(255, 204, 204));
+                lblErrorPIN.setText("PIN incorrecto");
+            }
+        }
+
     }//GEN-LAST:event_btnVerificarCodigoActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         String nombre = txtNombreCompletoR.getText();
         String correo = txtEmailR.getText();
         String password = String.valueOf(txtPasswordR.getPassword());
-        
+
         if (!Validation.VerificadorNombre.verify(nombre)) {
             txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
         }
         if (!Validation.VerificadorEmail.verify(correo)) {
             txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
         }
         if (!Validation.VerificadorPassword.verify(password)) {
             txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
         }
-                lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
-                lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
-                lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
         if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-            if (User.nuevoUsuario(nombre, correo, password,"Visitante" , "Activo")) {
+            if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
                 txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
                 lblErrorEmailR.setText("");
                 cambiarCardLayoutPanel("Exito");
@@ -1091,51 +1132,45 @@ public class Login extends javax.swing.JFrame {
                         executorService.shutdownNow();
                     }
                 }, 2, 1, TimeUnit.SECONDS);
-                
-            }
-                
-            else{
+
+            } else {
                 if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
                     txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
                     lblErrorEmailR.setText(User.mensajeError);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(this, User.mensajeError);
                 }
             }
         }
-                
+
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void txtNombreCompletoRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompletoRKeyReleased
         if (!Validation.VerificadorNombre.verify(txtNombreCompletoR.getText())) {
             txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
         }
-                lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
     }//GEN-LAST:event_txtNombreCompletoRKeyReleased
 
     private void txtEmailRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailRKeyReleased
         if (!Validation.VerificadorEmail.verify(txtEmailR.getText())) {
             txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
         }
-                lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
     }//GEN-LAST:event_txtEmailRKeyReleased
 
     private void txtPasswordRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordRKeyReleased
         String password = String.valueOf(txtPasswordR.getPassword());
         if (!Validation.VerificadorPassword.verify(password)) {
             txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
-        }
-        else{
+        } else {
             txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
         }
-                lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
     }//GEN-LAST:event_txtPasswordRKeyReleased
 
     private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
@@ -1154,6 +1189,15 @@ public class Login extends javax.swing.JFrame {
         lblErrorPassword.setText("");
     }//GEN-LAST:event_txtPasswordKeyReleased
 
+    private void txtEmailRecuKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailRecuKeyReleased
+
+    }//GEN-LAST:event_txtEmailRecuKeyReleased
+
+    private void txtPINKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPINKeyReleased
+        lblErrorPIN.setText("");
+        txtPIN.setBackground(new java.awt.Color(249, 250, 255));
+    }//GEN-LAST:event_txtPINKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1171,13 +1215,17 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         /* Create and display the form */
@@ -1217,7 +1265,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1244,12 +1291,12 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblErrorEmail;
     private javax.swing.JLabel lblErrorEmailR;
+    private javax.swing.JLabel lblErrorEmailRecu;
     private javax.swing.JLabel lblErrorGeneral;
     private javax.swing.JLabel lblErrorNombre;
+    private javax.swing.JLabel lblErrorPIN;
     private javax.swing.JLabel lblErrorPassword;
     private javax.swing.JLabel lblErrorPasswordR;
     private javax.swing.JLabel lblMensajeExito;
@@ -1262,7 +1309,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel pnlRegistro;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailR;
+    private javax.swing.JTextField txtEmailRecu;
     private javax.swing.JTextField txtNombreCompletoR;
+    private javax.swing.JTextField txtPIN;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordR;
     // End of variables declaration//GEN-END:variables
