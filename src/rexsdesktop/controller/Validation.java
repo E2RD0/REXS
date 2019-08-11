@@ -15,6 +15,9 @@ public class Validation {
     public static boolean isStringEmptyOrNull(String string){
         return !(string != null && !string.trim().isEmpty() && !string.trim().isBlank());
     }
+    public static boolean isValidEmail(String email){
+        return email.matches("^[\\w!#$%&’'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,8}$");
+    }
     public static class VerificadorNombre{
         public static String mensaje = "";
 	public static boolean verify(String texto) {
@@ -60,7 +63,7 @@ public class Validation {
                 }
                 else{
                     email = email.trim();
-                    if (email.matches("^[\\w!#$%&’'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,8}$")) {
+                    if (isValidEmail(email)) {
                             if (email.length() > 75) {
                             mensaje = "La longitud máxima es de 75 caracteres.";
                             return false;

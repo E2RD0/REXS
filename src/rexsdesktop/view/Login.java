@@ -65,6 +65,7 @@ public class Login extends javax.swing.JFrame {
         lblErrorNombre.setText("");
         lblErrorEmail.setText("");
         lblErrorPasswordR.setText("");
+        lblErrorGeneral.setText("");
         txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
         txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
         txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
@@ -1127,9 +1128,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailRKeyReleased
 
     private void txtPasswordRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordRKeyReleased
-        txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-        txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
-        lblErrorGeneral.setText("");
+        String password = String.valueOf(txtPasswordR.getPassword());
+        if (!Validation.VerificadorPassword.verify(password)) {
+            txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
+        }
+        else{
+            txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+        }
+                lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
     }//GEN-LAST:event_txtPasswordRKeyReleased
 
     private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased

@@ -5,6 +5,10 @@
  */
 package rexsdesktop.model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +34,26 @@ public class Db {
         cmd.setString(3, claveHash);
         cmd.setInt(4, idTipoUsuario);
         cmd.setInt(5, idEstadoUsuario);
+        if(cmd.executeUpdate() > 0){
+            r = true;
+            }
+        cmd.close();
+        cn.close();
+        }
+        catch(Exception e){
+            System.out.println("Error: "+ e);
+        }
+                
+        return r;
+    }
+    public boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id){
+        boolean r = false;
+        try{
+        String query = "UPDATE usuario SET nombreCompleto = ?, email = ? WHERE idUsuario = ?";
+        PreparedStatement cmd = cn.prepareStatement(query);
+        cmd.setString(1, nombreCompleto);
+        cmd.setString(2, email);
+        cmd.setInt(3, id);
         if(cmd.executeUpdate() > 0){
             r = true;
             }
@@ -147,4 +171,35 @@ public class Db {
             return 1;
         }
     }
+        public ResultSet sqlToCSV (String table){
+           try {
+            String query = "SELECT * FROM " + table;
+            PreparedStatement cmd = cn.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = cmd.executeQuery();
+               if (rs.next()) {
+                   rs.beforeFirst();
+                   return rs;
+               }
+               else{
+               return null;
+               }
+        } catch (Exception e) {
+            System.out.println("Error csv:" + e);
+            return null;
+
+        }
+    }
+        /*try {
+                BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\Eduardo\\Documents\\prueba\\backup.csv"));
+                String row;
+
+                    while ((row = csvReader.readLine()) != null) {
+                        String[] data = row.split(",");
+                        System.out.println(data);
+                        // do something with the data
+                    }
+                    csvReader.close();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }*/
 }

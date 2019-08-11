@@ -12,12 +12,21 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
+import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.General;
+import rexsdesktop.controller.User;
+import rexsdesktop.controller.Validation;
 /**
  *
  * @author user
@@ -28,13 +37,16 @@ public class Admin extends javax.swing.JFrame {
      * Creates new form Admin
      */
     public Admin() {
+        /*Scrollbar Look and Feel*/
         UIManager.put("ScrollBar.width", 8);
         UIManager.put("ScrollBar.thumb", new ColorUIResource(new Color(189,189,189)));
         UIManager.put("ScrollBar.thumbDarkShadow", new ColorUIResource(new Color(189,189,189)));
         UIManager.put("ScrollBar.thumbShadow", new ColorUIResource(new Color(189,189,189)));
         UIManager.put("ScrollBar.thumbHighlight", new ColorUIResource(new Color(189,189,189)));
         UIManager.put("ScrollBarUI", "rexsdesktop.view.MyScrollbarUI");
+        /*END Scrollbar Look and Feel*/
         initComponents();
+        /*Menu*/
         btnMenu.setContentAreaFilled(false);
         btnMenu.setFocusPainted(false);
         pnlActiveInicio.setBackground(bgNormal);
@@ -45,6 +57,8 @@ public class Admin extends javax.swing.JFrame {
         pnlActiveActividades.setBackground(bgNormal);
         pnlActiveAjustes.setBackground(bgNormal);
         makeActiveMenuItem(btnInicio, pnlActiveInicio, lblDashboard, "Dashboard");
+        /*END Menu*/
+        /*Scrollbar movement*/
         pnlAjustes.getVerticalScrollBar().setPreferredSize(new Dimension(10,Integer.MAX_VALUE));
         pnlAjustes.getVerticalScrollBar().setUnitIncrement(16);
         pnlDashboard.getVerticalScrollBar().setPreferredSize(new Dimension(10,Integer.MAX_VALUE));
@@ -63,7 +77,11 @@ public class Admin extends javax.swing.JFrame {
         jpnlTableNiveles.getVerticalScrollBar().setUnitIncrement(10);
         jpnlTableEspecialidades.getVerticalScrollBar().setUnitIncrement(10);
         jpnlTableSecciones.getVerticalScrollBar().setUnitIncrement(10);
-    }
+        /*END Scrollbar movement*/
+        /*Datos de usuario en ajustes*/
+        loadAjustes();
+        /*Datos de usuario en ajustes*/
+    }   
     private void resetearModalUsuario(){
        txtEmailUsuarioModal.setText("");
        txtNombreUsuarioModal.setText("");
@@ -300,13 +318,14 @@ public class Admin extends javax.swing.JFrame {
         btnFiltrarLista3 = new javax.swing.JButton();
         jPanel130 = new javax.swing.JPanel();
         jLabel300 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        btnFiltrarLista2 = new javax.swing.JButton();
+        checkUsuarios = new javax.swing.JCheckBox();
+        checkProyectos = new javax.swing.JCheckBox();
+        checkVotaciones = new javax.swing.JCheckBox();
+        checkActividades = new javax.swing.JCheckBox();
+        checkUbicaciones = new javax.swing.JCheckBox();
+        btnBackup = new javax.swing.JButton();
         jLabel70 = new javax.swing.JLabel();
+        checkTodo = new javax.swing.JCheckBox();
         pnlAnaliticas = new javax.swing.JPanel();
         pnlUsuarios = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -668,17 +687,22 @@ public class Admin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtAjustesEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtAjustesContraA = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        txtAjustesNombre = new javax.swing.JTextField();
+        txtAjustesContraN = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        txtAjustesContraNC = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnActualizarPerfil = new javax.swing.JButton();
+        lblAErrorEmail = new javax.swing.JLabel();
+        lblAErrorNombre = new javax.swing.JLabel();
+        lblAErrorContra = new javax.swing.JLabel();
+        lblAErrorContraN = new javax.swing.JLabel();
+        lblAErrorContraNC = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
@@ -686,6 +710,14 @@ public class Admin extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jPanel23 = new javax.swing.JPanel();
         jLabel93 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jPanel43 = new javax.swing.JPanel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        checkCombinar = new javax.swing.JCheckBox();
+        lblAjustesBackup = new javax.swing.JLabel();
 
         javax.swing.GroupLayout modalUsuarioLayout = new javax.swing.GroupLayout(modalUsuario.getContentPane());
         modalUsuario.getContentPane().setLayout(modalUsuarioLayout);
@@ -2136,50 +2168,56 @@ public class Admin extends javax.swing.JFrame {
         jLabel300.setForeground(new java.awt.Color(135, 152, 173));
         jLabel300.setText("GENERAR BACKUP");
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(46, 56, 77));
-        jCheckBox1.setText("Usuarios");
-        jCheckBox1.setIconTextGap(12);
+        checkUsuarios.setBackground(new java.awt.Color(255, 255, 255));
+        checkUsuarios.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkUsuarios.setForeground(new java.awt.Color(46, 56, 77));
+        checkUsuarios.setText("Usuarios");
+        checkUsuarios.setIconTextGap(12);
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jCheckBox2.setForeground(new java.awt.Color(46, 56, 77));
-        jCheckBox2.setText("Proyectos");
-        jCheckBox2.setIconTextGap(12);
+        checkProyectos.setBackground(new java.awt.Color(255, 255, 255));
+        checkProyectos.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkProyectos.setForeground(new java.awt.Color(46, 56, 77));
+        checkProyectos.setText("Proyectos");
+        checkProyectos.setIconTextGap(12);
 
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jCheckBox3.setForeground(new java.awt.Color(46, 56, 77));
-        jCheckBox3.setText("Votaciones");
-        jCheckBox3.setIconTextGap(12);
+        checkVotaciones.setBackground(new java.awt.Color(255, 255, 255));
+        checkVotaciones.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkVotaciones.setForeground(new java.awt.Color(46, 56, 77));
+        checkVotaciones.setText("Votaciones");
+        checkVotaciones.setIconTextGap(12);
 
-        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox4.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jCheckBox4.setForeground(new java.awt.Color(46, 56, 77));
-        jCheckBox4.setText("Actividades");
-        jCheckBox4.setIconTextGap(12);
+        checkActividades.setBackground(new java.awt.Color(255, 255, 255));
+        checkActividades.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkActividades.setForeground(new java.awt.Color(46, 56, 77));
+        checkActividades.setText("Actividades");
+        checkActividades.setIconTextGap(12);
 
-        jCheckBox5.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox5.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jCheckBox5.setForeground(new java.awt.Color(46, 56, 77));
-        jCheckBox5.setText("Ubicaciones");
-        jCheckBox5.setIconTextGap(12);
+        checkUbicaciones.setBackground(new java.awt.Color(255, 255, 255));
+        checkUbicaciones.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkUbicaciones.setForeground(new java.awt.Color(46, 56, 77));
+        checkUbicaciones.setText("Ubicaciones y secciones");
+        checkUbicaciones.setIconTextGap(12);
 
-        btnFiltrarLista2.setBackground(new java.awt.Color(213, 222, 255));
-        btnFiltrarLista2.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
-        btnFiltrarLista2.setForeground(new java.awt.Color(46, 91, 255));
-        btnFiltrarLista2.setText("Respaldar");
-        btnFiltrarLista2.setBorderPainted(false);
-        btnFiltrarLista2.addActionListener(new java.awt.event.ActionListener() {
+        btnBackup.setBackground(new java.awt.Color(213, 222, 255));
+        btnBackup.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
+        btnBackup.setForeground(new java.awt.Color(46, 91, 255));
+        btnBackup.setText("Respaldar");
+        btnBackup.setBorderPainted(false);
+        btnBackup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltrarLista2ActionPerformed(evt);
+                btnBackupActionPerformed(evt);
             }
         });
 
         jLabel70.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         jLabel70.setForeground(new java.awt.Color(46, 56, 77));
         jLabel70.setText("Selecciona que deseas respaldar:");
+
+        checkTodo.setBackground(new java.awt.Color(255, 255, 255));
+        checkTodo.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        checkTodo.setForeground(new java.awt.Color(46, 91, 255));
+        checkTodo.setText("Seleccionar todo");
+        checkTodo.setIconTextGap(12);
 
         javax.swing.GroupLayout jPanel130Layout = new javax.swing.GroupLayout(jPanel130);
         jPanel130.setLayout(jPanel130Layout);
@@ -2188,14 +2226,15 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel130Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel130Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkTodo)
+                    .addComponent(checkActividades, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkVotaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel70)
-                    .addComponent(btnFiltrarLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel300)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checkUbicaciones))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel130Layout.setVerticalGroup(
@@ -2203,20 +2242,22 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel130Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel300)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel70)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addGap(14, 14, 14)
+                .addComponent(checkUsuarios)
                 .addGap(5, 5, 5)
-                .addComponent(jCheckBox2)
+                .addComponent(checkProyectos)
                 .addGap(5, 5, 5)
-                .addComponent(jCheckBox3)
+                .addComponent(checkVotaciones)
                 .addGap(5, 5, 5)
-                .addComponent(jCheckBox4)
+                .addComponent(checkActividades)
                 .addGap(5, 5, 5)
-                .addComponent(jCheckBox5)
-                .addGap(27, 27, 27)
-                .addComponent(btnFiltrarLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(checkUbicaciones)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                .addComponent(checkTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
 
@@ -6487,11 +6528,11 @@ public class Admin extends javax.swing.JFrame {
         pnlAjustes.setPreferredSize(new java.awt.Dimension(944, 570));
 
         jPanel2.setBackground(new java.awt.Color(244, 246, 252));
-        jPanel2.setPreferredSize(new java.awt.Dimension(944, 825));
+        jPanel2.setPreferredSize(new java.awt.Dimension(944, 1158));
 
         jLabel2.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel2.setText("Ajustes");
+        jLabel2.setText("Ajustes de la cuenta");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(148, 171, 255), 1, true));
@@ -6505,10 +6546,10 @@ public class Admin extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(46, 56, 77));
         jLabel4.setText("Usa esta página para actualizar tu información de contacto y cambiar tu contraseña.");
 
-        jTextField1.setBackground(new java.awt.Color(249, 250, 255));
-        jTextField1.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(46, 56, 77));
-        jTextField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
+        txtAjustesEmail.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtAjustesEmail.setForeground(new java.awt.Color(46, 56, 77));
+        txtAjustesEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         jLabel5.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(176, 186, 201));
@@ -6518,51 +6559,71 @@ public class Admin extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(176, 186, 201));
         jLabel6.setText("CONTRASEÑA ACTUAL");
 
-        jPasswordField1.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField1.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField1.setEchoChar('\u2022');
-        jPasswordField1.setPreferredSize(new java.awt.Dimension(188, 28));
+        txtAjustesContraA.setBackground(new java.awt.Color(249, 250, 255));
+        txtAjustesContraA.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtAjustesContraA.setForeground(new java.awt.Color(46, 56, 77));
+        txtAjustesContraA.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtAjustesContraA.setEchoChar('\u2022');
+        txtAjustesContraA.setPreferredSize(new java.awt.Dimension(188, 28));
 
         jLabel7.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(176, 186, 201));
         jLabel7.setText("NOMBRE COMPLETO");
 
-        jTextField2.setBackground(new java.awt.Color(249, 250, 255));
-        jTextField2.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(46, 56, 77));
-        jTextField2.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtAjustesNombre.setBackground(new java.awt.Color(249, 250, 255));
+        txtAjustesNombre.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtAjustesNombre.setForeground(new java.awt.Color(46, 56, 77));
+        txtAjustesNombre.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
-        jPasswordField2.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField2.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField2.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField2.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField2.setEchoChar('\u2022');
-        jPasswordField2.setPreferredSize(new java.awt.Dimension(188, 28));
+        txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
+        txtAjustesContraN.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtAjustesContraN.setForeground(new java.awt.Color(46, 56, 77));
+        txtAjustesContraN.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtAjustesContraN.setEchoChar('\u2022');
+        txtAjustesContraN.setPreferredSize(new java.awt.Dimension(188, 28));
 
         jLabel8.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(176, 186, 201));
         jLabel8.setText("NUEVA CONTRASEÑA");
 
-        jPasswordField3.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField3.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField3.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField3.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField3.setEchoChar('\u2022');
-        jPasswordField3.setPreferredSize(new java.awt.Dimension(188, 28));
+        txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
+        txtAjustesContraNC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtAjustesContraNC.setForeground(new java.awt.Color(46, 56, 77));
+        txtAjustesContraNC.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtAjustesContraNC.setEchoChar('\u2022');
+        txtAjustesContraNC.setPreferredSize(new java.awt.Dimension(188, 28));
 
         jLabel9.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(176, 186, 201));
         jLabel9.setText("CONFIRMAR CONTRASEÑA");
 
-        jButton1.setBackground(new java.awt.Color(46, 91, 255));
-        jButton1.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Guardar Cambios");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setPreferredSize(new java.awt.Dimension(138, 28));
+        btnActualizarPerfil.setBackground(new java.awt.Color(46, 91, 255));
+        btnActualizarPerfil.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
+        btnActualizarPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarPerfil.setText("Guardar Cambios");
+        btnActualizarPerfil.setBorder(null);
+        btnActualizarPerfil.setBorderPainted(false);
+        btnActualizarPerfil.setPreferredSize(new java.awt.Dimension(138, 28));
+        btnActualizarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarPerfilActionPerformed(evt);
+            }
+        });
+
+        lblAErrorEmail.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblAErrorEmail.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblAErrorNombre.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblAErrorNombre.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblAErrorContra.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblAErrorContra.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblAErrorContraN.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblAErrorContraN.setForeground(new java.awt.Color(255, 51, 51));
+
+        lblAErrorContraNC.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblAErrorContraNC.setForeground(new java.awt.Color(255, 51, 51));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -6571,28 +6632,36 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAErrorNombre)
+                    .addComponent(lblAErrorEmail)
+                    .addComponent(btnActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAjustesNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(90, 90, 90))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addGap(90, 90, 90))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtAjustesContraA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAjustesEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblAErrorContra))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblAErrorContraN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtAjustesContraN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPasswordField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAErrorContraNC)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtAjustesContraNC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)))))
                 .addContainerGap(177, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -6605,30 +6674,39 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(1, 1, 1)
-                        .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAjustesContraNC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(25, 25, 25)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addGap(1, 1, 1)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addComponent(txtAjustesEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAErrorEmail)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addGap(1, 1, 1)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addComponent(txtAjustesNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAErrorNombre)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(1, 1, 1)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtAjustesContraA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(1, 1, 1)
-                                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(28, 28, 28)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                                .addComponent(txtAjustesContraN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAErrorContra)
+                    .addComponent(lblAErrorContraN)
+                    .addComponent(lblAErrorContraNC))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
@@ -6701,6 +6779,82 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
+        jLabel81.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
+        jLabel81.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel81.setText("Ajustes del sistema");
+
+        jPanel43.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel43.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(148, 171, 255), 1, true));
+        jPanel43.setPreferredSize(new java.awt.Dimension(804, 221));
+
+        jLabel82.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        jLabel82.setForeground(new java.awt.Color(135, 152, 173));
+        jLabel82.setText("RESTAURAR BACKUP");
+
+        jLabel83.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jLabel83.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel83.setText("<html>Selecciona el archivo .zip del respaldo, ten presente que se eliminaran todos los datos actuales de las tablas que seleccionaste<br> al generar el backup.</html>");
+
+        jButton8.setBackground(new java.awt.Color(238, 238, 238));
+        jButton8.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(107, 107, 107));
+        jButton8.setText("Seleccionar...");
+        jButton8.setBorderPainted(false);
+
+        jButton9.setBackground(new java.awt.Color(238, 238, 238));
+        jButton9.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(107, 107, 107));
+        jButton9.setText("Restaurar");
+        jButton9.setBorderPainted(false);
+
+        checkCombinar.setBackground(new java.awt.Color(255, 255, 255));
+        checkCombinar.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        checkCombinar.setText("Intentar combinar datos actuales con el respaldo.");
+        checkCombinar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkCombinarActionPerformed(evt);
+            }
+        });
+
+        lblAjustesBackup.setBackground(new java.awt.Color(255, 255, 255));
+        lblAjustesBackup.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        lblAjustesBackup.setForeground(new java.awt.Color(102, 102, 102));
+
+        javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
+        jPanel43.setLayout(jPanel43Layout);
+        jPanel43Layout.setHorizontalGroup(
+            jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel43Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAjustesBackup)
+                    .addComponent(checkCombinar)
+                    .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel82)
+                    .addGroup(jPanel43Layout.createSequentialGroup()
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        jPanel43Layout.setVerticalGroup(
+            jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel43Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel82)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(checkCombinar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAjustesBackup)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -6708,6 +6862,8 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel81)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -6722,7 +6878,11 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(jLabel81)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel43, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         pnlAjustes.setViewportView(jPanel2);
@@ -6896,6 +7056,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActividadesMouseExited
 
     private void btnAjustesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAjustesMouseClicked
+        loadAjustes();
         makeActiveMenuItem(btnAjustes, pnlActiveAjustes, lblAjustes, "Ajustes");
     }//GEN-LAST:event_btnAjustesMouseClicked
 
@@ -6971,9 +7132,66 @@ public class Admin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlNivel9MouseClicked
 
-    private void btnFiltrarLista2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFiltrarLista2ActionPerformed
+    private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
+        int countSelected = 0;
+        List<JCheckBox> buttons = new ArrayList<>();
+        List<JCheckBox> checked = new ArrayList<>();
+        buttons.add(checkUsuarios);
+        buttons.add(checkProyectos);
+        buttons.add(checkVotaciones );
+        buttons.add(checkActividades);
+        buttons.add(checkUbicaciones);
+        for ( JCheckBox checkbox : buttons ) {
+            if( checkbox.isSelected() )
+            {
+                checked.add(checkbox);
+                countSelected++;
+            }
+        }
+        if (countSelected > 0) {                                       
+            JFileChooser chooser = new JFileChooser(); 
+            chooser.setDialogTitle("Escoje la carpeta para guardar el respaldo");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);   
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+                String usuarios[][] = { {"usuario", "users"}, {"tipoUsuario", "usersType"}, {"estadoUsuario", "usersState"}};
+                String proyectos[][] = { {"proyecto", "projects"}, {"recursoProyecto", "projectsResources"}, {"integranteProyecto", "membersProject"}};
+                String votaciones[][] = { {"votacion", "score"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
+                String ubicaciones[][] = {{"seccionNivel", "sectionsLevel"}, {"nivel", "levels"}, {"ubicacion", "locations"}, {"especialidad", "especiality"}};
+                String actividades[][] = { {"actividad", "activity"}, {"criterioVotacion", "scoreCriteria"}, {"detalleVotacion", "scoreDetails"}};
+                String [][] a = null;
+                for ( JCheckBox checkbox : checked ) {
+                  switch (checkbox.getText()){
+                      case "Usuarios":
+                          a = General.merge(a, usuarios);
+                          break;
+                      case "Proyectos":
+                          a = General.merge(a, proyectos);
+                          break;
+                      case "Votaciones":
+                          a = General.merge(a, votaciones);
+                          break;
+                      case "Actividades":
+                          a = General.merge(a, actividades);
+                          break;
+                      case "Ubicaciones y secciones":
+                          a = General.merge(a, ubicaciones);
+                          break;
+                  }
+                }
+                  if (General.generarBackup(String.valueOf(chooser.getSelectedFile()), a)) {
+                    
+                    }
+                  else{}
+
+              }
+            else {
+              }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debes seleccionar al menos un elemento.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBackupActionPerformed
 
     private void btnFiltrarLista3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista3ActionPerformed
         // TODO add your handling code here:
@@ -6999,6 +7217,83 @@ public class Admin extends javax.swing.JFrame {
         modalAjustesActividades.setLocationRelativeTo(null);
         modalAjustesActividades.setVisible(true);
     }//GEN-LAST:event_btnAjustesActividadesMouseClicked
+
+    private void checkCombinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCombinarActionPerformed
+        if (checkCombinar.isSelected()) {
+            lblAjustesBackup.setText("(No se eliminara nada del sistema pero puede que se omitan datos del respaldo).");
+        }
+        else{
+        lblAjustesBackup.setText("");
+        }
+        
+    }//GEN-LAST:event_checkCombinarActionPerformed
+
+    private void btnActualizarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPerfilActionPerformed
+        String nombre = txtAjustesNombre.getText();
+        String correo = txtAjustesEmail.getText();
+        String password = String.valueOf(txtAjustesContraA.getPassword());
+        String newPassword = String.valueOf(txtAjustesContraN.getPassword());
+        String newPasswordC = String.valueOf(txtAjustesContraNC.getPassword());
+        
+        if (!Validation.VerificadorNombre.verify(nombre)) {
+            txtAjustesNombre.setBackground(new java.awt.Color(255, 204, 204));
+        }
+        else{
+            txtAjustesNombre.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        if (!Validation.VerificadorEmail.verify(correo)) {
+            txtAjustesEmail.setBackground(new java.awt.Color(255, 204, 204));
+        }
+        else{
+            txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        if (!(Validation.isStringEmptyOrNull(password) && Validation.isStringEmptyOrNull(newPassword) && Validation.isStringEmptyOrNull(newPasswordC))) {
+            if (!Validation.VerificadorPassword.verify(newPassword)) {
+                txtAjustesContraN.setBackground(new java.awt.Color(255, 204, 204));
+            }
+            else{
+                txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
+                if (newPassword.equals(newPasswordC)) {
+                    txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
+                    lblAErrorContraNC.setText("");
+                }
+                else{
+                    txtAjustesContraNC.setBackground(new java.awt.Color(255, 204, 204));
+                    lblAErrorContraNC.setText("Las contraseñas no coinciden.");
+                }
+            }
+            lblAErrorContraN.setText(Validation.VerificadorPassword.mensaje);
+        }
+        else{
+            txtAjustesContraA.setBackground(new java.awt.Color(249, 250, 255));
+            txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
+            txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
+            lblAErrorContra.setText("");            
+            lblAErrorContraN.setText("");
+            lblAErrorContraNC.setText("");
+        }
+        
+        lblAErrorEmail.setText(Validation.VerificadorEmail.mensaje);
+        lblAErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo)){
+            if (User.actualizarPerfilUsuario(nombre, correo, CurrentUser.idUsuario)) {
+                txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
+                lblAErrorEmail.setText("");
+                JOptionPane.showMessageDialog(this, "Datos actualizados con exito", "Actualizar perfil", JOptionPane.INFORMATION_MESSAGE);
+                loadAjustes();
+            }
+                
+            else{
+                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+                    txtAjustesEmail.setBackground(new java.awt.Color(255, 204, 204));
+                    lblAErrorEmail.setText("Ya existe un usuario con la dirección de correo electrónico.");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, User.mensajeError, "Actualizar perfil", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnActualizarPerfilActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -7038,6 +7333,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton btnAceptarModal;
     private javax.swing.JButton btnAceptarModal1;
     private javax.swing.JPanel btnActividades;
+    private javax.swing.JButton btnActualizarPerfil;
     private javax.swing.JButton btnAgregarActividad;
     private javax.swing.JButton btnAgregarEspecialidad;
     private javax.swing.JButton btnAgregarEspecialidad1;
@@ -7047,12 +7343,12 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel btnAjustes;
     private javax.swing.JLabel btnAjustesActividades;
     private javax.swing.JPanel btnAnaliticas;
+    private javax.swing.JButton btnBackup;
     private javax.swing.JButton btnCancelarModal;
     private javax.swing.JButton btnCancelarModal1;
     private javax.swing.JLabel btnCerrarSesion;
     private javax.swing.JButton btnFiltrarLista;
     private javax.swing.JButton btnFiltrarLista1;
-    private javax.swing.JButton btnFiltrarLista2;
     private javax.swing.JButton btnFiltrarLista3;
     private javax.swing.JPanel btnInicio;
     private javax.swing.JButton btnMenu;
@@ -7061,18 +7357,21 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel btnUsuarios;
     private javax.swing.JComboBox<String> cbxEstadoUsuarioModal;
     private javax.swing.JComboBox<String> cbxTipoUsuarioModal;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox checkActividades;
+    private javax.swing.JCheckBox checkCombinar;
+    private javax.swing.JCheckBox checkProyectos;
+    private javax.swing.JCheckBox checkTodo;
+    private javax.swing.JCheckBox checkUbicaciones;
+    private javax.swing.JCheckBox checkUsuarios;
+    private javax.swing.JCheckBox checkVotaciones;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -7337,6 +7636,9 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
@@ -7421,6 +7723,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel53;
     private javax.swing.JPanel jPanel54;
@@ -7469,14 +7772,9 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel97;
     private javax.swing.JPanel jPanel98;
     private javax.swing.JPanel jPanel99;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JScrollPane jpnlDia1;
     private javax.swing.JScrollPane jpnlDia2;
     private javax.swing.JScrollPane jpnlDia3;
@@ -7486,8 +7784,14 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jpnlTableNiveles;
     private javax.swing.JScrollPane jpnlTableSecciones;
     private javax.swing.JScrollPane jpnlTableUsuarios;
+    private javax.swing.JLabel lblAErrorContra;
+    private javax.swing.JLabel lblAErrorContraN;
+    private javax.swing.JLabel lblAErrorContraNC;
+    private javax.swing.JLabel lblAErrorEmail;
+    private javax.swing.JLabel lblAErrorNombre;
     private javax.swing.JLabel lblActividades;
     private javax.swing.JLabel lblAjustes;
+    private javax.swing.JLabel lblAjustesBackup;
     private javax.swing.JLabel lblAnaliticas;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblEditarUsuario;
@@ -7541,6 +7845,11 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSeccion;
     private javax.swing.JPanel pnlUbicaciones;
     private javax.swing.JPanel pnlUsuarios;
+    private javax.swing.JPasswordField txtAjustesContraA;
+    private javax.swing.JPasswordField txtAjustesContraN;
+    private javax.swing.JPasswordField txtAjustesContraNC;
+    private javax.swing.JTextField txtAjustesEmail;
+    private javax.swing.JTextField txtAjustesNombre;
     private javax.swing.JTextField txtBusquedaFiltro;
     private javax.swing.JPasswordField txtClaveUsuarioModal;
     private javax.swing.JTextField txtEmailUsuarioModal;
@@ -7548,6 +7857,12 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreUsuarioModal1;
     private javax.swing.JTextField txtNombreUsuarioModal2;
     // End of variables declaration//GEN-END:variables
+
+    private void loadAjustes() {
+        User.cargarDatosUsuarioActual(CurrentUser.idUsuario);
+        txtAjustesNombre.setText(CurrentUser.nombreCompleto);
+        txtAjustesEmail.setText(CurrentUser.email);
+    }
 }
    class RoundedPanel extends JPanel
     {

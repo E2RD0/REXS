@@ -53,6 +53,23 @@ public class User {
             return false;
         }
     }
+    public static boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id){
+        Db db = new Db();
+        if (!db.usuarioExiste(email) || email.equals(CurrentUser.email)) {
+             if(db.actualizarPerfilUsuario(nombreCompleto, email, id)){
+                 mensajeError = "";
+                 return true;
+             }
+             else{
+                mensajeError = "Hubo un error al actualizar el usuario. Intenta de nuevo.";
+                return false;
+             }
+        }
+        else{
+            mensajeError = "<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>";
+            return false;
+        }
+    }
     public static boolean usuarioExiste(String email){
         Db db = new Db();
         return db.usuarioExiste(email);
@@ -95,6 +112,16 @@ public class User {
         else{
             return false;
         }
+    }
+    public static void cargarDatosUsuarioActual(int id){
+        User u = getUser(id);
+        CurrentUser.idUsuario = u.idUsuario;
+        CurrentUser.nombreCompleto = u.nombreCompleto;
+        CurrentUser.email = u.email;
+        CurrentUser.fotoPerfil = u.fotoPerfil;
+        CurrentUser.hash = u .hash;
+        CurrentUser.idTipoUsuario = u.idTipoUsuario;
+        CurrentUser.idEstadoUsuario = u.idEstadoUsuario;
     }
     
     public static User getUser(String email){
