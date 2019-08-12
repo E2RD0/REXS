@@ -11464,8 +11464,8 @@
                                           <Component id="jPanel23" max="32767" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jButton5" pref="160" max="32767" attributes="0"/>
-                                              <Component id="jButton6" max="32767" attributes="0"/>
+                                              <Component id="btnCambiarFotoPerfil" pref="160" max="32767" attributes="0"/>
+                                              <Component id="btnEliminarFotoPerfil" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace pref="469" max="32767" attributes="0"/>
                                       </Group>
@@ -11491,9 +11491,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                          <Component id="jButton5" min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Component id="btnCambiarFotoPerfil" min="-2" pref="26" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jButton6" min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Component id="btnEliminarFotoPerfil" min="-2" pref="26" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jPanel23" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -11525,7 +11525,7 @@
                             <Property name="text" type="java.lang.String" value="Actualiza o elimina tu foto de perfil."/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton5">
+                        <Component class="javax.swing.JButton" name="btnCambiarFotoPerfil">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ee" green="ee" red="ee" type="rgb"/>
@@ -11539,8 +11539,11 @@
                             <Property name="text" type="java.lang.String" value="Cambiar Foto"/>
                             <Property name="borderPainted" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCambiarFotoPerfilActionPerformed"/>
+                          </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton6">
+                        <Component class="javax.swing.JButton" name="btnEliminarFotoPerfil">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ee" green="ee" red="ee" type="rgb"/>
@@ -11554,6 +11557,9 @@
                             <Property name="text" type="java.lang.String" value="Eliminar Foto"/>
                             <Property name="borderPainted" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarFotoPerfilActionPerformed"/>
+                          </Events>
                         </Component>
                         <Container class="javax.swing.JPanel" name="jPanel23">
                           <Properties>
@@ -11576,7 +11582,7 @@
                             <Property name="useNullLayout" type="boolean" value="false"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jLabel93">
+                            <Component class="javax.swing.JLabel" name="lblFotoPerfil">
                               <Properties>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/rexsdesktop/view/resources/profilePicture.png"/>

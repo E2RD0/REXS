@@ -6,12 +6,16 @@
 package rexsdesktop.model;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,21 +30,22 @@ public class Db {
     }
 
     public int getIdUsuario(String email) {
-            try {
-                String query = "SELECT idUsuario FROM usuario WHERE email = ?";
-                PreparedStatement cmd = cn.prepareStatement(query);
-                cmd.setString(1, email);
-                ResultSet rs = cmd.executeQuery();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e);
+        try {
+            String query = "SELECT idUsuario FROM usuario WHERE email = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, email);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
-            return 0;
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
     }
-    public boolean insertarPin(String pin, int id){
-        try{
+
+    public boolean insertarPin(String pin, int id) {
+        try {
             String query = "INSERT INTO recuperarClave (pin, idUsuario) "
                     + "VALUES (?,?)";
             PreparedStatement stm = cn.prepareStatement(query);
@@ -57,8 +62,8 @@ public class Db {
         }
         return false;
     }
-    
-    public String getPin(int id){
+
+    public String getPin(int id) {
         try {
             String query = "SELECT pin FROM recuperarClave where idUsuario = ? order by idRecuperarClave desc";
             PreparedStatement stm = cn.prepareStatement(query);
@@ -145,30 +150,30 @@ public class Db {
             return "";
         }
     }
-    public String getHash(int id){
-        try{
-        String query = "SELECT clave from usuario where idUsuario = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setInt(1, id);
-        ResultSet rs = cmd.executeQuery();
+
+    public String getHash(int id) {
+        try {
+            String query = "SELECT clave from usuario where idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs.getString(1);
-            }
-            else{
+            } else {
                 return "";
             }
-        }
-        catch(Exception e){
-            System.out.println("Error: "+ e);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
             return "";
         }
     }
-    public ResultSet getUsuario(String email){
-        try{
-        String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setString(1, email);
-        ResultSet rs = cmd.executeQuery();
+
+    public ResultSet getUsuario(String email) {
+        try {
+            String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, email);
+            ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
             } else {
@@ -248,6 +253,7 @@ public class Db {
 
         }
     }
+
     /*try {
                 BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\Eduardo\\Documents\\prueba\\backup.csv"));
                 String row;
@@ -261,24 +267,54 @@ public class Db {
                 } catch (IOException ex) {
                     System.out.println(ex);
                 }*/
-
     public boolean actualizarContraUsuario(String hash, int id) {
         boolean r = false;
-        try{
-        String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setString(1, hash);
-        cmd.setInt(2, id);
-        if(cmd.executeUpdate() > 0){
-            r = true;
+        try {
+            String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, hash);
+            cmd.setInt(2, id);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
             }
-        cmd.close();
-        cn.close();
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
-        catch(Exception e){
-            System.out.println("Error: "+ e);
-        }
-                
+
         return r;
+    }
+
+    public boolean actualizarFotoPerfil(byte[] immAsBytes, int idUsuario) {
+        try {
+            PreparedStatement pstmt = cn.prepareStatement("UPDATE usuario SET fotoPerfil = ? WHERE idUsuario = ?");
+            ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
+            pstmt.setBinaryStream(1, bais, immAsBytes.length);
+            pstmt.setInt(2, idUsuario);
+            if (pstmt.executeUpdate() > 0) {
+                return true;
+            }
+            pstmt.close();
+            cn.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean eliminarFotoPerfil(int idUsuario) {
+        try {
+            PreparedStatement pstmt = cn.prepareStatement("UPDATE usuario SET fotoPerfil = null WHERE idUsuario = ?");
+            pstmt.setInt(1, idUsuario);
+            if (pstmt.executeUpdate() > 0) {
+                return true;
+            }
+            pstmt.close();
+            cn.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
     }
 }

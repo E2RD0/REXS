@@ -711,7 +711,7 @@ public class Login extends javax.swing.JFrame {
                                         .addComponent(jLabel22)
                                         .addGap(5, 5, 5)
                                         .addComponent(btnCardInicioSesion1)))
-                                .addGap(0, 38, Short.MAX_VALUE)))
+                                .addGap(0, 35, Short.MAX_VALUE)))
                         .addGap(137, 137, 137))))
         );
         pnlRecuperarClaveLayout.setVerticalGroup(
@@ -806,21 +806,21 @@ public class Login extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRecuperarClaveCodigoLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblErrorPIN, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVerificarCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtPIN, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveCodigoLayout.createSequentialGroup()
-                        .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnVerificarCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblErrorPIN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPIN, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveCodigoLayout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel27)
                                 .addGap(5, 5, 5)
-                                .addComponent(btnCardInicioSesion2)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(btnCardInicioSesion2))
+                            .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                        .addGap(0, 69, Short.MAX_VALUE)))
                 .addGap(68, 68, 68))
         );
         pnlRecuperarClaveCodigoLayout.setVerticalGroup(
@@ -844,7 +844,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(pnlRecuperarClaveCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(btnCardInicioSesion2))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(pnlRecuperarClaveCodigo, "RecuperarClaveCodigo");
@@ -1066,7 +1066,7 @@ public class Login extends javax.swing.JFrame {
         } else {
             txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
             cambiarCardLayoutPanel("RecuperarClaveCodigo");
-            jLabel24.setText("<html> Ingresa el código alfanumérico que fue enviado a<br>" + correo + "</html>");
+            jLabel24.setText("<html> Ingresa el código alfanumérico que fue<br> enviado a " + correo + "</html>");
             User.enviarCorreo(correo);
         }
         lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);

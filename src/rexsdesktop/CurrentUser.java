@@ -20,4 +20,14 @@ public class CurrentUser{
     public static BufferedImage fotoPerfil;
     public static int idTipoUsuario;
     public static int idEstadoUsuario;
+
+    public static void clear() {
+        idUsuario = 0;
+        nombreCompleto = null;
+        email = null;
+        hash = null;
+        fotoPerfil = null;
+        idTipoUsuario = 0;
+        idEstadoUsuario = 0;
+    }
 }

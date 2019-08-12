@@ -7,6 +7,8 @@ package rexsdesktop.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -18,6 +20,8 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 import rexsdesktop.CurrentUser;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -102,18 +106,17 @@ public class User {
                     System.out.println("Correo enviado");
                     mensajeError = "";
                     return true;
-                }
-                    else {
+                } else {
                     mensajeError = "Hubo un error al enviar el pin.";
-                    }
+                }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
         }
         return false;
     }
-    
-    public static boolean verificarPin(String pin, String correo){
+
+    public static boolean verificarPin(String pin, String correo) {
         Db db = new Db();
         int id = db.getIdUsuario(correo);
         String pinDB = db.getPin(id);
@@ -138,22 +141,23 @@ public class User {
             return false;
         }
     }
-    public static boolean actualizarContraUsuario(String oldPassword,String newPassword, int id){
+
+    public static boolean actualizarContraUsuario(String oldPassword, String newPassword, int id) {
         Db db = new Db();
         mensajeError = "";
         if (compareHash(oldPassword, db.getHash(id))) {
             String hash = hashPW(newPassword);
-             if(db.actualizarContraUsuario(hash, id)){
-                 mensajeError = "";
-                 return true;
-             }
-             else{
+            if (db.actualizarContraUsuario(hash, id)) {
+                mensajeError = "";
+                return true;
+            } else {
                 mensajeError = "Hubo un error al actualizar el usuario. Intenta de nuevo.";
-             }
+            }
         }
         return false;
     }
-    public static boolean usuarioExiste(String email){
+
+    public static boolean usuarioExiste(String email) {
         Db db = new Db();
         return db.usuarioExiste(email);
     }
@@ -290,5 +294,27 @@ public class User {
     public static int getIdTipoUsuario(String tipo) {
         Db db = new Db();
         return db.getIdTipoUsuario(tipo);
+    }
+
+    public static boolean actualizarFotoPerfil(BufferedImage img, int idUsuario) {
+        Db db = new Db();
+        try {
+            img = General.resizeAndCropIMG(img);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            if (ImageIO.write(img, "jpg", baos)) {
+                byte[] immAsBytes = baos.toByteArray();
+                baos.flush();
+                baos.close();                
+                return db.actualizarFotoPerfil(immAsBytes, idUsuario);
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return false;
+    }
+    public static boolean eliminarFotoPerfil(int idUsuario) {
+        Db db = new Db();           
+         return db.eliminarFotoPerfil(idUsuario);
     }
 }

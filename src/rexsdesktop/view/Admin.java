@@ -12,8 +12,15 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
@@ -22,6 +29,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.ColorUIResource;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
@@ -702,10 +711,10 @@ public class Admin extends javax.swing.JFrame {
         jPanel16 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnCambiarFotoPerfil = new javax.swing.JButton();
+        btnEliminarFotoPerfil = new javax.swing.JButton();
         jPanel23 = new javax.swing.JPanel();
-        jLabel93 = new javax.swing.JLabel();
+        lblFotoPerfil = new javax.swing.JLabel();
         jLabel81 = new javax.swing.JLabel();
         jPanel43 = new javax.swing.JPanel();
         jLabel82 = new javax.swing.JLabel();
@@ -6649,9 +6658,8 @@ public class Admin extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblAErrorContraN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtAjustesContraN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(txtAjustesContraN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAErrorContraNC)
@@ -6717,25 +6725,35 @@ public class Admin extends javax.swing.JFrame {
         jLabel66.setForeground(new java.awt.Color(46, 56, 77));
         jLabel66.setText("Actualiza o elimina tu foto de perfil.");
 
-        jButton5.setBackground(new java.awt.Color(238, 238, 238));
-        jButton5.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(107, 107, 107));
-        jButton5.setText("Cambiar Foto");
-        jButton5.setBorderPainted(false);
+        btnCambiarFotoPerfil.setBackground(new java.awt.Color(238, 238, 238));
+        btnCambiarFotoPerfil.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        btnCambiarFotoPerfil.setForeground(new java.awt.Color(107, 107, 107));
+        btnCambiarFotoPerfil.setText("Cambiar Foto");
+        btnCambiarFotoPerfil.setBorderPainted(false);
+        btnCambiarFotoPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarFotoPerfilActionPerformed(evt);
+            }
+        });
 
-        jButton6.setBackground(new java.awt.Color(238, 238, 238));
-        jButton6.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(107, 107, 107));
-        jButton6.setText("Eliminar Foto");
-        jButton6.setBorderPainted(false);
+        btnEliminarFotoPerfil.setBackground(new java.awt.Color(238, 238, 238));
+        btnEliminarFotoPerfil.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        btnEliminarFotoPerfil.setForeground(new java.awt.Color(107, 107, 107));
+        btnEliminarFotoPerfil.setText("Eliminar Foto");
+        btnEliminarFotoPerfil.setBorderPainted(false);
+        btnEliminarFotoPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarFotoPerfilActionPerformed(evt);
+            }
+        });
 
         jPanel23.setBackground(new java.awt.Color(255, 255, 255));
         jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(193, 193, 193)));
         jPanel23.setPreferredSize(new java.awt.Dimension(130, 130));
         jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel93.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
-        jPanel23.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, -1, -1));
+        lblFotoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
+        jPanel23.add(lblFotoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, -1, -1));
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -6748,8 +6766,8 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnCambiarFotoPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(btnEliminarFotoPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(469, Short.MAX_VALUE))
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -6768,9 +6786,9 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCambiarFotoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminarFotoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
@@ -7190,6 +7208,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarLista3ActionPerformed
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
+        CurrentUser.clear();
         Login login = new Login();
         this.setVisible(false);
         login.setLocationRelativeTo(null);
@@ -7297,6 +7316,51 @@ public class Admin extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnActualizarPerfilActionPerformed
+
+    private void btnCambiarFotoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarFotoPerfilActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+        fc.addChoosableFileFilter(imageFilter);
+        fc.setAcceptAllFileFilterUsed(false);
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                File file = fc.getSelectedFile();
+                if (Validation.VerificadorImagen.verifyFile(file)) {
+                    FileInputStream fis = new FileInputStream(file);
+                    BufferedImage imgOriginal = ImageIO.read(fis);
+                    if (Validation.VerificadorImagen.verifyIMG(imgOriginal)) {
+                        BufferedImage img = new BufferedImage(imgOriginal.getWidth(),
+                                imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
+                        if (User.actualizarFotoPerfil(img, CurrentUser.idUsuario)) {
+                            JOptionPane.showMessageDialog(this, "Foto de perfil actualizada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
+                            loadAjustes();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Error al actualizar la foto de perfil.", "Actualizar foto de perfil", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_btnCambiarFotoPerfilActionPerformed
+
+    private void btnEliminarFotoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFotoPerfilActionPerformed
+        if (User.eliminarFotoPerfil(CurrentUser.idUsuario)) {
+            JOptionPane.showMessageDialog(this, "Foto de perfil eliminada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
+            loadAjustes();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar la foto de perfil.", "Actualizar foto de perfil", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarFotoPerfilActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -7347,9 +7411,11 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel btnAjustesActividades;
     private javax.swing.JPanel btnAnaliticas;
     private javax.swing.JButton btnBackup;
+    private javax.swing.JButton btnCambiarFotoPerfil;
     private javax.swing.JButton btnCancelarModal;
     private javax.swing.JButton btnCancelarModal1;
     private javax.swing.JLabel btnCerrarSesion;
+    private javax.swing.JButton btnEliminarFotoPerfil;
     private javax.swing.JButton btnFiltrarLista;
     private javax.swing.JButton btnFiltrarLista1;
     private javax.swing.JButton btnFiltrarLista3;
@@ -7370,8 +7436,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -7645,7 +7709,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
-    private javax.swing.JLabel jLabel93;
     private javax.swing.JLabel jLabel94;
     private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
@@ -7815,6 +7878,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel lblEditarUsuario7;
     private javax.swing.JLabel lblEditarUsuario8;
     private javax.swing.JLabel lblEditarUsuario9;
+    private javax.swing.JLabel lblFotoPerfil;
     private javax.swing.JLabel lblProyectos;
     private javax.swing.JLabel lblUbicaciones;
     private javax.swing.JLabel lblUsuarios;
@@ -7865,6 +7929,18 @@ public class Admin extends javax.swing.JFrame {
         User.cargarDatosUsuarioActual(CurrentUser.idUsuario);
         txtAjustesNombre.setText(CurrentUser.nombreCompleto);
         txtAjustesEmail.setText(CurrentUser.email);
+        if (CurrentUser.fotoPerfil != null) {
+            btnEliminarFotoPerfil.setEnabled(true);
+            try {
+                BufferedImage icon = General.resizeSquare(CurrentUser.fotoPerfil, 128);
+                lblFotoPerfil.setIcon(new ImageIcon(icon));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            btnEliminarFotoPerfil.setEnabled(false);
+            lblFotoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png")));
+        }
     }
 }
 
