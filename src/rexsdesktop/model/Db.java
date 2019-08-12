@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,22 +28,48 @@ public class Db {
         cn = new DbConnection().conectar();
     }
 
-    public int getIdUsuario(String email) {
-            try {
-                String query = "SELECT idUsuario FROM usuario WHERE email = ?";
-                PreparedStatement cmd = cn.prepareStatement(query);
-                cmd.setString(1, email);
-                ResultSet rs = cmd.executeQuery();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e);
+    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
+        boolean bandera = false;
+        try {
+            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, idUbicacion) VALUES (?,?,?,?,?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            stm.setString(2, descripcion);
+            stm.setString(3, fechaInicio);
+            stm.setString(4, fechaFin);
+            stm.setInt(5, idUbicacion);
+
+            if (stm.executeUpdate() > 0) {
+                bandera = true;
             }
-            return 0;
+
+            stm.close();
+            cn.close();
+
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+        return bandera;
     }
-    public boolean insertarPin(String pin, int id){
-        try{
+
+    // <editor-fold defaultstate="collapsed" desc="User Methods">  
+    public int getIdUsuario(String email) {
+        try {
+            String query = "SELECT idUsuario FROM usuario WHERE email = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, email);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
+    }
+
+    public boolean insertarPin(String pin, int id) {
+        try {
             String query = "INSERT INTO recuperarClave (pin, idUsuario) "
                     + "VALUES (?,?)";
             PreparedStatement stm = cn.prepareStatement(query);
@@ -57,8 +86,8 @@ public class Db {
         }
         return false;
     }
-    
-    public String getPin(int id){
+
+    public String getPin(int id) {
         try {
             String query = "SELECT pin FROM recuperarClave where idUsuario = ? order by idRecuperarClave desc";
             PreparedStatement stm = cn.prepareStatement(query);
@@ -145,30 +174,30 @@ public class Db {
             return "";
         }
     }
-    public String getHash(int id){
-        try{
-        String query = "SELECT clave from usuario where idUsuario = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setInt(1, id);
-        ResultSet rs = cmd.executeQuery();
+
+    public String getHash(int id) {
+        try {
+            String query = "SELECT clave from usuario where idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs.getString(1);
-            }
-            else{
+            } else {
                 return "";
             }
-        }
-        catch(Exception e){
-            System.out.println("Error: "+ e);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
             return "";
         }
     }
-    public ResultSet getUsuario(String email){
-        try{
-        String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setString(1, email);
-        ResultSet rs = cmd.executeQuery();
+
+    public ResultSet getUsuario(String email) {
+        try {
+            String query = "SELECT idUsuario, nombreCompleto, fotoPerfil, email, clave, idTipoUsuario, idEstadoUsuario FROM usuario where email = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, email);
+            ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
             } else {
@@ -231,6 +260,47 @@ public class Db {
         }
     }
 
+    public boolean actualizarContraUsuario(String hash, int id) {
+        boolean r = false;
+        try {
+            String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, hash);
+            cmd.setInt(2, id);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return r;
+    }
+
+    public boolean actualizarContraUsuario2(String hash, String correo) {
+        boolean r = false;
+
+        int id = getIdUsuario(correo);
+        try {
+            String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, hash);
+            cmd.setInt(2, id);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return r;
+    }
+
+    // </editor-fold>  
     public ResultSet sqlToCSV(String table) {
         try {
             String query = "SELECT * FROM " + table;
@@ -262,23 +332,54 @@ public class Db {
                     System.out.println(ex);
                 }*/
 
-    public boolean actualizarContraUsuario(String hash, int id) {
-        boolean r = false;
-        try{
-        String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
-        PreparedStatement cmd = cn.prepareStatement(query);
-        cmd.setString(1, hash);
-        cmd.setInt(2, id);
-        if(cmd.executeUpdate() > 0){
-            r = true;
+    private int CantidadActividades;
+    public ArrayList<String> nombreAct;
+
+    public void NumActividades() {
+        try {
+
+            String sql = "select COUNT(idActividad) from actividad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadActividades(rs.getInt(1));
+                //System.out.println(getNumProyecto());
             }
-        cmd.close();
-        cn.close();
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println("Error: "+ e);
+    }
+
+    public void Actividades() {
+        try {
+
+            String sql = "select nombre from actividad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            nombreAct = new ArrayList<>();
+
+            while (rs.next()) {
+
+                nombreAct.add(rs.getString(1));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-                
-        return r;
+
+    }
+
+    /**
+     * @return the CantidadActividades
+     */
+    public int getCantidadActividades() {
+        return CantidadActividades;
+    }
+
+    /**
+     * @param CantidadActividades the CantidadActividades to set
+     */
+    public void setCantidadActividades(int CantidadActividades) {
+        this.CantidadActividades = CantidadActividades;
     }
 }

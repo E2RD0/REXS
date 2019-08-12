@@ -20,4 +20,11 @@ public class CurrentUser{
     public static BufferedImage fotoPerfil;
     public static int idTipoUsuario;
     public static int idEstadoUsuario;
+
+    /**
+     * @return the nombreCompleto
+     */
+    public static String getNombreCompleto() {
+        return nombreCompleto;
+    } 
 }

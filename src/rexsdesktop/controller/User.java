@@ -102,18 +102,17 @@ public class User {
                     System.out.println("Correo enviado");
                     mensajeError = "";
                     return true;
-                }
-                    else {
+                } else {
                     mensajeError = "Hubo un error al enviar el pin.";
-                    }
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return false;
     }
-    
-    public static boolean verificarPin(String pin, String correo){
+
+    public static boolean verificarPin(String pin, String correo) {
         Db db = new Db();
         int id = db.getIdUsuario(correo);
         String pinDB = db.getPin(id);
@@ -138,22 +137,37 @@ public class User {
             return false;
         }
     }
-    public static boolean actualizarContraUsuario(String oldPassword,String newPassword, int id){
+
+    public static boolean actualizarContraUsuario(String oldPassword, String newPassword, int id) {
         Db db = new Db();
         mensajeError = "";
         if (compareHash(oldPassword, db.getHash(id))) {
             String hash = hashPW(newPassword);
-             if(db.actualizarContraUsuario(hash, id)){
-                 mensajeError = "";
-                 return true;
-             }
-             else{
+            if (db.actualizarContraUsuario(hash, id)) {
+                mensajeError = "";
+                return true;
+            } else {
                 mensajeError = "Hubo un error al actualizar el usuario. Intenta de nuevo.";
-             }
+            }
         }
         return false;
     }
-    public static boolean usuarioExiste(String email){
+
+    public static boolean recuperarContraUsuario(String newPassword, String correo) {
+        Db db = new Db();
+        mensajeError = "";
+        String hash = hashPW(newPassword);
+        if (db.actualizarContraUsuario2(hash, correo)) {
+            mensajeError = "";
+            return true;
+        } else {
+            mensajeError = "Hubo un error al restaurar su clave. Intente de nuevo.";
+        }
+
+        return false;
+    }
+
+    public static boolean usuarioExiste(String email) {
         Db db = new Db();
         return db.usuarioExiste(email);
     }

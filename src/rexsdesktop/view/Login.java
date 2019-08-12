@@ -11,6 +11,7 @@ import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -39,6 +41,7 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+        this.setTitle("REXS");
         cambiarCardLayoutPanel("InicioSesion");
         LoginBG.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("resources/loginbg.png")).getImage().getScaledInstance(500, 625, Image.SCALE_SMOOTH)));
 //        jLabel1.setFont(f.light.deriveFont(30f));
@@ -74,6 +77,139 @@ public class Login extends javax.swing.JFrame {
         txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
         txtEmail.setBackground(new java.awt.Color(249, 250, 255));
         txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+    }
+
+    private void iniciarSesion() {
+        String email = txtEmail.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        if (!Validation.VerificadorLogin.verify(email, password)) {
+            if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
+                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+            } else {
+                txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
+                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+            } else {
+                txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
+            lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
+        } else {
+            txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+            txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+            lblErrorEmail.setText("");
+            lblErrorPassword.setText("");
+            if (User.iniciarSesion(email, password)) {
+                System.out.println("Inicio Correcto");
+                if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
+                    if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
+                        Admin fAdmin = new Admin();
+                        this.setVisible(false);
+                        fAdmin.setLocationRelativeTo(null);
+                        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                        fAdmin.setVisible(true);
+                        this.dispose();
+                    } else {
+                        lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
+                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                        txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                    }
+                } else {
+                    lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
+                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                }
+            } else {
+                lblErrorGeneral.setText("Usuario o contraseña incorrectos");
+                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                System.out.println("Incio Incorrecto");
+            }
+        }
+    }
+
+    private void registrarse() {
+        String nombre = txtNombreCompletoR.getText();
+        String correo = txtEmailR.getText();
+        String password = String.valueOf(txtPasswordR.getPassword());
+
+        if (!Validation.VerificadorNombre.verify(nombre)) {
+            txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        if (!Validation.VerificadorEmail.verify(correo)) {
+            txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        if (!Validation.VerificadorPassword.verify(password)) {
+            txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
+            if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
+                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+                lblErrorEmailR.setText("");
+                cambiarCardLayoutPanel("Exito");
+                resetCampos();
+                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                executorService.scheduleAtFixedRate(new Runnable() {
+                    @Override
+                    public void run() {
+                        cambiarCardLayoutPanel("InicioSesion");
+                        executorService.shutdownNow();
+                    }
+                }, 2, 1, TimeUnit.SECONDS);
+
+            } else {
+                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+                    txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+                    lblErrorEmailR.setText(User.mensajeError);
+                } else {
+                    JOptionPane.showMessageDialog(this, User.mensajeError);
+                }
+            }
+        }
+
+    }
+
+    private void enviarCorreo() {
+        correo = txtEmailRecu.getText();
+
+        if (!Validation.VerificadorEmail.verify(correo)) {
+            txtEmailRecu.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
+            cambiarCardLayoutPanel("RecuperarClaveCodigo");
+            jLabel24.setText("<html> Ingresa el código alfanumérico que fue enviado a<br>" + correo + "</html>");
+            User.enviarCorreo(correo);
+        }
+        lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
+    }
+
+    private void verificarPIN() {
+        String pin = txtPIN.getText();
+        pin = pin.trim();
+        if (Validation.isStringEmptyOrNull(pin)) {
+            lblErrorPIN.setText("El campo no puede estar vacío.");
+        } else {
+            lblErrorPIN.setText("");
+            if (User.verificarPin(pin, correo)) {
+                System.out.println("Verificado correctamente");
+                cambiarCardLayoutPanel("RecuperarClaveCambiar");
+            } else {
+                System.out.println("Pin equivocado");
+                txtPIN.setBackground(new java.awt.Color(255, 204, 204));
+                lblErrorPIN.setText("PIN incorrecto");
+            }
+        }
+
     }
 
     /**
@@ -154,10 +290,11 @@ public class Login extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         btnCambiarClave = new javax.swing.JButton();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        txtClaveNueva = new javax.swing.JPasswordField();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jPasswordField4 = new javax.swing.JPasswordField();
+        txtConfirmarClave = new javax.swing.JPasswordField();
+        lblErrorPasswordCambio = new javax.swing.JLabel();
         pnlExito = new javax.swing.JPanel();
         lblTituloExito = new javax.swing.JLabel();
         lblMensajeExito = new javax.swing.JLabel();
@@ -223,8 +360,14 @@ public class Login extends javax.swing.JFrame {
         txtPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtPassword.setEchoChar('\u2022');
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyTyped(evt);
             }
         });
 
@@ -308,12 +451,6 @@ public class Login extends javax.swing.JFrame {
         pnlIniciarSesionLayout.setHorizontalGroup(
             pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSignGoogle, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSignFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
@@ -352,6 +489,12 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(lblErrorGeneral)
                             .addComponent(lblErrorPassword))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSignGoogle, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSignFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlIniciarSesionLayout.setVerticalGroup(
             pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,6 +588,9 @@ public class Login extends javax.swing.JFrame {
         txtPasswordR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordRKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPasswordRKeyTyped(evt);
             }
         });
 
@@ -622,7 +768,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(pnlRegistroLayout.createSequentialGroup()
                         .addGap(110, 110, 110)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(pnlRegistro, "Registro");
@@ -644,6 +790,9 @@ public class Login extends javax.swing.JFrame {
         txtEmailRecu.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtEmailRecuKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEmailRecuKeyTyped(evt);
             }
         });
 
@@ -765,6 +914,9 @@ public class Login extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPINKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPINKeyTyped(evt);
+            }
         });
 
         btnVerificarCodigo.setBackground(new java.awt.Color(46, 91, 255));
@@ -875,11 +1027,11 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField3.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField3.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField3.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField3.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField3.setEchoChar('\u2022');
+        txtClaveNueva.setBackground(new java.awt.Color(249, 250, 255));
+        txtClaveNueva.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtClaveNueva.setForeground(new java.awt.Color(46, 56, 77));
+        txtClaveNueva.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtClaveNueva.setEchoChar('\u2022');
 
         jLabel32.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(176, 186, 201));
@@ -889,11 +1041,14 @@ public class Login extends javax.swing.JFrame {
         jLabel33.setForeground(new java.awt.Color(176, 186, 201));
         jLabel33.setText("CONFIRMAR CONTRASEÑA");
 
-        jPasswordField4.setBackground(new java.awt.Color(249, 250, 255));
-        jPasswordField4.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jPasswordField4.setForeground(new java.awt.Color(46, 56, 77));
-        jPasswordField4.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-        jPasswordField4.setEchoChar('\u2022');
+        txtConfirmarClave.setBackground(new java.awt.Color(249, 250, 255));
+        txtConfirmarClave.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        txtConfirmarClave.setForeground(new java.awt.Color(46, 56, 77));
+        txtConfirmarClave.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtConfirmarClave.setEchoChar('\u2022');
+
+        lblErrorPasswordCambio.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
+        lblErrorPasswordCambio.setForeground(new java.awt.Color(255, 51, 51));
 
         javax.swing.GroupLayout pnlRecuperarClaveCambiarLayout = new javax.swing.GroupLayout(pnlRecuperarClaveCambiar);
         pnlRecuperarClaveCambiar.setLayout(pnlRecuperarClaveCambiarLayout);
@@ -901,19 +1056,24 @@ public class Login extends javax.swing.JFrame {
             pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRecuperarClaveCambiarLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
-                .addGroup(pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .addComponent(btnCambiarClave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveCambiarLayout.createSequentialGroup()
+                .addGroup(pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRecuperarClaveCambiarLayout.createSequentialGroup()
+                        .addComponent(lblErrorPasswordCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlRecuperarClaveCambiarLayout.createSequentialGroup()
                         .addGroup(pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(137, 137, 137))
+                            .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                            .addComponent(btnCambiarClave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtClaveNueva, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtConfirmarClave, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRecuperarClaveCambiarLayout.createSequentialGroup()
+                                .addGroup(pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(137, 137, 137))))
         );
         pnlRecuperarClaveCambiarLayout.setVerticalGroup(
             pnlRecuperarClaveCambiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -927,14 +1087,16 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel32)
                 .addGap(1, 1, 1)
-                .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtClaveNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel33)
                 .addGap(1, 1, 1)
-                .addComponent(jPasswordField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addComponent(txtConfirmarClave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(lblErrorPasswordCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCambiarClave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(pnlRecuperarClaveCambiar, "RecuperarClaveCambiar");
@@ -970,7 +1132,7 @@ public class Login extends javax.swing.JFrame {
         pnlExitoLayout.setVerticalGroup(
             pnlExitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlExitoLayout.createSequentialGroup()
-                .addContainerGap(184, Short.MAX_VALUE)
+                .addContainerGap(182, Short.MAX_VALUE)
                 .addComponent(jLabel34)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblTituloExito, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1005,53 +1167,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCardInicioSesion1ActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        String email = txtEmail.getText();
-        String password = String.valueOf(txtPassword.getPassword());
-        if (!Validation.VerificadorLogin.verify(email, password)) {
-            if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
-                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-            } else {
-                txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
-                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-            } else {
-                txtPassword.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
-            lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
-        } else {
-            txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-            txtPassword.setBackground(new java.awt.Color(249, 250, 255));
-            lblErrorEmail.setText("");
-            lblErrorPassword.setText("");
-            if (User.iniciarSesion(email, password)) {
-                System.out.println("Inicio Correcto");
-                if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
-                    if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
-                        Admin fAdmin = new Admin();
-                        this.setVisible(false);
-                        fAdmin.setLocationRelativeTo(null);
-                        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                        fAdmin.setVisible(true);
-                        this.dispose();
-                    } else {
-                        lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
-                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                        txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-                    }
-                } else {
-                    lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
-                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-                }
-            } else {
-                lblErrorGeneral.setText("Usuario o contraseña incorrectos");
-                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-                System.out.println("Incio Incorrecto");
-            }
-        }
+        iniciarSesion();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnCardInicioSesion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesion2ActionPerformed
@@ -1059,90 +1175,28 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCardInicioSesion2ActionPerformed
 
     private void btnEnviarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarCodigoActionPerformed
-        correo = txtEmailRecu.getText();
-
-        if (!Validation.VerificadorEmail.verify(correo)) {
-            txtEmailRecu.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
-            cambiarCardLayoutPanel("RecuperarClaveCodigo");
-            jLabel24.setText("<html> Ingresa el código alfanumérico que fue enviado a<br>" + correo + "</html>");
-            User.enviarCorreo(correo);
-        }
-        lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
+        enviarCorreo();
     }//GEN-LAST:event_btnEnviarCodigoActionPerformed
 
+    @SuppressWarnings("deprecation")
     private void btnCambiarClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarClaveActionPerformed
-        cambiarCardLayoutPanel("InicioSesion");
+        String NuevaClave = String.valueOf(txtClaveNueva.getPassword());
+        String claveConfirmada = String.valueOf(txtConfirmarClave.getPassword());
+        if (NuevaClave.equals(claveConfirmada)) {
+            if (User.recuperarContraUsuario(NuevaClave, correo)) {
+                cambiarCardLayoutPanel("InicioSesion");
+            }
+        } else {
+            lblErrorPasswordCambio.setText("Las contraseñas no coinciden");
+        }
     }//GEN-LAST:event_btnCambiarClaveActionPerformed
 
     private void btnVerificarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarCodigoActionPerformed
-        String pin = txtPIN.getText();
-        pin = pin.trim();
-        if (Validation.isStringEmptyOrNull(pin)) {
-            lblErrorPIN.setText("El campo no puede estar vacío.");
-        } else {
-            lblErrorPIN.setText("");
-            if (User.verificarPin(pin, correo)) {
-                System.out.println("Verificado correctamente");
-                cambiarCardLayoutPanel("RecuperarClaveCambiar");
-            } else {
-                System.out.println("Pin equivocado");
-                txtPIN.setBackground(new java.awt.Color(255, 204, 204));
-                lblErrorPIN.setText("PIN incorrecto");
-            }
-        }
-
+        verificarPIN();
     }//GEN-LAST:event_btnVerificarCodigoActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        String nombre = txtNombreCompletoR.getText();
-        String correo = txtEmailR.getText();
-        String password = String.valueOf(txtPasswordR.getPassword());
-
-        if (!Validation.VerificadorNombre.verify(nombre)) {
-            txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        if (!Validation.VerificadorEmail.verify(correo)) {
-            txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        if (!Validation.VerificadorPassword.verify(password)) {
-            txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
-        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
-        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
-        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-            if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
-                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
-                lblErrorEmailR.setText("");
-                cambiarCardLayoutPanel("Exito");
-                resetCampos();
-                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                executorService.scheduleAtFixedRate(new Runnable() {
-                    @Override
-                    public void run() {
-                        cambiarCardLayoutPanel("InicioSesion");
-                        executorService.shutdownNow();
-                    }
-                }, 2, 1, TimeUnit.SECONDS);
-
-            } else {
-                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
-                    txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-                    lblErrorEmailR.setText(User.mensajeError);
-                } else {
-                    JOptionPane.showMessageDialog(this, User.mensajeError);
-                }
-            }
-        }
-
+        registrarse();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void txtNombreCompletoRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompletoRKeyReleased
@@ -1197,6 +1251,42 @@ public class Login extends javax.swing.JFrame {
         lblErrorPIN.setText("");
         txtPIN.setBackground(new java.awt.Color(249, 250, 255));
     }//GEN-LAST:event_txtPINKeyReleased
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
+        char teclaPresionada = evt.getKeyChar();
+
+        if (teclaPresionada == KeyEvent.VK_ENTER) {
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtPasswordKeyTyped
+
+    private void txtPasswordRKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordRKeyTyped
+        char teclaPresionada = evt.getKeyChar();
+
+        if (teclaPresionada == KeyEvent.VK_ENTER) {
+            registrarse();
+        }
+    }//GEN-LAST:event_txtPasswordRKeyTyped
+
+    private void txtEmailRecuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailRecuKeyTyped
+        char teclaPresionada = evt.getKeyChar();
+
+        if (teclaPresionada == KeyEvent.VK_ENTER) {
+            enviarCorreo();
+        }
+    }//GEN-LAST:event_txtEmailRecuKeyTyped
+
+    private void txtPINKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPINKeyTyped
+        char teclaPresionada = evt.getKeyChar();
+
+        if (teclaPresionada == KeyEvent.VK_ENTER) {
+            verificarPIN();
+        }
+    }//GEN-LAST:event_txtPINKeyTyped
 
     /**
      * @param args the command line arguments
@@ -1285,8 +1375,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField3;
-    private javax.swing.JPasswordField jPasswordField4;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1298,6 +1386,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrorNombre;
     private javax.swing.JLabel lblErrorPIN;
     private javax.swing.JLabel lblErrorPassword;
+    private javax.swing.JLabel lblErrorPasswordCambio;
     private javax.swing.JLabel lblErrorPasswordR;
     private javax.swing.JLabel lblMensajeExito;
     private javax.swing.JLabel lblTituloExito;
@@ -1307,6 +1396,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel pnlRecuperarClaveCambiar;
     private javax.swing.JPanel pnlRecuperarClaveCodigo;
     private javax.swing.JPanel pnlRegistro;
+    private javax.swing.JPasswordField txtClaveNueva;
+    private javax.swing.JPasswordField txtConfirmarClave;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailR;
     private javax.swing.JTextField txtEmailRecu;
