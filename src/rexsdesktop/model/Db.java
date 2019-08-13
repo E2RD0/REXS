@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Db {
         }
         return bandera;
     }
-    
+
     public int getIdUsuario(String email) {
         try {
             String query = "SELECT idUsuario FROM usuario WHERE email = ?";
@@ -300,7 +301,8 @@ public class Db {
         }
 
         return r;
-    }  
+    }
+
     public ResultSet sqlToCSV(String table) {
         try {
             String query = "SELECT * FROM " + table;
@@ -368,7 +370,7 @@ public class Db {
         }
 
     }
-    
+
     /**
      * @return the CantidadActividades
      */
@@ -381,8 +383,7 @@ public class Db {
      */
     public void setCantidadActividades(int CantidadActividades) {
         this.CantidadActividades = CantidadActividades;
-        }
-
+    }
 
     public boolean actualizarFotoPerfil(byte[] immAsBytes, int idUsuario) {
         try {
@@ -415,4 +416,160 @@ public class Db {
         }
         return false;
     }
+
+    //Parte de Proyectos
+    private int CantidadProyecto;
+    public ArrayList<String> nombre;
+    public ArrayList<String> nivel;
+    public ArrayList<String> seccion;
+    public ArrayList<String> especialidad;
+    public ArrayList<String> ubicacion;
+
+    public void NumProyectos() {
+        try {
+
+            String sql = "select COUNT(idProyecto) from proyecto";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadProyecto(rs.getInt(1));
+
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void Proyectos() {
+        try {
+
+            String sql = "select nombre, nivel, seccion, especialidad, ubicacion from proyecto p  INNER JOIN seccionNivel s on p.idSeccionNivel=s.idSeccionNivel\n"
+                    + " INNER JOIN ubicacion u  on s.idUbicacion=u.idUbicacion INNER JOIN especialidad e on s.idEspecialidad=e.idEspecialidad INNER JOIN nivel n on s.idNivel\n"
+                    + " =n.idNivel";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            nombre = new ArrayList<>();
+            nivel = new ArrayList<>();
+            seccion = new ArrayList<>();
+            especialidad = new ArrayList<>();
+            ubicacion = new ArrayList<>();
+            while (rs.next()) {
+
+                nombre.add(rs.getString(1));
+                nivel.add(rs.getString(2));
+                seccion.add(rs.getString(3));
+                especialidad.add(rs.getString(4));
+                ubicacion.add(rs.getString(5));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @return the CantidadProyecto
+     */
+    public int getCantidadProyecto() {
+        return CantidadProyecto;
+    }
+
+    /**
+     * @param CantidadProyecto the CantidadProyecto to set
+     */
+    public void setCantidadProyecto(int CantidadProyecto) {
+        this.CantidadProyecto = CantidadProyecto;
+    }
+
+    private int CantidadUsuarios;
+    public ArrayList<Integer> idUsuario;
+    public ArrayList<String> nombreCompleto;
+    public ArrayList<String> email;
+    public ArrayList<String> tipo;
+    public ArrayList<String> fecha;
+    public ArrayList<String> estado;
+
+    public void NumUsuarios() {
+        try {
+
+            String sql = "select COUNT(idUsuario) from usuario";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadUsuarios(rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void MostrarUsuarios() {
+        try {
+
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario"
+                    + " u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN"
+                    + " tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            idUsuario = new ArrayList<>();
+            nombreCompleto = new ArrayList<>();
+            email = new ArrayList<>();
+            fecha = new ArrayList<>();
+            tipo = new ArrayList<>();
+            estado = new ArrayList<>();
+            while (rs.next()) {
+
+                idUsuario.add(rs.getInt(1));
+                nombreCompleto.add(rs.getString(2));
+                email.add(rs.getString(3));
+                fecha.add(rs.getString(4));
+                tipo.add(rs.getString(5));
+                estado.add(rs.getString(6));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @return the CantidadUsuarios
+     */
+    public int getCantidadUsuarios() {
+        return CantidadUsuarios;
+    }
+
+    /**
+     * @param CantidadUsuarios the CantidadUsuarios to set
+     */
+    public void setCantidadUsuarios(int CantidadUsuarios) {
+        this.CantidadUsuarios = CantidadUsuarios;
+    }
+
+    public ResultSet consulta(String sql) {
+        ResultSet res = null;
+        try {
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            res = pstm.executeQuery();
+        } catch (Exception e) {
+        }
+        return res;
+    }
+
+    public DefaultComboBoxModel obtenerSeccionNivel() {
+        DefaultComboBoxModel listaModelo2 = new DefaultComboBoxModel();
+        ResultSet rst = this.consulta("select idSeccionNivel from seccionNivel");
+        try {
+            while (rst.next()) {
+                listaModelo2.addElement(rst.getString("idSeccionNivel"));
+            }
+            rst.close();
+        } catch (Exception e) {
+        }
+        return listaModelo2;
+    }
+
 }

@@ -5,6 +5,8 @@
  */
 package rexsdesktop.controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.imageio.ImageIO;
 import rexsdesktop.CurrentUser;
@@ -30,6 +33,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -330,5 +339,84 @@ public class User {
     public static boolean eliminarFotoPerfil(int idUsuario) {
         Db db = new Db();           
          return db.eliminarFotoPerfil(idUsuario);
+    }
+    
+       ArrayList<JPanel> panelesUsuarios;
+    ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
+
+    public void CrearPanelesUsuarios(javax.swing.JPanel panel) {
+
+        Db db = new Db();
+        db.MostrarUsuarios();
+        db.NumUsuarios();
+
+        panelesUsuarios = new ArrayList<>();
+
+        for (int i = 0; i < db.getCantidadUsuarios(); i++) {
+            JPanel Contenedor1 = new JPanel();
+            panel.add(Contenedor1);
+            panelesUsuarios.add(Contenedor1);
+
+            Contenedor1.setBackground(Color.white);
+            Contenedor1.setPreferredSize(new Dimension(576, 52));
+            Contenedor1.setLayout(null);
+            Border borde = new LineBorder(Color.CYAN, 1, true);
+            Contenedor1.setBorder(borde);
+            
+            JLabel id = new JLabel();
+            id.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            id.setForeground(new Color(46, 56, 77));
+            id.setHorizontalAlignment(SwingConstants.LEADING);
+           id.setBounds(20, 15, 20, 20);
+           id.setText("<html>" + db.idUsuario.get(i) + "</html>");
+           //id.setBorder(new EtchedBorder());
+           Contenedor1.add(id);
+           
+           JLabel nombreuser = new JLabel();
+            nombreuser.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            nombreuser.setForeground(new Color(46, 56, 77));
+            nombreuser.setHorizontalAlignment(SwingConstants.CENTER);
+           nombreuser.setBounds(40, 15, 110, 20);
+           nombreuser.setText(db.nombreCompleto.get(i) );
+           //nombreuser.setBorder(new EtchedBorder());
+           Contenedor1.add(nombreuser);
+           
+           JLabel email = new JLabel();
+           email.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+           email.setForeground(new Color(46, 56, 77));
+           email.setHorizontalAlignment(SwingConstants.CENTER);
+           email.setBounds(150, 15, 150, 20);
+           email.setText(db.email.get(i));
+          // email.setBorder(new EtchedBorder());
+           Contenedor1.add(email);
+           
+           JLabel fecha = new JLabel();
+           fecha.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+           fecha.setForeground(new Color(46, 56, 77));
+           fecha.setHorizontalAlignment(SwingConstants.CENTER);
+           fecha.setBounds(320, 15, 70, 20);
+           fecha.setText(db.fecha.get(i).trim());
+           //fecha.setBorder(new EtchedBorder());
+           Contenedor1.add(fecha);
+           
+           JLabel tipo = new JLabel();
+           tipo.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+           tipo.setForeground(new Color(46, 56, 77));
+           tipo.setHorizontalAlignment(SwingConstants.CENTER);
+           tipo.setBounds(400, 15, 70, 20);
+           tipo.setText(db.tipo.get(i));
+          // tipo.setBorder(new EtchedBorder());
+           Contenedor1.add(tipo);
+           
+            JLabel estado = new JLabel();
+           estado.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+           estado.setForeground(new Color(46, 56, 77));
+           estado.setHorizontalAlignment(SwingConstants.CENTER);
+           estado.setBounds(490, 15, 70, 20);
+           estado.setText(db.estado.get(i));
+          // estado.setBorder(new EtchedBorder());
+           Contenedor1.add(estado);
+           
+        }
     }
 }
