@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +31,30 @@ public class Db {
         cn = new DbConnection().conectar();
     }
 
+    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
+        boolean bandera = false;
+        try {
+            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, idUbicacion) VALUES (?,?,?,?,?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            stm.setString(2, descripcion);
+            stm.setString(3, fechaInicio);
+            stm.setString(4, fechaFin);
+            stm.setInt(5, idUbicacion);
+
+            if (stm.executeUpdate() > 0) {
+                bandera = true;
+            }
+
+            stm.close();
+            cn.close();
+
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+        return bandera;
+    }
+    
     public int getIdUsuario(String email) {
         try {
             String query = "SELECT idUsuario FROM usuario WHERE email = ?";
@@ -236,37 +262,6 @@ public class Db {
         }
     }
 
-    public ResultSet sqlToCSV(String table) {
-        try {
-            String query = "SELECT * FROM " + table;
-            PreparedStatement cmd = cn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = cmd.executeQuery();
-            if (rs.next()) {
-                rs.beforeFirst();
-                return rs;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Error csv:" + e);
-            return null;
-
-        }
-    }
-
-    /*try {
-                BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\Eduardo\\Documents\\prueba\\backup.csv"));
-                String row;
-
-                    while ((row = csvReader.readLine()) != null) {
-                        String[] data = row.split(",");
-                        System.out.println(data);
-                        // do something with the data
-                    }
-                    csvReader.close();
-                } catch (IOException ex) {
-                    System.out.println(ex);
-                }*/
     public boolean actualizarContraUsuario(String hash, int id) {
         boolean r = false;
         try {
@@ -285,6 +280,109 @@ public class Db {
 
         return r;
     }
+
+    public boolean actualizarContraUsuario2(String hash, String correo) {
+        boolean r = false;
+
+        int id = getIdUsuario(correo);
+        try {
+            String query = "UPDATE usuario SET clave = ? WHERE idUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, hash);
+            cmd.setInt(2, id);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return r;
+    }  
+    public ResultSet sqlToCSV(String table) {
+        try {
+            String query = "SELECT * FROM " + table;
+            PreparedStatement cmd = cn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                return rs;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error csv:" + e);
+            return null;
+
+        }
+    }
+    /*try {
+                BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\Eduardo\\Documents\\prueba\\backup.csv"));
+                String row;
+
+                    while ((row = csvReader.readLine()) != null) {
+                        String[] data = row.split(",");
+                        System.out.println(data);
+                        // do something with the data
+                    }
+                    csvReader.close();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }*/
+
+    private int CantidadActividades;
+    public ArrayList<String> nombreAct;
+
+    public void NumActividades() {
+        try {
+
+            String sql = "select COUNT(idActividad) from actividad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadActividades(rs.getInt(1));
+                //System.out.println(getNumProyecto());
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void Actividades() {
+        try {
+
+            String sql = "select nombre from actividad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            nombreAct = new ArrayList<>();
+
+            while (rs.next()) {
+
+                nombreAct.add(rs.getString(1));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    /**
+     * @return the CantidadActividades
+     */
+    public int getCantidadActividades() {
+        return CantidadActividades;
+    }
+
+    /**
+     * @param CantidadActividades the CantidadActividades to set
+     */
+    public void setCantidadActividades(int CantidadActividades) {
+        this.CantidadActividades = CantidadActividades;
+        }
+
 
     public boolean actualizarFotoPerfil(byte[] immAsBytes, int idUsuario) {
         try {

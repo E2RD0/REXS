@@ -157,6 +157,20 @@ public class User {
         return false;
     }
 
+    public static boolean recuperarContraUsuario(String newPassword, String correo) {
+        Db db = new Db();
+        mensajeError = "";
+        String hash = hashPW(newPassword);
+        if (db.actualizarContraUsuario2(hash, correo)) {
+            mensajeError = "";
+            return true;
+        } else {
+            mensajeError = "Hubo un error al restaurar su clave. Intente de nuevo.";
+        }
+
+        return false;
+    }
+
     public static boolean usuarioExiste(String email) {
         Db db = new Db();
         return db.usuarioExiste(email);
