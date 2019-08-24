@@ -31,8 +31,9 @@ import rexsdesktop.model.Db;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ *  Clase que contiene los atributos y métodos de un proyecto.
  * @author Lulac
+ * @version 1.2
  */
 public class Projects {
 
@@ -45,6 +46,13 @@ public class Projects {
     private String descripcion;
     private Integer idSeccionNivel;
 
+    /**
+     * Método para visualizar los paneles con la información de la base de
+     * datos.
+     *
+     * @param panel panel donde se visualizarán los datos
+     */
+    
     public void CrearPanelesProyectos(javax.swing.JPanel panel) {
         Db db = new Db();
         db.Proyectos();
@@ -163,7 +171,11 @@ public class Projects {
         }
         return res;
     }
-
+    /**
+     * Método utilizado para agregar un proyecto.
+     *
+     * @return retorna un valor booleano.
+     */
     public boolean agregarProyecto() {
         boolean respuesta = false;
 

@@ -29,11 +29,19 @@ import rexsdesktop.model.ENV;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Clase que contiene Métodos generales del sistema.
  * @author Eduardo
+ * @version 1.2
  */
 public class General {
 
+    /**
+     * Método para generar un respaldo de los datos.
+     *
+     * @param directoryPath direccion del archivo
+     * @param backup vector donde generar el Backup
+     * @return retorna un valor booleano.
+     */
     public static boolean generarBackup(String directoryPath, String[][] backup) {
         boolean r = false;
         try {
@@ -100,6 +108,13 @@ public class General {
         fos.close();
     }
 
+    /**
+     * Método utilizado para encriptar
+     * 
+     * @param cipherMode
+     * @param key
+     * @param inputFile
+     */
     public static void encryption(int cipherMode, String key, File inputFile) {
         try {
             Key secretKey = new SecretKeySpec(key.getBytes(), "AES");
@@ -122,7 +137,7 @@ public class General {
             //System.out.println(new String(outputBytes));
 
         } catch (Exception e) {
-            System.out.println("Error: " + e);;
+            System.out.println("Error: " + e);
         }
     }
 
@@ -172,19 +187,20 @@ public class General {
                     200, 200,
                     Scalr.OP_ANTIALIAS);
         }
-        cropImage = Scalr.crop(small,(small.getWidth() - 200) / 2, (small.getHeight() - 200) / 2, 200, 200);
+        cropImage = Scalr.crop(small, (small.getWidth() - 200) / 2, (small.getHeight() - 200) / 2, 200, 200);
         small.flush();
         img.flush();
         //File outputfile = new File("C:\\Users\\Eduardo\\Documents\\prueba2.jpg");
         //System.out.println(ImageIO.write(cropImage, "jpg", outputfile));
         return cropImage;
     }
+
     public static BufferedImage resizeSquare(BufferedImage img, int size) throws IOException {
         BufferedImage imgR = Scalr.resize(img,
-                    Method.AUTOMATIC,
-                    Mode.AUTOMATIC,
-                    size, size,
-                    Scalr.OP_ANTIALIAS);
+                Method.AUTOMATIC,
+                Mode.AUTOMATIC,
+                size, size,
+                Scalr.OP_ANTIALIAS);
         img.flush();
         return imgR;
     }

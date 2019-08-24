@@ -15,11 +15,8 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,9 +37,16 @@ import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.modal.ModalNuevaActividad;
 import rexsdesktop.modal.ModalNuevoProyecto;
+
 /**
  *
- * @author user
+ * Este formulario contiene la interfaz del Administrador, donde puede
+ * administrar las actividades, proyectos, usuarios, ubicaciones, secciones,
+ * especialidades, además de visualizar gráficos y analiticas referentes a la
+ * información almacenada en el sistema.
+ *
+ * @author Eduardo
+ * @version 1.2
  */
 public class Admin extends javax.swing.JFrame {
 
@@ -68,11 +72,10 @@ public class Admin extends javax.swing.JFrame {
         /*Activities*/
         Activities cargarPaneles1 = new Activities();
         cargarPaneles1.CrearPanelesActividades(jPanel4);
-           User cargar = new User();
+        User cargar = new User();
         cargar.CrearPanelesUsuarios(jPanel1);
-        
+
         /*Menu*/
-        
         btnMenu.setContentAreaFilled(false);
         btnMenu.setFocusPainted(false);
         pnlActiveInicio.setBackground(bgNormal);
@@ -90,8 +93,8 @@ public class Admin extends javax.swing.JFrame {
         pnlDashboard.getVerticalScrollBar().setPreferredSize(new Dimension(10, Integer.MAX_VALUE));
         pnlDashboard.getVerticalScrollBar().setUnitIncrement(16);
         jpnlTableUsuarios.getVerticalScrollBar().setUnitIncrement(10);
-       //jPanel112.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
-       //jPanel112.getVerticalScrollBar().setUnitIncrement(10);
+        //jPanel112.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
+        //jPanel112.getVerticalScrollBar().setUnitIncrement(10);
         jpnlDia2.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia2.getVerticalScrollBar().setUnitIncrement(10);
         jpnlDia3.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
@@ -137,6 +140,14 @@ public class Admin extends javax.swing.JFrame {
     Color bgActive = new Color(238, 242, 255);
     Color bgNormal = new Color(255, 255, 255);
 
+    /**
+     * Este Método sirve para hacer el Side Menu interactivo.
+     *
+     * @param btn utilizado para cambiar el color del botón
+     * @param activeInd utilizado para cambiar el color del panel.
+     * @param lbl utilizado para cambiar el icono.
+     * @param img utilizado para cambiar la imagen.
+     */
     private void makeActiveMenuItem(JPanel btn, JPanel activeInd, JLabel lbl, String img) {
         CardLayout cl = (CardLayout) (pnlCardLayoutAdmin.getLayout());
         if (pnlActiveInicio.getBackground() == colorActive) {
@@ -5680,7 +5691,7 @@ public class Admin extends javax.swing.JFrame {
     private void btnAgregarEspecialidad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEspecialidad1ActionPerformed
         // TODO add your handling code here:
         ModalNuevoProyecto modalProye = new ModalNuevoProyecto();
-        
+
         JDialog modal1 = new JDialog(this, "Nuevo Proyecto", true);
         modal1.getContentPane().add(modalProye);
         modal1.pack();
@@ -5690,10 +5701,11 @@ public class Admin extends javax.swing.JFrame {
 
     private void btnFiltrarLista2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista2ActionPerformed
         // TODO add your handling code here:
-          Projects nuevo = new Projects();
+        Projects nuevo = new Projects();
         jPanel112.removeAll();
         nuevo.CrearPanelesProyectos(jPanel112);
     }//GEN-LAST:event_btnFiltrarLista2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -6127,6 +6139,11 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreUsuarioModal2;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método utilizado para cargar los ajustes del usuario que se encuentra en
+     * el sistema.
+     *
+     */
     private void loadAjustes() {
         User.cargarDatosUsuarioActual(CurrentUser.idUsuario);
         txtAjustesNombre.setText(CurrentUser.nombreCompleto);

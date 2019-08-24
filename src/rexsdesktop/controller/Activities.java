@@ -18,29 +18,36 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-
 /**
+ * Clase que contiene los atributos y métodos de una actividad.
  *
  * @author Carlos Herrera
+ * @version 1.2
  */
 public class Activities {
+
     public int id;
     public String nombre;
     public String descripcion;
     public String fechaInicio;
     public String fechaFin;
     public int idUbicacion;
-    
-    
+
     ArrayList<JPanel> panelesActividades;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
-    
+
+    /**
+     * Método para visualizar los paneles con la información de la base de
+     * datos.
+     *
+     * @param panel panel donde se visualizarán los datos
+     */
     public void CrearPanelesActividades(javax.swing.JPanel panel) {
 
         Db db = new Db();
         db.NumActividades();
         db.Actividades();
-        
+
         panelesActividades = new ArrayList<>();
 
         for (int i = 0; i < db.getCantidadActividades(); i++) {
@@ -49,21 +56,21 @@ public class Activities {
             panelesActividades.add(Contenedor);
 
             Contenedor.setBackground(Color.white);
-            Contenedor.setPreferredSize(new Dimension(150,72));
+            Contenedor.setPreferredSize(new Dimension(150, 72));
             Contenedor.setLayout(null);
-            Border borde = new LineBorder(Color.CYAN,1, true);
+            Border borde = new LineBorder(Color.CYAN, 1, true);
             Contenedor.setBorder(borde);
-            
+
             JLabel nombre = new JLabel();
             nombre.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             nombre.setForeground(new Color(46, 56, 77));
             nombre.setHorizontalAlignment(SwingConstants.LEADING);
-            
-            nombre.setBounds(15,5 , 140, 40);
-            nombre.setText("<html>"+db.nombreAct.get(i)+"</html>");
+
+            nombre.setBounds(15, 5, 140, 40);
+            nombre.setText("<html>" + db.nombreAct.get(i) + "</html>");
             //nombre.setBorder(new EtchedBorder());
             Contenedor.add(nombre);
-            
+
             JLabel hora = new JLabel();
             hora.setFont(new java.awt.Font("Rubik", 0, 11));
             hora.setForeground(new Color(135, 156, 173));
@@ -72,7 +79,7 @@ public class Activities {
             hora.setText("8:00 AM - 9:00 AM");
             //hora.setBorder(new EtchedBorder());
             Contenedor.add(hora);
-            
+
             JLabel edit = new JLabel();
             edit.setBounds(125, 44, 20, 20);
             edit.setIcon(iconEditCyan);
@@ -85,22 +92,29 @@ public class Activities {
             img2.setIcon(iconLocation);
             //img2.setBorder(hola);
             info2.add(img2);
-        */
+         */
     }
-    
-    
-    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion){
+
+    /**
+     * Método para registrar un usuario en el sistema
+     *
+     * @param nombre nombre de la actividad.
+     * @param descripcion descripción de la actividad.
+     * @param fechaInicio fecha inicio de la actividad.
+     * @param fechaFin fecha fin de la actividad.
+     * @param idUbicacion ubicación de la actividad.
+     * @return retorna un valor booleano para ser utilizado en la capa modelo.
+     */
+    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
         Db db = new Db();
         try {
             if (db.agregarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion)) {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("ERROR 2"+e);
+            System.out.println("ERROR 2" + e);
         }
         return false;
     }
-    
-    
-    
+
 }

@@ -41,8 +41,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- *
- * @author Eduardo
+ * Clase que contiene los atributos y métodos de un usuario.
+ * @author Arturo
+ * @version 1.2
  */
 public class User {
 

@@ -9,10 +9,15 @@ import java.awt.image.BufferedImage;
 
 /**
  *
+ * Esta clase sirve para almacenar los datos del usuario que se encuentra con la
+ * sesión activada. Se utilizan los atributos para mostrar el nombre, iniciar
+ * sesión, realizar operaciones.
+ * 
  * @author Eduardo
+ * @version 1.2
  */
-public class CurrentUser{
-    
+public class CurrentUser {
+
     public static int idUsuario;
     public static String nombreCompleto;
     public static String email;
@@ -21,6 +26,10 @@ public class CurrentUser{
     public static int idTipoUsuario;
     public static int idEstadoUsuario;
 
+    /**
+     *
+     * Este método es utilizado para limpiar los atributos de la clase
+     */
     public static void clear() {
         idUsuario = 0;
         nombreCompleto = null;
