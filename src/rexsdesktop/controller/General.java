@@ -172,20 +172,41 @@ public class General {
                     200, 200,
                     Scalr.OP_ANTIALIAS);
         }
-        cropImage = Scalr.crop(small,(small.getWidth() - 200) / 2, (small.getHeight() - 200) / 2, 200, 200);
+        cropImage = Scalr.crop(small, (small.getWidth() - 200) / 2, (small.getHeight() - 200) / 2, 200, 200);
         small.flush();
         img.flush();
         //File outputfile = new File("C:\\Users\\Eduardo\\Documents\\prueba2.jpg");
         //System.out.println(ImageIO.write(cropImage, "jpg", outputfile));
         return cropImage;
     }
+
     public static BufferedImage resizeSquare(BufferedImage img, int size) throws IOException {
         BufferedImage imgR = Scalr.resize(img,
-                    Method.AUTOMATIC,
-                    Mode.AUTOMATIC,
-                    size, size,
-                    Scalr.OP_ANTIALIAS);
+                Method.AUTOMATIC,
+                Mode.AUTOMATIC,
+                size, size,
+                Scalr.OP_ANTIALIAS);
         img.flush();
         return imgR;
+    }
+
+    public static String getMapwizeAPIKey() {
+        Db db = new Db();
+        return db.getMapwizeAPIKey();
+    }
+
+    public static String getMapwizeVenueID() {
+        Db db = new Db();
+        return db.getMapwizeVenueID();
+    }
+
+    public static boolean setMapwizeAPIKey(String value) {
+        Db db = new Db();
+        return db.setMapwizeAPIKey(value);
+    }
+
+    public static boolean setMapwizeVenueID(String value) {
+        Db db = new Db();
+        return db.setMapwizeVenueID(value);
     }
 }

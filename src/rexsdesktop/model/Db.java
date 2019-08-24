@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -570,6 +571,121 @@ public class Db {
         } catch (Exception e) {
         }
         return listaModelo2;
+    }
+
+    public String getMapwizeAPIKey() {
+        try {
+            String query = "SELECT valor from opcionesGenerales WHERE nombre = 'MAPWIZE_API_KEY'";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            } else {
+                return "";
+            }
+        } catch (Exception e) {
+            System.out.println("Error getMapWizeApiKey(): " + e);
+            return "";
+        }
+    }
+
+    public String getMapwizeVenueID() {
+        try {
+            String query = "SELECT valor from opcionesGenerales WHERE nombre = 'MAPWIZE_VENUE_ID'";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            } else {
+                return "";
+            }
+        } catch (Exception e) {
+            System.out.println("Error getMapWizeVenueID(): " + e);
+            return "";
+        }
+    }
+
+    public boolean setMapwizeAPIKey(String value) {
+        try {
+            String query = "UPDATE opcionesGenerales set valor = ? WHERE nombre = 'MAPWIZE_API_KEY'";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, value);
+            if (cmd.executeUpdate() > 0) {
+                return true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return false;
+    }
+
+    public boolean setMapwizeVenueID(String value) {
+        try {
+            String query = "UPDATE opcionesGenerales set valor = ? WHERE nombre = 'MAPWIZE_VENUE_ID'";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, value);
+            if (cmd.executeUpdate() > 0) {
+                return true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return false;
+    }
+
+    public boolean loadPlacesToDb(List<String> places) {
+        try {
+            String delete = "DELETE FROM ubicacion;DBCC CHECKIDENT (ubicacion, RESEED, 0);";
+            PreparedStatement cmd = cn.prepareStatement(delete);
+            cmd.executeUpdate();
+            cmd.close();
+            for (String place : places) {
+                String query = "INSERT INTO ubicacion VALUES(?)";
+                PreparedStatement cmd1 = cn.prepareStatement(query);
+                cmd1.setString(1, place);
+                cmd1.executeUpdate();
+                cmd1.close();
+            }
+            cn.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: loadPlaces " + e);
+        }
+
+        return false;
+    }
+
+    public ResultSet getPlaces() {
+        try {
+            String query = "SELECT ubicacion from ubicacion";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            return rs;
+        } catch (Exception e) {
+            System.out.println("Error getMapWizeVenueID(): " + e);
+        }
+        return null;
+    }
+
+    public int getIdUbicacion(String ubicacion) {
+        try {
+            String query = "SELECT idUbicacion FROM ubicacion WHERE ubicacion = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, ubicacion);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error getIdUbicacion(): " + e);
+        }
+        return -1;
     }
 
 }
