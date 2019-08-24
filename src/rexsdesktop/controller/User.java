@@ -42,8 +42,9 @@ import javax.swing.border.LineBorder;
 import rexsdesktop.model.ENV;
 
 /**
- *
- * @author Eduardo
+ * Clase que contiene los atributos y métodos de un usuario.
+ * @author Arturo
+ * @version 1.2
  */
 public class User {
 

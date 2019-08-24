@@ -11,12 +11,18 @@ import rexsdesktop.view.Login;
 
 /**
  *
- * @author user
+ * @author Eduardo
+ * @version 1.2
  */
 public class RexsDesktop {
 
     /**
+     * REXS es una aplicación que permite llevar el control de los siguientes puntos de la Expotécnica Ricaldone:
+     * Las actividades.
+     * Los proyectos e integrantes de los mismos.
+     * Además de llevar un control de los votos de los proyectos.
      * @param args the command line arguments
+     * 
      */
     public static void main(String[] args) {
          SwingUtilities.invokeLater (new Runnable ()

@@ -10,17 +10,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import rexsdesktop.modal.ModalNuevaActividad;
 
 /**
  *
@@ -67,7 +62,6 @@ public class Locations {
         String placeName = "";
         try {
             String APIPlace = String.format("https://api.mapwize.io/v1/places/%s?api_key=%s", placeId, General.getMapwizeAPIKey());
-            System.out.println(APIPlace);
             URL url = new URL(APIPlace);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");

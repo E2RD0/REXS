@@ -26,14 +26,21 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import rexsdesktop.controller.Scalr.*;
 import rexsdesktop.model.ENV;
-import javax.imageio.ImageIO;
 
 /**
- *
+ * Clase que contiene Métodos generales del sistema.
  * @author Eduardo
+ * @version 1.2
  */
 public class General {
 
+    /**
+     * Método para generar un respaldo de los datos.
+     *
+     * @param directoryPath direccion del archivo
+     * @param backup vector donde generar el Backup
+     * @return retorna un valor booleano.
+     */
     public static boolean generarBackup(String directoryPath, String[][] backup) {
         boolean r = false;
         try {
@@ -100,6 +107,13 @@ public class General {
         fos.close();
     }
 
+    /**
+     * Método utilizado para encriptar
+     * 
+     * @param cipherMode
+     * @param key
+     * @param inputFile
+     */
     public static void encryption(int cipherMode, String key, File inputFile) {
         try {
             Key secretKey = new SecretKeySpec(key.getBytes(), "AES");
@@ -122,7 +136,7 @@ public class General {
             //System.out.println(new String(outputBytes));
 
         } catch (Exception e) {
-            System.out.println("Error: " + e);;
+            System.out.println("Error: " + e);
         }
     }
 

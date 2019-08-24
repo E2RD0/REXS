@@ -12,8 +12,9 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 /**
- *
+ * Clase utilizada para modificar el estilo de la barra de desplazamiento
  * @author user
+ * @version 1.2
  */
 public class MyScrollbarUI extends BasicScrollBarUI {
         public static ComponentUI createUI(JComponent c) {

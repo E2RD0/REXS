@@ -6,8 +6,9 @@
 package rexsdesktop.view;
 
 /**
- *
+ * Clase utilizada para importar la tipografia RubikFonts
  * @author user
+ * @version 1.2
  */
 import java.awt.Dimension;
 import java.awt.EventQueue;

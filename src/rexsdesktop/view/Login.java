@@ -6,33 +6,26 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.border.Border;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 
 /**
  *
- * @author user
+ * Formulario que contiene el incio de sesion y recuperar clave
+ * 
+ * @author Eduardo
+ * @version 1.2
  */
+
 public class Login extends javax.swing.JFrame {
 
     RubikFonts f = new RubikFonts();
@@ -55,11 +48,20 @@ public class Login extends javax.swing.JFrame {
         btnSignFacebook1.setContentAreaFilled(false);
     }
 
+    /**
+     * Método para cambiar de panel, Iniciar sesión o Recuperar clave
+     * @param nombre recibe como parametro el nombre del Panel
+     */
+    
     public void cambiarCardLayoutPanel(String nombre) {
         CardLayout cl = (CardLayout) (CardLayoutPanel.getLayout());
         cl.show(CardLayoutPanel, nombre);
     }
-
+    
+    /**
+     * Método para volver a los valores predeterminados cada elemento de la interfaz.
+     */
+    
     public void resetCampos() {
         txtNombreCompletoR.setText("");
         txtEmailR.setText("");
@@ -79,10 +81,16 @@ public class Login extends javax.swing.JFrame {
         txtPassword.setBackground(new java.awt.Color(249, 250, 255));
     }
 
+    /**
+     * Método para iniciar sesión en el sistema
+     *
+     */
+    
     private void iniciarSesion() {
         String email = txtEmail.getText();
         String password = String.valueOf(txtPassword.getPassword());
-        if (!Validation.VerificadorLogin.verify(email, password)) {
+        try {
+            if (!Validation.VerificadorLogin.verify(email, password)) {
             if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
                 txtEmail.setBackground(new java.awt.Color(255, 204, 204));
             } else {
@@ -127,8 +135,17 @@ public class Login extends javax.swing.JFrame {
                 System.out.println("Incio Incorrecto");
             }
         }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERROR");
+        }
     }
 
+    /**
+     * Método para registrar un usuario en el sistema
+     * 
+     */
+    
     private void registrarse() {
         String nombre = txtNombreCompletoR.getText();
         String correo = txtEmailR.getText();
@@ -178,7 +195,12 @@ public class Login extends javax.swing.JFrame {
         }
 
     }
-
+    
+    /**
+     * Método para enviar el correo con el PIN para recuperar la clave de un usuario.
+     * 
+     */
+    
     private void enviarCorreo() {
         correo = txtEmailRecu.getText();
 
@@ -192,7 +214,12 @@ public class Login extends javax.swing.JFrame {
         }
         lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
     }
-
+    
+    /**
+     * Método para verificar el PIN ingresado con el enviado al correo del usuario.
+     * 
+     */
+    
     private void verificarPIN() {
         String pin = txtPIN.getText();
         pin = pin.trim();
