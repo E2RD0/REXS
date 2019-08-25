@@ -29,6 +29,7 @@ import rexsdesktop.model.ENV;
 
 /**
  * Clase que contiene Métodos generales del sistema.
+ *
  * @author Eduardo
  * @version 1.2
  */
@@ -109,7 +110,7 @@ public class General {
 
     /**
      * Método utilizado para encriptar
-     * 
+     *
      * @param cipherMode
      * @param key
      * @param inputFile
@@ -222,5 +223,13 @@ public class General {
     public static boolean setMapwizeVenueID(String value) {
         Db db = new Db();
         return db.setMapwizeVenueID(value);
+    }
+
+    public static void agregarBitacora(String accion, int idUsuario) {
+        Db db = new Db();
+        int idAccion = db.getIdAccionBitacora(accion);
+        if (idAccion != -1) {
+            db.agregarBitacora(idAccion, idUsuario);
+        }
     }
 }
