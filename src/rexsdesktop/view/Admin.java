@@ -38,6 +38,7 @@ import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.modal.ModalNuevaActividad;
 import rexsdesktop.modal.ModalNuevoProyecto;
+import rexsdesktop.modal.ModalNuevoUsuario;
 
 /**
  *
@@ -5527,11 +5528,13 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarListaActionPerformed
 
     private void btnAgregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarUsuarioActionPerformed
-        modalUsuario = new JDialog(this, "Nuevo usuario", true);
-        modalUsuario.getContentPane().add(pnlModalNuevoUsuario);
-        modalUsuario.pack();
-        modalUsuario.setLocationRelativeTo(null);
-        modalUsuario.setVisible(true);
+        ModalNuevoUsuario ModalUsuario = new ModalNuevoUsuario();
+
+        JDialog Modal = new JDialog(this, "Nuevo Usuario", true);
+        Modal.getContentPane().add(ModalUsuario);
+        Modal.pack();
+        Modal.setLocationRelativeTo(null);
+        Modal.setVisible(true);
     }//GEN-LAST:event_btnAgregarUsuarioActionPerformed
 
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
