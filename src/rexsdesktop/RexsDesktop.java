@@ -27,18 +27,15 @@ public class RexsDesktop {
      *
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Login inicio = new Login();
-                inicio.setLocationRelativeTo(null);
-                inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                inicio.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            Login inicio = new Login();
+            inicio.setLocationRelativeTo(null);
+            inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            inicio.setVisible(true);
         });
-        
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
-            public void run() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (CurrentUser.idUsuario != 0) {
                 General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
             }
         }));
