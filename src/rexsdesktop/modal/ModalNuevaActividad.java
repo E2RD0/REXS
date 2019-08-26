@@ -19,6 +19,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.Locations;
+import rexsdesktop.view.Admin;
+import static rexsdesktop.view.Admin.jPanel4;
 
 /**
  * Clase que contiene el Panel para agregar una nueva actividad.
@@ -74,7 +76,6 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     private void initComponents() {
 
         btnAceptarModal = new javax.swing.JButton();
-        btnCancelarModal = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         cbxUbicacionModal = new javax.swing.JComboBox<>();
         txtNombreActividadModal = new javax.swing.JTextField();
@@ -99,17 +100,6 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarModalActionPerformed(evt);
-            }
-        });
-
-        btnCancelarModal.setBackground(new java.awt.Color(247, 214, 218));
-        btnCancelarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
-        btnCancelarModal.setText("Cancelar");
-        btnCancelarModal.setBorderPainted(false);
-        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarModalActionPerformed(evt);
             }
         });
 
@@ -144,32 +134,29 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(109, Short.MAX_VALUE)
-                        .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel67))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1)))))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel67))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,12 +175,10 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                 .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -204,6 +189,44 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     private void resetarCampos() {
         txtDescripcionModal.setText(null);
         txtNombreActividadModal.setText(null);
+    }
+
+    public void cargarActividades() {
+        Activities actividades = new Activities();
+        String dia1_Inicio = "2019-10-25 00:00:00";
+        String dia1_Fin = "2019-10-25 23:59:59";
+
+        String dia2_Inicio = "2019-10-26 00:00:00";
+        String dia2_Fin = "2019-10-26 23:59:59";
+
+        String dia3_Inicio = "2019-10-27 00:00:00";
+        String dia3_Fin = "2019-10-27 23:59:59";
+
+        String dia4_Inicio = "2019-10-28 00:00:00";
+        String dia4_Fin = "2019-10-28 23:59:59";
+
+        String dia5_Inicio = "2019-10-29 00:00:00";
+        String dia5_Fin = "2019-10-29 23:59:59";
+
+        int contador = 1;
+        actividades.CrearPanelesActividades(Admin.jPanel4, dia1_Inicio, dia1_Fin, contador);
+        Admin.lblCantidadActividades1.setText(String.valueOf(actividades.getCantidadDia1()));
+        contador++;
+
+        actividades.CrearPanelesActividades(Admin.jPanel12, dia2_Inicio, dia2_Fin, contador);
+        Admin.lblCantidadActividades2.setText(String.valueOf(actividades.getCantidadDia1()));
+        contador++;
+
+        actividades.CrearPanelesActividades(Admin.jPanel13, dia3_Inicio, dia3_Fin, contador);
+        Admin.lblCantidadActividades3.setText(String.valueOf(actividades.getCantidadDia1()));
+        contador++;
+
+        actividades.CrearPanelesActividades(Admin.jPanel14, dia4_Inicio, dia4_Fin, contador);
+        Admin.lblCantidadActividades4.setText(String.valueOf(actividades.getCantidadDia1()));
+        contador++;
+
+        actividades.CrearPanelesActividades(Admin.jPanel15, dia5_Inicio, dia5_Fin, contador);
+        Admin.lblCantidadActividades5.setText(String.valueOf(actividades.getCantidadDia1()));
     }
 
     /**
@@ -226,6 +249,13 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
             if (Activities.nuevaActividad(nombre, descripcion, dInicio, dFin, idUbicacion)) {
                 JOptionPane.showMessageDialog(null, "Actividad ingresada");
                 resetarCampos();
+                Activities acti = new Activities();
+                Admin.jPanel4.removeAll();
+                Admin.jPanel12.removeAll();
+                Admin.jPanel13.removeAll();
+                Admin.jPanel14.removeAll();
+                Admin.jPanel15.removeAll();
+                cargarActividades();
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR");
             }
@@ -233,18 +263,14 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
 
     }
 
+
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
         ingresar();
     }//GEN-LAST:event_btnAceptarModalActionPerformed
 
-    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
-        
-    }//GEN-LAST:event_btnCancelarModalActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarModal;
-    private javax.swing.JButton btnCancelarModal;
     private javax.swing.JComboBox<String> cbxUbicacionModal;
     private com.toedter.calendar.JDateChooser dateFechaInicio;
     private javax.swing.JLabel jLabel1;

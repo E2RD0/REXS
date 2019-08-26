@@ -1429,7 +1429,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel288))
                 .addGap(4, 4, 4)
                 .addComponent(jLabel254)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel125.setBackground(new java.awt.Color(255, 255, 255));
@@ -1537,8 +1537,8 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel116Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel125, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel118, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)))
-            .addComponent(jPanel126, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(jPanel118, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)))
+            .addComponent(jPanel126, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
         );
 
         jPanel127.setPreferredSize(new java.awt.Dimension(804, 312));
@@ -2266,7 +2266,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel64)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
@@ -3917,6 +3917,8 @@ public class Admin extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(0, 15));
         jPanel4.setLayout(new java.awt.GridLayout(0, 1, 10, 11));
         jScrollPane2.setViewportView(jPanel4);
+        jPanel4.getAccessibleContext().setAccessibleName("");
+        jPanel4.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
@@ -5368,7 +5370,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel117;
     private javax.swing.JPanel jPanel118;
     private javax.swing.JPanel jPanel119;
-    private javax.swing.JPanel jPanel12;
+    public static javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel120;
     private javax.swing.JPanel jPanel121;
     private javax.swing.JPanel jPanel122;
@@ -5379,20 +5381,20 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel127;
     private javax.swing.JPanel jPanel128;
     private javax.swing.JPanel jPanel129;
-    private javax.swing.JPanel jPanel13;
+    public static javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel130;
     private javax.swing.JPanel jPanel135;
     private javax.swing.JPanel jPanel136;
     private javax.swing.JPanel jPanel137;
     private javax.swing.JPanel jPanel138;
     private javax.swing.JPanel jPanel139;
-    private javax.swing.JPanel jPanel14;
+    public static javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel140;
     private javax.swing.JPanel jPanel141;
     private javax.swing.JPanel jPanel142;
     private javax.swing.JPanel jPanel143;
     private javax.swing.JPanel jPanel144;
-    private javax.swing.JPanel jPanel15;
+    public static javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
@@ -5411,7 +5413,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
-    private javax.swing.JPanel jPanel4;
+    public static javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel53;
@@ -5456,11 +5458,11 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel lblAjustes;
     private javax.swing.JLabel lblAjustesBackup;
     private javax.swing.JLabel lblAnaliticas;
-    private javax.swing.JLabel lblCantidadActividades1;
-    private javax.swing.JLabel lblCantidadActividades2;
-    private javax.swing.JLabel lblCantidadActividades3;
-    private javax.swing.JLabel lblCantidadActividades4;
-    private javax.swing.JLabel lblCantidadActividades5;
+    public static javax.swing.JLabel lblCantidadActividades1;
+    public static javax.swing.JLabel lblCantidadActividades2;
+    public static javax.swing.JLabel lblCantidadActividades3;
+    public static javax.swing.JLabel lblCantidadActividades4;
+    public static javax.swing.JLabel lblCantidadActividades5;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblEditarUsuario1;
     private javax.swing.JLabel lblEditarUsuario10;

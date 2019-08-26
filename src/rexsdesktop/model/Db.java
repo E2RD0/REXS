@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,31 @@ public class Db {
             stm.setString(3, fechaInicio);
             stm.setString(4, fechaFin);
             stm.setInt(5, idUbicacion);
+
+            if (stm.executeUpdate() > 0) {
+                bandera = true;
+            }
+
+            stm.close();
+            cn.close();
+
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+        return bandera;
+    }
+    
+    public boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
+        boolean bandera = false;
+        try {
+            String sql = "UPDATE actividad set nombre = (?), descripcion = (?), fechaInicio = (?), fechaFin = (?), idUbicacion = (?) where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            stm.setString(2, descripcion);
+            stm.setString(3, fechaInicio);
+            stm.setString(4, fechaFin);
+            stm.setInt(5, idUbicacion);
+            stm.setInt(6, id);
 
             if (stm.executeUpdate() > 0) {
                 bandera = true;
@@ -378,6 +404,82 @@ public class Db {
             System.out.println(e.getMessage());
         }
     }
+
+    public int getIdActividad(String nombre) {
+        try {
+            String sql = "select idActividad from actividad where nombre = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return 0;
+    }
+    
+    public String getDescripcionActividad(int id) {
+        try {
+            String sql = "select descripcion from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return "";
+    }
+    
+    public Date getFechaInicioActividad(int id) {
+        try {
+            String sql = "select fechaInicio from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDate(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return null;
+    }
+    
+    public String getHoraInicioActividad(int id) {
+        try {
+            String sql = "SELECT (convert(time, fechaInicio, 1)) from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return null;
+    }
+    
+    public Date getHoraFinActividad(int id) {
+        try {
+            String sql = "SELECT (convert(time, fechaFin, 1)) from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDate(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return null;
+    }
+    
 
     /**
      * @return the CantidadActividades
