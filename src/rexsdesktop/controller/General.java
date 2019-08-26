@@ -232,4 +232,41 @@ public class General {
             db.agregarBitacora(idAccion, idUsuario);
         }
     }
+
+    public static BufferedImage resizeAndCropIMG2(BufferedImage img, int width, int height) throws IOException {
+        BufferedImage small;
+        BufferedImage cropImage;
+        int h = img.getHeight();
+        int w = img.getWidth();
+        if (h > w || h == w) {
+            small = Scalr.resize(img,
+                    Method.AUTOMATIC,
+                    Mode.FIT_TO_WIDTH,
+                    width, height,
+                    Scalr.OP_ANTIALIAS);
+        } else {
+            small = Scalr.resize(img,
+                    Method.AUTOMATIC,
+                    Mode.FIT_TO_HEIGHT,
+                    width, height,
+                    Scalr.OP_ANTIALIAS);
+        }
+        cropImage = Scalr.crop(small, (small.getWidth() - width) / 2, (small.getHeight() - height) / 2, width, height);
+        small.flush();
+        img.flush();
+        //File outputfile = new File("C:\\Users\\Eduardo\\Documents\\prueba2.jpg");
+        //System.out.println(ImageIO.write(cropImage, "jpg", outputfile));
+        return cropImage;
+    }
+
+    public static BufferedImage resizeSquare2(BufferedImage img, int size) throws IOException {
+        BufferedImage imgR = Scalr.resize(img,
+                Method.AUTOMATIC,
+                Mode.AUTOMATIC,
+                size, size,
+                Scalr.OP_ANTIALIAS);
+        img.flush();
+        return imgR;
+    }
 }
+

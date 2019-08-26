@@ -5,11 +5,14 @@
  */
 package rexsdesktop.model;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -58,7 +62,7 @@ public class Db {
         }
         return bandera;
     }
-    
+
     public boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
         boolean bandera = false;
         try {
@@ -419,7 +423,7 @@ public class Db {
         }
         return 0;
     }
-    
+
     public String getDescripcionActividad(int id) {
         try {
             String sql = "select descripcion from actividad where idActividad = (?)";
@@ -434,7 +438,7 @@ public class Db {
         }
         return "";
     }
-    
+
     public Date getFechaInicioActividad(int id) {
         try {
             String sql = "select fechaInicio from actividad where idActividad = (?)";
@@ -449,7 +453,7 @@ public class Db {
         }
         return null;
     }
-    
+
     public String getHoraInicioActividad(int id) {
         try {
             String sql = "SELECT (convert(time, fechaInicio, 1)) from actividad where idActividad = (?)";
@@ -464,7 +468,7 @@ public class Db {
         }
         return null;
     }
-    
+
     public Date getHoraFinActividad(int id) {
         try {
             String sql = "SELECT (convert(time, fechaFin, 1)) from actividad where idActividad = (?)";
@@ -479,7 +483,6 @@ public class Db {
         }
         return null;
     }
-    
 
     /**
      * @return the CantidadActividades
@@ -526,72 +529,6 @@ public class Db {
         }
         return false;
     }
-
-    //Parte de Proyectos
-    private int CantidadProyecto;
-    public ArrayList<String> nombre;
-    public ArrayList<String> nivel;
-    public ArrayList<String> seccion;
-    public ArrayList<String> especialidad;
-    public ArrayList<String> ubicacion;
-
-    public void NumProyectos() {
-        try {
-
-            String sql = "select COUNT(idProyecto) from proyecto";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                setCantidadProyecto(rs.getInt(1));
-
-            }
-        } catch (Exception e) {
-        }
-    }
-
-    public void Proyectos() {
-        try {
-
-            String sql = "select nombre, nivel, seccion, especialidad, ubicacion from proyecto p  INNER JOIN seccionNivel s on p.idSeccionNivel=s.idSeccionNivel\n"
-                    + " INNER JOIN ubicacion u  on s.idUbicacion=u.idUbicacion INNER JOIN especialidad e on s.idEspecialidad=e.idEspecialidad INNER JOIN nivel n on s.idNivel\n"
-                    + " =n.idNivel";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            nombre = new ArrayList<>();
-            nivel = new ArrayList<>();
-            seccion = new ArrayList<>();
-            especialidad = new ArrayList<>();
-            ubicacion = new ArrayList<>();
-            while (rs.next()) {
-
-                nombre.add(rs.getString(1));
-                nivel.add(rs.getString(2));
-                seccion.add(rs.getString(3));
-                especialidad.add(rs.getString(4));
-                ubicacion.add(rs.getString(5));
-
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    /**
-     * @return the CantidadProyecto
-     */
-    public int getCantidadProyecto() {
-        return CantidadProyecto;
-    }
-
-    /**
-     * @param CantidadProyecto the CantidadProyecto to set
-     */
-    public void setCantidadProyecto(int CantidadProyecto) {
-        this.CantidadProyecto = CantidadProyecto;
-    }
-
     private int CantidadUsuarios;
     public ArrayList<Integer> idUsuario;
     public ArrayList<String> nombreCompleto;
@@ -657,29 +594,6 @@ public class Db {
      */
     public void setCantidadUsuarios(int CantidadUsuarios) {
         this.CantidadUsuarios = CantidadUsuarios;
-    }
-
-    public ResultSet consulta(String sql) {
-        ResultSet res = null;
-        try {
-            PreparedStatement pstm = cn.prepareStatement(sql);
-            res = pstm.executeQuery();
-        } catch (Exception e) {
-        }
-        return res;
-    }
-
-    public DefaultComboBoxModel obtenerSeccionNivel() {
-        DefaultComboBoxModel listaModelo2 = new DefaultComboBoxModel();
-        ResultSet rst = this.consulta("select idSeccionNivel from seccionNivel");
-        try {
-            while (rst.next()) {
-                listaModelo2.addElement(rst.getString("idSeccionNivel"));
-            }
-            rst.close();
-        } catch (Exception e) {
-        }
-        return listaModelo2;
     }
 
     public String getMapwizeAPIKey() {
@@ -844,5 +758,253 @@ public class Db {
         }
         return false;
     }
+        //Parte de Proyectos
+    private int CantidadProyecto;
+    public ArrayList<Integer> PjId;
+    public ArrayList<String> PjNombre;
+    public ArrayList<String> PjNivel;
+    public ArrayList<String> PjSeccion;
+    public ArrayList<String> PjEspecialidad;
+    public ArrayList<String> PjUbicacion;
+    public ArrayList<String> PjDescripcion;
+    public ArrayList<BufferedImage> PjImagenes;
 
+    public void NumProyectos() {
+        try {
+
+            String sql = "select COUNT(idProyecto) from proyecto";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadProyecto(rs.getInt(1));
+
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public ResultSet ViewProyecto(int id) {
+        try {
+            String query = "select  nombre, nivel, seccion, especialidad, ubicacion, descripcion from proyecto p  INNER JOIN seccionNivel s on p.idSeccionNivel=s.idSeccionNivel\n"
+                    + " INNER JOIN ubicacion u  on s.idUbicacion=u.idUbicacion INNER JOIN especialidad e on s.idEspecialidad=e.idEspecialidad INNER JOIN nivel n on s.idNivel\n"
+                    + " =n.idNivel where idProyecto=?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
+        }
+    }
+
+    public ResultSet NumIntegrantes(int id) {
+        try {
+            String query = "select COUNT(idIntegranteEquipo) from integranteProyecto where idProyecto= ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
+        }
+    }
+
+    public ResultSet ViewIntegrantes(int id) {
+        try {
+            String query = "select nombreIntegrante from integranteProyecto where idProyecto= ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
+        }
+    }
+
+    public boolean actualizarProyecto(String nombre, String desc, int idSeccion, int id) {
+        boolean r = false;
+        try {
+            String query = "update proyecto set nombre= ?, descripcion= ?, idSeccionNivel= ? where idProyecto= ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, nombre);
+            cmd.setString(2, desc);
+            cmd.setInt(3, idSeccion);
+            cmd.setInt(4, id);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return r;
+    }
+
+    public void Proyectos() {
+        try {
+
+            String sql = "select  idProyecto, nombre, nivel, seccion, especialidad, ubicacion, descripcion, fotoPortada from proyecto p  INNER JOIN seccionNivel s on p.idSeccionNivel=s.idSeccionNivel\n"
+                    + " INNER JOIN ubicacion u  on s.idUbicacion=u.idUbicacion INNER JOIN especialidad e on s.idEspecialidad=e.idEspecialidad INNER JOIN nivel n on s.idNivel\n"
+                    + " =n.idNivel";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            PjId = new ArrayList<>();
+            PjNombre = new ArrayList<>();
+            PjNivel = new ArrayList<>();
+            PjSeccion = new ArrayList<>();
+            PjEspecialidad = new ArrayList<>();
+            PjUbicacion = new ArrayList<>();
+            PjDescripcion = new ArrayList<>();
+            PjImagenes = new ArrayList<>();
+            Blob imgAsBlob;
+            while (rs.next()) {
+                PjId.add(rs.getInt(1));
+                PjNombre.add(rs.getString(2));
+                PjNivel.add(rs.getString(3));
+                PjSeccion.add(rs.getString(4));
+                PjEspecialidad.add(rs.getString(5));
+                PjUbicacion.add(rs.getString(6));
+                PjDescripcion.add(rs.getString(7));
+                imgAsBlob = rs.getBlob(8);
+                try {
+
+                    if (imgAsBlob != null) {
+                        byte[] imgAsBytes = imgAsBlob.getBytes(1, (int) imgAsBlob.length());
+                        InputStream in = new ByteArrayInputStream(imgAsBytes);
+                        BufferedImage imgFromDb = ImageIO.read(in);
+                        PjImagenes.add(imgFromDb);
+                    } else {
+                        PjImagenes.add(null);
+
+                    }
+
+                } catch (Exception e) {
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+
+    public ResultSet consulta(String sql) {
+        ResultSet res = null;
+        try {
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            res = pstm.executeQuery();
+        } catch (Exception e) {
+        }
+        return res;
+    }
+
+    public ArrayList<String> SNnivel;
+    public ArrayList<String> SNespecialidad;
+    public ArrayList<String> SNseccion;
+
+    public void obtenerSeccionNivel() {
+        try {
+
+            String sql = "select nivel, especialidad, seccion from seccionNivel s INNER JOIN nivel n on s.idNivel=n.idNivel INNER JOIN especialidad e on s.idEspecialidad=e.idEspecialidad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            SNnivel = new ArrayList<>();
+            SNespecialidad = new ArrayList<>();
+            SNseccion = new ArrayList<>();
+            while (rs.next()) {
+                SNnivel.add(rs.getString(1));
+                SNespecialidad.add(rs.getString(2));
+                SNseccion.add(rs.getString(3));
+            }
+
+            //for (int i = 0; i < SNseccion.size(); i++) {
+            // System.out.println(d.get(i)+ a.get(i)+ c.get(i));
+            //}
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public boolean agregarProyecto(String nombre, String descripcion, int idSeccionNivel) {
+        boolean r = false;
+        try {
+            String query = "INSERT INTO proyecto (nombre, descripcion, idSeccionNivel) " + "VALUES (?,?,?);";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, nombre);
+            cmd.setString(2, descripcion);
+            cmd.setInt(3, idSeccionNivel);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        return r;
+    }
+
+    public boolean proyectoExiste(String nombre) {
+        try {
+            String query = "SELECT * FROM proyecto WHERE nombre = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, nombre);
+            ResultSet rs = cmd.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return true;
+        }
+    }
+
+    public boolean actualizarFotoProyecto(byte[] immAsBytes, int idProyecto) {
+        try {
+            PreparedStatement pstmt = cn.prepareStatement("UPDATE proyecto SET fotoPortada = ? WHERE idProyecto = ?");
+            ByteArrayInputStream bais = new ByteArrayInputStream(immAsBytes);
+            pstmt.setBinaryStream(1, bais, immAsBytes.length);
+            pstmt.setInt(2, idProyecto);
+            if (pstmt.executeUpdate() > 0) {
+                return true;
+            }
+            pstmt.close();
+            cn.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * @return the CantidadProyecto
+     */
+    public int getCantidadProyecto() {
+        return CantidadProyecto;
+    }
+
+    /**
+     * @param CantidadProyecto the CantidadProyecto to set
+     */
+    public void setCantidadProyecto(int CantidadProyecto) {
+        this.CantidadProyecto = CantidadProyecto;
+    }
 }

@@ -79,7 +79,7 @@ public class Admin extends javax.swing.JFrame {
 
         /*Projects*/
         Projects cargarPaneles = new Projects();
-        cargarPaneles.CrearPanelesProyectos(jPanel112);
+        cargarPaneles.CrearPanelesProyectos(cdProyectos);
 
         /*Activities*/
         cargarActividades();
@@ -410,7 +410,7 @@ public class Admin extends javax.swing.JFrame {
         pnlProyectos = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel112 = new javax.swing.JPanel();
+        cdProyectos = new javax.swing.JPanel();
         jLabel214 = new javax.swing.JLabel();
         btnAgregarEspecialidad1 = new javax.swing.JButton();
         jLabel228 = new javax.swing.JLabel();
@@ -421,7 +421,6 @@ public class Admin extends javax.swing.JFrame {
         jLabel229 = new javax.swing.JLabel();
         btnFiltrarLista1 = new javax.swing.JButton();
         jLabel230 = new javax.swing.JLabel();
-        btnFiltrarLista2 = new javax.swing.JButton();
         pnlUbicaciones = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel98 = new javax.swing.JLabel();
@@ -2508,7 +2507,7 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, Short.MAX_VALUE)
                             .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2553,9 +2552,9 @@ public class Admin extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        jPanel112.setBackground(new java.awt.Color(244, 246, 252));
-        jPanel112.setLayout(new java.awt.GridLayout(0, 2, 15, 20));
-        jScrollPane1.setViewportView(jPanel112);
+        cdProyectos.setBackground(new java.awt.Color(244, 246, 252));
+        cdProyectos.setLayout(new java.awt.GridLayout(0, 2, 15, 20));
+        jScrollPane1.setViewportView(cdProyectos);
 
         jLabel214.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
         jLabel214.setForeground(new java.awt.Color(46, 56, 77));
@@ -2613,17 +2612,6 @@ public class Admin extends javax.swing.JFrame {
 
         jLabel230.setText("240 en total ");
 
-        btnFiltrarLista2.setBackground(new java.awt.Color(46, 91, 255));
-        btnFiltrarLista2.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
-        btnFiltrarLista2.setForeground(new java.awt.Color(255, 255, 255));
-        btnFiltrarLista2.setText("Actualizar");
-        btnFiltrarLista2.setBorderPainted(false);
-        btnFiltrarLista2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltrarLista2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
@@ -2650,8 +2638,6 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnFiltrarLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
                 .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
             .addGroup(jPanel31Layout.createSequentialGroup()
@@ -2681,13 +2667,8 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnFiltrarLista2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
 
@@ -4591,7 +4572,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(pnlBackgroundLayout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pnlCardLayoutAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE))
+                .addComponent(pnlCardLayoutAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 590, Short.MAX_VALUE))
         );
 
         getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -5090,13 +5071,6 @@ public class Admin extends javax.swing.JFrame {
         modal1.setVisible(true);
     }//GEN-LAST:event_btnAgregarEspecialidad1ActionPerformed
 
-    private void btnFiltrarLista2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista2ActionPerformed
-        // TODO add your handling code here:
-        Projects nuevo = new Projects();
-        jPanel112.removeAll();
-        nuevo.CrearPanelesProyectos(jPanel112);
-    }//GEN-LAST:event_btnFiltrarLista2ActionPerformed
-
     private void btnTablasCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablasCatalogoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTablasCatalogoActionPerformed
@@ -5191,7 +5165,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarFotoPerfil;
     private javax.swing.JButton btnFiltrarLista;
     private javax.swing.JButton btnFiltrarLista1;
-    private javax.swing.JButton btnFiltrarLista2;
     private javax.swing.JButton btnFiltrarLista3;
     private javax.swing.JPanel btnInicio;
     private javax.swing.JButton btnLoadPlaces;
@@ -5203,6 +5176,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupTablasCatalogo;
     private javax.swing.JComboBox<String> cbxEstadoUsuarioModal;
     private javax.swing.JComboBox<String> cbxTipoUsuarioModal;
+    public static javax.swing.JPanel cdProyectos;
     private javax.swing.JCheckBox checkActividades;
     private javax.swing.JCheckBox checkCombinar;
     private javax.swing.JCheckBox checkProyectos;
@@ -5362,7 +5336,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel104;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel111;
-    private javax.swing.JPanel jPanel112;
     private javax.swing.JPanel jPanel113;
     private javax.swing.JPanel jPanel114;
     private javax.swing.JPanel jPanel115;
