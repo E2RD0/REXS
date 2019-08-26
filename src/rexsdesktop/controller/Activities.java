@@ -7,17 +7,24 @@ package rexsdesktop.controller;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 import java.sql.Blob;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import rexsdesktop.modal.ModalModificarActividad;
+import rexsdesktop.modal.ModalModificarUsuario;
 
 /**
  * Clase que contiene los atributos y métodos de una actividad.
@@ -37,6 +44,8 @@ public class Activities {
 
     Color colores = null;
     ImageIcon icono = null;
+    JPanel Contenedor;
+
     ArrayList<JPanel> panelesActividades;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
     ImageIcon iconEditBlue = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBLUE.png"));
@@ -51,9 +60,6 @@ public class Activities {
      * @param panel panel donde se visualizarán los datos
      */
     public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String fin, int contador) {
-        String dia1_Inicio = "2019-10-25 00:00:00";
-        String dia1_Fin = "2019-10-25 23:59:59";
-
         Db db = new Db();
         db.NumActividades(inicio, fin);
         db.Actividades(inicio, fin);
@@ -63,7 +69,7 @@ public class Activities {
         panelesActividades = new ArrayList<>();
 
         for (int i = 0; i < db.getCantidadActividades(); i++) {
-            JPanel Contenedor = new JPanel();
+            Contenedor = new JPanel();
             panel.add(Contenedor);
             panelesActividades.add(Contenedor);
 
@@ -110,6 +116,7 @@ public class Activities {
             nombre.setBounds(15, 5, 140, 40);
             nombre.setText("<html>" + db.nombreAct.get(i) + "</html>");
             //nombre.setBorder(new EtchedBorder());
+            String nombre2 = db.nombreAct.get(i);
             Contenedor.add(nombre);
 
             JLabel hora = new JLabel();
@@ -152,6 +159,72 @@ public class Activities {
             }
             //edit.setBorder(new EtchedBorder());
             Contenedor.add(edit);
+
+            Contenedor.addMouseListener(new MouseListener() {
+                Frame fr;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Contenedor = (JPanel) e.getSource();
+
+                    //System.out.println(Contenedor1.getName());
+                    ModalModificarActividad Modal = new ModalModificarActividad();
+//                    Modal.jLabel70.setText(Contenedor.getName());
+                    String nombreAc = "";
+                    String descripcion = "";
+
+                    Date fechaIni;
+                    Date horaInicio;
+                    Date horaFin;
+                    String ubi = "";
+                    //Consulta
+                    Db db = new Db();
+                    int id = db.getIdActividad(nombre2);
+                    nombreAc = nombre2;
+                    descripcion = db.getDescripcionActividad(id);
+
+                    fechaIni = db.getFechaInicioActividad(id);
+//                    horaInicio = db.getHoraInicioActividad(id);
+                    horaFin = db.getHoraFinActividad(id);
+                    
+                    //Luego de consulta
+                    ModalModificarActividad.txtNombreActividadModal.setText(nombreAc);
+                    ModalModificarActividad.txtDescripcionModal.setText(descripcion);
+                    ModalModificarActividad.dateFechaInicio.setDate(fechaIni);
+                    ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubi);
+                    Modal.id = id;
+
+                    JDialog modal1 = new JDialog(fr, "Modificar Actividad", true);
+                    modal1.getContentPane().add(Modal);
+                    modal1.pack();
+                    modal1.setLocationRelativeTo(null);
+                    modal1.setVisible(true);
+                }
+
+                @Override
+
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
         }
         /*
         JLabel img2 = new JLabel();
@@ -176,6 +249,18 @@ public class Activities {
         Db db = new Db();
         try {
             if (db.agregarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion)) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR 2" + e);
+        }
+        return false;
+    }
+    
+    public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
+        Db db = new Db();
+        try {
+            if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion, id)) {
                 return true;
             }
         } catch (Exception e) {

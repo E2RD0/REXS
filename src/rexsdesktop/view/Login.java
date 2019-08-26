@@ -169,7 +169,7 @@ public class Login extends javax.swing.JFrame {
         lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
         lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
         if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-            if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
+            if (User.nuevoUsuario(nombre, correo, password, "Administrador", "Activo")) {
                 txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
                 lblErrorEmailR.setText("");
                 cambiarCardLayoutPanel("Exito");
