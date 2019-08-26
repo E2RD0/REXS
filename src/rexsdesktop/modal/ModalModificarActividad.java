@@ -26,7 +26,7 @@ import rexsdesktop.controller.Locations;
  * @author Carlos Herrera
  * @version 1.2
  */
-public class ModalNuevaActividad extends javax.swing.JPanel {
+public class ModalModificarActividad extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
@@ -35,7 +35,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     private SpinnerDateModel modelInicio = new SpinnerDateModel();
     private SpinnerDateModel modelFin = new SpinnerDateModel();
 
-    public ModalNuevaActividad() {
+    public ModalModificarActividad() {
         initComponents();
         Calendar min = Calendar.getInstance();
         min.set(Calendar.YEAR, 2019);
@@ -52,9 +52,8 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
 
         cbxUbicacionModal.removeAllItems();
         createComboBox(map, cbxUbicacionModal);
-
         dateFechaInicio.setDateFormatString("yyyy-MM-dd");
-        dateFechaInicio.setDate(new Date());
+//        dateFechaInicio.setDate(new Date());
 
         modelInicio.setCalendarField(Calendar.MINUTE);
         modelFin.setCalendarField(Calendar.MINUTE);
@@ -73,7 +72,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAceptarModal = new javax.swing.JButton();
+        btnActualizarModal = new javax.swing.JButton();
         btnCancelarModal = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         cbxUbicacionModal = new javax.swing.JComboBox<>();
@@ -91,14 +90,14 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(345, 325));
         setPreferredSize(new java.awt.Dimension(345, 325));
 
-        btnAceptarModal.setBackground(new java.awt.Color(213, 222, 255));
-        btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
-        btnAceptarModal.setText("Aceptar");
-        btnAceptarModal.setBorderPainted(false);
-        btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarModal.setBackground(new java.awt.Color(68, 236, 114));
+        btnActualizarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
+        btnActualizarModal.setForeground(new java.awt.Color(51, 153, 0));
+        btnActualizarModal.setText("Actualizar");
+        btnActualizarModal.setBorderPainted(false);
+        btnActualizarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarModalActionPerformed(evt);
+                btnActualizarModalActionPerformed(evt);
             }
         });
 
@@ -107,11 +106,6 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
-        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarModalActionPerformed(evt);
-            }
-        });
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -149,7 +143,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(109, Short.MAX_VALUE)
-                        .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -193,21 +187,20 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-/**
-     * Método utilizado para volver a nulos los valores de los campos de
-     * actividad.
+
+    /**
+     * Método utilizado para volver a nulos los valores de los campos de actividad.
      */
     private void resetarCampos() {
         txtDescripcionModal.setText(null);
         txtNombreActividadModal.setText(null);
     }
-
     /**
-     * Método utilizado para ingresar los datos de una nueva actividad
+     * Método utilizado actualizar los datos de una actividad
      */
     private void ingresar() {
         if (txtDescripcionModal.getText().equals("") || txtNombreActividadModal.getText().equals("")) {
@@ -233,17 +226,13 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
 
     }
 
-    private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
+    private void btnActualizarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarModalActionPerformed
         ingresar();
-    }//GEN-LAST:event_btnAceptarModalActionPerformed
-
-    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
-        
-    }//GEN-LAST:event_btnCancelarModalActionPerformed
+    }//GEN-LAST:event_btnActualizarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptarModal;
+    private javax.swing.JButton btnActualizarModal;
     private javax.swing.JButton btnCancelarModal;
     private javax.swing.JComboBox<String> cbxUbicacionModal;
     private com.toedter.calendar.JDateChooser dateFechaInicio;

@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -338,27 +339,34 @@ public class Db {
     private int CantidadActividades;
     public ArrayList<String> nombreAct;
 
-    public void NumActividades() {
+    public void NumActividades(String inicio, String fin) {
         try {
 
-            String sql = "select COUNT(idActividad) from actividad";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            String sql = "select COUNT(idActividad) from actividad where fechaInicio between ? AND ?";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+
+            ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
                 setCantidadActividades(rs.getInt(1));
                 //System.out.println(getNumProyecto());
             }
         } catch (Exception e) {
+            System.out.println("Error");
         }
     }
 
-    public void Actividades() {
+    public void Actividades(String inicio, String fin) {
         try {
 
-            String sql = "select nombre from actividad";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            String sql = "select nombre from actividad where fechaInicio between (?) AND (?)";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+
+            ResultSet rs = st.executeQuery();
             nombreAct = new ArrayList<>();
 
             while (rs.next()) {
@@ -369,7 +377,6 @@ public class Db {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     /**
@@ -618,7 +625,6 @@ public class Db {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-
         return false;
     }
 
@@ -636,6 +642,27 @@ public class Db {
             System.out.println("Error: " + e);
         }
 
+        return false;
+    }
+
+    public boolean setFechas(String fecha1, String fecha2) {
+        try {
+            String query = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesFechaInicio'";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, fecha1);
+            if (cmd.executeUpdate() > 0) {
+                String query2 = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesFechaFin'";
+                PreparedStatement cmd2 = cn.prepareStatement(query2);
+                cmd2.setString(1, fecha2);
+                if (cmd2.executeUpdate() > 0) {
+                    return true;
+                }
+            }
+            cmd.close();
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+        }
         return false;
     }
 

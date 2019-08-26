@@ -1287,6 +1287,7 @@ public class Login extends javax.swing.JFrame {
         char teclaPresionada = evt.getKeyChar();
 
         if (teclaPresionada == KeyEvent.VK_ENTER) {
+            btnIniciarSesion.requestFocus();
             iniciarSesion();
         }
     }//GEN-LAST:event_txtPasswordKeyTyped

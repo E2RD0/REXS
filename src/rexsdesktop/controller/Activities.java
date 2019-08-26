@@ -11,6 +11,7 @@ import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,9 +33,16 @@ public class Activities {
     public String fechaInicio;
     public String fechaFin;
     public int idUbicacion;
+    private int cantidadDia1;
 
+    Color colores = null;
+    ImageIcon icono = null;
     ArrayList<JPanel> panelesActividades;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
+    ImageIcon iconEditBlue = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBLUE.png"));
+    ImageIcon iconEditGreen = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditGreen.png"));
+    ImageIcon iconEditOrange = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditOrange.png"));
+    ImageIcon iconEditPurple = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditPurple.png"));
 
     /**
      * Método para visualizar los paneles con la información de la base de
@@ -42,11 +50,15 @@ public class Activities {
      *
      * @param panel panel donde se visualizarán los datos
      */
-    public void CrearPanelesActividades(javax.swing.JPanel panel) {
+    public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String fin, int contador) {
+        String dia1_Inicio = "2019-10-25 00:00:00";
+        String dia1_Fin = "2019-10-25 23:59:59";
 
         Db db = new Db();
-        db.NumActividades();
-        db.Actividades();
+        db.NumActividades(inicio, fin);
+        db.Actividades(inicio, fin);
+
+        cantidadDia1 = db.getCantidadActividades();
 
         panelesActividades = new ArrayList<>();
 
@@ -58,7 +70,36 @@ public class Activities {
             Contenedor.setBackground(Color.white);
             Contenedor.setPreferredSize(new Dimension(150, 72));
             Contenedor.setLayout(null);
-            Border borde = new LineBorder(Color.CYAN, 1, true);
+            switch (contador) {
+                case 1:
+                    colores = Color.CYAN;
+                    break;
+
+                case 2:
+                    colores = Color.MAGENTA;
+                    break;
+
+                case 3:
+                    colores = Color.BLUE;
+                    break;
+
+                case 4:
+//                    colores = Color.getHSBColor(43f, 92f, 59f);
+                    colores = Color.YELLOW;
+                    break;
+
+                case 5:
+//                    colores = Color.getHSBColor(117f, 57f, 42f);
+                    colores = Color.GREEN;
+                    break;
+
+                default:
+                    colores = Color.BLACK;
+                    break;
+
+            }
+            Border borde = new LineBorder(colores, 1, true);
+
             Contenedor.setBorder(borde);
 
             JLabel nombre = new JLabel();
@@ -82,7 +123,33 @@ public class Activities {
 
             JLabel edit = new JLabel();
             edit.setBounds(125, 44, 20, 20);
-            edit.setIcon(iconEditCyan);
+
+            switch (contador) {
+                case 1:
+                    edit.setIcon(iconEditCyan);
+                    break;
+
+                case 2:
+                    edit.setIcon(iconEditPurple);
+                    break;
+
+                case 3:
+                    edit.setIcon(iconEditBlue);
+                    break;
+
+                case 4:
+                    edit.setIcon(iconEditOrange);
+                    break;
+
+                case 5:
+                    edit.setIcon(iconEditGreen);
+                    break;
+
+                default:
+                    edit.setIcon(iconEditCyan);
+                    break;
+
+            }
             //edit.setBorder(new EtchedBorder());
             Contenedor.add(edit);
         }
@@ -117,4 +184,22 @@ public class Activities {
         return false;
     }
 
+    public static boolean ingresarFechas(String fecha1, String fecha2) {
+        Db db = new Db();
+        try {
+            if (db.setFechas(fecha1, fecha2)) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR 2" + e);
+        }
+        return false;
+    }
+
+    /**
+     * @return the cantidadDia1
+     */
+    public int getCantidadDia1() {
+        return cantidadDia1;
+    }
 }
