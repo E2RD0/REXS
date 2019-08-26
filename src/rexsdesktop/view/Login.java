@@ -15,17 +15,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.General;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 
 /**
  *
  * Formulario que contiene el incio de sesion y recuperar clave
- * 
+ *
  * @author Eduardo
  * @version 1.2
  */
-
 public class Login extends javax.swing.JFrame {
 
     RubikFonts f = new RubikFonts();
@@ -50,18 +50,18 @@ public class Login extends javax.swing.JFrame {
 
     /**
      * Método para cambiar de panel, Iniciar sesión o Recuperar clave
+     *
      * @param nombre recibe como parametro el nombre del Panel
      */
-    
     public void cambiarCardLayoutPanel(String nombre) {
         CardLayout cl = (CardLayout) (CardLayoutPanel.getLayout());
         cl.show(CardLayoutPanel, nombre);
     }
-    
+
     /**
-     * Método para volver a los valores predeterminados cada elemento de la interfaz.
+     * Método para volver a los valores predeterminados cada elemento de la
+     * interfaz.
      */
-    
     public void resetCampos() {
         txtNombreCompletoR.setText("");
         txtEmailR.setText("");
@@ -85,57 +85,57 @@ public class Login extends javax.swing.JFrame {
      * Método para iniciar sesión en el sistema
      *
      */
-    
     private void iniciarSesion() {
         String email = txtEmail.getText();
         String password = String.valueOf(txtPassword.getPassword());
         try {
             if (!Validation.VerificadorLogin.verify(email, password)) {
-            if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
-                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
+                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                } else {
+                    txtEmail.setBackground(new java.awt.Color(249, 250, 255));
+                }
+                if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
+                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                } else {
+                    txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+                }
+                lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
+                lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
             } else {
                 txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
-                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-            } else {
                 txtPassword.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
-            lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
-        } else {
-            txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-            txtPassword.setBackground(new java.awt.Color(249, 250, 255));
-            lblErrorEmail.setText("");
-            lblErrorPassword.setText("");
-            if (User.iniciarSesion(email, password)) {
-                System.out.println("Inicio Correcto");
-                if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
-                    if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
-                        Admin fAdmin = new Admin();
-                        this.setVisible(false);
-                        fAdmin.setLocationRelativeTo(null);
-                        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                        fAdmin.setVisible(true);
-                        this.dispose();
+                lblErrorEmail.setText("");
+                lblErrorPassword.setText("");
+                if (User.iniciarSesion(email, password)) {
+                    System.out.println("Inicio Correcto");
+                    if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
+                        if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
+                            Admin fAdmin = new Admin();
+                            this.setVisible(false);
+                            fAdmin.setLocationRelativeTo(null);
+                            fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                            fAdmin.setVisible(true);
+                            this.dispose();
+                            General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
+                        } else {
+                            lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
+                            txtEmail.setBackground(new java.awt.Color(255, 204, 204));
+                            txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                        }
                     } else {
-                        lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
+                        lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
                         txtEmail.setBackground(new java.awt.Color(255, 204, 204));
                         txtPassword.setBackground(new java.awt.Color(255, 204, 204));
                     }
                 } else {
-                    lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
+                    lblErrorGeneral.setText("Usuario o contraseña incorrectos");
                     txtEmail.setBackground(new java.awt.Color(255, 204, 204));
                     txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                    System.out.println("Incio Incorrecto");
                 }
-            } else {
-                lblErrorGeneral.setText("Usuario o contraseña incorrectos");
-                txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-                System.out.println("Incio Incorrecto");
             }
-        }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR");
         }
@@ -143,9 +143,8 @@ public class Login extends javax.swing.JFrame {
 
     /**
      * Método para registrar un usuario en el sistema
-     * 
+     *
      */
-    
     private void registrarse() {
         String nombre = txtNombreCompletoR.getText();
         String correo = txtEmailR.getText();
@@ -195,12 +194,12 @@ public class Login extends javax.swing.JFrame {
         }
 
     }
-    
+
     /**
-     * Método para enviar el correo con el PIN para recuperar la clave de un usuario.
-     * 
+     * Método para enviar el correo con el PIN para recuperar la clave de un
+     * usuario.
+     *
      */
-    
     private void enviarCorreo() {
         correo = txtEmailRecu.getText();
 
@@ -214,12 +213,12 @@ public class Login extends javax.swing.JFrame {
         }
         lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
     }
-    
+
     /**
-     * Método para verificar el PIN ingresado con el enviado al correo del usuario.
-     * 
+     * Método para verificar el PIN ingresado con el enviado al correo del
+     * usuario.
+     *
      */
-    
     private void verificarPIN() {
         String pin = txtPIN.getText();
         pin = pin.trim();

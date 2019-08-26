@@ -715,4 +715,32 @@ public class Db {
         return -1;
     }
 
+    public int getIdAccionBitacora(String accion) {
+        try {
+            String query = "SELECT idAccionBitacora FROM accionBitacora WHERE accion = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, accion);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error getIdAccionBitacora(): " + e);
+        }
+        return -1;
+    }
+
+    public boolean agregarBitacora(int idAccion, int idUsuario) {
+        try {
+            String query = "INSERT INTO bitacora(idAccionBitacora, idUsuario) VALUES(?,?)";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idAccion);
+            cmd.setInt(2, idUsuario);
+            return (cmd.executeUpdate() > 0);
+        } catch (Exception e) {
+            System.out.println("Error agregarBitacora(): " + e);
+        }
+        return false;
+    }
+
 }

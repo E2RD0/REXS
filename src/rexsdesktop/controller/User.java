@@ -18,6 +18,8 @@ import java.security.NoSuchAlgorithmException;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.imageio.ImageIO;
@@ -33,16 +35,19 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import rexsdesktop.model.DbConnection;
 import rexsdesktop.model.ENV;
 
 /**
  * Clase que contiene los atributos y métodos de un usuario.
+ *
  * @author Arturo
  * @version 1.2
  */
@@ -55,9 +60,204 @@ public class User {
     public BufferedImage fotoPerfil;
     public int idTipoUsuario;
     public int idEstadoUsuario;
+    //Arturo
+    private Connection cn;
+    private String Clave;
+    //AGREGAR ESTADO USUARIO
+    private String estadoUsuario;
+    //MODIFICAR ESTADO USUARIO
 
+    //MODRIFICAR TIPO USUARIO0
+    private String tipoUsuario;
+    //Mo
+    //Arturo
     public static String mensajeError = "";
 
+    //Arturo
+    public User() {
+        DbConnection clase1 = new DbConnection();
+        cn = clase1.conectar();
+    }
+
+    public ResultSet consulta(String sql) {
+        ResultSet res = null;
+        try {
+            PreparedStatement pstm = getCn().prepareStatement(sql);
+            res = pstm.executeQuery();
+        } catch (Exception e) {
+        }
+        return res;
+    }
+
+    public DefaultComboBoxModel obtenerTipoUsuario() {
+        DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
+        ResultSet rst = this.consulta("Select * from tipoUsuario");
+        try {
+            while (rst.next()) {
+                listaModelo.addElement(rst.getString("tipo"));
+            }
+            rst.close();
+        } catch (Exception e) {
+        }
+        return listaModelo;
+    }
+
+    public DefaultComboBoxModel obtenerEstadoUsuario() {
+        DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
+        ResultSet rst = this.consulta("Select * from estadoUsuario");
+        try {
+            while (rst.next()) {
+                listaModelo.addElement(rst.getString("estado"));
+            }
+            rst.close();
+        } catch (Exception e) {
+        }
+        return listaModelo;
+    }
+    //CRUD USUARIO    
+
+    public boolean agregarUsuario() {
+        boolean respuesta = false;
+
+        try {
+            String sql = "INSERT INTO usuario (nombreCompleto,email,clave,idTipoUsuario,idEstadoUsuario) " + "VALUES (?,?,?,?,?);";
+            PreparedStatement stm = getCn().prepareStatement(sql);
+            String Encriptado = hashPW(getClave());
+            stm.setString(1, getNombreCompleto());
+            stm.setString(2, getEmail());
+            stm.setString(3, Encriptado);
+            stm.setInt(4, getIdTipoUsuario() + 1);
+            stm.setInt(5, getIdEstadoUsuario() + 1);
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            getCn().close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return respuesta;
+    }
+
+    public boolean ActualizarUsuario() {
+        boolean respuesta = false;
+        try {
+            String sql = "UPDATE usuario SET nombreCompleto= ?, email = ?, clave = ?, idTipoUsuario = ?, idEstadoUsuario = ? WHERE idUsuario = ?;";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            String Encriptado = hashPW(getClave());
+            stm.setString(1, nombreCompleto);
+            stm.setString(2, email);
+            stm.setString(3, Encriptado);
+            stm.setInt(4, idTipoUsuario + 1);
+            stm.setInt(5, idEstadoUsuario + 1);
+            stm.setInt(6, getIdUsuario());
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            cn.close();
+        } catch (Exception e) {
+        }
+        return respuesta;
+    }
+
+    public boolean agregarEstadoUsuario() {
+        boolean respuesta = false;
+
+        try {
+            String sql = "INSERT INTO estadoUsuario (estado) " + "VALUES (?);";
+            PreparedStatement stm = getCn().prepareStatement(sql);
+
+            stm.setString(1, getEstadoUsuario());
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            getCn().close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return respuesta;
+    }
+
+    public boolean ActualizarEstadoUsuario() {
+        boolean respuesta = false;
+        try {
+            String sql = "UPDATE estadoUsuario SET estado = ? WHERE idEstadoUsuario = ?;";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, estadoUsuario);
+            stm.setInt(2, getIdEstadoUsuario());
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            cn.close();
+        } catch (Exception e) {
+        }
+        return respuesta;
+    }
+
+    //CRUD TIPO USUARIO
+    public boolean agregarTipoUsuario() {
+        boolean respuesta = false;
+
+        try {
+            String sql = "INSERT INTO tipoUsuario (tipo) " + "VALUES (?);";
+            PreparedStatement stm = getCn().prepareStatement(sql);
+
+            stm.setString(1, getTipoUsuario());
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            getCn().close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return respuesta;
+    }
+
+    public boolean ActualizarTipoUsuario() {
+        boolean respuesta = false;
+        try {
+            String sql = "UPDATE tipoUsuario SET tipo= ? WHERE idTipoUsuario = ?;";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, tipoUsuario);
+            stm.setInt(2, getIdTipoUsuario());
+
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            cn.close();
+        } catch (Exception e) {
+        }
+        return respuesta;
+    }
+
+    public boolean ElminarTipoUsuario() {
+        boolean respuesta = false;
+        try {
+            String sql = "DELETE FROM tipoUsuario WHERE idTipoUsuario = ?;";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, getIdTipoUsuario());
+            if (!stm.execute()) {
+                respuesta = true;
+            }
+            stm.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return respuesta;
+    }
+
+    //Arturo
     public static boolean nuevoUsuario(String nombreCompleto, String email, String clave, String tipoUsuario, String estadoUsuario) {
         Db db = new Db();
         if (!db.usuarioExiste(email)) {
@@ -329,7 +529,7 @@ public class User {
             if (ImageIO.write(img, "jpg", baos)) {
                 byte[] immAsBytes = baos.toByteArray();
                 baos.flush();
-                baos.close();                
+                baos.close();
                 return db.actualizarFotoPerfil(immAsBytes, idUsuario);
             }
 
@@ -338,12 +538,13 @@ public class User {
         }
         return false;
     }
+
     public static boolean eliminarFotoPerfil(int idUsuario) {
-        Db db = new Db();           
-         return db.eliminarFotoPerfil(idUsuario);
+        Db db = new Db();
+        return db.eliminarFotoPerfil(idUsuario);
     }
-    
-       ArrayList<JPanel> panelesUsuarios;
+
+    ArrayList<JPanel> panelesUsuarios;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
 
     public void CrearPanelesUsuarios(javax.swing.JPanel panel) {
@@ -364,61 +565,214 @@ public class User {
             Contenedor1.setLayout(null);
             Border borde = new LineBorder(Color.CYAN, 1, true);
             Contenedor1.setBorder(borde);
-            
+
             JLabel id = new JLabel();
             id.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             id.setForeground(new Color(46, 56, 77));
             id.setHorizontalAlignment(SwingConstants.LEADING);
-           id.setBounds(20, 15, 20, 20);
-           id.setText("<html>" + db.idUsuario.get(i) + "</html>");
-           //id.setBorder(new EtchedBorder());
-           Contenedor1.add(id);
-           
-           JLabel nombreuser = new JLabel();
+            id.setBounds(20, 15, 20, 20);
+            id.setText("<html>" + db.idUsuario.get(i) + "</html>");
+            //id.setBorder(new EtchedBorder());
+            Contenedor1.add(id);
+
+            JLabel nombreuser = new JLabel();
             nombreuser.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             nombreuser.setForeground(new Color(46, 56, 77));
             nombreuser.setHorizontalAlignment(SwingConstants.CENTER);
-           nombreuser.setBounds(40, 15, 110, 20);
-           nombreuser.setText(db.nombreCompleto.get(i) );
-           //nombreuser.setBorder(new EtchedBorder());
-           Contenedor1.add(nombreuser);
-           
-           JLabel email = new JLabel();
-           email.setFont(new java.awt.Font("Rubik Medium", 0, 11));
-           email.setForeground(new Color(46, 56, 77));
-           email.setHorizontalAlignment(SwingConstants.CENTER);
-           email.setBounds(150, 15, 150, 20);
-           email.setText(db.email.get(i));
-          // email.setBorder(new EtchedBorder());
-           Contenedor1.add(email);
-           
-           JLabel fecha = new JLabel();
-           fecha.setFont(new java.awt.Font("Rubik Medium", 0, 11));
-           fecha.setForeground(new Color(46, 56, 77));
-           fecha.setHorizontalAlignment(SwingConstants.CENTER);
-           fecha.setBounds(320, 15, 70, 20);
-           fecha.setText(db.fecha.get(i).trim());
-           //fecha.setBorder(new EtchedBorder());
-           Contenedor1.add(fecha);
-           
-           JLabel tipo = new JLabel();
-           tipo.setFont(new java.awt.Font("Rubik Medium", 0, 11));
-           tipo.setForeground(new Color(46, 56, 77));
-           tipo.setHorizontalAlignment(SwingConstants.CENTER);
-           tipo.setBounds(400, 15, 70, 20);
-           tipo.setText(db.tipo.get(i));
-          // tipo.setBorder(new EtchedBorder());
-           Contenedor1.add(tipo);
-           
+            nombreuser.setBounds(40, 15, 110, 20);
+            nombreuser.setText(db.nombreCompleto.get(i));
+            //nombreuser.setBorder(new EtchedBorder());
+            Contenedor1.add(nombreuser);
+
+            JLabel email = new JLabel();
+            email.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            email.setForeground(new Color(46, 56, 77));
+            email.setHorizontalAlignment(SwingConstants.CENTER);
+            email.setBounds(150, 15, 150, 20);
+            email.setText(db.email.get(i));
+            // email.setBorder(new EtchedBorder());
+            Contenedor1.add(email);
+
+            JLabel fecha = new JLabel();
+            fecha.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            fecha.setForeground(new Color(46, 56, 77));
+            fecha.setHorizontalAlignment(SwingConstants.CENTER);
+            fecha.setBounds(320, 15, 70, 20);
+            fecha.setText(db.fecha.get(i).trim());
+            //fecha.setBorder(new EtchedBorder());
+            Contenedor1.add(fecha);
+
+            JLabel tipo = new JLabel();
+            tipo.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            tipo.setForeground(new Color(46, 56, 77));
+            tipo.setHorizontalAlignment(SwingConstants.CENTER);
+            tipo.setBounds(400, 15, 70, 20);
+            tipo.setText(db.tipo.get(i));
+            // tipo.setBorder(new EtchedBorder());
+            Contenedor1.add(tipo);
+
             JLabel estado = new JLabel();
-           estado.setFont(new java.awt.Font("Rubik Medium", 0, 11));
-           estado.setForeground(new Color(46, 56, 77));
-           estado.setHorizontalAlignment(SwingConstants.CENTER);
-           estado.setBounds(490, 15, 70, 20);
-           estado.setText(db.estado.get(i));
-          // estado.setBorder(new EtchedBorder());
-           Contenedor1.add(estado);
-           
+            estado.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            estado.setForeground(new Color(46, 56, 77));
+            estado.setHorizontalAlignment(SwingConstants.CENTER);
+            estado.setBounds(490, 15, 70, 20);
+            estado.setText(db.estado.get(i));
+            // estado.setBorder(new EtchedBorder());
+            Contenedor1.add(estado);
+
         }
+    }
+
+    /**
+     * @return the idUsuario
+     */
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * @param idUsuario the idUsuario to set
+     */
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    /**
+     * @return the nombreCompleto
+     */
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    /**
+     * @param nombreCompleto the nombreCompleto to set
+     */
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the hash
+     */
+    public String getHash() {
+        return hash;
+    }
+
+    /**
+     * @param hash the hash to set
+     */
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    /**
+     * @return the fotoPerfil
+     */
+    public BufferedImage getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    /**
+     * @param fotoPerfil the fotoPerfil to set
+     */
+    public void setFotoPerfil(BufferedImage fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    /**
+     * @return the idTipoUsuario
+     */
+    public int getIdTipoUsuario() {
+        return idTipoUsuario;
+    }
+
+    /**
+     * @param idTipoUsuario the idTipoUsuario to set
+     */
+    public void setIdTipoUsuario(int idTipoUsuario) {
+        this.idTipoUsuario = idTipoUsuario;
+    }
+
+    /**
+     * @return the idEstadoUsuario
+     */
+    public int getIdEstadoUsuario() {
+        return idEstadoUsuario;
+    }
+
+    /**
+     * @param idEstadoUsuario the idEstadoUsuario to set
+     */
+    public void setIdEstadoUsuario(int idEstadoUsuario) {
+        this.idEstadoUsuario = idEstadoUsuario;
+    }
+
+    /**
+     * @return the cn
+     */
+    public Connection getCn() {
+        return cn;
+    }
+
+    /**
+     * @param cn the cn to set
+     */
+    public void setCn(Connection cn) {
+        this.cn = cn;
+    }
+
+    /**
+     * @return the estadoUsuario
+     */
+    public String getEstadoUsuario() {
+        return estadoUsuario;
+    }
+
+    /**
+     * @param estadoUsuario the estadoUsuario to set
+     */
+    public void setEstadoUsuario(String estadoUsuario) {
+        this.estadoUsuario = estadoUsuario;
+    }
+
+    /**
+     * @return the tipoUsuario
+     */
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    /**
+     * @param tipoUsuario the tipoUsuario to set
+     */
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+    /**
+     * @return the Clave
+     */
+    public String getClave() {
+        return Clave;
+    }
+
+    /**
+     * @param Clave the Clave to set
+     */
+    public void setClave(String Clave) {
+        this.Clave = Clave;
     }
 }

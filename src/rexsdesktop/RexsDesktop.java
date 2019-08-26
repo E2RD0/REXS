@@ -7,6 +7,7 @@ package rexsdesktop;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import rexsdesktop.controller.General;
 import rexsdesktop.view.Login;
 
 /**
@@ -17,24 +18,30 @@ import rexsdesktop.view.Login;
 public class RexsDesktop {
 
     /**
-     * REXS es una aplicación que permite llevar el control de los siguientes puntos de la Expotécnica Ricaldone:
-     * Las actividades.
-     * Los proyectos e integrantes de los mismos.
-     * Además de llevar un control de los votos de los proyectos.
+     * REXS es una aplicación que permite llevar el control de los siguientes
+     * puntos de la Expotécnica Ricaldone: Las actividades. Los proyectos e
+     * integrantes de los mismos. Además de llevar un control de los votos de
+     * los proyectos.
+     *
      * @param args the command line arguments
-     * 
+     *
      */
     public static void main(String[] args) {
-         SwingUtilities.invokeLater (new Runnable ()
-        {
-            public void run ()
-            {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
                 Login inicio = new Login();
                 inicio.setLocationRelativeTo(null);
                 inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 inicio.setVisible(true);
             }
-        } );
+        });
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+            public void run() {
+                General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+            }
+        }));
     }
-    
+
 }
