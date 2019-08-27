@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bitacora" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="708307bf-1a42-4c75-a0bd-5de06d66505a">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="191"/>
+	<parameter name="NombreUsuario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT b.idBitacora,b.fecha, b.idUsuario, ac.idAccionBitacora,ac.accion, u.nombreCompleto, u.email FROM bitacora b INNER JOIN accionBitacora ac ON b.idAccionBitacora = ac.idAccionBitacora INNER JOIN usuario u ON b.idUsuario = u.idUsuario ORDER BY ac.idAccionBitacora]]>
+	</queryString>
+	<field name="idBitacora" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="idUsuario" class="java.lang.Integer"/>
+	<field name="idAccionBitacora" class="java.lang.Integer"/>
+	<field name="accion" class="java.lang.String"/>
+	<field name="nombreCompleto" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<group name="accionBitacora">
+		<groupExpression><![CDATA[$F{accion}]]></groupExpression>
+		<groupHeader>
+			<band height="51">
+				<staticText>
+					<reportElement mode="Opaque" x="46" y="1" width="71" height="30" forecolor="#FFFFFF" backcolor="#2E5BFF" uuid="c1219f6d-d065-435c-8dac-2bd63101edb0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Rubik Medium" size="11"/>
+					</textElement>
+					<text><![CDATA[Acción:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="206" y="31" width="174" height="20" forecolor="#2E5BFF" backcolor="#D5DEFF" uuid="3054403d-c473-4208-9dbd-23a0f4dcf4ee"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium"/>
+					</textElement>
+					<text><![CDATA[EMAIL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="46" y="31" width="160" height="20" forecolor="#2E5BFF" backcolor="#D5DEFF" uuid="c3d97500-693f-4778-8113-b3a26bfaf04d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium"/>
+						<paragraph leftIndent="16"/>
+					</textElement>
+					<text><![CDATA[USUARIO]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="112" y="1" width="369" height="30" forecolor="#FFFFFF" backcolor="#2E5BFF" uuid="5b70f6bc-0e15-454b-847c-966b1b6caf15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{accion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="380" y="31" width="101" height="20" forecolor="#2E5BFF" backcolor="#D5DEFF" uuid="ed5e1578-9a37-43c4-ab49-f43322e9a1e7"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium"/>
+					</textElement>
+					<text><![CDATA[FECHA]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="71" width="177" height="26" forecolor="#2E5BFF" backcolor="#FFFFFF" uuid="8b848453-4c00-4eb0-99bc-279f2b9da4f5"/>
+				<textElement>
+					<font fontName="Rubik Light" size="18"/>
+				</textElement>
+				<text><![CDATA[Reporte de bitácoras]]></text>
+			</staticText>
+			<image>
+				<reportElement x="21" y="17" width="71" height="20" uuid="65b637af-899b-4cb7-b131-8d4de866a429"/>
+				<imageExpression><![CDATA["C:\\Users\\Eduardo\\Dropbox\\EDUCATION\\Colegio\\Ricaldone2019\\Tecnicas\\Expo\\Media\\logo\\Asset 2.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="99" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="7" width="77" height="20" forecolor="#2E384D" uuid="3d347845-80e0-4adb-84c3-c1ea21cb4562"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Generado por:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="98" y="7" width="100" height="20" forecolor="#8798AD" uuid="1ccf4ee6-d9a1-446b-af4e-5aa3137e1a67"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreUsuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="31" width="38" height="20" forecolor="#2E384D" uuid="645405dd-f190-4a22-9fac-6b0c76fc0b78"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="70" y="31" width="100" height="20" forecolor="#8798AD" uuid="8e17b820-0fda-4d48-aca0-c2f82b18236b"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="63" y="4" width="132" height="20" uuid="4700e7d5-ad76-4378-9208-e70dddc0bfb9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Rubik Light"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="379" y="4" width="101" height="20" uuid="52ab1ad5-f5b9-40fe-8e6b-a58026edec41"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Rubik Light"/>
+					<paragraph leftIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="4" width="164" height="20" uuid="114656c1-882d-47bb-b0da-9483f30d3ab9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Rubik Light"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="46" y="28" width="435" height="1" forecolor="#8798AD" uuid="0238ab07-34a5-451c-b01b-8ac9f2cad9c6"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="46" y="1" width="1" height="27" forecolor="#8798AD" uuid="08aeb17d-97c2-425c-9a8e-35c8af301aaa"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="480" y="0" width="1" height="27" forecolor="#8798AD" uuid="ff71efe5-d75c-44ba-bc54-e12256fc3fcf"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="535" y="14" width="31" height="20" forecolor="#2E384D" uuid="4ce49c6d-4b3a-496f-905a-4be8a146f6c3"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="14" width="119" height="20" forecolor="#8798AD" backcolor="#FFFFFF" uuid="ed16664e-6455-40b7-b637-e00cdee0f5f1"/>
+				<textElement>
+					<font fontName="Rubik Light" size="11"/>
+				</textElement>
+				<text><![CDATA[Reporte de bitácoras]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
