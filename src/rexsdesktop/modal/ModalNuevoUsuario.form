@@ -19,57 +19,76 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel68" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel67" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel91" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbxTipoUsuarioModal" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel92" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbxEstadoUsuarioModal" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Component id="txtClaveUsuarioModal" alignment="1" max="32767" attributes="0"/>
-                              <Component id="txtNombreUsuarioModal" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel69" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtEmailUsuarioModal" alignment="0" min="-2" pref="255" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="btnAceptarModal" min="-2" pref="104" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnCancelarModal" min="-2" pref="104" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel67" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel68" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel91" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoUsuarioModal" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel92" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbxEstadoUsuarioModal" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="jLabel69" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="41" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="txtClaveUsuarioModal" alignment="0" pref="283" max="32767" attributes="0"/>
+                          <Component id="txtEmailUsuarioModal" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblErrorNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblErrorEmailR" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNombreUsuarioModal" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Component id="lblErrorPasswordR" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel67" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="txtNombreUsuarioModal" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              <Component id="lblErrorNombre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel69" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="txtEmailUsuarioModal" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblErrorEmailR" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="jLabel68" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="txtClaveUsuarioModal" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblErrorPasswordR" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel91" min="-2" max="-2" attributes="0"/>
@@ -89,7 +108,7 @@
                   <Component id="btnCancelarModal" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="btnAceptarModal" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -269,6 +288,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreUsuarioModalKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel67">
       <Properties>
@@ -318,6 +340,36 @@
           </Border>
         </Property>
         <Property name="echoChar" type="char" value="&#x2022;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblErrorNombre">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Rubik Light" size="11" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblErrorEmailR">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Rubik Light" size="11" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblErrorPasswordR">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Rubik Light" size="11" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

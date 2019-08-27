@@ -14,6 +14,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
 
@@ -27,6 +28,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
      * Creates new form ModalModificarEstadoUsuario
      */
     DefaultTableModel modelo = new DefaultTableModel();
+
     public ModalModificarEstadoUsuario() {
         initComponents();
         //Tabla
@@ -42,6 +44,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
                 int row = table.rowAtPoint(point);
                 if (Mouse_evt.getClickCount() == 1) {
                     txtIdModal.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 0).toString());
+                    txtEstadoUsuarioModal.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 1).toString());
                 }
             }
         });
@@ -93,11 +96,27 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
         txtEstadoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEstadoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         txtEstadoUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEstadoUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEstadoUsuarioModalKeyTyped(evt);
+            }
+        });
 
+        txtIdModal.setEditable(false);
         txtIdModal.setBackground(new java.awt.Color(249, 250, 255));
         txtIdModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtIdModal.setForeground(new java.awt.Color(46, 56, 77));
         txtIdModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtIdModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdModalActionPerformed(evt);
+            }
+        });
+        txtIdModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdModalKeyTyped(evt);
+            }
+        });
 
         jLabel68.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel68.setForeground(new java.awt.Color(176, 186, 201));
@@ -177,30 +196,63 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
         } catch (Exception e) {
         }
     }
-    
+
+
     private void btnModificarEstadoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEstadoUsuarioActionPerformed
-         User Conexion = new User();
+        User Conexion = new User();
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
-
-            Conexion.setEstadoUsuario(txtEstadoUsuarioModal.getText());
-            Conexion.setIdEstadoUsuario(Integer.parseInt(txtIdModal.getText()));
-            jTTabla.setModel(modelo);
-            if (Conexion.ActualizarEstadoUsuario()) {
-                JOptionPane.showMessageDialog(null, "Datos modficados correctamente ");
+            if (txtIdModal.getText().equals("") || txtEstadoUsuarioModal.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al modficar datos");
+                Conexion.setEstadoUsuario(txtEstadoUsuarioModal.getText());
+                Conexion.setIdEstadoUsuario(Integer.parseInt(txtIdModal.getText()));
+                jTTabla.setModel(modelo);
+                if (Conexion.ActualizarEstadoUsuario()) {
+                    JOptionPane.showMessageDialog(null, "Datos modificados correctamente ");
+                    modelo.setRowCount(0);
+                    cargarProyectos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modficar datos");
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnModificarEstadoUsuarioActionPerformed
 
+    private void txtEstadoUsuarioModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoUsuarioModalKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
+        }
+    }//GEN-LAST:event_txtEstadoUsuarioModalKeyTyped
+
+    private void txtIdModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdModalActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtIdModalActionPerformed
+
+    private void txtIdModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdModalKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(null, "Ingresar solo numeros");
+        }
+    }//GEN-LAST:event_txtIdModalKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptarModal;
-    private javax.swing.JButton btnAceptarModal1;
     private javax.swing.JButton btnCancelarModal;
     private javax.swing.JButton btnModificarEstadoUsuario;
     private javax.swing.JLabel jLabel67;

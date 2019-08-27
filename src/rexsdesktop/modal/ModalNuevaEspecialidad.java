@@ -44,6 +44,11 @@ public class ModalNuevaEspecialidad extends javax.swing.JPanel {
         txtEspecialidadModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEspecialidadModal.setForeground(new java.awt.Color(46, 56, 77));
         txtEspecialidadModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEspecialidadModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEspecialidadModalKeyTyped(evt);
+            }
+        });
 
         btnAceptarModal.setBackground(new java.awt.Color(213, 222, 255));
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -109,7 +114,8 @@ public class ModalNuevaEspecialidad extends javax.swing.JPanel {
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
-
+            if (txtEspecialidadModal.getText().equals("") ) {
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");}else{
             Conexion.setEspecialidad(txtEspecialidadModal.getText());
 
             if (Conexion.agregarEspecialidad()) {
@@ -117,10 +123,23 @@ public class ModalNuevaEspecialidad extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(null, "Error al insertar datos");
             }
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnAceptarModalActionPerformed
+
+    private void txtEspecialidadModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEspecialidadModalKeyTyped
+        // TODO add your handling code here:
+        char validar=evt.getKeyChar();
+        
+        if(Character.isDigit(validar)){
+            getToolkit().beep();
+            
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
+        }
+    }//GEN-LAST:event_txtEspecialidadModalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

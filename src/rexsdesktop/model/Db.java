@@ -136,6 +136,74 @@ public class Db {
         }
         return "";
     }
+    
+    //Copiado
+    
+
+    public String getNombreUsuario(int id) {
+        String nombre = "";
+        try {
+            String sql = "SELECT nombreCompleto from usuario where idUsuario = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return nombre;
+    }
+
+    public String getCorreoUsuario(int id) {
+        String email = "";
+        try {
+            String sql = "SELECT email from usuario where idUsuario = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return email;
+    }
+
+    public String getTipoUsuario(int id) {
+        String tipoUsuario = "";
+        try {
+            String sql = "SELECT tipo from usuario, tipoUsuario where usuario.idTipoUsuario = tipoUsuario.idTipoUsuario and idUsuario = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return tipoUsuario;
+    }
+
+    public String getEstadoUsuario(int id) {
+        String estadoUsuario = "";
+        try {
+            String sql = "SELECT estado from usuario, estadoUsuario where usuario.idEstadoUsuario = estadoUsuario.idEstadoUsuario and idUsuario = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return estadoUsuario;
+    }
+    //Copiado
 
     public boolean agregarUsuario(String nombreCompleto, String email, String claveHash, int idTipoUsuario, int idEstadoUsuario) {
         boolean r = false;
@@ -550,6 +618,23 @@ public class Db {
             }
         } catch (Exception e) {
         }
+    }
+    public int getUsuariosActivados() {
+        int Num=0;
+        try {
+
+            String sql = "select COUNT(idUsuario) from usuario where idEstadoUsuario = 1";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                Num = (rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+                return Num;
+            }
+        } catch (Exception e) {
+        }
+        return Num;
     }
 
     public void MostrarUsuarios() {
@@ -993,7 +1078,247 @@ public class Db {
         }
         return false;
     }
+    private int CantidadEspecialidad;
+    private ArrayList<Integer> idEspecialidad;
+    private ArrayList<String> Especialidad;
+    
+    public void NumEspecialidades() {
+        try {
 
+            String sql = "select COUNT(idEspecialidad) from especialidad";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadEspecialidad(rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void MostrarEspecialidad() {
+        try {
+
+            String sql = "select idEspecialidad, Especialidad from especialidad ";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            setIdEspecialidad(new ArrayList<>());
+            setEspecialidad(new ArrayList<>());
+            while (rs.next()) {
+                
+                getIdEspecialidad().add(rs.getInt(1));
+                getEspecialidad().add(rs.getString(2));
+                
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    public String getNombreEspecialidad(int id) {
+        String nombre = "";
+        try {
+            String sql = "SELECT especialidad from especialidad where idEspecialidad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return nombre;
+    }
+    
+    private int CantidadSecciones;
+    private ArrayList<Integer> idSeccion;
+    private ArrayList<String> Seccion;
+    private ArrayList<String> Nivel_Seccion;
+    private ArrayList<String> Especialidad_Seccion;
+    private ArrayList<String> Ubicacion_Seccion;
+    
+    public void NumSeccion() {
+        try {
+
+            String sql = "select COUNT(idSeccionNivel) from seccionNivel";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadSecciones(rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void MostrarSeccion() {
+        try {
+
+            String sql = "select idSeccionNivel, seccion, nivel, especialidad, ubicacion from seccionNivel,nivel, especialidad, ubicacion where seccionNivel.idNivel =  nivel.idNivel and seccionNivel.idEspecialidad = especialidad.idEspecialidad and seccionNivel.idUbicacion = ubicacion.idUbicacion";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            setIdSeccion(new ArrayList<>());
+            setSeccion(new ArrayList<>());
+            setNivel_Seccion(new ArrayList<>());
+            setEspecialidad_Seccion(new ArrayList<>());
+            setUbicacion_Seccion(new ArrayList<>());
+            while (rs.next()) {
+                
+                getIdSeccion().add(rs.getInt(1));
+                getSeccion().add(rs.getString(2));
+                getNivel_Seccion().add(rs.getString(3));
+                getEspecialidad_Seccion().add(rs.getString(4));
+                getUbicacion_Seccion().add(rs.getString(5));
+                
+                
+                
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    public String getNombreUbicacion(int id) {
+        String nombre = "";
+        try {
+            String sql = "SELECT ubicacion from ubicacion where idUbicacion = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return nombre;
+    }
+    
+    public String getNombreSeccion(int id) {
+        String nombre = "";
+        try {
+            String sql = "SELECT seccion from seccionNivel where idSeccionNivel = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return nombre;
+    }
+    
+    private int CantidadNiveles;
+    private ArrayList<Integer> idNivel;
+    private ArrayList<String> Nivel;
+    
+    public void NumNivel() {
+        try {
+
+            String sql = "select COUNT(idNivel) from nivel";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                setCantidadNiveles(rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void MostrarNivel() {
+        try {
+
+            String sql = "select idNivel, nivel from nivel";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            idNivel = new ArrayList<>();
+            Nivel = new ArrayList<>();
+            while (rs.next()) {
+                
+                idNivel.add(rs.getInt(1));
+                Nivel.add(rs.getString(2));
+                
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    public String getNombreNivel(int id) {
+        String nombre = "";
+        try {
+            String sql = "SELECT nivel from nivel where idNivel = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return nombre;
+    }
+
+    public String getNivel_Seccion(int id) {
+        String tipoUsuario = "";
+        try {
+            String sql = "SELECT nivel from nivel, seccionNivel where seccionNivel.idNivel = nivel.idNivel and idSeccionNivel = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return tipoUsuario;
+    }
+    
+    public String getEspecialidad_Seccion(int id) {
+        String tipoUsuario = "";
+        try {
+            String sql = "SELECT especialidad from especialidad, seccionNivel where seccionNivel.idEspecialidad = especialidad.idEspecialidad and idSeccionNivel = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return tipoUsuario;
+    }
+    public String getUbicacion_Seccion(int id) {
+        String tipoUsuario = "";
+        try {
+            String sql = "SELECT ubicacion from ubicacion, seccionNivel where seccionNivel.idUbicacion = ubicacion.idUbicacion and idSeccionNivel = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return tipoUsuario;
+    }
     /**
      * @return the CantidadProyecto
      */
@@ -1006,5 +1331,173 @@ public class Db {
      */
     public void setCantidadProyecto(int CantidadProyecto) {
         this.CantidadProyecto = CantidadProyecto;
+    }
+
+    /**
+     * @return the CantidadEspecialidad
+     */
+    public int getCantidadEspecialidad() {
+        return CantidadEspecialidad;
+    }
+
+    /**
+     * @param CantidadEspecialidad the CantidadEspecialidad to set
+     */
+    public void setCantidadEspecialidad(int CantidadEspecialidad) {
+        this.CantidadEspecialidad = CantidadEspecialidad;
+    }
+
+    /**
+     * @return the idEspecialidad
+     */
+    public ArrayList<Integer> getIdEspecialidad() {
+        return idEspecialidad;
+    }
+
+    /**
+     * @param idEspecialidad the idEspecialidad to set
+     */
+    public void setIdEspecialidad(ArrayList<Integer> idEspecialidad) {
+        this.idEspecialidad = idEspecialidad;
+    }
+
+    /**
+     * @return the Especialidad
+     */
+    public ArrayList<String> getEspecialidad() {
+        return Especialidad;
+    }
+
+    /**
+     * @param Especialidad the Especialidad to set
+     */
+    public void setEspecialidad(ArrayList<String> Especialidad) {
+        this.Especialidad = Especialidad;
+    }
+
+    /**
+     * @return the CantidadNiveles
+     */
+    public int getCantidadNiveles() {
+        return CantidadNiveles;
+    }
+
+    /**
+     * @param CantidadNiveles the CantidadNiveles to set
+     */
+    public void setCantidadNiveles(int CantidadNiveles) {
+        this.CantidadNiveles = CantidadNiveles;
+    }
+
+    /**
+     * @return the idNivel
+     */
+    public ArrayList<Integer> getIdNivel() {
+        return idNivel;
+    }
+
+    /**
+     * @param idNivel the idNivel to set
+     */
+    public void setIdNivel(ArrayList<Integer> idNivel) {
+        this.idNivel = idNivel;
+    }
+
+    /**
+     * @return the Nivel
+     */
+    public ArrayList<String> getNivel() {
+        return Nivel;
+    }
+
+    /**
+     * @param Nivel the Nivel to set
+     */
+    public void setNivel(ArrayList<String> Nivel) {
+        this.Nivel = Nivel;
+    }
+
+    /**
+     * @return the CantidadSecciones
+     */
+    public int getCantidadSecciones() {
+        return CantidadSecciones;
+    }
+
+    /**
+     * @param CantidadSecciones the CantidadSecciones to set
+     */
+    public void setCantidadSecciones(int CantidadSecciones) {
+        this.CantidadSecciones = CantidadSecciones;
+    }
+
+    /**
+     * @return the idSeccion
+     */
+    public ArrayList<Integer> getIdSeccion() {
+        return idSeccion;
+    }
+
+    /**
+     * @param idSeccion the idSeccion to set
+     */
+    public void setIdSeccion(ArrayList<Integer> idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
+    /**
+     * @return the Seccion
+     */
+    public ArrayList<String> getSeccion() {
+        return Seccion;
+    }
+
+    /**
+     * @param Seccion the Seccion to set
+     */
+    public void setSeccion(ArrayList<String> Seccion) {
+        this.Seccion = Seccion;
+    }
+
+    /**
+     * @return the Nivel_Seccion
+     */
+    public ArrayList<String> getNivel_Seccion() {
+        return Nivel_Seccion;
+    }
+
+    /**
+     * @param Nivel_Seccion the Nivel_Seccion to set
+     */
+    public void setNivel_Seccion(ArrayList<String> Nivel_Seccion) {
+        this.Nivel_Seccion = Nivel_Seccion;
+    }
+
+    /**
+     * @return the Especialidad_Seccion
+     */
+    public ArrayList<String> getEspecialidad_Seccion() {
+        return Especialidad_Seccion;
+    }
+
+    /**
+     * @param Especialidad_Seccion the Especialidad_Seccion to set
+     */
+    public void setEspecialidad_Seccion(ArrayList<String> Especialidad_Seccion) {
+        this.Especialidad_Seccion = Especialidad_Seccion;
+    }
+
+    /**
+     * @return the Ubicacion_Seccion
+     */
+    public ArrayList<String> getUbicacion_Seccion() {
+        return Ubicacion_Seccion;
+    }
+
+    /**
+     * @param Ubicacion_Seccion the Ubicacion_Seccion to set
+     */
+    public void setUbicacion_Seccion(ArrayList<String> Ubicacion_Seccion) {
+        this.Ubicacion_Seccion = Ubicacion_Seccion;
     }
 }

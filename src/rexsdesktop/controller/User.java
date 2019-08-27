@@ -7,6 +7,9 @@ package rexsdesktop.controller;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,11 +40,13 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import rexsdesktop.modal.ModalModificarUsuario;
 import rexsdesktop.model.DbConnection;
 import rexsdesktop.model.ENV;
 
@@ -91,7 +96,7 @@ public class User {
 
     public DefaultComboBoxModel obtenerTipoUsuario() {
         DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
-        ResultSet rst = this.consulta("Select * from tipoUsuario");
+        ResultSet rst = this.consulta("select * from tipoUsuario order by idTipoUsuario");
         try {
             while (rst.next()) {
                 listaModelo.addElement(rst.getString("tipo"));
@@ -104,7 +109,7 @@ public class User {
 
     public DefaultComboBoxModel obtenerEstadoUsuario() {
         DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
-        ResultSet rst = this.consulta("Select * from estadoUsuario");
+        ResultSet rst = this.consulta("Select * from estadoUsuario order by idEstadoUsuario");
         try {
             while (rst.next()) {
                 listaModelo.addElement(rst.getString("estado"));
@@ -397,6 +402,25 @@ public class User {
         }
         return bcHash;
     }
+    public int getCantidadUsuarios(){
+    Db db =  new Db();
+        try {
+            db.NumUsuarios();
+            int Numero = db.getCantidadUsuarios();
+            return Numero;
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    public int getCantidadUsuariosActivos(){
+    Db db =  new Db();
+        try {
+            int Numero = db.getUsuariosActivados();
+            return Numero;
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     public static boolean iniciarSesion(String email, String password) {
         Db db = new Db();
@@ -544,6 +568,86 @@ public class User {
         return db.eliminarFotoPerfil(idUsuario);
     }
 
+//    ArrayList<JPanel> panelesUsuarios;
+//    ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
+//
+//    public void CrearPanelesUsuarios(javax.swing.JPanel panel) {
+//
+//        Db db = new Db();
+//        db.MostrarUsuarios();
+//        db.NumUsuarios();
+//
+//        panelesUsuarios = new ArrayList<>();
+//
+//        for (int i = 0; i < db.getCantidadUsuarios(); i++) {
+//            JPanel Contenedor1 = new JPanel();
+//            panel.add(Contenedor1);
+//            panelesUsuarios.add(Contenedor1);
+//
+//            Contenedor1.setBackground(Color.white);
+//            Contenedor1.setPreferredSize(new Dimension(576, 52));
+//            Contenedor1.setLayout(null);
+//            Border borde = new LineBorder(Color.CYAN, 1, true);
+//            Contenedor1.setBorder(borde);
+//
+//            JLabel id = new JLabel();
+//            id.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            id.setForeground(new Color(46, 56, 77));
+//            id.setHorizontalAlignment(SwingConstants.LEADING);
+//            id.setBounds(20, 15, 20, 20);
+//            id.setText("<html>" + db.idUsuario.get(i) + "</html>");
+//            //id.setBorder(new EtchedBorder());
+//            Contenedor1.add(id);
+//
+//            JLabel nombreuser = new JLabel();
+//            nombreuser.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            nombreuser.setForeground(new Color(46, 56, 77));
+//            nombreuser.setHorizontalAlignment(SwingConstants.CENTER);
+//            nombreuser.setBounds(40, 15, 110, 20);
+//            nombreuser.setText(db.nombreCompleto.get(i));
+//            //nombreuser.setBorder(new EtchedBorder());
+//            Contenedor1.add(nombreuser);
+//
+//            JLabel email = new JLabel();
+//            email.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            email.setForeground(new Color(46, 56, 77));
+//            email.setHorizontalAlignment(SwingConstants.CENTER);
+//            email.setBounds(150, 15, 150, 20);
+//            email.setText(db.email.get(i));
+//            // email.setBorder(new EtchedBorder());
+//            Contenedor1.add(email);
+//
+//            JLabel fecha = new JLabel();
+//            fecha.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            fecha.setForeground(new Color(46, 56, 77));
+//            fecha.setHorizontalAlignment(SwingConstants.CENTER);
+//            fecha.setBounds(320, 15, 70, 20);
+//            fecha.setText(db.fecha.get(i).trim());
+//            //fecha.setBorder(new EtchedBorder());
+//            Contenedor1.add(fecha);
+//
+//            JLabel tipo = new JLabel();
+//            tipo.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            tipo.setForeground(new Color(46, 56, 77));
+//            tipo.setHorizontalAlignment(SwingConstants.CENTER);
+//            tipo.setBounds(400, 15, 70, 20);
+//            tipo.setText(db.tipo.get(i));
+//            // tipo.setBorder(new EtchedBorder());
+//            Contenedor1.add(tipo);
+//
+//            JLabel estado = new JLabel();
+//            estado.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+//            estado.setForeground(new Color(46, 56, 77));
+//            estado.setHorizontalAlignment(SwingConstants.CENTER);
+//            estado.setBounds(490, 15, 70, 20);
+//            estado.setText(db.estado.get(i));
+//            // estado.setBorder(new EtchedBorder());
+//            Contenedor1.add(estado);
+//
+//        }
+//    }
+    JPanel Contenedor1;
+
     ArrayList<JPanel> panelesUsuarios;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
 
@@ -553,13 +657,14 @@ public class User {
         db.MostrarUsuarios();
         db.NumUsuarios();
 
+        JLabel nombreuser = null;
         panelesUsuarios = new ArrayList<>();
 
         for (int i = 0; i < db.getCantidadUsuarios(); i++) {
-            JPanel Contenedor1 = new JPanel();
+            Contenedor1 = new JPanel();
             panel.add(Contenedor1);
             panelesUsuarios.add(Contenedor1);
-
+            Contenedor1.setName(String.valueOf(db.idUsuario.get(i)));
             Contenedor1.setBackground(Color.white);
             Contenedor1.setPreferredSize(new Dimension(576, 52));
             Contenedor1.setLayout(null);
@@ -575,7 +680,7 @@ public class User {
             //id.setBorder(new EtchedBorder());
             Contenedor1.add(id);
 
-            JLabel nombreuser = new JLabel();
+            nombreuser = new JLabel();
             nombreuser.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             nombreuser.setForeground(new Color(46, 56, 77));
             nombreuser.setHorizontalAlignment(SwingConstants.CENTER);
@@ -620,6 +725,63 @@ public class User {
             // estado.setBorder(new EtchedBorder());
             Contenedor1.add(estado);
 
+            Contenedor1.addMouseListener(new MouseListener() {
+                Frame fr;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Contenedor1 = (JPanel) e.getSource();
+
+                    //System.out.println(Contenedor1.getName());
+                    ModalModificarUsuario Modal = new ModalModificarUsuario();
+                    Modal.jLabel70.setText(Contenedor1.getName());
+                    String nombreCo = "";
+                    String correo = "";
+                    String clave = "";
+                    String tipoUsuario;
+                    String estadoUsuario;
+                    //Consulta
+                    Db db = new Db();
+                    correo = db.getCorreoUsuario(Integer.parseInt(Contenedor1.getName()));
+                    nombreCo = db.getNombreUsuario(Integer.parseInt(Contenedor1.getName()));
+                    tipoUsuario = db.getTipoUsuario(Integer.parseInt(Contenedor1.getName()));
+                    estadoUsuario = db.getEstadoUsuario(Integer.parseInt(Contenedor1.getName()));
+                    Modal.txtNombreUsuarioModal.setText(nombreCo);
+                    Modal.txtEmailUsuarioModal.setText(correo);
+                    Modal.txtClaveUsuarioModal.setText(clave);
+                    Modal.cbxTipoUsuarioModal.setSelectedItem(tipoUsuario);
+                    Modal.cbxEstadoUsuarioModal.setSelectedItem(estadoUsuario);
+                    JDialog modal1 = new JDialog(fr, "Modificar Usuario", true);
+                    modal1.getContentPane().add(Modal);
+                    modal1.pack();
+                    modal1.setLocationRelativeTo(null);
+                    modal1.setVisible(true);
+                }
+
+                @Override
+
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
         }
     }
 

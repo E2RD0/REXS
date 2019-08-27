@@ -5,18 +5,11 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.Sections;
-import rexsdesktop.model.DbConnection;
-
+import rexsdesktop.view.Admin;
+import static rexsdesktop.view.Admin.jPanel12;
 /**
  *
  * @author artur
@@ -29,23 +22,7 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
     DefaultTableModel modelo = new DefaultTableModel();
     public ModalModificarEspecialidad() {
         initComponents();
-        //Tabla
-        String[] titulo = new String[]{"Id", "Especialidad"};
-        modelo.setColumnIdentifiers(titulo);
-        jTTabla.setModel(modelo);
-        cargarTabla();
-        //Enviar datos de tabla txt
-        jTTabla.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent Mouse_evt) {
-                JTable table = (JTable) Mouse_evt.getSource();
-                Point point = Mouse_evt.getPoint();
-                int row = table.rowAtPoint(point);
-                if (Mouse_evt.getClickCount() == 1) {
-                    txtEspecialidadId.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 0).toString());
-                    txtEspecialidadModal.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 1).toString());
-                }
-            }
-        });
+        
     }
 
     /**
@@ -62,11 +39,9 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         jLabel67 = new javax.swing.JLabel();
         txtEspecialidadModal = new javax.swing.JTextField();
         btnModificarModal = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTTabla = new javax.swing.JTable();
         idTipo = new javax.swing.JLabel();
-        txtEspecialidadId = new javax.swing.JTextField();
-        btnEliminarModal = new javax.swing.JButton();
+        jLIdEspecialidad = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
 
         btnCancelarModal.setBackground(new java.awt.Color(247, 214, 218));
         btnCancelarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -84,6 +59,16 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         txtEspecialidadModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEspecialidadModal.setForeground(new java.awt.Color(46, 56, 77));
         txtEspecialidadModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEspecialidadModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEspecialidadModalActionPerformed(evt);
+            }
+        });
+        txtEspecialidadModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEspecialidadModalKeyTyped(evt);
+            }
+        });
 
         btnModificarModal.setBackground(new java.awt.Color(213, 222, 255));
         btnModificarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -96,38 +81,14 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
             }
         });
 
-        jTTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTTabla);
-
         idTipo.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         idTipo.setForeground(new java.awt.Color(176, 186, 201));
-        idTipo.setText("ID");
 
-        txtEspecialidadId.setBackground(new java.awt.Color(249, 250, 255));
-        txtEspecialidadId.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        txtEspecialidadId.setForeground(new java.awt.Color(46, 56, 77));
-        txtEspecialidadId.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        jLIdEspecialidad.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLIdEspecialidad.setForeground(new java.awt.Color(176, 186, 201));
 
-        btnEliminarModal.setBackground(new java.awt.Color(213, 222, 255));
-        btnEliminarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        btnEliminarModal.setForeground(new java.awt.Color(46, 91, 255));
-        btnEliminarModal.setText("Eliminar");
-        btnEliminarModal.setBorderPainted(false);
-        btnEliminarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarModalActionPerformed(evt);
-            }
-        });
+        jLabel70.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel70.setForeground(new java.awt.Color(176, 186, 201));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,116 +97,109 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnEliminarModal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnModificarModal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelarModal))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel67)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addComponent(idTipo)
+                                .addGap(69, 69, 69))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(jLIdEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel67)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtEspecialidadModal))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEspecialidadId, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idTipo))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnModificarModal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancelarModal))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtEspecialidadModal)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(242, 242, 242)
+                                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLIdEspecialidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel67)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(idTipo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtEspecialidadModal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEspecialidadId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel70, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtEspecialidadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btnModificarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(idTipo))
         );
     }// </editor-fold>//GEN-END:initComponents
     
    
     
-    public void cargarTabla() {
-        DbConnection cone = new DbConnection();
-        Connection con = cone.conectar();
-        try {
-            Statement stm = con.createStatement();
-            ResultSet rst = stm.executeQuery("select idEspecialidad, especialidad from especialidad");
-            while (rst.next()) {
-                modelo.addRow(new Object[]{
-                    rst.getInt(1),
-                    rst.getString(2),});
-            }
-        } catch (Exception e) {
-        }
-    }
+    
     private void btnModificarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarModalActionPerformed
         Sections Conexion = new Sections();
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
-
+            if (txtEspecialidadModal.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
+            }else{
+            Conexion.setIdEspecialidad(Integer.parseInt(jLabel70.getText()));
             Conexion.setEspecialidad(txtEspecialidadModal.getText());
-            Conexion.setIdEspecialidad(Integer.parseInt(txtEspecialidadId.getText()));
-            jTTabla.setModel(modelo);
             if (Conexion.ActualizarEspecialidad()) {
-                JOptionPane.showMessageDialog(null, "Datos modficados correctamente");
+                JOptionPane.showMessageDialog(null, "Datos modificados correctamente");
+                Admin.jPanel12.removeAll();
+                Sections CargarEspecialidad = new Sections();
+                CargarEspecialidad.CrearPanelesEspecialidades(jPanel12);
             } else {
                 JOptionPane.showMessageDialog(null, "Error al modficar datos");
+                
+            }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnModificarModalActionPerformed
 
-    private void btnEliminarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarModalActionPerformed
+    private void txtEspecialidadModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEspecialidadModalActionPerformed
         // TODO add your handling code here:
-        Sections Conexion = new Sections();
-        try {
-            Conexion.setIdEspecialidad(Integer.parseInt(txtEspecialidadId.getText()));
-            if (Conexion.ElminarEspecialidad()) {
-                JOptionPane.showMessageDialog(null, "Especialidad Eliminada");
-                //limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar especialidad");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
+    }//GEN-LAST:event_txtEspecialidadModalActionPerformed
+
+    private void txtEspecialidadModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEspecialidadModalKeyTyped
+        // TODO add your handling code here:
+        char validar=evt.getKeyChar();
+        
+        if(Character.isDigit(validar)){
+            getToolkit().beep();
+            
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
-    }//GEN-LAST:event_btnEliminarModalActionPerformed
+    }//GEN-LAST:event_txtEspecialidadModalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarModal;
-    private javax.swing.JButton btnEliminarModal;
     private javax.swing.JButton btnModificarModal;
-    private javax.swing.JLabel idTipo;
+    public javax.swing.JLabel idTipo;
+    private javax.swing.JLabel jLIdEspecialidad;
     private javax.swing.JLabel jLabel67;
-    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JLabel jLabel70;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTTabla;
-    private javax.swing.JTextField txtEspecialidadId;
-    private javax.swing.JTextField txtEspecialidadModal;
+    public static javax.swing.JTextField txtEspecialidadModal;
     // End of variables declaration//GEN-END:variables
 }
