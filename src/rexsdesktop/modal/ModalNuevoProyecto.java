@@ -22,7 +22,7 @@ import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
 
 /**
- *
+ * Clase que contiene el Panel para agregar un nuevo proyecto.
  * @author Lulac
  */
 public class ModalNuevoProyecto extends javax.swing.JPanel {

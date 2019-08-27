@@ -28,8 +28,10 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Clase utilizada como modelo o capa de gestión de datos.
  *
  * @author Eduardo
+ * @version 1.2
  */
 public class Db {
 
@@ -39,6 +41,18 @@ public class Db {
         cn = new DbConnection().conectar();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Activities">
+    /**
+     * Método utilizado para agregar una nueva actividad.
+     *
+     * @param nombre el nombre de la actividad a agregar.
+     * @param descripcion la descripcion de la actividad a agregar.
+     * @param fechaInicio fecha de inicio de la actividad a agregar.
+     * @param fechaFin fecha de finalización de la actividad a agregar.
+     * @param idUbicacion identificador de la ubicación de la actividad a
+     * agregar.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
     public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
         boolean bandera = false;
         try {
@@ -63,6 +77,43 @@ public class Db {
         return bandera;
     }
 
+    /**
+     * Método utilizado para eliminar una actividad seleccionada.
+     *
+     * @param id identificador de la actividad a eliminar.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
+    public boolean eliminarActividad(int id) {
+        boolean bandera = false;
+        try {
+            String sql = "DELETE FROM actividad WHERE idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+
+            if (stm.executeUpdate() > 0) {
+                bandera = true;
+            }
+
+            stm.close();
+            cn.close();
+
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+        return bandera;
+    }
+
+    /**
+     * Método utilizado para actualizar una actividad seleccionada.
+     *
+     * @param nombre nombre de la actividad.
+     * @param descripcion descripción de la actividad.
+     * @param fechaInicio fecha de inicio de la actividad.
+     * @param fechaFin fecha de finalización de la actividad.
+     * @param idUbicacion identificador de la ubicación de la actividad.
+     * @param id identificador de la actividad a eliminar.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
     public boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
         boolean bandera = false;
         try {
@@ -88,6 +139,180 @@ public class Db {
         return bandera;
     }
 
+    private int CantidadActividades;
+    public ArrayList<String> nombreAct;
+
+    /**
+     * Método utilizado para obtener el número de actividades que existen.
+     *
+     * @param inicio fecha de inicio de la actividad
+     * @param fin fecha de finalización de la actividad
+     */
+    public void NumActividades(String inicio, String fin) {
+        try {
+
+            String sql = "select COUNT(idActividad) from actividad where fechaInicio between ? AND ?";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                setCantidadActividades(rs.getInt(1));
+                //System.out.println(getNumProyecto());
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
+
+    /**
+     * Método utilizado para obtener el nombre de las actividades que existen.
+     *
+     * @param inicio fecha de inicio de la actividad
+     * @param fin fecha de finalización de la actividad
+     */
+    public void Actividades(String inicio, String fin) {
+        try {
+
+            String sql = "select nombre from actividad where fechaInicio between (?) AND (?)";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+
+            ResultSet rs = st.executeQuery();
+            nombreAct = new ArrayList<>();
+
+            while (rs.next()) {
+
+                nombreAct.add(rs.getString(1));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Método utilizado para obtener el identificador de una actividad
+     * seleccionada.
+     *
+     * @param nombre nombre de la actividad seleccionada.
+     * @return retorna un valor entero, el identificador.
+     */
+    public int getIdActividad(String nombre) {
+        try {
+            String sql = "select idActividad from actividad where nombre = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return 0;
+    }
+
+    /**
+     * Método utilizado para obtener la descripción de una actividad
+     * seleccionada.
+     *
+     * @param id identificador de la actividad
+     * @return retorna la descripción.
+     */
+    public String getDescripcionActividad(int id) {
+        try {
+            String sql = "select descripcion from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return "";
+    }
+
+    /**
+     * Método utilizado para obtener la fecha de inicio de una actividad
+     * seleccionada.
+     *
+     * @param id identificador de la actividad
+     * @return retorna la descripción.
+     */
+    public Date getFechaInicioActividad(int id) {
+        try {
+            String sql = "select fechaInicio from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDate(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return null;
+    }
+
+//    public String getHoraInicioActividad(int id) {
+//        try {
+//            String sql = "SELECT (convert(time, fechaInicio, 1)) from actividad where idActividad = (?)";
+//            PreparedStatement stm = cn.prepareStatement(sql);
+//            stm.setInt(1, id);
+//            ResultSet rs = stm.executeQuery();
+//            if (rs.next()) {
+//                return rs.getString(1);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("ERROR");
+//        }
+//        return null;
+//    }
+//
+//    public Date getHoraFinActividad(int id) {
+//        try {
+//            String sql = "SELECT (convert(time, fechaFin, 1)) from actividad where idActividad = (?)";
+//            PreparedStatement stm = cn.prepareStatement(sql);
+//            stm.setInt(1, id);
+//            ResultSet rs = stm.executeQuery();
+//            if (rs.next()) {
+//                return rs.getDate(1);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("ERROR");
+//        }
+//        return null;
+//    }
+    /**
+     * @return the CantidadActividades
+     */
+    public int getCantidadActividades() {
+        return CantidadActividades;
+    }
+
+    /**
+     * @param CantidadActividades the CantidadActividades to set
+     */
+    public void setCantidadActividades(int CantidadActividades) {
+        this.CantidadActividades = CantidadActividades;
+    }
+
+    // </editor-fold>
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Users">
+    
+    /**
+     * Método utilizado para obtener el identificador de un usuario por medio de email.
+     * @param email el correo del usuario.
+     * @return retorna el identificador.
+     */
     public int getIdUsuario(String email) {
         try {
             String query = "SELECT idUsuario FROM usuario WHERE email = ?";
@@ -103,6 +328,13 @@ public class Db {
         return 0;
     }
 
+    /**
+     * Método utilizado para insertar el PIN generado en la base de datos.
+     * @param pin el PIN generado por el sistema.
+     * @param id el identificador de usuario.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
+    
     public boolean insertarPin(String pin, int id) {
         try {
             String query = "INSERT INTO recuperarClave (pin, idUsuario) "
@@ -122,6 +354,12 @@ public class Db {
         return false;
     }
 
+    /**
+     * Método utilizado para obtener el PIN de un usuario.
+     * @param id identificador del usuario.
+     * @return retorna el PIN
+     */
+    
     public String getPin(int id) {
         try {
             String query = "SELECT pin FROM recuperarClave where idUsuario = ? order by idRecuperarClave desc";
@@ -137,6 +375,16 @@ public class Db {
         return "";
     }
 
+    /**
+     * Método utilizado para agregar un usuario nuevo.
+     * @param nombreCompleto nombre completo del usuario.
+     * @param email correo único del usuario.
+     * @param claveHash clave encriptada del usuario.
+     * @param idTipoUsuario identificador del tipo de usuario.
+     * @param idEstadoUsuario identificador del estado del usuario.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
+    
     public boolean agregarUsuario(String nombreCompleto, String email, String claveHash, int idTipoUsuario, int idEstadoUsuario) {
         boolean r = false;
         try {
@@ -160,6 +408,14 @@ public class Db {
         return r;
     }
 
+    /**
+     * Método utilizado para actualizar el perfil de un usuario seleccionado.
+     * @param nombreCompleto nombre completo del usuario.
+     * @param email correo único del usuario.
+     * @param id identificador del usuario.
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
+    
     public boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id) {
         boolean r = false;
         try {
@@ -352,6 +608,7 @@ public class Db {
 
         }
     }
+
     /*try {
                 BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\Eduardo\\Documents\\prueba\\backup.csv"));
                 String row;
@@ -365,139 +622,6 @@ public class Db {
                 } catch (IOException ex) {
                     System.out.println(ex);
                 }*/
-
-    private int CantidadActividades;
-    public ArrayList<String> nombreAct;
-
-    public void NumActividades(String inicio, String fin) {
-        try {
-
-            String sql = "select COUNT(idActividad) from actividad where fechaInicio between ? AND ?";
-            PreparedStatement st = cn.prepareStatement(sql);
-            st.setString(1, inicio);
-            st.setString(2, fin);
-
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                setCantidadActividades(rs.getInt(1));
-                //System.out.println(getNumProyecto());
-            }
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-    }
-
-    public void Actividades(String inicio, String fin) {
-        try {
-
-            String sql = "select nombre from actividad where fechaInicio between (?) AND (?)";
-            PreparedStatement st = cn.prepareStatement(sql);
-            st.setString(1, inicio);
-            st.setString(2, fin);
-
-            ResultSet rs = st.executeQuery();
-            nombreAct = new ArrayList<>();
-
-            while (rs.next()) {
-
-                nombreAct.add(rs.getString(1));
-
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public int getIdActividad(String nombre) {
-        try {
-            String sql = "select idActividad from actividad where nombre = (?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setString(1, nombre);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        return 0;
-    }
-
-    public String getDescripcionActividad(int id) {
-        try {
-            String sql = "select descripcion from actividad where idActividad = (?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setInt(1, id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        return "";
-    }
-
-    public Date getFechaInicioActividad(int id) {
-        try {
-            String sql = "select fechaInicio from actividad where idActividad = (?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setInt(1, id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getDate(1);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        return null;
-    }
-
-    public String getHoraInicioActividad(int id) {
-        try {
-            String sql = "SELECT (convert(time, fechaInicio, 1)) from actividad where idActividad = (?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setInt(1, id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        return null;
-    }
-
-    public Date getHoraFinActividad(int id) {
-        try {
-            String sql = "SELECT (convert(time, fechaFin, 1)) from actividad where idActividad = (?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setInt(1, id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getDate(1);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        return null;
-    }
-
-    /**
-     * @return the CantidadActividades
-     */
-    public int getCantidadActividades() {
-        return CantidadActividades;
-    }
-
-    /**
-     * @param CantidadActividades the CantidadActividades to set
-     */
-    public void setCantidadActividades(int CantidadActividades) {
-        this.CantidadActividades = CantidadActividades;
-    }
-
     public boolean actualizarFotoPerfil(byte[] immAsBytes, int idUsuario) {
         try {
             PreparedStatement pstmt = cn.prepareStatement("UPDATE usuario SET fotoPerfil = ? WHERE idUsuario = ?");
@@ -514,7 +638,13 @@ public class Db {
         }
         return false;
     }
-
+    
+    /**
+     * Método utilizado para eliminar la foto de perfil de un usuario.
+     * @param idUsuario identificador del usuario.
+     * @return retorna un valor booleno para ser utilizado en el controlador.
+     */
+    
     public boolean eliminarFotoPerfil(int idUsuario) {
         try {
             PreparedStatement pstmt = cn.prepareStatement("UPDATE usuario SET fotoPerfil = null WHERE idUsuario = ?");
@@ -537,6 +667,10 @@ public class Db {
     public ArrayList<String> fecha;
     public ArrayList<String> estado;
 
+    /**
+     * Método utilizado para obtener la cantidad de usuarios registrados.
+     */
+    
     public void NumUsuarios() {
         try {
 
@@ -551,7 +685,11 @@ public class Db {
         } catch (Exception e) {
         }
     }
-
+    
+    /**
+     * Método utilizado para mostrar los usuarios registrados.
+     */
+    
     public void MostrarUsuarios() {
         try {
 
@@ -596,6 +734,9 @@ public class Db {
         this.CantidadUsuarios = CantidadUsuarios;
     }
 
+    // </editor-fold>
+    
+    
     public String getMapwizeAPIKey() {
         try {
             String query = "SELECT valor from opcionesGenerales WHERE nombre = 'MAPWIZE_API_KEY'";
@@ -758,7 +899,7 @@ public class Db {
         }
         return false;
     }
-        //Parte de Proyectos
+    //Parte de Proyectos
     private int CantidadProyecto;
     public ArrayList<Integer> PjId;
     public ArrayList<String> PjNombre;

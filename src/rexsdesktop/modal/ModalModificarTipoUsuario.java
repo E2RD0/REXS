@@ -18,7 +18,7 @@ import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene el Panel para modificar un tipo de usuario.
  * @author artur
  */
 public class ModalModificarTipoUsuario extends javax.swing.JPanel {

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import rexsdesktop.controller.Sections;
 
 /**
- *
+ * Clase que contiene el Panel para agregar un nuevo nivel.
  * @author artur
  */
 public class ModalNuevoNivel extends javax.swing.JPanel {

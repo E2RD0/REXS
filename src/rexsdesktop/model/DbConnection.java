@@ -8,9 +8,11 @@ package rexsdesktop.model;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 /**
- *
+ * Clase utilizada para establecer la conexión con el servidor de SQL Server.
  * @author Eduardo
+ * @version 1.2
  */
 public class DbConnection {
     
@@ -22,6 +24,8 @@ public class DbConnection {
         ds.setServerName(ENV.DB_HOST);
         ds.setPortNumber(ENV.DB_PORT);
         ds.setDatabaseName(ENV.DB_NAME);
+        
+//        ds.setURL("jdbc:sqlserver://192.168.1.3:1433;databaseName=dbrexs; user = "+ENV.DB_USER+";"+"password = "+ENV.DB_PASSWORD+";");
 
     try{ 
         Connection con = ds.getConnection();

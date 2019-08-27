@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import rexsdesktop.controller.User;
 
 /**
- *
+ * Clase que contiene el Panel para agregar un nuevo estado del Usuario.
  * @author artur
  */
 public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {

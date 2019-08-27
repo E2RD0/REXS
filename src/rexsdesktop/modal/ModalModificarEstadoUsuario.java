@@ -18,7 +18,7 @@ import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene el Panel para modificar un estado del usuario.
  * @author artur
  */
 public class ModalModificarEstadoUsuario extends javax.swing.JPanel {

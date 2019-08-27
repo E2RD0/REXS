@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import rexsdesktop.controller.Sections;
 
 /**
- *
+ * Clase que contiene el Panel para agregar una nueva sección.
  * @author artur
  */
 public class ModalNuevaSeccion extends javax.swing.JPanel {

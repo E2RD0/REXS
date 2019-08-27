@@ -12,7 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene los atributos y métodos de una sección.
  * @author artur
  */
 public class Sections {

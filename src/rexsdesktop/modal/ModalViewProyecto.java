@@ -24,7 +24,7 @@ import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
 
 /**
- *
+ * Clase que contiene el Panel para visualizar y editar un proyecto.
  * @author Lulac
  */
 public class ModalViewProyecto extends javax.swing.JPanel {

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import rexsdesktop.controller.User;
 
 /**
- *
+ * Clase que contiene el Panel para agregar un nuevo tipo de Usuario.
  * @author artur
  */
 public class ModalNuevoTipoUsuario extends javax.swing.JPanel {

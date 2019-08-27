@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import rexsdesktop.controller.User;
 
 /**
- *
+ * Clase que contiene el Panel para modificar un Usuario.
  * @author artur
  */
 public class ModalModificarUsuario extends javax.swing.JPanel {

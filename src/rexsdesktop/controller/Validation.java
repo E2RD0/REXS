@@ -9,8 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
+ * Clase utilizada para realizar las validaciones del sistema.
  *
  * @author Eduardo
+ * @version 1.2
  */
 public class Validation {
 
@@ -22,6 +24,12 @@ public class Validation {
         return email.matches("^[\\w!#$%&’'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,8}$");
     }
 
+    /**
+     * Clase utilizada para realizar las validaciones de nombres.
+     *
+     * @author Eduardo
+     * @version 1.2
+     */
     public static class VerificadorNombre {
 
         public static String mensaje = "";
@@ -55,6 +63,13 @@ public class Validation {
         }
     }
 
+    /**
+     * Clase utilizada para realizar las validaciones de los correos que se
+     * ingresen al sistema.
+     *
+     * @author Eduardo
+     * @version 1.2
+     */
     public static class VerificadorEmail {
 
         public static String mensaje = "";
@@ -83,6 +98,12 @@ public class Validation {
         }
     }
 
+    /**
+     * Clase utilizada para realizar validar las claves.
+     *
+     * @author Eduardo
+     * @version 1.2
+     */
     public static class VerificadorPassword {
 
         public static String mensaje = "";
@@ -116,6 +137,13 @@ public class Validation {
         }
     }
 
+    /**
+     * Clase utilizada para realizar la validación principal del Inicio de
+     * Sesión.
+     *
+     * @author Eduardo
+     * @version 1.2
+     */
     public static class VerificadorLogin {
 
         public static String mensajeEmail = "";
@@ -140,6 +168,12 @@ public class Validation {
         }
     }
 
+    /**
+     * Clase utilizada para realizar la validación de las imagenes.
+     *
+     * @author Eduardo
+     * @version 1.2
+     */
     public static class VerificadorImagen {
 
         public static String mensaje = "";
@@ -147,7 +181,7 @@ public class Validation {
         public static boolean verifyFile(File f) {
             mensaje = "";
             if (f.exists() && f.isFile()) {
-                double size = (double)f.length() / (1024 * 1024);
+                double size = (double) f.length() / (1024 * 1024);
                 if (size > 0 && size <= 4) {
                     mensaje = "";
                     return true;
@@ -169,8 +203,7 @@ public class Validation {
                 } else {
                     mensaje = "Las dimensiones de la imagen deben de ser de al menos 200PX";
                 }
-            }
-            else{
+            } else {
                 mensaje = "Error al cargar el archivo";
             }
             return false;

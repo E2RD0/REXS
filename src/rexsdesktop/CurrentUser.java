@@ -28,7 +28,7 @@ public class CurrentUser {
 
     /**
      *
-     * Este método es utilizado para limpiar los atributos de la clase
+     * Este método es utilizado para limpiar los atributos de la clase.
      */
     public static void clear() {
         idUsuario = 0;

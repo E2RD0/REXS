@@ -7,12 +7,18 @@ package rexsdesktop.modal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -22,7 +28,7 @@ import rexsdesktop.controller.Locations;
 import rexsdesktop.view.Admin;
 
 /**
- * Clase que contiene el Panel para agregar una nueva actividad.
+ * Clase que contiene el Panel para modificar y eliminar una actividad.
  *
  * @author Carlos Herrera
  * @version 1.2
@@ -33,8 +39,8 @@ public class ModalModificarActividad extends javax.swing.JPanel {
      * Creates new form NewJPanel
      */
     Map<String, Location> map = createMap();
-    private SpinnerDateModel modelInicio = new SpinnerDateModel();
-    private SpinnerDateModel modelFin = new SpinnerDateModel();
+    public final SpinnerDateModel modelInicio = new SpinnerDateModel();
+    public final SpinnerDateModel modelFin = new SpinnerDateModel();
     public int id = 0;
 
     public ModalModificarActividad() {
@@ -55,12 +61,14 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         cbxUbicacionModal.removeAllItems();
         createComboBox(map, cbxUbicacionModal);
         dateFechaInicio.setDateFormatString("yyyy-MM-dd");
-//        dateFechaInicio.setDate(new Date());
-
+        
+        
         modelInicio.setCalendarField(Calendar.MINUTE);
         modelFin.setCalendarField(Calendar.MINUTE);
+    
         spHoraInicio.setModel(modelInicio);
         spHoraInicio.setEditor(new JSpinner.DateEditor(spHoraInicio, "h:mma"));
+        
         spHoraFin.setModel(modelFin);
         spHoraFin.setEditor(new JSpinner.DateEditor(spHoraFin, "h:mma"));
     }
@@ -85,6 +93,9 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         spHoraFin = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcionModal = new javax.swing.JTextArea();
+        btnEliminarModal = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(345, 325));
@@ -129,55 +140,91 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         txtDescripcionModal.setRows(5);
         jScrollPane1.setViewportView(txtDescripcionModal);
 
+        btnEliminarModal.setBackground(new java.awt.Color(247, 214, 218));
+        btnEliminarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
+        btnEliminarModal.setForeground(new java.awt.Color(214, 54, 73));
+        btnEliminarModal.setText("Eliminar");
+        btnEliminarModal.setBorderPainted(false);
+        btnEliminarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarModalActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LocationActivities.png"))); // NOI18N
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Clock.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel67))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addComponent(jLabel67)
+                            .addGap(163, 163, 163))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, 0)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(74, 74, 74)))
+                                    .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(13, 13, 13)
                 .addComponent(jLabel67)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
                 .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(spHoraFin, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(spHoraInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spHoraFin)
+                            .addComponent(spHoraInicio)
+                            .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(16, 16, 16)
+                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -197,6 +244,10 @@ public class ModalModificarActividad extends javax.swing.JPanel {
     private void actualizar() {
         if (txtDescripcionModal.getText().equals("") || txtNombreActividadModal.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Exisen campos vacíos");
+        } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
+            JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales");
+        } else if (modelInicio.getCalendarField() > modelFin.getCalendarField()) {
+            JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio");
         } else {
 
             String nombre = txtNombreActividadModal.getText();
@@ -226,7 +277,21 @@ public class ModalModificarActividad extends javax.swing.JPanel {
 
     }
 
-    public void cargarActividades() {
+    private void eliminar() {
+        if (Activities.eliminarActividad(id)) {
+            JOptionPane.showMessageDialog(null, "Actividad eliminada");
+            resetarCampos();
+            Activities acti = new Activities();
+            Admin.jPanel4.removeAll();
+            Admin.jPanel12.removeAll();
+            Admin.jPanel13.removeAll();
+            Admin.jPanel14.removeAll();
+            Admin.jPanel15.removeAll();
+            cargarActividades();
+        }
+    }
+
+    private void cargarActividades() {
         Activities actividades = new Activities();
         String dia1_Inicio = "2019-10-25 00:00:00";
         String dia1_Fin = "2019-10-25 23:59:59";
@@ -267,12 +332,26 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         actualizar();
     }//GEN-LAST:event_btnActualizarModalActionPerformed
 
+    private void btnEliminarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarModalActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar esta actividad?");
+        if (a == JOptionPane.YES_OPTION) {
+            eliminar();
+        }else{
+        
+        }
+    }//GEN-LAST:event_btnEliminarModalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarModal;
+    private javax.swing.JButton btnCancelarModal;
+    private javax.swing.JButton btnCancelarModal1;
+    private javax.swing.JButton btnEliminarModal;
     public static javax.swing.JComboBox<String> cbxUbicacionModal;
     public static com.toedter.calendar.JDateChooser dateFechaInicio;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -299,34 +378,36 @@ public class ModalModificarActividad extends javax.swing.JPanel {
 
         cbox.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
                 String name = (String) cbox.getSelectedItem();
                 System.out.println(map.get(name));
             }
         });
-    }
+    
+
+}
 
     class Location {
 
-        String name;
-        String id;
+    String name;
+    String id;
 
-        public Location(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String toString() {
-            return id;
-        }
+    public Location(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return id;
+    }
+}
 }

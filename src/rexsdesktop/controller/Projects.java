@@ -42,8 +42,9 @@ import rexsdesktop.model.Db;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene los atributos y métodos de un proyecto.
  * @author Lulac
+ * @version 1.2
  */
 public class Projects {
 
@@ -319,7 +320,8 @@ public class Projects {
         }
         return res;
     }
-
+    
+    
     public static boolean nuevoProyecto(String nombre, String descripcion, int SeccionNivel) {
         Db db = new Db();
         if (!db.proyectoExiste(nombre)) {
@@ -385,7 +387,14 @@ public class Projects {
         }
         return false;
     }
-
+    
+    /**
+     * Método utilizado obtener el nombre de integrantes de un proyecto.
+     * 
+     * @param id identificador del proyecto.
+     * @return nombres de los integrantes.
+     */
+    
     public static Projects getMembers(int id) {
         try {
             Db db = new Db();
@@ -400,7 +409,11 @@ public class Projects {
             return null;
         }
     }
-
+    /**
+     * Método utilizado obtener el número de integrantes de un proyecto.
+     * @param id identificador del proyecto.
+     * @return retorna el número de integrantes de un proyecto.
+     */
     public static Projects getNumMembers(int id) {
         try {
             Db db = new Db();

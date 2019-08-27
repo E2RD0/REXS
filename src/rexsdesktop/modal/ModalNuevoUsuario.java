@@ -10,7 +10,7 @@ import rexsdesktop.controller.User;
 import rexsdesktop.view.Admin;
 
 /**
- *
+ * Clase que contiene el Panel para agregar un nuevo usuario.
  * @author artur
  */
 public class ModalNuevoUsuario extends javax.swing.JPanel {

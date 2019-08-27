@@ -19,7 +19,7 @@ import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene el Panel para modificar una sección.
  * @author artur
  */
 public class ModalModificarSecciones extends javax.swing.JPanel {

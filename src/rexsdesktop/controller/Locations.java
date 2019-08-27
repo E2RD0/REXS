@@ -18,13 +18,18 @@ import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 
 /**
+ * Clase que contiene los atributos y métodos de una ubicación.
  *
  * @author Eduardo
+ * @version 1.2
  */
 public class Locations {
 
     public static String error = "";
 
+    /**
+     * Método utilizado para cargar las ubicaciones de la API MapWize.
+     */
     public static List<String> getPlaces() {
         try {
             List<String> places = new ArrayList<>();
@@ -57,7 +62,9 @@ public class Locations {
         }
         return null;
     }
-
+    /**
+     * Método utilizado para cargar los nombres de las ubicaciones de la API MapWize.
+     */
     public static String getPlaceName(String placeId) {
         String placeName = "";
         try {

@@ -18,7 +18,7 @@ import rexsdesktop.controller.Sections;
 import rexsdesktop.model.DbConnection;
 
 /**
- *
+ * Clase que contiene el Panel para modificar una especialidad.
  * @author artur
  */
 public class ModalModificarEspecialidad extends javax.swing.JPanel {

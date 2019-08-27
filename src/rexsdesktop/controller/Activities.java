@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -185,13 +186,14 @@ public class Activities {
 
                     fechaIni = db.getFechaInicioActividad(id);
 //                    horaInicio = db.getHoraInicioActividad(id);
-                    horaFin = db.getHoraFinActividad(id);
+//                    horaFin = db.getHoraFinActividad(id);
                     
                     //Luego de consulta
                     ModalModificarActividad.txtNombreActividadModal.setText(nombreAc);
                     ModalModificarActividad.txtDescripcionModal.setText(descripcion);
                     ModalModificarActividad.dateFechaInicio.setDate(fechaIni);
                     ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubi);
+                    
                     Modal.id = id;
 
                     JDialog modal1 = new JDialog(fr, "Modificar Actividad", true);
@@ -261,6 +263,18 @@ public class Activities {
         Db db = new Db();
         try {
             if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion, id)) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR 2" + e);
+        }
+        return false;
+    }
+    
+    public static boolean eliminarActividad(int id) {
+        Db db = new Db();
+        try {
+            if (db.eliminarActividad(id)) {
                 return true;
             }
         } catch (Exception e) {
