@@ -43,6 +43,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
                 int row = table.rowAtPoint(point);
                 if (Mouse_evt.getClickCount() == 1) {
                     txtIdModal.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 0).toString());
+                    txtTipoUsuarioModal.setText(jTTabla.getValueAt(jTTabla.getSelectedRow(), 1).toString());
                 }
             }
         });
@@ -66,7 +67,6 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         jTTabla = new javax.swing.JTable();
         idTipo = new javax.swing.JLabel();
         txtIdModal = new javax.swing.JTextField();
-        btnEliminarModal = new javax.swing.JButton();
 
         btnCancelarModal.setBackground(new java.awt.Color(247, 214, 218));
         btnCancelarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -84,6 +84,11 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         txtTipoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtTipoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         txtTipoUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtTipoUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTipoUsuarioModalKeyTyped(evt);
+            }
+        });
 
         btnModificarModal.setBackground(new java.awt.Color(213, 222, 255));
         btnModificarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -111,21 +116,16 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
 
         idTipo.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         idTipo.setForeground(new java.awt.Color(176, 186, 201));
-        idTipo.setText("Tipo usuario");
+        idTipo.setText("Id");
 
+        txtIdModal.setEditable(false);
         txtIdModal.setBackground(new java.awt.Color(249, 250, 255));
         txtIdModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtIdModal.setForeground(new java.awt.Color(46, 56, 77));
         txtIdModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
-
-        btnEliminarModal.setBackground(new java.awt.Color(213, 222, 255));
-        btnEliminarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        btnEliminarModal.setForeground(new java.awt.Color(46, 91, 255));
-        btnEliminarModal.setText("Eliminar");
-        btnEliminarModal.setBorderPainted(false);
-        btnEliminarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarModalActionPerformed(evt);
+        txtIdModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdModalKeyTyped(evt);
             }
         });
 
@@ -137,8 +137,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnEliminarModal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnModificarModal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancelarModal))
@@ -178,8 +177,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnModificarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -204,40 +202,52 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
+            if (txtIdModal.getText().equals("") || txtTipoUsuarioModal.getText().equals("")) {
 
-            Conexion.setTipoUsuario(txtTipoUsuarioModal.getText());
-            Conexion.setIdTipoUsuario(Integer.parseInt(txtIdModal.getText()));
-            jTTabla.setModel(modelo);
-            if (Conexion.ActualizarTipoUsuario()) {
-                JOptionPane.showMessageDialog(null, "Datos modficados correctamente correctamente");
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al modficar datos");
+                Conexion.setTipoUsuario(txtTipoUsuarioModal.getText());
+                Conexion.setIdTipoUsuario(Integer.parseInt(txtIdModal.getText()));
+                jTTabla.setModel(modelo);
+                if (Conexion.ActualizarTipoUsuario()) {
+                    JOptionPane.showMessageDialog(null, "Datos modficados correctamente correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modficar datos");
+                }
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnModificarModalActionPerformed
 
-    private void btnEliminarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarModalActionPerformed
+    private void txtTipoUsuarioModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTipoUsuarioModalKeyTyped
         // TODO add your handling code here:
-         User Conexion = new User();
-        try {
-            Conexion.setIdTipoUsuario(Integer.parseInt(txtIdModal.getText()));
-            if (Conexion.ElminarTipoUsuario()) {
-                JOptionPane.showMessageDialog(null, "Tipo Usuario eliminado");
-                //limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar Tipo Usuario");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
-    }//GEN-LAST:event_btnEliminarModalActionPerformed
+    }//GEN-LAST:event_txtTipoUsuarioModalKeyTyped
+
+    private void txtIdModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdModalKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(null, "Ingresar solo numeros");
+        }
+    }//GEN-LAST:event_txtIdModalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarModal;
-    private javax.swing.JButton btnEliminarModal;
     private javax.swing.JButton btnModificarModal;
     private javax.swing.JLabel idTipo;
     private javax.swing.JLabel jLabel67;

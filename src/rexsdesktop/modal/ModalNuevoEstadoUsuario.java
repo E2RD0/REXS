@@ -40,6 +40,11 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
         txtEstadoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEstadoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         txtEstadoUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEstadoUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEstadoUsuarioModalKeyTyped(evt);
+            }
+        });
 
         jLabel67.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(176, 186, 201));
@@ -109,18 +114,33 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
-
-            Conexion.setEstadoUsuario(txtEstadoUsuarioModal.getText());
-
-            if (Conexion.agregarEstadoUsuario()) {
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+            if (txtEstadoUsuarioModal.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al insertar datos");
+                Conexion.setEstadoUsuario(txtEstadoUsuarioModal.getText());
+
+                if (Conexion.agregarEstadoUsuario()) {
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al insertar datos");
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnAceptarModalActionPerformed
+
+    private void txtEstadoUsuarioModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoUsuarioModalKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
+        }
+    }//GEN-LAST:event_txtEstadoUsuarioModalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

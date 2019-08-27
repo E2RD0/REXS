@@ -68,6 +68,11 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         cbxUbicacionModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxUbicacionModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxUbicacionModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxUbicacionModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxUbicacionModalActionPerformed(evt);
+            }
+        });
 
         jLabel93.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel93.setForeground(new java.awt.Color(176, 186, 201));
@@ -77,6 +82,11 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         txtSeccionModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtSeccionModal.setForeground(new java.awt.Color(46, 56, 77));
         txtSeccionModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtSeccionModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSeccionModalKeyTyped(evt);
+            }
+        });
 
         jLabel91.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel91.setForeground(new java.awt.Color(176, 186, 201));
@@ -173,21 +183,40 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
         try {
-
-            Conexion.setSeccion(txtSeccionModal.getText());
-            Conexion.setIdEspecialidad(cbxEspecialidadModal.getSelectedIndex());
-            Conexion.setIdNivel(cbxNivelModal.getSelectedIndex());
-            Conexion.setIdUbicacion(cbxUbicacionModal.getSelectedIndex());
-
-            if (Conexion.agregarSeccion()) {
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+            if (txtSeccionModal.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al insertar datos");
+                Conexion.setSeccion(txtSeccionModal.getText());
+                Conexion.setIdEspecialidad(cbxEspecialidadModal.getSelectedIndex());
+                Conexion.setIdNivel(cbxNivelModal.getSelectedIndex());
+                Conexion.setIdUbicacion(cbxUbicacionModal.getSelectedIndex());
+
+                if (Conexion.agregarSeccion()) {
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al insertar datos");
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
         }
     }//GEN-LAST:event_btnAceptarModalActionPerformed
+
+    private void cbxUbicacionModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUbicacionModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxUbicacionModalActionPerformed
+
+    private void txtSeccionModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeccionModalKeyTyped
+        // TODO add your handling code here:
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
+        }
+    }//GEN-LAST:event_txtSeccionModalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
