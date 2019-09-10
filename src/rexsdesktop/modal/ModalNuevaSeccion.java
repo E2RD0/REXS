@@ -58,6 +58,7 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnAceptarModal.setText("Aceptar");
+        btnAceptarModal.setToolTipText("Ingresar nueva sección");
         btnAceptarModal.setBorderPainted(false);
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,6 +69,7 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         cbxUbicacionModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxUbicacionModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxUbicacionModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxUbicacionModal.setToolTipText("Ubicación");
         cbxUbicacionModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxUbicacionModalActionPerformed(evt);
@@ -81,6 +83,7 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         txtSeccionModal.setBackground(new java.awt.Color(249, 250, 255));
         txtSeccionModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtSeccionModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtSeccionModal.setToolTipText("Nombre de la nueva sección");
         txtSeccionModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtSeccionModal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -95,6 +98,7 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         cbxNivelModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxNivelModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxNivelModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxNivelModal.setToolTipText("Nivel");
         cbxNivelModal.setPreferredSize(new java.awt.Dimension(56, 27));
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
@@ -102,12 +106,18 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         cbxEspecialidadModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxEspecialidadModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxEspecialidadModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxEspecialidadModal.setToolTipText("Especialidad");
 
         btnCancelarModal.setBackground(new java.awt.Color(247, 214, 218));
         btnCancelarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -217,6 +227,10 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
     }//GEN-LAST:event_txtSeccionModalKeyTyped
+
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -73,6 +73,11 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -83,6 +88,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         txtTipoUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
         txtTipoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtTipoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtTipoUsuarioModal.setToolTipText("Nombre del tipo de usuario");
         txtTipoUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtTipoUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -94,6 +100,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         btnModificarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnModificarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnModificarModal.setText("Modficar");
+        btnModificarModal.setToolTipText("Modificar tipo de usuario");
         btnModificarModal.setBorderPainted(false);
         btnModificarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +129,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
         txtIdModal.setBackground(new java.awt.Color(249, 250, 255));
         txtIdModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtIdModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtIdModal.setToolTipText("Identificador del tipo de usuario");
         txtIdModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtIdModal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -244,6 +252,10 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Ingresar solo numeros");
         }
     }//GEN-LAST:event_txtIdModalKeyTyped
+
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

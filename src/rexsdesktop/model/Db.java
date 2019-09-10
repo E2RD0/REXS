@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import rexsdesktop.CurrentUser;
 
 /**
  * Clase utilizada como modelo o capa de gestión de datos.
@@ -42,35 +44,40 @@ public class Db {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Activities">
+    private int CantidadActividades;
+    private ArrayList<String> HorasActividadesInicio;
+    private ArrayList<String> nombreAct;
+    private ArrayList<Time> HoraInicio;
+    private ArrayList<Time> HoraFin;
+    private int contador;
+
     /**
      * Método utilizado para agregar una nueva actividad.
      *
      * @param nombre el nombre de la actividad a agregar.
      * @param descripcion la descripcion de la actividad a agregar.
      * @param fechaInicio fecha de inicio de la actividad a agregar.
+     * @param edicion edicion de la Expotécnica Seleccionada.
      * @param fechaFin fecha de finalización de la actividad a agregar.
      * @param idUbicacion identificador de la ubicación de la actividad a
      * agregar.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
+    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, int idUbicacion) {
         boolean bandera = false;
         try {
-            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, idUbicacion) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, edicion, idUbicacion) VALUES (?,?,?,?,?,?)";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setString(1, nombre);
             stm.setString(2, descripcion);
             stm.setString(3, fechaInicio);
             stm.setString(4, fechaFin);
-            stm.setInt(5, idUbicacion);
+            stm.setString(5, edicion);
+            stm.setInt(6, idUbicacion);
 
             if (stm.executeUpdate() > 0) {
                 bandera = true;
             }
-
-            stm.close();
-            cn.close();
-
         } catch (Exception e) {
             System.out.println("ERROR" + e);
         }
@@ -89,6 +96,30 @@ public class Db {
             String sql = "DELETE FROM actividad WHERE idActividad = (?)";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setInt(1, id);
+
+            if (stm.executeUpdate() > 0) {
+                bandera = true;
+            }
+
+            stm.close();
+            cn.close();
+
+        } catch (SQLException e) {
+            System.out.println("ERROR" + e);
+        }
+        return bandera;
+    }
+
+    /**
+     * Método utilizado para eliminar las actividades de la base de datos.
+     *
+     * @return retorna un valor booleano para ser utilizado en el controlador.
+     */
+    public boolean eliminarActividades() {
+        boolean bandera = false;
+        try {
+            String sql = "DELETE FROM actividad";
+            PreparedStatement stm = cn.prepareStatement(sql);
 
             if (stm.executeUpdate() > 0) {
                 bandera = true;
@@ -133,14 +164,11 @@ public class Db {
             stm.close();
             cn.close();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("ERROR" + e);
         }
         return bandera;
     }
-
-    private int CantidadActividades;
-    public ArrayList<String> nombreAct;
 
     /**
      * Método utilizado para obtener el número de actividades que existen.
@@ -148,13 +176,14 @@ public class Db {
      * @param inicio fecha de inicio de la actividad
      * @param fin fecha de finalización de la actividad
      */
-    public void NumActividades(String inicio, String fin) {
+    public void NumActividades(String inicio, String edicion, String fin) {
         try {
 
-            String sql = "select COUNT(idActividad) from actividad where fechaInicio between ? AND ?";
+            String sql = "select COUNT(idActividad) from actividad where fechaInicio between ? AND ? AND edicion = ?";
             PreparedStatement st = cn.prepareStatement(sql);
             st.setString(1, inicio);
             st.setString(2, fin);
+            st.setString(3, edicion);
 
             ResultSet rs = st.executeQuery();
 
@@ -162,8 +191,64 @@ public class Db {
                 setCantidadActividades(rs.getInt(1));
                 //System.out.println(getNumProyecto());
             }
-        } catch (Exception e) {
+//            st.close();
+//            cn.close();
+        } catch (SQLException e) {
             System.out.println("Error");
+        }
+    }
+
+    /**
+     * Método utilizado para obtener la hora de inicio de las actividades de una
+     * edición de Expotécnica
+     *
+     * @param inicio fecha de inicio de la Expotécnica
+     * @param edicion edición de Expotécnica
+     * @param fin fecha de finalizacion de la Expotécnica
+     */
+    public void HorasInicioActividades(String inicio, String edicion, String fin) {
+        try {
+
+            String sql = "select fechaInicio from actividad where fechaInicio between (?) AND (?) AND edicion = ?";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+            st.setString(3, edicion);
+
+            ResultSet rs = st.executeQuery();
+            setHoraInicio(new ArrayList<>());
+            while (rs.next()) {
+                getHoraInicio().add(rs.getTime(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Método utilizado para obtener la hora de finalización de las actividades
+     * de una edición de Expotécnica
+     *
+     * @param inicio fecha de inicio de la Expotécnica
+     * @param edicion edición de Expotécnica
+     * @param fin fecha de finalizacion de la Expotécnica
+     */
+    public void HorasFinActividades(String inicio, String edicion, String fin) {
+        try {
+
+            String sql = "select fechaFin from actividad where fechaInicio between (?) AND (?) AND edicion = ?";
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setString(1, inicio);
+            st.setString(2, fin);
+            st.setString(3, edicion);
+
+            ResultSet rs = st.executeQuery();
+            setHoraFin(new ArrayList<>());
+            while (rs.next()) {
+                getHoraFin().add(rs.getTime(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -171,23 +256,22 @@ public class Db {
      * Método utilizado para obtener el nombre de las actividades que existen.
      *
      * @param inicio fecha de inicio de la actividad
+     * @param edicion edición de Expotécnica
      * @param fin fecha de finalización de la actividad
      */
-    public void Actividades(String inicio, String fin) {
+    public void Actividades(String inicio, String edicion, String fin) {
         try {
 
-            String sql = "select nombre from actividad where fechaInicio between (?) AND (?)";
+            String sql = "select nombre from actividad where fechaInicio between (?) AND (?) AND edicion = ?";
             PreparedStatement st = cn.prepareStatement(sql);
             st.setString(1, inicio);
             st.setString(2, fin);
+            st.setString(3, edicion);
 
             ResultSet rs = st.executeQuery();
-            nombreAct = new ArrayList<>();
-
+            setNombreAct(new ArrayList<>());
             while (rs.next()) {
-
-                nombreAct.add(rs.getString(1));
-
+                getNombreAct().add(rs.getString(1));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -210,7 +294,7 @@ public class Db {
             if (rs.next()) {
                 return rs.getInt(1);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("ERROR");
         }
         return 0;
@@ -260,35 +344,198 @@ public class Db {
         return null;
     }
 
-//    public String getHoraInicioActividad(int id) {
-//        try {
-//            String sql = "SELECT (convert(time, fechaInicio, 1)) from actividad where idActividad = (?)";
-//            PreparedStatement stm = cn.prepareStatement(sql);
-//            stm.setInt(1, id);
-//            ResultSet rs = stm.executeQuery();
-//            if (rs.next()) {
-//                return rs.getString(1);
-//            }
-//        } catch (Exception e) {
-//            System.out.println("ERROR");
-//        }
-//        return null;
-//    }
-//
-//    public Date getHoraFinActividad(int id) {
-//        try {
-//            String sql = "SELECT (convert(time, fechaFin, 1)) from actividad where idActividad = (?)";
-//            PreparedStatement stm = cn.prepareStatement(sql);
-//            stm.setInt(1, id);
-//            ResultSet rs = stm.executeQuery();
-//            if (rs.next()) {
-//                return rs.getDate(1);
-//            }
-//        } catch (Exception e) {
-//            System.out.println("ERROR");
-//        }
-//        return null;
-//    }
+    /**
+     * Método utilizado para obtener la hora de inicio de una actividad
+     * seleccionada
+     *
+     * @param id identificador de la actividad
+     * @return retorna el valor en horas
+     */
+    public Time getHoraInicio2(int id) {
+        try {
+            String sql = "select fechaInicio from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getTime(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Método utilizado para obtener la hora de inicio de una actividad
+     * seleccionada
+     *
+     * @param id identificador de la actividad
+     * @return retorna el valor en String
+     */
+    public String getHoraInicio(int id) {
+        try {
+            String sql = "select fechaInicio from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    /**
+     * Método utilizado para obtener la hora de fin de una actividad
+     * seleccionada
+     *
+     * @param id identificador de la actividad
+     * @return retorna el valor en String
+     */
+    public String getHoraFinString(int id) {
+        try {
+            String sql = "select fechaFin from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public String getFechaDia(String dia) {
+        try {
+            String sql = "select valor from opcionesGenerales where nombre = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, dia);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getMinAnioInicio() {
+        try {
+            String sql = "select left(valor, 4) from opcionesGenerales where nombre = 'actividadesFechaInicio'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getMinMesInicio() {
+        try {
+            String sql = "select substring(valor, 6,2) as valor from opcionesGenerales where nombre = 'actividadesFechaInicio'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getMaxMesInicio() {
+        try {
+            String sql = "select substring(valor, 6,2) as valor from opcionesGenerales where nombre = 'actividadesFechaFin'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getMinDiaInicio() {
+        try {
+            String sql = "select substring(valor, 9,10) as valor from opcionesGenerales where nombre = 'actividadesFechaInicio'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getMaxDiaInicio() {
+        try {
+            String sql = "select substring(valor, 9,10) as valor from opcionesGenerales where nombre = 'actividadesFechaFin'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
+    public String getNombreDia(String dia) {
+        String d = dia;
+        try {
+            if (contador == 0) {
+
+                boolean bandera = cambiarIdiomaSql(1);
+                if (bandera == true) {
+                    String sql = "Select datename(weekday, (?))";
+                    PreparedStatement stm = cn.prepareStatement(sql);
+                    stm.setString(1, d);
+                    ResultSet rs = stm.executeQuery();
+                    if (rs.next()) {
+                        return rs.getString(1);
+                    }
+                } else if (bandera == false) {
+                    String sql2 = "Select datename(weekday, (?))";
+                    PreparedStatement stm2 = cn.prepareStatement(sql2);
+                    stm2.setString(1, d);
+                    ResultSet rs = stm2.executeQuery();
+                    if (rs.next()) {
+                        return rs.getString(1);
+                    }
+                }
+            } else {
+                String sql = "Select datename(weekday, (?))";
+                PreparedStatement stm = cn.prepareStatement(sql);
+                stm.setString(1, d);
+                ResultSet rs = stm.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "vacio";
+    }
+
     /**
      * @return the CantidadActividades
      */
@@ -304,12 +551,11 @@ public class Db {
     }
 
     // </editor-fold>
-    
-    
     // <editor-fold defaultstate="collapsed" desc="Users">
-    
     /**
-     * Método utilizado para obtener el identificador de un usuario por medio de email.
+     * Método utilizado para obtener el identificador de un usuario por medio de
+     * email.
+     *
      * @param email el correo del usuario.
      * @return retorna el identificador.
      */
@@ -330,11 +576,11 @@ public class Db {
 
     /**
      * Método utilizado para insertar el PIN generado en la base de datos.
+     *
      * @param pin el PIN generado por el sistema.
      * @param id el identificador de usuario.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    
     public boolean insertarPin(String pin, int id) {
         try {
             String query = "INSERT INTO recuperarClave (pin, idUsuario) "
@@ -346,8 +592,8 @@ public class Db {
             if (stm.executeUpdate() > 0) {
                 return true;
             }
-            stm.close();
-            cn.close();
+//            stm.close();
+//            cn.close();
         } catch (Exception e) {
             System.out.println("Error" + e);
         }
@@ -356,10 +602,10 @@ public class Db {
 
     /**
      * Método utilizado para obtener el PIN de un usuario.
+     *
      * @param id identificador del usuario.
      * @return retorna el PIN
      */
-    
     public String getPin(int id) {
         try {
             String query = "SELECT pin FROM recuperarClave where idUsuario = ? order by idRecuperarClave desc";
@@ -374,10 +620,8 @@ public class Db {
         }
         return "";
     }
-    
-    //Copiado
-    
 
+    //Copiado
     public String getNombreUsuario(int id) {
         String nombre = "";
         try {
@@ -445,6 +689,7 @@ public class Db {
 
     /**
      * Método utilizado para agregar un usuario nuevo.
+     *
      * @param nombreCompleto nombre completo del usuario.
      * @param email correo único del usuario.
      * @param claveHash clave encriptada del usuario.
@@ -452,7 +697,6 @@ public class Db {
      * @param idEstadoUsuario identificador del estado del usuario.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    
     public boolean agregarUsuario(String nombreCompleto, String email, String claveHash, int idTipoUsuario, int idEstadoUsuario) {
         boolean r = false;
         try {
@@ -478,12 +722,12 @@ public class Db {
 
     /**
      * Método utilizado para actualizar el perfil de un usuario seleccionado.
+     *
      * @param nombreCompleto nombre completo del usuario.
      * @param email correo único del usuario.
      * @param id identificador del usuario.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    
     public boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id) {
         boolean r = false;
         try {
@@ -706,13 +950,13 @@ public class Db {
         }
         return false;
     }
-    
+
     /**
      * Método utilizado para eliminar la foto de perfil de un usuario.
+     *
      * @param idUsuario identificador del usuario.
      * @return retorna un valor booleno para ser utilizado en el controlador.
      */
-    
     public boolean eliminarFotoPerfil(int idUsuario) {
         try {
             PreparedStatement pstmt = cn.prepareStatement("UPDATE usuario SET fotoPerfil = null WHERE idUsuario = ?");
@@ -738,7 +982,6 @@ public class Db {
     /**
      * Método utilizado para obtener la cantidad de usuarios registrados.
      */
-    
     public void NumUsuarios() {
         try {
 
@@ -753,8 +996,9 @@ public class Db {
         } catch (Exception e) {
         }
     }
+
     public int getUsuariosActivados() {
-        int Num=0;
+        int Num = 0;
         try {
 
             String sql = "select COUNT(idUsuario) from usuario where idEstadoUsuario = 1";
@@ -770,11 +1014,10 @@ public class Db {
         }
         return Num;
     }
-    
+
     /**
      * Método utilizado para mostrar los usuarios registrados.
      */
-    
     public void MostrarUsuarios() {
         try {
 
@@ -820,8 +1063,43 @@ public class Db {
     }
 
     // </editor-fold>
-    
-    
+    public boolean cambiarIdiomaSql(int idioma) {
+        boolean bandera = false;
+        try {
+            String sql = null;
+            String espaniol = "spanish";
+            String ingles = "us_english";
+            if (idioma == 1) {
+                sql = "Set language " + espaniol;
+            } else if (idioma == 2) {
+                sql = "Set language " + ingles;
+            }
+            Statement st = cn.createStatement();
+            if (st.execute(sql)) {
+                bandera = true;
+                return bandera;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return bandera;
+    }
+
+    public String getEdicion() {
+        try {
+            String sql = "select valor from opcionesGenerales where nombre = 'edicion'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error Global" + e.getMessage());
+        }
+        return "vacio";
+    }
+
     public String getMapwizeAPIKey() {
         try {
             String query = "SELECT valor from opcionesGenerales WHERE nombre = 'MAPWIZE_API_KEY'";
@@ -887,7 +1165,7 @@ public class Db {
         return false;
     }
 
-    public boolean setFechas(String fecha1, String fecha2) {
+    public boolean setFechas(String fecha1, String dia2, String dia3, String dia4, String fecha2) {
         try {
             String query = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesFechaInicio'";
             PreparedStatement cmd = cn.prepareStatement(query);
@@ -897,13 +1175,45 @@ public class Db {
                 PreparedStatement cmd2 = cn.prepareStatement(query2);
                 cmd2.setString(1, fecha2);
                 if (cmd2.executeUpdate() > 0) {
-                    return true;
+                    String query3 = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesDia2'";
+                    PreparedStatement cmd3 = cn.prepareStatement(query3);
+                    cmd3.setString(1, dia2);
+                    if (cmd3.executeUpdate() > 0) {
+                        String query4 = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesDia3'";
+                        PreparedStatement cmd4 = cn.prepareStatement(query4);
+                        cmd4.setString(1, dia3);
+                        if (cmd4.executeUpdate() > 0) {
+                            String query5 = "UPDATE opcionesGenerales set valor = (?) WHERE nombre = 'actividadesDia4'";
+                            PreparedStatement cmd5 = cn.prepareStatement(query5);
+                            cmd5.setString(1, dia4);
+                            if (cmd5.executeUpdate() > 0) {
+                                return true;
+                            }
+                        }
+                    }
+
                 }
             }
             cmd.close();
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error: " + e);
+        }
+        return false;
+    }
+
+    public boolean setEdicion(String edicion) {
+        try {
+            String sql = "update opcionesGenerales set valor = (?) where nombre = 'edicion'";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setString(1, edicion);
+
+            if (stm.executeUpdate() > 0) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return false;
     }
@@ -1222,7 +1532,7 @@ public class Db {
     private int CantidadEspecialidad;
     private ArrayList<Integer> idEspecialidad;
     private ArrayList<String> Especialidad;
-    
+
     public void NumEspecialidades() {
         try {
 
@@ -1237,7 +1547,7 @@ public class Db {
         } catch (Exception e) {
         }
     }
-    
+
     public void MostrarEspecialidad() {
         try {
 
@@ -1247,10 +1557,9 @@ public class Db {
             setIdEspecialidad(new ArrayList<>());
             setEspecialidad(new ArrayList<>());
             while (rs.next()) {
-                
+
                 getIdEspecialidad().add(rs.getInt(1));
                 getEspecialidad().add(rs.getString(2));
-                
 
             }
         } catch (SQLException e) {
@@ -1258,7 +1567,7 @@ public class Db {
         }
 
     }
-    
+
     public String getNombreEspecialidad(int id) {
         String nombre = "";
         try {
@@ -1274,14 +1583,14 @@ public class Db {
         }
         return nombre;
     }
-    
+
     private int CantidadSecciones;
     private ArrayList<Integer> idSeccion;
     private ArrayList<String> Seccion;
     private ArrayList<String> Nivel_Seccion;
     private ArrayList<String> Especialidad_Seccion;
     private ArrayList<String> Ubicacion_Seccion;
-    
+
     public void NumSeccion() {
         try {
 
@@ -1296,7 +1605,7 @@ public class Db {
         } catch (Exception e) {
         }
     }
-    
+
     public void MostrarSeccion() {
         try {
 
@@ -1309,15 +1618,12 @@ public class Db {
             setEspecialidad_Seccion(new ArrayList<>());
             setUbicacion_Seccion(new ArrayList<>());
             while (rs.next()) {
-                
+
                 getIdSeccion().add(rs.getInt(1));
                 getSeccion().add(rs.getString(2));
                 getNivel_Seccion().add(rs.getString(3));
                 getEspecialidad_Seccion().add(rs.getString(4));
                 getUbicacion_Seccion().add(rs.getString(5));
-                
-                
-                
 
             }
         } catch (SQLException e) {
@@ -1325,7 +1631,7 @@ public class Db {
         }
 
     }
-    
+
     public String getNombreUbicacion(int id) {
         String nombre = "";
         try {
@@ -1341,7 +1647,7 @@ public class Db {
         }
         return nombre;
     }
-    
+
     public String getNombreSeccion(int id) {
         String nombre = "";
         try {
@@ -1357,11 +1663,11 @@ public class Db {
         }
         return nombre;
     }
-    
+
     private int CantidadNiveles;
     private ArrayList<Integer> idNivel;
     private ArrayList<String> Nivel;
-    
+
     public void NumNivel() {
         try {
 
@@ -1376,7 +1682,7 @@ public class Db {
         } catch (Exception e) {
         }
     }
-    
+
     public void MostrarNivel() {
         try {
 
@@ -1386,10 +1692,9 @@ public class Db {
             idNivel = new ArrayList<>();
             Nivel = new ArrayList<>();
             while (rs.next()) {
-                
+
                 idNivel.add(rs.getInt(1));
                 Nivel.add(rs.getString(2));
-                
 
             }
         } catch (SQLException e) {
@@ -1397,7 +1702,7 @@ public class Db {
         }
 
     }
-    
+
     public String getNombreNivel(int id) {
         String nombre = "";
         try {
@@ -1429,7 +1734,7 @@ public class Db {
         }
         return tipoUsuario;
     }
-    
+
     public String getEspecialidad_Seccion(int id) {
         String tipoUsuario = "";
         try {
@@ -1445,6 +1750,7 @@ public class Db {
         }
         return tipoUsuario;
     }
+
     public String getUbicacion_Seccion(int id) {
         String tipoUsuario = "";
         try {
@@ -1460,6 +1766,7 @@ public class Db {
         }
         return tipoUsuario;
     }
+
     /**
      * @return the CantidadProyecto
      */
@@ -1640,5 +1947,47 @@ public class Db {
      */
     public void setUbicacion_Seccion(ArrayList<String> Ubicacion_Seccion) {
         this.Ubicacion_Seccion = Ubicacion_Seccion;
+    }
+
+    /**
+     * @return the nombreAct
+     */
+    public ArrayList<String> getNombreAct() {
+        return nombreAct;
+    }
+
+    /**
+     * @param nombreAct the nombreAct to set
+     */
+    public void setNombreAct(ArrayList<String> nombreAct) {
+        this.nombreAct = nombreAct;
+    }
+
+    /**
+     * @return the HoraInicio
+     */
+    public ArrayList<Time> getHoraInicio() {
+        return HoraInicio;
+    }
+
+    /**
+     * @param HoraInicio the HoraInicio to set
+     */
+    public void setHoraInicio(ArrayList<Time> HoraInicio) {
+        this.HoraInicio = HoraInicio;
+    }
+
+    /**
+     * @return the HoraFin
+     */
+    public ArrayList<Time> getHoraFin() {
+        return HoraFin;
+    }
+
+    /**
+     * @param HoraFin the HoraFin to set
+     */
+    public void setHoraFin(ArrayList<Time> HoraFin) {
+        this.HoraFin = HoraFin;
     }
 }

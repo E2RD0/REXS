@@ -62,6 +62,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtEmailUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
         txtEmailUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEmailUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmailUsuarioModal.setToolTipText("Correo electrónico del usuario");
         txtEmailUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         jLabel91.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
@@ -71,6 +72,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         cbxTipoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxTipoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxTipoUsuarioModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTipoUsuarioModal.setToolTipText("Tipo de usuario");
         cbxTipoUsuarioModal.setPreferredSize(new java.awt.Dimension(56, 27));
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
@@ -78,6 +80,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         cbxEstadoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxEstadoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxEstadoUsuarioModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxEstadoUsuarioModal.setToolTipText("Estado del usuario");
 
         btnCancelarModal.setBackground(new java.awt.Color(247, 214, 218));
         btnCancelarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
@@ -98,6 +101,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnAceptarModal.setText("Aceptar");
+        btnAceptarModal.setToolTipText("Ingresar nuevo usuario");
         btnAceptarModal.setBorderPainted(false);
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +112,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtNombreUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
         txtNombreUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtNombreUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtNombreUsuarioModal.setToolTipText("Nombre completo del usuario");
         txtNombreUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtNombreUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -126,6 +131,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtClaveUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
         txtClaveUsuarioModal.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtClaveUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtClaveUsuarioModal.setToolTipText("Contraseña del usuario");
         txtClaveUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtClaveUsuarioModal.setEchoChar('\u2022');
 

@@ -65,6 +65,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         jLabel70 = new javax.swing.JLabel();
 
         jLabel65.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
+        jLabel65.setToolTipText("Foto del proyecto");
 
         jLabel67.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(176, 186, 201));
@@ -73,6 +74,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         txtnombreProyecto.setBackground(new java.awt.Color(249, 250, 255));
         txtnombreProyecto.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtnombreProyecto.setForeground(new java.awt.Color(46, 56, 77));
+        txtnombreProyecto.setToolTipText("Nombre del nuevo proyecto");
         txtnombreProyecto.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         jLabel69.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
@@ -82,12 +84,14 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         txtDesc.setBackground(new java.awt.Color(249, 250, 255));
         txtDesc.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtDesc.setForeground(new java.awt.Color(46, 56, 77));
+        txtDesc.setToolTipText("Descripción del nuevo proyecto");
         txtDesc.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         btnCambiarFotoPro.setBackground(new java.awt.Color(238, 238, 238));
         btnCambiarFotoPro.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
         btnCambiarFotoPro.setForeground(new java.awt.Color(107, 107, 107));
         btnCambiarFotoPro.setText("Cambiar Foto");
+        btnCambiarFotoPro.setToolTipText("Cambiar foto por defecto");
         btnCambiarFotoPro.setBorderPainted(false);
         btnCambiarFotoPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,6 +103,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
         jButton4.setForeground(new java.awt.Color(107, 107, 107));
         jButton4.setText("Eliminar Foto");
+        jButton4.setToolTipText("Eliminar foto");
         jButton4.setBorderPainted(false);
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
@@ -107,6 +112,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnAceptarModal.setText("Aceptar");
+        btnAceptarModal.setToolTipText("Ingresar un nuevo proyecto");
         btnAceptarModal.setBorderPainted(false);
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,9 +125,15 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
+        cbxSeccionNivel.setToolTipText("Sección y nivel del nuevo proyecto");
         cbxSeccionNivel.setPreferredSize(new java.awt.Dimension(56, 27));
         cbxSeccionNivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,6 +244,10 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     private void btnCambiarFotoProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarFotoProActionPerformed
 
     }//GEN-LAST:event_btnCambiarFotoProActionPerformed
+
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

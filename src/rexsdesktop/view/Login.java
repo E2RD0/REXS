@@ -6,6 +6,7 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
+import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.Executors;
@@ -15,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
@@ -86,6 +88,7 @@ public class Login extends javax.swing.JFrame {
      *
      */
     private void iniciarSesion() {
+        setCursor(Cursor.WAIT_CURSOR);
         String email = txtEmail.getText();
         String password = String.valueOf(txtPassword.getPassword());
         try {
@@ -118,6 +121,7 @@ public class Login extends javax.swing.JFrame {
                             fAdmin.setVisible(true);
                             this.dispose();
                             General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
+                            General.getEdicion();
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
                             txtEmail.setBackground(new java.awt.Color(255, 204, 204));
@@ -137,7 +141,9 @@ public class Login extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERROR");
+            JOptionPane.showMessageDialog(null, "Error al ingresar", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            setCursor(Cursor.DEFAULT_CURSOR);
         }
     }
 
@@ -146,53 +152,57 @@ public class Login extends javax.swing.JFrame {
      *
      */
     private void registrarse() {
-        String nombre = txtNombreCompletoR.getText();
-        String correo = txtEmailR.getText();
-        String password = String.valueOf(txtPasswordR.getPassword());
+        try {
+            String nombre = txtNombreCompletoR.getText();
+            String correo = txtEmailR.getText();
+            String password = String.valueOf(txtPasswordR.getPassword());
 
-        if (!Validation.VerificadorNombre.verify(nombre)) {
-            txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        if (!Validation.VerificadorEmail.verify(correo)) {
-            txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        if (!Validation.VerificadorPassword.verify(password)) {
-            txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
-        }
-        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
-        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
-        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
-        if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-            if (User.nuevoUsuario(nombre, correo, password, "Administrador", "Activo")) {
-                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
-                lblErrorEmailR.setText("");
-                cambiarCardLayoutPanel("Exito");
-                resetCampos();
-                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                executorService.scheduleAtFixedRate(new Runnable() {
-                    @Override
-                    public void run() {
-                        cambiarCardLayoutPanel("InicioSesion");
-                        executorService.shutdownNow();
-                    }
-                }, 2, 1, TimeUnit.SECONDS);
-
+            if (!Validation.VerificadorNombre.verify(nombre)) {
+                txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
             } else {
-                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
-                    txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-                    lblErrorEmailR.setText(User.mensajeError);
+                txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            if (!Validation.VerificadorEmail.verify(correo)) {
+                txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+            } else {
+                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            if (!Validation.VerificadorPassword.verify(password)) {
+                txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
+            } else {
+                txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+            }
+            lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+            lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+            lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+            if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
+                if (User.nuevoUsuario(nombre, correo, password, "Administrador", "Activo")) {
+                    txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+                    lblErrorEmailR.setText("");
+                    cambiarCardLayoutPanel("Exito");
+                    resetCampos();
+                    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                    executorService.scheduleAtFixedRate(new Runnable() {
+                        @Override
+                        public void run() {
+                            cambiarCardLayoutPanel("InicioSesion");
+                            executorService.shutdownNow();
+                        }
+                    }, 2, 1, TimeUnit.SECONDS);
+
                 } else {
-                    JOptionPane.showMessageDialog(this, User.mensajeError);
+                    if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+                        txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+                        lblErrorEmailR.setText(User.mensajeError);
+                    } else {
+                        JOptionPane.showMessageDialog(this, User.mensajeError);
+                    }
                 }
             }
-        }
 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -201,17 +211,21 @@ public class Login extends javax.swing.JFrame {
      *
      */
     private void enviarCorreo() {
-        correo = txtEmailRecu.getText();
+        try {
+            correo = txtEmailRecu.getText();
 
-        if (!Validation.VerificadorEmail.verify(correo)) {
-            txtEmailRecu.setBackground(new java.awt.Color(255, 204, 204));
-        } else {
-            txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
-            cambiarCardLayoutPanel("RecuperarClaveCodigo");
-            jLabel24.setText("<html> Ingresa el código alfanumérico que fue<br> enviado a " + correo + "</html>");
-            User.enviarCorreo(correo);
+            if (!Validation.VerificadorEmail.verify(correo)) {
+                txtEmailRecu.setBackground(new java.awt.Color(255, 204, 204));
+            } else {
+                txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
+                cambiarCardLayoutPanel("RecuperarClaveCodigo");
+                jLabel24.setText("<html> Ingresa el código alfanumérico que fue<br> enviado a " + correo + "</html>");
+                User.enviarCorreo(correo);
+            }
+            lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al enviar el correo", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        lblErrorEmailRecu.setText(Validation.VerificadorEmail.mensaje);
     }
 
     /**
@@ -220,22 +234,25 @@ public class Login extends javax.swing.JFrame {
      *
      */
     private void verificarPIN() {
-        String pin = txtPIN.getText();
-        pin = pin.trim();
-        if (Validation.isStringEmptyOrNull(pin)) {
-            lblErrorPIN.setText("El campo no puede estar vacío.");
-        } else {
-            lblErrorPIN.setText("");
-            if (User.verificarPin(pin, correo)) {
-                System.out.println("Verificado correctamente");
-                cambiarCardLayoutPanel("RecuperarClaveCambiar");
+        try {
+            String pin = txtPIN.getText();
+            pin = pin.trim();
+            if (Validation.isStringEmptyOrNull(pin)) {
+                lblErrorPIN.setText("El campo no puede estar vacío.");
             } else {
-                System.out.println("Pin equivocado");
-                txtPIN.setBackground(new java.awt.Color(255, 204, 204));
-                lblErrorPIN.setText("PIN incorrecto");
+                lblErrorPIN.setText("");
+                if (User.verificarPin(pin, correo)) {
+                    System.out.println("Verificado correctamente");
+                    cambiarCardLayoutPanel("RecuperarClaveCambiar");
+                } else {
+                    System.out.println("Pin equivocado");
+                    txtPIN.setBackground(new java.awt.Color(255, 204, 204));
+                    lblErrorPIN.setText("PIN incorrecto");
+                }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al verificar el PIN", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     /**
@@ -361,6 +378,7 @@ public class Login extends javax.swing.JFrame {
         txtEmail.setBackground(new java.awt.Color(249, 250, 255));
         txtEmail.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmail.setToolTipText("Ingresa tu correo electrónico");
         txtEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -383,6 +401,7 @@ public class Login extends javax.swing.JFrame {
         txtPassword.setBackground(new java.awt.Color(249, 250, 255));
         txtPassword.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(46, 56, 77));
+        txtPassword.setToolTipText("Ingresa tu contraseña");
         txtPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtPassword.setEchoChar('\u2022');
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -401,6 +420,7 @@ public class Login extends javax.swing.JFrame {
         btnCardRecuperarClave.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
         btnCardRecuperarClave.setForeground(new java.awt.Color(176, 186, 201));
         btnCardRecuperarClave.setText("¿OLVIDASTE TU CONTRASEÑA? ");
+        btnCardRecuperarClave.setToolTipText("Recupera tu contraseña");
         btnCardRecuperarClave.setBorder(null);
         btnCardRecuperarClave.setBorderPainted(false);
         btnCardRecuperarClave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -414,6 +434,7 @@ public class Login extends javax.swing.JFrame {
         btnIniciarSesion.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setText("Iniciar sesión");
+        btnIniciarSesion.setToolTipText("Iniciar sesión");
         btnIniciarSesion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnIniciarSesion.setBorderPainted(false);
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -440,6 +461,7 @@ public class Login extends javax.swing.JFrame {
         btnCardRegistro.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         btnCardRegistro.setForeground(new java.awt.Color(46, 91, 255));
         btnCardRegistro.setText("Registrate");
+        btnCardRegistro.setToolTipText("Registra tu usuario aquí");
         btnCardRegistro.setBorder(null);
         btnCardRegistro.setBorderPainted(false);
         btnCardRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -587,6 +609,7 @@ public class Login extends javax.swing.JFrame {
         txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
         txtEmailR.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEmailR.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmailR.setToolTipText("Registra tu correo electrónico");
         txtEmailR.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEmailR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -609,6 +632,7 @@ public class Login extends javax.swing.JFrame {
         txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
         txtPasswordR.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtPasswordR.setForeground(new java.awt.Color(46, 56, 77));
+        txtPasswordR.setToolTipText("Registra tu contraseña");
         txtPasswordR.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtPasswordR.setEchoChar('\u2022');
         txtPasswordR.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -624,6 +648,7 @@ public class Login extends javax.swing.JFrame {
         btnCrearCuenta.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
         btnCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearCuenta.setText("Crear cuenta");
+        btnCrearCuenta.setToolTipText("Crear cuenta");
         btnCrearCuenta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnCrearCuenta.setBorderPainted(false);
         btnCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
@@ -650,6 +675,7 @@ public class Login extends javax.swing.JFrame {
         btnCardInicioSesion.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         btnCardInicioSesion.setForeground(new java.awt.Color(46, 91, 255));
         btnCardInicioSesion.setText("Inicia sesión");
+        btnCardInicioSesion.setToolTipText("Inicia sesión");
         btnCardInicioSesion.setBorder(null);
         btnCardInicioSesion.setBorderPainted(false);
         btnCardInicioSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -676,6 +702,7 @@ public class Login extends javax.swing.JFrame {
         txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
         txtNombreCompletoR.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtNombreCompletoR.setForeground(new java.awt.Color(46, 56, 77));
+        txtNombreCompletoR.setToolTipText("Registra tu nombre completo");
         txtNombreCompletoR.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtNombreCompletoR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -812,6 +839,7 @@ public class Login extends javax.swing.JFrame {
         txtEmailRecu.setBackground(new java.awt.Color(249, 250, 255));
         txtEmailRecu.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEmailRecu.setForeground(new java.awt.Color(46, 56, 77));
+        txtEmailRecu.setToolTipText("Ingresa el correo con el que te registraste");
         txtEmailRecu.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEmailRecu.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -833,6 +861,7 @@ public class Login extends javax.swing.JFrame {
         btnEnviarCodigo.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
         btnEnviarCodigo.setForeground(new java.awt.Color(255, 255, 255));
         btnEnviarCodigo.setText("Enviar código");
+        btnEnviarCodigo.setToolTipText("Enviar código a tu correo");
         btnEnviarCodigo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnEnviarCodigo.setBorderPainted(false);
         btnEnviarCodigo.addActionListener(new java.awt.event.ActionListener() {
@@ -849,6 +878,7 @@ public class Login extends javax.swing.JFrame {
         btnCardInicioSesion1.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         btnCardInicioSesion1.setForeground(new java.awt.Color(46, 91, 255));
         btnCardInicioSesion1.setText("Iniciar sesión");
+        btnCardInicioSesion1.setToolTipText("Inicia sesión");
         btnCardInicioSesion1.setBorder(null);
         btnCardInicioSesion1.setBorderPainted(false);
         btnCardInicioSesion1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -935,6 +965,7 @@ public class Login extends javax.swing.JFrame {
         txtPIN.setBackground(new java.awt.Color(249, 250, 255));
         txtPIN.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtPIN.setForeground(new java.awt.Color(46, 56, 77));
+        txtPIN.setToolTipText("Ingresa el código que recibiste");
         txtPIN.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtPIN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -949,6 +980,7 @@ public class Login extends javax.swing.JFrame {
         btnVerificarCodigo.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
         btnVerificarCodigo.setForeground(new java.awt.Color(255, 255, 255));
         btnVerificarCodigo.setText("Verificar");
+        btnVerificarCodigo.setToolTipText("Verificar el código enviado");
         btnVerificarCodigo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnVerificarCodigo.setBorderPainted(false);
         btnVerificarCodigo.addActionListener(new java.awt.event.ActionListener() {
@@ -965,6 +997,7 @@ public class Login extends javax.swing.JFrame {
         btnCardInicioSesion2.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         btnCardInicioSesion2.setForeground(new java.awt.Color(46, 91, 255));
         btnCardInicioSesion2.setText("Iniciar sesión");
+        btnCardInicioSesion2.setToolTipText("Inicia sesión");
         btnCardInicioSesion2.setBorder(null);
         btnCardInicioSesion2.setBorderPainted(false);
         btnCardInicioSesion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1044,6 +1077,7 @@ public class Login extends javax.swing.JFrame {
         btnCambiarClave.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
         btnCambiarClave.setForeground(new java.awt.Color(255, 255, 255));
         btnCambiarClave.setText("Cambiar Contraseña");
+        btnCambiarClave.setToolTipText("Cambiar la contraseña");
         btnCambiarClave.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnCambiarClave.setBorderPainted(false);
         btnCambiarClave.setPreferredSize(new java.awt.Dimension(53, 17));
@@ -1056,6 +1090,7 @@ public class Login extends javax.swing.JFrame {
         txtClaveNueva.setBackground(new java.awt.Color(249, 250, 255));
         txtClaveNueva.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtClaveNueva.setForeground(new java.awt.Color(46, 56, 77));
+        txtClaveNueva.setToolTipText("Ingresa tu nueva contraseña");
         txtClaveNueva.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtClaveNueva.setEchoChar('\u2022');
 
@@ -1070,6 +1105,7 @@ public class Login extends javax.swing.JFrame {
         txtConfirmarClave.setBackground(new java.awt.Color(249, 250, 255));
         txtConfirmarClave.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         txtConfirmarClave.setForeground(new java.awt.Color(46, 56, 77));
+        txtConfirmarClave.setToolTipText("Confirma tu nueva contraseña");
         txtConfirmarClave.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtConfirmarClave.setEchoChar('\u2022');
 

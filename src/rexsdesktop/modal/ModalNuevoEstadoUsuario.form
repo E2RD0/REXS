@@ -75,6 +75,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="4d" green="38" red="2e" type="rgb"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Nombre del estado de usuario"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
             <CompoundBorder>
@@ -126,6 +127,9 @@
         <Property name="text" type="java.lang.String" value="Cancelar"/>
         <Property name="borderPainted" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarModalActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAceptarModal">
       <Properties>
@@ -139,6 +143,7 @@
           <Color blue="ff" green="5b" red="2e" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Aceptar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Ingresar nuevo estado de usuario"/>
         <Property name="borderPainted" type="boolean" value="false"/>
       </Properties>
       <Events>

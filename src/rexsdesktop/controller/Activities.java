@@ -13,19 +13,23 @@ import java.awt.event.MouseListener;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
 import java.sql.Blob;
+import java.text.ParseException;
+//import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarActividad;
-import rexsdesktop.modal.ModalModificarUsuario;
 
 /**
  * Clase que contiene los atributos y métodos de una actividad.
@@ -35,17 +39,20 @@ import rexsdesktop.modal.ModalModificarUsuario;
  */
 public class Activities {
 
-    public int id;
-    public String nombre;
-    public String descripcion;
-    public String fechaInicio;
-    public String fechaFin;
-    public int idUbicacion;
+    public static String Inicio;
+    private static int id2;
+    private String nombre;
+    private String descripcion;
+    private String fechaInicio;
+    private String fechaFin;
+    private int idUbicacion;
     private int cantidadDia1;
+    private JDialog modal1;
+    public String prueba;
 
-    Color colores = null;
-    ImageIcon icono = null;
-    JPanel Contenedor;
+    private Color colores = null;
+    private ImageIcon icono = null;
+    private JPanel Contenedor;
 
     ArrayList<JPanel> panelesActividades;
     ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
@@ -60,22 +67,24 @@ public class Activities {
      *
      * @param panel panel donde se visualizarán los datos
      */
-    public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String fin, int contador) {
+    public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
         Db db = new Db();
-        db.NumActividades(inicio, fin);
-        db.Actividades(inicio, fin);
-
+        db.NumActividades(inicio, edicion, fin);
+        db.Actividades(inicio, edicion, fin);
+        db.HorasInicioActividades(inicio, edicion, fin);
+        db.HorasFinActividades(inicio, edicion, fin);
         cantidadDia1 = db.getCantidadActividades();
 
         panelesActividades = new ArrayList<>();
 
         for (int i = 0; i < db.getCantidadActividades(); i++) {
+
             Contenedor = new JPanel();
             panel.add(Contenedor);
             panelesActividades.add(Contenedor);
 
             Contenedor.setBackground(Color.white);
-            Contenedor.setPreferredSize(new Dimension(150, 72));
+            Contenedor.setPreferredSize(new Dimension(150, 76));
             Contenedor.setLayout(null);
             switch (contador) {
                 case 1:
@@ -110,22 +119,28 @@ public class Activities {
             Contenedor.setBorder(borde);
 
             JLabel nombre = new JLabel();
-            nombre.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            nombre.setFont(new java.awt.Font("Rubik Medium", 0, 12));
             nombre.setForeground(new Color(46, 56, 77));
             nombre.setHorizontalAlignment(SwingConstants.LEADING);
 
-            nombre.setBounds(15, 5, 140, 40);
-            nombre.setText("<html>" + db.nombreAct.get(i) + "</html>");
+            nombre.setBounds(15, 5, 140, 25);
+            nombre.setText("<html> <b>" + db.getNombreAct().get(i) + "</html>");
             //nombre.setBorder(new EtchedBorder());
-            String nombre2 = db.nombreAct.get(i);
+            String nombre2 = db.getNombreAct().get(i);
             Contenedor.add(nombre);
 
+            //Hora
             JLabel hora = new JLabel();
-            hora.setFont(new java.awt.Font("Rubik", 0, 11));
+            hora.setFont(new java.awt.Font("Rubik", 0, 10));
             hora.setForeground(new Color(135, 156, 173));
             hora.setHorizontalAlignment(SwingConstants.CENTER);
-            hora.setBounds(10, 40, 110, 20);
-            hora.setText("8:00 AM - 9:00 AM");
+            hora.setBounds(10, 30, 110, 20);
+
+            SimpleDateFormat formato = new SimpleDateFormat("hh:mm a");
+            String formato2 = formato.format(db.getHoraInicio().get(i));
+            String formato3 = formato.format(db.getHoraFin().get(i));
+
+            hora.setText("<html>" + formato2 + "-" + formato3 + "</html>");
             //hora.setBorder(new EtchedBorder());
             Contenedor.add(hora);
 
@@ -168,37 +183,63 @@ public class Activities {
                 public void mouseClicked(MouseEvent e) {
                     Contenedor = (JPanel) e.getSource();
 
+                    String nombreAc;
+                    String descripcion;
+                    Date fechaIni;
+                    String ubi = "";
+                    String horaInicio, horaFin;
+                    String h;
+
                     //System.out.println(Contenedor1.getName());
                     ModalModificarActividad Modal = new ModalModificarActividad();
 //                    Modal.jLabel70.setText(Contenedor.getName());
-                    String nombreAc = "";
-                    String descripcion = "";
 
-                    Date fechaIni;
-                    Date horaInicio;
-                    Date horaFin;
-                    String ubi = "";
                     //Consulta
-                    Db db = new Db();
-                    int id = db.getIdActividad(nombre2);
+                    int id = (db.getIdActividad(nombre2));
                     nombreAc = nombre2;
                     descripcion = db.getDescripcionActividad(id);
-
                     fechaIni = db.getFechaInicioActividad(id);
-//                    horaInicio = db.getHoraInicioActividad(id);
-//                    horaFin = db.getHoraFinActividad(id);
-                    
+                    horaInicio = db.getHoraInicio(id);
+                    horaFin = db.getHoraFinString(id);
+                    int ide = cambiarID(id);
+//                    System.out.println("Activites ="+horaInicio);
+
                     //Luego de consulta
                     ModalModificarActividad.txtNombreActividadModal.setText(nombreAc);
                     ModalModificarActividad.txtDescripcionModal.setText(descripcion);
                     ModalModificarActividad.dateFechaInicio.setDate(fechaIni);
                     ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubi);
-                    
-                    Modal.id = id;
+                    Modal.id = ide;
 
-                    JDialog modal1 = new JDialog(fr, "Modificar Actividad", true);
+                    //Fecha
+                    SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
+                    sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+                    Date d = null;
+                    Date d2 = null;
+                    try {
+                        d = sdf.parse(horaInicio);
+                        d2 = sdf.parse(horaFin);
+                    } catch (ParseException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                    Modal.modelInicio.setValue(d);
+                    ModalModificarActividad.spHoraInicio.setModel(Modal.modelInicio);
+                    ModalModificarActividad.spHoraInicio.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraInicio, "h:mma"));
+
+                    Modal.modelFin.setValue(d2);
+                    ModalModificarActividad.spHoraFin.setModel(Modal.modelFin);
+                    ModalModificarActividad.spHoraFin.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraFin, "h:mma"));
+
+                    ModalModificarActividad.txtPrueba.setText(String.valueOf(ide));
+
+//                    System.out.println("ID, activities = "+getId());
+                    modal1 = new JDialog(fr, "Modificar Actividad", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();
+                    modal1.invalidate();
+                    modal1.validate();
+                    modal1.repaint();
                     modal1.setLocationRelativeTo(null);
                     modal1.setVisible(true);
                 }
@@ -237,6 +278,15 @@ public class Activities {
          */
     }
 
+    public int cambiarID(int id) {
+        try {
+            id2 = id;
+            return id2;
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     /**
      * Método para registrar un usuario en el sistema
      *
@@ -247,10 +297,10 @@ public class Activities {
      * @param idUbicacion ubicación de la actividad.
      * @return retorna un valor booleano para ser utilizado en la capa modelo.
      */
-    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion) {
+    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, int idUbicacion) {
         Db db = new Db();
         try {
-            if (db.agregarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion)) {
+            if (db.agregarActividad(nombre, descripcion, fechaInicio, edicion, fechaFin, idUbicacion)) {
                 return true;
             }
         } catch (Exception e) {
@@ -258,7 +308,7 @@ public class Activities {
         }
         return false;
     }
-    
+
     public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
         Db db = new Db();
         try {
@@ -270,7 +320,7 @@ public class Activities {
         }
         return false;
     }
-    
+
     public static boolean eliminarActividad(int id) {
         Db db = new Db();
         try {
@@ -278,21 +328,110 @@ public class Activities {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("ERROR 2" + e);
+            System.out.println("ERROR" + e);
         }
         return false;
     }
 
-    public static boolean ingresarFechas(String fecha1, String fecha2) {
+    public static boolean setFechas(String fecha1, String dia2, String dia3, String dia4, String fecha2) {
         Db db = new Db();
         try {
-            if (db.setFechas(fecha1, fecha2)) {
+            if (db.setFechas(fecha1, dia2, dia3, dia4, fecha2)) {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("ERROR 2" + e);
+            System.out.println("ERROR" + e);
         }
         return false;
+    }
+
+    public String getDia(String dia) {
+        Db db = new Db();
+        try {
+            String fecha = db.getFechaDia(dia);
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public String getNombreDia(String dia) {
+        Db db = new Db();
+        try {
+            String fecha = db.getNombreDia(dia);
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public static String getMinAnioInicio() {
+        Db db = new Db();
+        try {
+            String fecha = db.getMinAnioInicio();
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public static String getMinMesInicio() {
+        Db db = new Db();
+        try {
+            String fecha = db.getMinMesInicio();
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+    
+    public static String getMinDiaInicio() {
+        Db db = new Db();
+        try {
+            String fecha = db.getMinDiaInicio();
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+    
+    public static String getMaxMesInicio() {
+        Db db = new Db();
+        try {
+            String fecha = db.getMaxMesInicio();
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+    
+    public static String getMaxDiaInicio() {
+        Db db = new Db();
+        try {
+            String fecha = db.getMaxDiaInicio();
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public boolean eliminarActividades() {
+        Db db = new Db();
+        boolean bandera = false;
+        try {
+            bandera = db.eliminarActividades();
+            return bandera;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return bandera;
     }
 
     /**
@@ -300,5 +439,19 @@ public class Activities {
      */
     public int getCantidadDia1() {
         return cantidadDia1;
+    }
+
+    /**
+     * @return the id2
+     */
+    public static int getId2() {
+        return id2;
+    }
+
+    /**
+     * @param aId2 the id2 to set
+     */
+    public static void setId2(int aId2) {
+        id2 = aId2;
     }
 }

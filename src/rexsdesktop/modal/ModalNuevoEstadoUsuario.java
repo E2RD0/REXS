@@ -39,6 +39,7 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
         txtEstadoUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
         txtEstadoUsuarioModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEstadoUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtEstadoUsuarioModal.setToolTipText("Nombre del estado de usuario");
         txtEstadoUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEstadoUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -57,11 +58,17 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         btnAceptarModal.setBackground(new java.awt.Color(213, 222, 255));
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnAceptarModal.setText("Aceptar");
+        btnAceptarModal.setToolTipText("Ingresar nuevo estado de usuario");
         btnAceptarModal.setBorderPainted(false);
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +148,10 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
     }//GEN-LAST:event_txtEstadoUsuarioModalKeyTyped
+
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -25,6 +25,7 @@ public class CurrentUser {
     public static BufferedImage fotoPerfil;
     public static int idTipoUsuario;
     public static int idEstadoUsuario;
+    public static String edicionExpotecnica;
 
     /**
      *

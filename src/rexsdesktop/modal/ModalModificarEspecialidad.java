@@ -48,6 +48,11 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -58,6 +63,7 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         txtEspecialidadModal.setBackground(new java.awt.Color(249, 250, 255));
         txtEspecialidadModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtEspecialidadModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtEspecialidadModal.setToolTipText("Nombre de la especialidad");
         txtEspecialidadModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEspecialidadModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,6 +80,7 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         btnModificarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnModificarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnModificarModal.setText("Modficar");
+        btnModificarModal.setToolTipText("Modificar la especialidad");
         btnModificarModal.setBorderPainted(false);
         btnModificarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +197,10 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
     }//GEN-LAST:event_txtEspecialidadModalKeyTyped
+
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

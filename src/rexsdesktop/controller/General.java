@@ -24,6 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.Scalr.*;
 import rexsdesktop.model.ENV;
 
@@ -225,6 +226,30 @@ public class General {
         return db.setMapwizeVenueID(value);
     }
 
+    public static String getEdicion() {
+        Db db = new Db();
+        try {
+            String fecha = db.getEdicion();
+            CurrentUser.edicionExpotecnica = fecha;
+            return fecha;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "Vacio";
+    }
+
+    public static boolean setEdicion(String edicion) {
+        Db db = new Db();
+        try {
+            if (db.setEdicion(edicion)) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR" + e);
+        }
+        return false;
+    }
+
     public static void agregarBitacora(String accion, int idUsuario) {
         Db db = new Db();
         int idAccion = db.getIdAccionBitacora(accion);
@@ -269,4 +294,3 @@ public class General {
         return imgR;
     }
 }
-

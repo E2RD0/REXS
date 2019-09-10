@@ -250,6 +250,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ingresa tu correo electr&#xf3;nico"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -313,6 +314,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ingresa tu contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -347,6 +349,7 @@
                   <Color blue="c9" green="ba" red="b0" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#xbf;OLVIDASTE TU CONTRASE&#xd1;A? "/>
+                <Property name="toolTipText" type="java.lang.String" value="Recupera tu contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -371,6 +374,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Iniciar sesi&#xf3;n"/>
+                <Property name="toolTipText" type="java.lang.String" value="Iniciar sesi&#xf3;n"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder roundedCorners="true">
@@ -439,6 +443,7 @@
                   <Color blue="ff" green="5b" red="2e" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Registrate"/>
+                <Property name="toolTipText" type="java.lang.String" value="Registra tu usuario aqu&#xed;"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -695,6 +700,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Registra tu correo electr&#xf3;nico"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -758,6 +764,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Registra tu contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -791,6 +798,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Crear cuenta"/>
+                <Property name="toolTipText" type="java.lang.String" value="Crear cuenta"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder roundedCorners="true">
@@ -859,6 +867,7 @@
                   <Color blue="ff" green="5b" red="2e" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Inicia sesi&#xf3;n"/>
+                <Property name="toolTipText" type="java.lang.String" value="Inicia sesi&#xf3;n"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -923,6 +932,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Registra tu nombre completo"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -1096,6 +1106,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ingresa el correo con el que te registraste"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -1153,6 +1164,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Enviar c&#xf3;digo"/>
+                <Property name="toolTipText" type="java.lang.String" value="Enviar c&#xf3;digo a tu correo"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder roundedCorners="true">
@@ -1189,6 +1201,7 @@
                   <Color blue="ff" green="5b" red="2e" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Iniciar sesi&#xf3;n"/>
+                <Property name="toolTipText" type="java.lang.String" value="Inicia sesi&#xf3;n"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -1345,6 +1358,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ingresa el c&#xf3;digo que recibiste"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -1377,6 +1391,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Verificar"/>
+                <Property name="toolTipText" type="java.lang.String" value="Verificar el c&#xf3;digo enviado"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder roundedCorners="true">
@@ -1413,6 +1428,7 @@
                   <Color blue="ff" green="5b" red="2e" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Iniciar sesi&#xf3;n"/>
+                <Property name="toolTipText" type="java.lang.String" value="Inicia sesi&#xf3;n"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
@@ -1555,6 +1571,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cambiar Contrase&#xf1;a"/>
+                <Property name="toolTipText" type="java.lang.String" value="Cambiar la contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder roundedCorners="true">
@@ -1582,6 +1599,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ingresa tu nueva contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
@@ -1632,6 +1650,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Confirma tu nueva contrase&#xf1;a"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder>
