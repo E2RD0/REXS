@@ -6,6 +6,7 @@
 package rexsdesktop.modal;
 
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
@@ -218,6 +220,8 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
                 Conexion.setIdTipoUsuario(Integer.parseInt(txtIdModal.getText()));
                 jTTabla.setModel(modelo);
                 if (Conexion.ActualizarTipoUsuario()) {
+                    modelo.setRowCount(0);
+                    cargarTabla();
                     JOptionPane.showMessageDialog(null, "Datos modficados correctamente correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al modficar datos");
@@ -255,6 +259,7 @@ public class ModalModificarTipoUsuario extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

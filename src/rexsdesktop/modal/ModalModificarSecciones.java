@@ -6,6 +6,7 @@
 package rexsdesktop.modal;
 
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.controller.User;
@@ -21,6 +23,7 @@ import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para modificar una sección.
+ *
  * @author artur
  */
 public class ModalModificarSecciones extends javax.swing.JPanel {
@@ -227,10 +230,10 @@ public class ModalModificarSecciones extends javax.swing.JPanel {
                 Conexion.setIdUbicacion(cbxUbicacionModal.getSelectedIndex());
                 Conexion.setIdSeccion(Integer.parseInt(jLId.getText()));
                 if (Conexion.ActualizarSeccion()) {
+                    Sections CargarSecciones = new Sections();
+                    ModalSecciones.jPanelSecciones.removeAll();
+                    CargarSecciones.CrearPanelesSecciones(ModalSecciones.jPanelSecciones, Integer.parseInt(ModalSecciones.jLId.getText()));
                     JOptionPane.showMessageDialog(null, "Datos modificados correctamente");
-                    Admin.jPanel24.removeAll();
-                    Sections CargarSeccion = new Sections();
-                    CargarSeccion.CrearPanelesSecciones(Admin.jPanel24);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al modficar datos");
                 }
@@ -258,6 +261,7 @@ public class ModalModificarSecciones extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

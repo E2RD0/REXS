@@ -5,7 +5,9 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.User;
 
 /**
@@ -151,6 +153,7 @@ public class ModalNuevoEstadoUsuario extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

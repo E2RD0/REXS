@@ -1585,45 +1585,53 @@ public class Db {
     }
 
     private int CantidadSecciones;
+    private int NivelSeleccionado;
     private ArrayList<Integer> idSeccion;
     private ArrayList<String> Seccion;
     private ArrayList<String> Nivel_Seccion;
     private ArrayList<String> Especialidad_Seccion;
     private ArrayList<String> Ubicacion_Seccion;
 
-    public void NumSeccion() {
+   public ResultSet NumSeccion(int idNiv) {
+        boolean respuesta = false;
         try {
-
-            String sql = "select COUNT(idSeccionNivel) from seccionNivel";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                setCantidadSecciones(rs.getInt(1));
-                //System.out.println(getCantidadProyecto());
+            String sql = "select COUNT(idSeccionNivel) from seccionNivel where idNivel = ?";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setInt(1, idNiv);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            } else {
+                return null;
             }
         } catch (Exception e) {
         }
+        return null;
+
     }
 
-    public void MostrarSeccion() {
+   public void MostrarSeccion(int idNiv) {
         try {
 
-            String sql = "select idSeccionNivel, seccion, nivel, especialidad, ubicacion from seccionNivel,nivel, especialidad, ubicacion where seccionNivel.idNivel =  nivel.idNivel and seccionNivel.idEspecialidad = especialidad.idEspecialidad and seccionNivel.idUbicacion = ubicacion.idUbicacion";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            setIdSeccion(new ArrayList<>());
-            setSeccion(new ArrayList<>());
-            setNivel_Seccion(new ArrayList<>());
-            setEspecialidad_Seccion(new ArrayList<>());
-            setUbicacion_Seccion(new ArrayList<>());
+            String sql = "select idSeccionNivel, seccion, nivel, especialidad, ubicacion from seccionNivel,nivel, especialidad, ubicacion "
+                    + "where seccionNivel.idNivel =  nivel.idNivel and seccionNivel.idEspecialidad = especialidad.idEspecialidad and seccionNivel.idUbicacion = ubicacion.idUbicacion"
+                    + " and seccionNivel.idNivel=?";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setInt(1, idNiv);
+            ResultSet rs = cmd.executeQuery();
+
+            idSeccion = new ArrayList<>();
+            Seccion = new ArrayList<>();
+            Nivel_Seccion = new ArrayList<>();
+            Especialidad_Seccion = new ArrayList<>();
+            Ubicacion_Seccion = new ArrayList<>();
             while (rs.next()) {
 
-                getIdSeccion().add(rs.getInt(1));
-                getSeccion().add(rs.getString(2));
-                getNivel_Seccion().add(rs.getString(3));
-                getEspecialidad_Seccion().add(rs.getString(4));
-                getUbicacion_Seccion().add(rs.getString(5));
+                idSeccion.add(rs.getInt(1));
+                Seccion.add(rs.getString(2));
+                Nivel_Seccion.add(rs.getString(3));
+                Especialidad_Seccion.add(rs.getString(4));
+                Ubicacion_Seccion.add(rs.getString(5));
 
             }
         } catch (SQLException e) {
@@ -1766,6 +1774,78 @@ public class Db {
         }
         return tipoUsuario;
     }
+    //Filtrados
+    private int CantidadUsuariosFiltrados;
+    private String nombreFiltrado;
+    private int estadoFiltrado;
+    private int tipoFiltrado;
+
+    public ArrayList<Integer> idUsuario2;
+    public ArrayList<String> nombreCompleto2;
+    public ArrayList<String> email2;
+    public ArrayList<String> tipo2;
+    public ArrayList<String> fecha2;
+    public ArrayList<String> estado2;
+
+    //Filtrar
+    public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
+        boolean respuesta = false;
+        try {
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario \n"
+                    + "and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and nombreCompleto = ? and \n"
+                    + "estadoUsuario.estado=? and tipoUsuario.tipo = ?";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setString(1, nombre);
+            cmd.setString(2, idE);
+            cmd.setString(3, idT);
+            ResultSet rs = cmd.executeQuery();
+            if (rs.next()) {
+                return rs;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+
+    }
+
+    public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
+        try {
+
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, "
+                    + "estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and "
+                    + "usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and nombreCompleto = ? "
+                    + "and estadoUsuario.estado=? and tipoUsuario.tipo =?";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setString(1, nombre);
+            cmd.setString(2, idE);
+            cmd.setString(3, idT);
+            ResultSet rs = cmd.executeQuery();
+
+            idUsuario2 = new ArrayList<>();
+            nombreCompleto2 = new ArrayList<>();
+            email2 = new ArrayList<>();
+            fecha2 = new ArrayList<>();
+            tipo2 = new ArrayList<>();
+            estado2 = new ArrayList<>();
+            while (rs.next()) {
+
+                idUsuario2.add(rs.getInt(1));
+                nombreCompleto2.add(rs.getString(2));
+                email2.add(rs.getString(3));
+                fecha2.add(rs.getString(4));
+                tipo2.add(rs.getString(5));
+                estado2.add(rs.getString(6));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    //Filtrar
 
     /**
      * @return the CantidadProyecto
@@ -2124,5 +2204,19 @@ public class Db {
             System.out.println("Error: " + e);
         }
         return 0;
+    }
+
+    /**
+     * @return the NivelSeleccionado
+     */
+    public int getNivelSeleccionado() {
+        return NivelSeleccionado;
+    }
+
+    /**
+     * @param NivelSeleccionado the NivelSeleccionado to set
+     */
+    public void setNivelSeleccionado(int NivelSeleccionado) {
+        this.NivelSeleccionado = NivelSeleccionado;
     }
 }

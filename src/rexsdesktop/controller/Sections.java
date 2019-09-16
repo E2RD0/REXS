@@ -5,9 +5,11 @@
  */
 package rexsdesktop.controller;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -25,16 +27,23 @@ import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarEspecialidad;
 import rexsdesktop.modal.ModalModificarNivel;
 import rexsdesktop.modal.ModalModificarSecciones;
+import static rexsdesktop.modal.ModalModificarSecciones.jLId;
+import rexsdesktop.modal.ModalNuevaSeccion;
+import rexsdesktop.modal.ModalSecciones;
+import static rexsdesktop.modal.ModalSecciones.jPanelSecciones;
 import rexsdesktop.model.Db;
 import rexsdesktop.model.DbConnection;
+import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene los atributos y métodos de una sección.
+ *
  * @author artur
  */
 public class Sections {
 
     //CRUD SECCION
+    private static JDialog modal;
     private Connection cn;
     private String seccion;
     private int idSeccion;
@@ -50,7 +59,7 @@ public class Sections {
         DbConnection clase1 = new DbConnection();
         cn = clase1.conectar();
     }
-    
+
     JPanel Contenedor1;
 
     ArrayList<JPanel> panelesEspecialidades;
@@ -110,7 +119,7 @@ public class Sections {
                     Db db = new Db();
                     nombreEspecialidad = db.getNombreEspecialidad(Integer.parseInt(Contenedor1.getName()));
                     Modal.txtEspecialidadModal.setText(nombreEspecialidad);
-                    
+
                     JDialog modal1 = new JDialog(fr, "Modificar Especialidad", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();
@@ -144,8 +153,8 @@ public class Sections {
             });
         }
     }
-    
-    JPanel ContenedorNivel;
+
+   JPanel ContenedorNivel;
 
     ArrayList<JPanel> panelesNivel;
     //ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
@@ -194,20 +203,16 @@ public class Sections {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
+
                     ContenedorNivel = (JPanel) e.getSource();
 
                     System.out.println(ContenedorNivel.getName());
-                    ModalModificarNivel Modal = new ModalModificarNivel();
-                    
-                    Modal.jLidNivel.setText(ContenedorNivel.getName());
-                    //modalModificarSecciones.jLId.setText(ContenedorNivel.getName());
-                    String nombreNivel = "";
-                    //Consulta
-                    Db db = new Db();
-                    nombreNivel = db.getNombreNivel(Integer.parseInt(ContenedorNivel.getName()));
-                    Modal.txtNivelModal.setText(nombreNivel);
-                    
+                    ModalSecciones Modal = new ModalSecciones();
+                    Modal.jLId.setText(ContenedorNivel.getName());
+
+                    Sections CargarSecciones = new Sections();
+                    CargarSecciones.CrearPanelesSecciones(ModalSecciones.jPanelSecciones, Integer.parseInt(ModalSecciones.jLId.getText()));
+
                     JDialog modal1 = new JDialog(fr, "Modificar Nivel", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();
@@ -218,13 +223,13 @@ public class Sections {
                 @Override
 
                 public void mousePressed(MouseEvent e) {
-                    
+
                 }
 
                 @Override
 
                 public void mouseReleased(MouseEvent e) {
-                    
+
                 }
 
                 @Override
@@ -239,23 +244,51 @@ public class Sections {
 
                 }
             });
+
+            ContenedorNivel.addMouseMotionListener(new MouseAdapter() {
+                Frame fr;
+
+                @Override
+                public void mouseDragged(MouseEvent evento) {
+                    ContenedorNivel = (JPanel) evento.getSource();
+
+                    System.out.println(ContenedorNivel.getName());
+                    ModalModificarNivel Modal = new ModalModificarNivel();
+
+                    Modal.jLidNivel.setText(ContenedorNivel.getName());
+                    System.out.println("Prueba =" + ContenedorNivel.getName());
+                    String nombreNivel = "";
+                    //Consulta
+                    Db db = new Db();
+                    nombreNivel = db.getNombreNivel(Integer.parseInt(ContenedorNivel.getName()));
+                    Modal.txtNivelModal.setText(nombreNivel);
+
+                    JDialog modal1 = new JDialog(fr, "Modificar Nivel", true);
+                    modal1.getContentPane().add(Modal);
+                    modal1.pack();
+                    modal1.setLocationRelativeTo(null);
+                    modal1.setVisible(true);
+
+                }
+            });
         }
     }
-    
-     JPanel ContenedorSecciones;
+
+    public Integer NumSecciones;
+    JPanel ContenedorSecciones;
 
     ArrayList<JPanel> panelesSecciones;
     //ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
 
-    public void CrearPanelesSecciones(javax.swing.JPanel panel) {
+    public void CrearPanelesSecciones(javax.swing.JPanel panel, int idNiv) {
 
         Db db = new Db();
-        db.MostrarSeccion();
-        db.NumSeccion();
+        Sections u = getNumSecciones(idNiv);
+        db.MostrarSeccion(idNiv);
 
         panelesSecciones = new ArrayList<>();
 
-        for (int i = 0; i < db.getCantidadSecciones(); i++) {
+        for (int i = 0; i < u.NumSecciones; i++) {
             ContenedorSecciones = new JPanel();
             panel.add(ContenedorSecciones);
             panelesSecciones.add(ContenedorSecciones);
@@ -285,7 +318,7 @@ public class Sections {
             Seccion.setText(db.getSeccion().get(i));
             // email.setBorder(new EtchedBorder());
             ContenedorSecciones.add(Seccion);
-            
+
             JLabel Nivel = new JLabel();
             Nivel.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             Nivel.setForeground(new Color(46, 56, 77));
@@ -295,7 +328,7 @@ public class Sections {
             Nivel.setText(db.getNivel_Seccion().get(i));
             // email.setBorder(new EtchedBorder());
             ContenedorSecciones.add(Nivel);
-            
+
             JLabel Especialidad = new JLabel();
             Especialidad.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             Especialidad.setForeground(new Color(46, 56, 77));
@@ -305,7 +338,7 @@ public class Sections {
             Especialidad.setText(db.getEspecialidad_Seccion().get(i));
             // email.setBorder(new EtchedBorder());
             ContenedorSecciones.add(Especialidad);
-            
+
             JLabel Ubicacion = new JLabel();
             Ubicacion.setFont(new java.awt.Font("Rubik Medium", 0, 11));
             Ubicacion.setForeground(new Color(46, 56, 77));
@@ -321,7 +354,7 @@ public class Sections {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    
+
                     ContenedorSecciones = (JPanel) e.getSource();
 
                     System.out.println(ContenedorSecciones.getName());
@@ -335,13 +368,13 @@ public class Sections {
                     Db db = new Db();
                     nombreSeccion = db.getNombreSeccion(Integer.parseInt(ContenedorSecciones.getName()));
                     Nivel = db.getNivel_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
-                    Especialidad = db.getNombreEspecialidad(Integer.parseInt(ContenedorSecciones.getName()));
-                    Ubicacion = db.getNombreUbicacion(Integer.parseInt(ContenedorSecciones.getName()));
+                    Especialidad = db.getEspecialidad_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
+                    Ubicacion = db.getUbicacion_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
                     Modal.txtSeccionModal.setText(nombreSeccion);
                     Modal.cbxNivelModal.setSelectedItem(Nivel);
                     Modal.cbxEspecialidadModal.setSelectedItem(Especialidad);
                     Modal.cbxUbicacionModal.setSelectedItem(Ubicacion);
-                    
+
                     JDialog modal1 = new JDialog(fr, "Modificar Seccion", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();
@@ -352,13 +385,13 @@ public class Sections {
                 @Override
 
                 public void mousePressed(MouseEvent e) {
-                    
+
                 }
 
                 @Override
 
                 public void mouseReleased(MouseEvent e) {
-                    
+
                 }
 
                 @Override
@@ -372,9 +405,12 @@ public class Sections {
                 public void mouseExited(MouseEvent e) {
 
                 }
+
             });
+
         }
     }
+
     public ResultSet consulta(String sql) {
         ResultSet res = null;
         try {
@@ -430,7 +466,7 @@ public class Sections {
 
         try {
             String sql = "INSERT INTO seccionNivel (seccion, idNivel, idEspecialidad, idUbicacion) " + "VALUES (?,?,?,?);";
-            PreparedStatement stm = getCn().prepareStatement(sql);
+            PreparedStatement stm = cn.prepareStatement(sql);
 
             stm.setString(1, getSeccion());
             stm.setInt(2, getIdNivel() + 1);
@@ -441,7 +477,7 @@ public class Sections {
                 respuesta = true;
             }
             stm.close();
-            getCn().close();
+//            getCn().close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -454,7 +490,7 @@ public class Sections {
             String sql = "UPDATE seccionNivel SET seccion= ?, idNivel = ?, idEspecialidad = ?, idUbicacion = ? WHERE idSeccionNivel = ?;";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setString(1, seccion);
-            stm.setInt(2, idNivel +1);
+            stm.setInt(2, idNivel + 1);
             stm.setInt(3, idEspecialidad + 1);
             stm.setInt(4, idUbicacion + 1);
             stm.setInt(5, getIdSeccion());
@@ -468,7 +504,8 @@ public class Sections {
         }
         return respuesta;
     }
-     public boolean ElminarSeccion() {
+
+    public boolean ElminarSeccion() {
         boolean respuesta = false;
         try {
             String sql = "DELETE FROM seccionNivel WHERE idSeccionNivel = ?;";
@@ -484,6 +521,7 @@ public class Sections {
         }
         return respuesta;
     }
+
     //CRUD NIVEL
     public boolean agregarNivel() {
         boolean respuesta = false;
@@ -504,6 +542,7 @@ public class Sections {
         }
         return respuesta;
     }
+
     public boolean ActualizarNivel() {
         boolean respuesta = false;
         try {
@@ -542,7 +581,7 @@ public class Sections {
         }
         return respuesta;
     }
-    
+
     public boolean ActualizarEspecialidad() {
         boolean respuesta = false;
         try {
@@ -560,7 +599,7 @@ public class Sections {
         }
         return respuesta;
     }
-    
+
     public boolean ElminarEspecialidad() {
         boolean respuesta = false;
         try {
@@ -688,5 +727,19 @@ public class Sections {
      */
     public void setIdSeccion(int idSeccion) {
         this.idSeccion = idSeccion;
+    }
+
+    public static Sections getNumSecciones(int idNiv) {
+        try {
+            Db db = new Db();
+            ResultSet rs = db.NumSeccion(idNiv);
+            Sections h = new Sections();
+            h.NumSecciones = rs.getInt(1);
+            return h;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+            return null;
+        }
+
     }
 }

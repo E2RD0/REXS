@@ -5,13 +5,17 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.view.Admin;
 import static rexsdesktop.view.Admin.jPanel12;
+
 /**
  * Clase que contiene el Panel para modificar una especialidad.
+ *
  * @author artur
  */
 public class ModalModificarEspecialidad extends javax.swing.JPanel {
@@ -20,9 +24,10 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
      * Creates new form ModalModificarEspecialidad
      */
     DefaultTableModel modelo = new DefaultTableModel();
+
     public ModalModificarEspecialidad() {
         initComponents();
-        
+
     }
 
     /**
@@ -153,10 +158,8 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
                 .addComponent(idTipo))
         );
     }// </editor-fold>//GEN-END:initComponents
-    
-   
-    
-    
+
+
     private void btnModificarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarModalActionPerformed
         Sections Conexion = new Sections();
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
@@ -164,18 +167,18 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
         try {
             if (txtEspecialidadModal.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Existen campos vacios");
-            }else{
-            Conexion.setIdEspecialidad(Integer.parseInt(jLabel70.getText()));
-            Conexion.setEspecialidad(txtEspecialidadModal.getText());
-            if (Conexion.ActualizarEspecialidad()) {
-                JOptionPane.showMessageDialog(null, "Datos modificados correctamente");
-                Admin.jPanel12.removeAll();
-                Sections CargarEspecialidad = new Sections();
-                CargarEspecialidad.CrearPanelesEspecialidades(jPanel12);
             } else {
-                JOptionPane.showMessageDialog(null, "Error al modficar datos");
-                
-            }
+                Conexion.setIdEspecialidad(Integer.parseInt(jLabel70.getText()));
+                Conexion.setEspecialidad(txtEspecialidadModal.getText());
+                if (Conexion.ActualizarEspecialidad()) {
+                    Admin.jPanel18.removeAll();
+                    Sections CargarEspecialidad = new Sections();
+                    CargarEspecialidad.CrearPanelesEspecialidades(Admin.jPanel18);
+                    JOptionPane.showMessageDialog(null, "Datos modificados correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modficar datos");
+
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
@@ -188,11 +191,11 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
 
     private void txtEspecialidadModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEspecialidadModalKeyTyped
         // TODO add your handling code here:
-        char validar=evt.getKeyChar();
-        
-        if(Character.isDigit(validar)){
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
             getToolkit().beep();
-            
+
             evt.consume();
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
@@ -200,6 +203,7 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

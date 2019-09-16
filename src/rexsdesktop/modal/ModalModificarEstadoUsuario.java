@@ -6,6 +6,7 @@
 package rexsdesktop.modal;
 
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import rexsdesktop.controller.User;
@@ -20,6 +22,7 @@ import rexsdesktop.model.DbConnection;
 
 /**
  * Clase que contiene el Panel para modificar un estado del usuario.
+ *
  * @author artur
  */
 public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
@@ -35,7 +38,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
         String[] titulo = new String[]{"Id", "Estado Usuario"};
         modelo.setColumnIdentifiers(titulo);
         jTTabla.setModel(modelo);
-        cargarProyectos();
+        cargarEstadosUsuario();
         //Enviar datos de tabla txt
         jTTabla.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent Mouse_evt) {
@@ -179,7 +182,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
                     .addComponent(txtEstadoUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -190,7 +193,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void cargarProyectos() {
+    public void cargarEstadosUsuario() {
         DbConnection cone = new DbConnection();
         Connection con = cone.conectar();
         try {
@@ -218,9 +221,9 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
                 Conexion.setIdEstadoUsuario(Integer.parseInt(txtIdModal.getText()));
                 jTTabla.setModel(modelo);
                 if (Conexion.ActualizarEstadoUsuario()) {
-                    JOptionPane.showMessageDialog(null, "Datos modificados correctamente ");
                     modelo.setRowCount(0);
-                    cargarProyectos();
+                    cargarEstadosUsuario();
+                    JOptionPane.showMessageDialog(null, "Datos modificados correctamente ");
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al modficar datos");
                 }
@@ -261,6 +264,7 @@ public class ModalModificarEstadoUsuario extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

@@ -5,8 +5,11 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.Sections;
+import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para agregar un nuevo nivel.
@@ -125,7 +128,10 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Existen campos vacios");}else{
             Conexion.setNivel(txtNivelModal.getText());
 
-            if (Conexion.agregarSeccion()) {
+            if (Conexion.agregarNivel()) {
+                Admin.jPanel17.removeAll();
+                Sections CargarNivel = new Sections();
+                CargarNivel.CrearPanelesNivel(Admin.jPanel17);
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al insertar datos");
@@ -150,6 +156,7 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

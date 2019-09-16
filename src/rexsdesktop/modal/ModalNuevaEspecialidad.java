@@ -5,8 +5,11 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.Sections;
+import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para agregar una nueva especialidad.
@@ -126,6 +129,9 @@ public class ModalNuevaEspecialidad extends javax.swing.JPanel {
             Conexion.setEspecialidad(txtEspecialidadModal.getText());
 
             if (Conexion.agregarEspecialidad()) {
+                Admin.jPanel18.removeAll();
+                Sections CargarEspecialidad = new Sections();
+                CargarEspecialidad.CrearPanelesEspecialidades(Admin.jPanel18);
                 JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al insertar datos");
@@ -150,6 +156,7 @@ public class ModalNuevaEspecialidad extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

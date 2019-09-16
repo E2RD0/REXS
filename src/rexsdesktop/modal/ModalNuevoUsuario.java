@@ -5,16 +5,19 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para agregar un nuevo usuario.
+ *
  * @author artur
  */
 public class ModalNuevoUsuario extends javax.swing.JPanel {
@@ -64,6 +67,11 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtEmailUsuarioModal.setForeground(new java.awt.Color(46, 56, 77));
         txtEmailUsuarioModal.setToolTipText("Correo electrónico del usuario");
         txtEmailUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtEmailUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailUsuarioModalKeyReleased(evt);
+            }
+        });
 
         jLabel91.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel91.setForeground(new java.awt.Color(176, 186, 201));
@@ -115,6 +123,9 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtNombreUsuarioModal.setToolTipText("Nombre completo del usuario");
         txtNombreUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtNombreUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreUsuarioModalKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreUsuarioModalKeyTyped(evt);
             }
@@ -134,6 +145,11 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         txtClaveUsuarioModal.setToolTipText("Contraseña del usuario");
         txtClaveUsuarioModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtClaveUsuarioModal.setEchoChar('\u2022');
+        txtClaveUsuarioModal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtClaveUsuarioModalKeyReleased(evt);
+            }
+        });
 
         lblErrorNombre.setFont(new java.awt.Font("Rubik Light", 0, 11)); // NOI18N
         lblErrorNombre.setForeground(new java.awt.Color(255, 51, 51));
@@ -151,13 +167,15 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel67)
@@ -172,19 +190,17 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
                                         .addComponent(jLabel92)
                                         .addComponent(cbxEstadoUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jLabel69, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addContainerGap(41, Short.MAX_VALUE))
+                        .addContainerGap(38, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtClaveUsuarioModal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                            .addComponent(txtEmailUsuarioModal, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrorNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrorEmailR, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombreUsuarioModal, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblErrorNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtClaveUsuarioModal, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                                .addComponent(txtEmailUsuarioModal)
+                                .addComponent(txtNombreUsuarioModal)
+                                .addComponent(lblErrorEmailR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblErrorPasswordR, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(lblErrorPasswordR)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,20 +210,20 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
                 .addGap(1, 1, 1)
                 .addComponent(txtNombreUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(lblErrorNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblErrorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel69)
                 .addGap(1, 1, 1)
                 .addComponent(txtEmailUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblErrorEmailR)
-                .addGap(18, 18, 18)
+                .addComponent(lblErrorEmailR, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel68)
                 .addGap(1, 1, 1)
                 .addComponent(txtClaveUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblErrorPasswordR)
-                .addGap(24, 24, 24)
+                .addComponent(lblErrorPasswordR, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel91)
@@ -217,19 +233,19 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
                         .addComponent(jLabel92)
                         .addGap(1, 1, 1)
                         .addComponent(cbxEstadoUsuarioModal, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
-
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
@@ -239,48 +255,51 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         try {
             if (txtNombreUsuarioModal.getText().equals("") || txtEmailUsuarioModal.getText().equals("") || txtClaveUsuarioModal.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Existen campos vacios");
-            }else{
-            Conexion.setNombreCompleto(txtNombreUsuarioModal.getText());
-            Conexion.setEmail(txtEmailUsuarioModal.getText());
-            Conexion.setClave(txtClaveUsuarioModal.getText());
-            Conexion.setIdTipoUsuario(cbxTipoUsuarioModal.getSelectedIndex());
-            Conexion.setIdEstadoUsuario(cbxEstadoUsuarioModal.getSelectedIndex());
-
-            String nombre = txtNombreUsuarioModal.getText();
-            String correo = txtEmailUsuarioModal.getText();
-            String password = String.valueOf(txtClaveUsuarioModal.getPassword());
-
-            if (!Validation.VerificadorNombre.verify(nombre)) {
-                txtNombreUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
             } else {
-                txtNombreUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            if (!Validation.VerificadorEmail.verify(correo)) {
-                txtEmailUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
-            } else {
-                txtEmailUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            if (!Validation.VerificadorPassword.verify(password)) {
-                txtClaveUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
-            } else {
-                txtClaveUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
-            }
-            lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
-            lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
-            lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
-            if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-                if (Conexion.agregarUsuario()) {
-                    cantidadesUsuarios();
-                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                }
+                Conexion.setNombreCompleto(txtNombreUsuarioModal.getText());
+                Conexion.setEmail(txtEmailUsuarioModal.getText());
+                Conexion.setClave(txtClaveUsuarioModal.getText());
+                Conexion.setIdTipoUsuario(cbxTipoUsuarioModal.getSelectedIndex());
+                Conexion.setIdEstadoUsuario(cbxEstadoUsuarioModal.getSelectedIndex());
 
-                if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
-                    txtEmailUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
-                    lblErrorEmailR.setText(User.mensajeError);
+                String nombre = txtNombreUsuarioModal.getText();
+                String correo = txtEmailUsuarioModal.getText();
+                String password = String.valueOf(txtClaveUsuarioModal.getPassword());
+
+                if (!Validation.VerificadorNombre.verify(nombre)) {
+                    txtNombreUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
                 } else {
-                    //JOptionPane.showMessageDialog(this, User.mensajeError);
+                    txtNombreUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
                 }
-            }
+                if (!Validation.VerificadorEmail.verify(correo)) {
+                    txtEmailUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+                } else {
+                    txtEmailUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
+                }
+                if (!Validation.VerificadorPassword.verify(password)) {
+                    txtClaveUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+                } else {
+                    txtClaveUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
+                }
+                lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+                lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+                lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+                if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
+                    if (Conexion.agregarUsuario()) {
+                        cantidadesUsuarios();
+                        Admin.jPanel1.removeAll();
+                        User CargarUsuario = new User();
+                        CargarUsuario.CrearPanelesUsuarios(Admin.jPanel1);
+                        JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                    }
+
+                    if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+                        txtEmailUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+                        lblErrorEmailR.setText(User.mensajeError);
+                    } else {
+                        //JOptionPane.showMessageDialog(this, User.mensajeError);
+                    }
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
@@ -298,6 +317,37 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
     }//GEN-LAST:event_txtNombreUsuarioModalKeyTyped
+
+    private void txtNombreUsuarioModalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUsuarioModalKeyReleased
+        // TODO add your handling code here:
+        if (!Validation.VerificadorNombre.verify(txtNombreUsuarioModal.getText())) {
+            txtNombreUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtNombreUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+    }//GEN-LAST:event_txtNombreUsuarioModalKeyReleased
+
+    private void txtEmailUsuarioModalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailUsuarioModalKeyReleased
+        // TODO add your handling code here:
+        if (!Validation.VerificadorEmail.verify(txtEmailUsuarioModal.getText())) {
+            txtEmailUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtEmailUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+    }//GEN-LAST:event_txtEmailUsuarioModalKeyReleased
+
+    private void txtClaveUsuarioModalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveUsuarioModalKeyReleased
+        // TODO add your handling code here:
+        String password = String.valueOf(txtClaveUsuarioModal.getPassword());
+        if (!Validation.VerificadorPassword.verify(password)) {
+            txtClaveUsuarioModal.setBackground(new java.awt.Color(255, 204, 204));
+        } else {
+            txtClaveUsuarioModal.setBackground(new java.awt.Color(249, 250, 255));
+        }
+        lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+    }//GEN-LAST:event_txtClaveUsuarioModalKeyReleased
 
     private void cantidadesUsuarios() {
         User cargar = new User();

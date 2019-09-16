@@ -5,11 +5,15 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.Sections;
+import static rexsdesktop.modal.ModalModificarSecciones.jLId;
 
 /**
  * Clase que contiene el Panel para agregar una nueva sección.
+ *
  * @author artur
  */
 public class ModalNuevaSeccion extends javax.swing.JPanel {
@@ -100,6 +104,11 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
         cbxNivelModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxNivelModal.setToolTipText("Nivel");
         cbxNivelModal.setPreferredSize(new java.awt.Dimension(56, 27));
+        cbxNivelModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxNivelModalActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -189,6 +198,8 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
+
+        
         Sections Conexion = new Sections();
         //JOptionPane.showMessageDialog(null, String.valueOf(jComboBox1.getSelectedIndex() + 1));
 
@@ -200,8 +211,10 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
                 Conexion.setIdEspecialidad(cbxEspecialidadModal.getSelectedIndex());
                 Conexion.setIdNivel(cbxNivelModal.getSelectedIndex());
                 Conexion.setIdUbicacion(cbxUbicacionModal.getSelectedIndex());
-
                 if (Conexion.agregarSeccion()) {
+                    Sections CargarSecciones = new Sections();
+                    ModalSecciones.jPanelSecciones.removeAll();
+                    CargarSecciones.CrearPanelesSecciones(ModalSecciones.jPanelSecciones, Integer.parseInt(ModalSecciones.jLId.getText()));
                     JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al insertar datos");
@@ -230,7 +243,17 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnCancelarModalActionPerformed
+
+    private void cbxNivelModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNivelModalActionPerformed
+//                if(cbxNivelModal.getSelectedItem() == "Septimo" || cbxNivelModal.getSelectedItem() == "Octavo" || cbxNivelModal.getSelectedItem() == "Noveno"){
+//            cbxEspecialidadModal.setSelectedIndex(7);
+//            cbxEspecialidadModal.removeItemAt(1);
+//            cbxEspecialidadModal.removeItemAt(2);
+//            cbxEspecialidadModal.removeItemAt(3);
+//        }
+    }//GEN-LAST:event_cbxNivelModalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

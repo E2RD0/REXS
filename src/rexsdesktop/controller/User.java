@@ -71,7 +71,7 @@ public class User {
     //AGREGAR ESTADO USUARIO
     private String estadoUsuario;
     //MODIFICAR ESTADO USUARIO
-
+    public Integer NumUserFiltrados;
     //MODRIFICAR TIPO USUARIO0
     private String tipoUsuario;
     //Mo
@@ -118,6 +118,145 @@ public class User {
         } catch (Exception e) {
         }
         return listaModelo;
+    }
+     //FILTRAR USUARIOS
+    JPanel ContenedorFiltrarUsuarios;
+
+    ArrayList<JPanel> panelFiltrarUsuarios;
+    ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
+
+    public void CrearPanelesUsuariosFiltrados(javax.swing.JPanel panel, String nombre, String idE, String idT) {
+
+        Db db = new Db();
+        User u = getNumUserFiltrados(nombre, idE, idT);
+        db.MostrarUsuariosFiltrados(nombre, idE, idT);
+
+        JLabel nombreuser = null;
+        panelFiltrarUsuarios = new ArrayList<>();
+
+        for (int i = 0; i < u.NumUserFiltrados ; i++) {
+            ContenedorFiltrarUsuarios = new JPanel();
+            panel.add(ContenedorFiltrarUsuarios);
+            panelFiltrarUsuarios.add(ContenedorFiltrarUsuarios);
+            ContenedorFiltrarUsuarios.setName(String.valueOf(db.idUsuario2.get(i)));
+            ContenedorFiltrarUsuarios.setBackground(Color.white);
+            ContenedorFiltrarUsuarios.setPreferredSize(new Dimension(576, 52));
+            ContenedorFiltrarUsuarios.setLayout(null);
+            Border borde = new LineBorder(Color.CYAN, 1, true);
+            ContenedorFiltrarUsuarios.setBorder(borde);
+
+            JLabel id = new JLabel();
+            id.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            id.setForeground(new Color(46, 56, 77));
+            id.setHorizontalAlignment(SwingConstants.LEADING);
+            id.setBounds(20, 15, 20, 20);
+            id.setText("<html>" + db.idUsuario2.get(i) + "</html>");
+            //id.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(id);
+
+            nombreuser = new JLabel();
+            nombreuser.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            nombreuser.setForeground(new Color(46, 56, 77));
+            nombreuser.setHorizontalAlignment(SwingConstants.CENTER);
+            nombreuser.setBounds(40, 15, 110, 20);
+            nombreuser.setText(db.nombreCompleto2.get(i));
+            //nombreuser.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(nombreuser);
+
+            JLabel email = new JLabel();
+            email.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            email.setForeground(new Color(46, 56, 77));
+            email.setHorizontalAlignment(SwingConstants.CENTER);
+            email.setBounds(150, 15, 150, 20);
+            email.setText(db.email2.get(i));
+            // email.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(email);
+
+            JLabel fecha = new JLabel();
+            fecha.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            fecha.setForeground(new Color(46, 56, 77));
+            fecha.setHorizontalAlignment(SwingConstants.CENTER);
+            fecha.setBounds(320, 15, 70, 20);
+            fecha.setText(db.fecha2.get(i).trim());
+            //fecha.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(fecha);
+
+            JLabel tipo = new JLabel();
+            tipo.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            tipo.setForeground(new Color(46, 56, 77));
+            tipo.setHorizontalAlignment(SwingConstants.CENTER);
+            tipo.setBounds(400, 15, 70, 20);
+            tipo.setText(db.tipo2.get(i));
+            // tipo.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(tipo);
+
+            JLabel estado = new JLabel();
+            estado.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            estado.setForeground(new Color(46, 56, 77));
+            estado.setHorizontalAlignment(SwingConstants.CENTER);
+            estado.setBounds(490, 15, 70, 20);
+            estado.setText(db.estado2.get(i));
+            // estado.setBorder(new EtchedBorder());
+            ContenedorFiltrarUsuarios.add(estado);
+
+            ContenedorFiltrarUsuarios.addMouseListener(new MouseListener() {
+                Frame fr;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    ContenedorFiltrarUsuarios = (JPanel) e.getSource();
+
+                    //System.out.println(Contenedor1.getName());
+                    ModalModificarUsuario Modal = new ModalModificarUsuario();
+                    Modal.jLabel70.setText(ContenedorFiltrarUsuarios.getName());
+                    String nombreCo = "";
+                    String correo = "";
+                    String clave = "";
+                    String tipoUsuario;
+                    String estadoUsuario;
+                    //Consulta
+                    Db db = new Db();
+                    correo = db.getCorreoUsuario(Integer.parseInt(ContenedorFiltrarUsuarios.getName()));
+                    nombreCo = db.getNombreUsuario(Integer.parseInt(ContenedorFiltrarUsuarios.getName()));
+                    tipoUsuario = db.getTipoUsuario(Integer.parseInt(ContenedorFiltrarUsuarios.getName()));
+                    estadoUsuario = db.getEstadoUsuario(Integer.parseInt(ContenedorFiltrarUsuarios.getName()));
+                    Modal.txtNombreUsuarioModal.setText(nombreCo);
+                    Modal.txtEmailUsuarioModal.setText(correo);
+                    Modal.txtClaveUsuarioModal.setText(clave);
+                    Modal.cbxTipoUsuarioModal.setSelectedItem(tipoUsuario);
+                    Modal.cbxEstadoUsuarioModal.setSelectedItem(estadoUsuario);
+                    JDialog modal1 = new JDialog(fr, "Modificar Usuario", true);
+                    modal1.getContentPane().add(Modal);
+                    modal1.pack();
+                    modal1.setLocationRelativeTo(null);
+                    modal1.setVisible(true);
+                }
+
+                @Override
+
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+        }
     }
     //CRUD USUARIO    
 
@@ -649,7 +788,6 @@ public class User {
     JPanel Contenedor1;
 
     ArrayList<JPanel> panelesUsuarios;
-    ImageIcon iconEditCyan = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditCyan.png"));
 
     public void CrearPanelesUsuarios(javax.swing.JPanel panel) {
 
@@ -936,5 +1074,18 @@ public class User {
      */
     public void setClave(String Clave) {
         this.Clave = Clave;
+    }
+    
+    public static User getNumUserFiltrados(String nombre, String idE, String idT) {
+        try {
+            Db db = new Db();
+            ResultSet rs = db.NumUsuariosFiltrados(nombre, idE, idT);
+            User h = new User();
+            h.NumUserFiltrados = rs.getInt(1);
+            return h;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+            return null;
+        }
     }
 }

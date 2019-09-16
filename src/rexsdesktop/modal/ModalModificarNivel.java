@@ -5,8 +5,10 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Window;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.view.Admin;
 
@@ -134,9 +136,9 @@ public class ModalModificarNivel extends javax.swing.JPanel {
             }
             Conexion.setIdNivel(Integer.parseInt(jLidNivel.getText()));
             if (Conexion.ActualizarNivel()) {
-                Admin.jPanel13.removeAll();
+                Admin.jPanel17.removeAll();
                 Sections CargarNivel = new Sections();
-                CargarNivel.CrearPanelesNivel(Admin.jPanel13);
+                CargarNivel.CrearPanelesNivel(Admin.jPanel17);
                 JOptionPane.showMessageDialog(null, "Datos modificados correctamente");
 
             } else {
@@ -161,6 +163,7 @@ public class ModalModificarNivel extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
