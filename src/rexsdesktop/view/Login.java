@@ -1171,7 +1171,7 @@ public class Login extends javax.swing.JFrame {
         lblTituloExito.setFont(new java.awt.Font("Rubik Light", 0, 24)); // NOI18N
         lblTituloExito.setForeground(new java.awt.Color(46, 56, 77));
         lblTituloExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTituloExito.setText("¡Registro exitoso!");
+        lblTituloExito.setText("¡Registro Exitoso!");
         lblTituloExito.setPreferredSize(new java.awt.Dimension(131, 28));
 
         lblMensajeExito.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N

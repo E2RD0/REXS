@@ -7,6 +7,7 @@ package rexsdesktop.modal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -36,9 +38,11 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     Map<String, Location> map = createMap();
     private SpinnerDateModel modelInicio = new SpinnerDateModel();
     private SpinnerDateModel modelFin = new SpinnerDateModel();
+    private JDialog parent;
 
-    public ModalNuevaActividad() {
+    public ModalNuevaActividad(JDialog parent) {
         initComponents();
+        this.parent = parent;
         String num = "02";
         Calendar min = Calendar.getInstance();
         min.set(Calendar.YEAR, Integer.parseInt(Activities.getMinAnioInicio()));
@@ -237,39 +241,70 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
      * Método utilizado para ingresar los datos de una nueva actividad
      */
     private void ingresar() {
-        try {
-            if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(null, "Exisen campos vacíos", "Atención",JOptionPane.INFORMATION_MESSAGE);
-            } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
-                JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales", "Atención",JOptionPane.INFORMATION_MESSAGE);
-            } else if (modelInicio.getDate().getTime() > modelFin.getDate().getTime()) {
-                JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio", "Atención",JOptionPane.INFORMATION_MESSAGE);
-            } else if (modelInicio.getDate().getTime() < 50400000 || modelFin.getDate().getTime() < 50400000) {
-                JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser antes que las 8:00 a.m.", "Atención",JOptionPane.INFORMATION_MESSAGE);
-            } else if (modelFin.getDate().getTime() > 93600000 || modelInicio.getDate().getTime() > 93600000) {
-                JOptionPane.showMessageDialog(null, "La hora de finalización no puede excederse de las 8:00 p.m", "Atención",JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                String nombre = txtNombreActividadModal.getText();
-                String descripcion = txtDescripcionModal.getText();
-                SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
-                String fechaInicio = formatoDia.format(dateFechaInicio.getDate());
-                String dInicio = fechaInicio + formatoHora.format(modelInicio.getDate());
-                String dFin = fechaInicio + formatoHora.format(modelFin.getDate());
-                String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
-                int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
+//        System.out.println("Inicio ="+modelInicio.getDate());
+//        System.out.println("Fin ="+modelFin.getDate());
 
-                if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, idUbicacion)) {
-                    JOptionPane.showMessageDialog(null, "Actividad ingresada");
-                    resetarCampos();
-                    Activities acti = new Activities();
-                    Admin.cargarActividades();
+        SimpleDateFormat formato = new SimpleDateFormat("HH:mm:ss");
+        String prueba = formato.format(modelInicio.getDate());
+        String prueba2 = formato.format(modelFin.getDate());
+        System.out.println(prueba);
+        String max = "20:00:00";
+        String min = "08:00:00";
+        try {
+            SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
+            sdf.applyPattern("HH:mm:ss");
+            Date d = null;
+            Date d2 = null;
+            Date d3 = null;
+            Date d4 = null;
+            try {
+                d = sdf.parse(prueba);
+                d2 = sdf.parse(prueba2);
+                d3 = sdf.parse(max);
+                d4 = sdf.parse(min);
+
+                if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Exisen campos vacíos", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
+                    JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d2.before(d4)) {
+                    JOptionPane.showMessageDialog(null, "La hora de finalización no puede ser anterior a las 8:00 a.m.", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d.before(d4)) {
+                    JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser anterior a las 8:00 a.m.", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d2.after(d3)) {
+                    JOptionPane.showMessageDialog(null, "La hora de finalización no puede excederse de las 8:00 p.m", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d.after(d3)) {
+                    JOptionPane.showMessageDialog(null, "La hora de inicio no puede excederse de las 8:00 p.m", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d2.before(d)) {
+                    JOptionPane.showMessageDialog(null, "La hora de finalización no puede ser anterior a la de inicio", "Atención", JOptionPane.INFORMATION_MESSAGE);
+                } else if (d.after(d2)) {
+                    JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser luego de la de finalización", "Atención", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "ERROR");
+                    String nombre = txtNombreActividadModal.getText();
+                    String descripcion = txtDescripcionModal.getText();
+                    SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
+                    String fechaInicio = formatoDia.format(dateFechaInicio.getDate());
+                    String dInicio = fechaInicio + formatoHora.format(modelInicio.getDate());
+                    String dFin = fechaInicio + formatoHora.format(modelFin.getDate());
+                    String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
+                    int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
+
+                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, idUbicacion)) {
+                        JOptionPane.showMessageDialog(null, "Actividad ingresada");
+                        resetarCampos();
+                        Activities acti = new Activities();
+                        Admin.cargarActividades();
+                        cerrarDialog();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ERROR");
+                    }
                 }
+            } catch (ParseException ex) {
+                System.out.println(ex.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Error global"+e.getMessage());
+            System.out.println("Error global" + e.getMessage());
         }
     }
 
@@ -279,9 +314,12 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAceptarModalActionPerformed
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
-
+        cerrarDialog();
     }//GEN-LAST:event_btnCancelarModalActionPerformed
-
+    private void cerrarDialog() {
+        parent.setVisible(false);
+        parent.dispose();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarModal;

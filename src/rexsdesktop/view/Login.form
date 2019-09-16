@@ -1727,7 +1727,7 @@
                   <Color blue="4d" green="38" red="2e" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="&#xa1;Registro exitoso!"/>
+                <Property name="text" type="java.lang.String" value="&#xa1;Registro Exitoso!"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[131, 28]"/>
                 </Property>

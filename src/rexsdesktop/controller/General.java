@@ -12,9 +12,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.security.Key;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.Scalr.*;
 import rexsdesktop.model.ENV;
@@ -292,5 +296,101 @@ public class General {
                 Scalr.OP_ANTIALIAS);
         img.flush();
         return imgR;
+    }
+
+    public static int usuariosNuevosHoy() {
+        return new Db().usuariosNuevosHoy();
+    }
+
+    public static int votosNuevosHoy() {
+        return new Db().votosNuevosHoy();
+    }
+
+    public static double porcentajeUsuariosNuevosDia() {
+        Db db = new Db();
+        boolean aumento = true;
+        double r = 0;
+        int usuariosHoy = db.usuariosNuevosHoy();
+        int usuariosAyer = db.usuariosNuevosAyer();
+        if (usuariosHoy == usuariosAyer) {
+            r = 0;
+        } else if (usuariosHoy > usuariosAyer) {
+            double incremento = (double) usuariosHoy - (double) usuariosAyer;
+            if (usuariosAyer != 0) {
+                r = incremento / usuariosAyer;
+            } else {
+                r = incremento;
+            }
+        } else if (usuariosHoy < usuariosAyer) {
+            aumento = false;
+            double disminucion = (double) usuariosAyer - (double) usuariosHoy;
+            r = disminucion / usuariosAyer;
+        }
+        if (aumento) {
+            return r * 100;
+        } else {
+            return r * (-100);
+        }
+    }
+
+    public static double porcentajeVotosNuevosDia() {
+        Db db = new Db();
+        boolean aumento = true;
+        double r = 0;
+        int votosHoy = db.votosNuevosHoy();
+        int votosAyer = db.votosNuevosAyer();
+        if (votosHoy == votosAyer) {
+            r = 0;
+        } else if (votosHoy > votosAyer) {
+            double incremento = (double) votosHoy - (double) votosAyer;
+            if (votosAyer != 0) {
+                r = incremento / votosAyer;
+            } else {
+                r = incremento;
+            }
+        } else if (votosHoy < votosAyer) {
+            aumento = false;
+            double disminucion = (double) votosAyer - (double) votosHoy;
+            r = disminucion / votosAyer;
+        }
+        if (aumento) {
+            return r * 100;
+        } else {
+            return r * (-100);
+        }
+    }
+
+    public static CategoryDataset createDatasetChartInicioSesion() {
+
+        DefaultCategoryDataset result = new DefaultCategoryDataset();
+        Db db = new Db();
+        final String series1 = "Hoy";
+        final String series2 = "Ayer";
+        for (int i = -7; i <= 0; i++) {
+            int count = db.countIniciosSesion(i, 0);
+            String hora = db.horaInicioSesion(i);
+            result.addValue(count, series1, hora);
+            int count2 = db.countIniciosSesion(i, -1);
+            result.addValue(count2, series2, hora);
+            System.out.println(count);
+            System.out.println(hora);
+        }
+        return result;
+    }
+
+    public static int countUsuarios() {
+        return new Db().countUsuarios();
+    }
+    
+    public static int countVotos() {
+        return new Db().countVotos();
+    }
+    
+    public static int countProyectos() {
+        return new Db().countProyectos();
+    }
+    
+    public static int countUbicacion() {
+        return new Db().countUbicacion();
     }
 }
