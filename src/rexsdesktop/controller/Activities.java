@@ -119,7 +119,7 @@ public class Activities {
             Contenedor.setBorder(borde);
 
             JLabel nombre = new JLabel();
-            nombre.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+            nombre.setFont(new java.awt.Font("Rubik", 0, 12));
             nombre.setForeground(new Color(46, 56, 77));
             nombre.setHorizontalAlignment(SwingConstants.LEADING);
 
@@ -233,7 +233,6 @@ public class Activities {
 
                     ModalModificarActividad.txtPrueba.setText(String.valueOf(ide));
 
-//                    System.out.println("ID, activities = "+getId());
                     modal1 = new JDialog(fr, "Modificar Actividad", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();

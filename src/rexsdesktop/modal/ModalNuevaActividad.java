@@ -39,15 +39,15 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
 
     public ModalNuevaActividad() {
         initComponents();
-        String num= "02";
+        String num = "02";
         Calendar min = Calendar.getInstance();
         min.set(Calendar.YEAR, Integer.parseInt(Activities.getMinAnioInicio()));
-        min.set(Calendar.MONTH, Integer.parseInt(Activities.getMinMesInicio())-1);
+        min.set(Calendar.MONTH, Integer.parseInt(Activities.getMinMesInicio()) - 1);
         min.set(Calendar.DATE, Integer.parseInt(Activities.getMinDiaInicio()));
 
         Calendar max = Calendar.getInstance();
         max.set(Calendar.YEAR, Integer.parseInt(Activities.getMinAnioInicio()));
-        max.set(Calendar.MONTH, Integer.parseInt(Activities.getMaxMesInicio())-1);
+        max.set(Calendar.MONTH, Integer.parseInt(Activities.getMaxMesInicio()) - 1);
         max.set(Calendar.DATE, Integer.parseInt(Activities.getMaxDiaInicio()));
 
         dateFechaInicio.setMinSelectableDate(min.getTime());
@@ -232,38 +232,45 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         txtDescripcionModal.setText(null);
         txtNombreActividadModal.setText(null);
     }
-    
+
     /**
      * Método utilizado para ingresar los datos de una nueva actividad
      */
     private void ingresar() {
-        if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Exisen campos vacíos");
-        } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
-            JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales");
-        } else if (modelInicio.getCalendarField() > modelFin.getCalendarField()) {
-            JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio");
-        } else {
-            String nombre = txtNombreActividadModal.getText();
-            String descripcion = txtDescripcionModal.getText();
-            SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
-            String fechaInicio = formatoDia.format(dateFechaInicio.getDate());
-            String dInicio = fechaInicio + formatoHora.format(modelInicio.getDate());
-            String dFin = fechaInicio + formatoHora.format(modelFin.getDate());
-            String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
-            int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
-
-            if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, idUbicacion)) {
-                JOptionPane.showMessageDialog(null, "Actividad ingresada");
-                resetarCampos();
-                Activities acti = new Activities();
-                Admin.cargarActividades();
+        try {
+            if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(null, "Exisen campos vacíos", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
+                JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelInicio.getDate().getTime() > modelFin.getDate().getTime()) {
+                JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelInicio.getDate().getTime() < 50400000 || modelFin.getDate().getTime() < 50400000) {
+                JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser antes que las 8:00 a.m.", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelFin.getDate().getTime() > 93600000 || modelInicio.getDate().getTime() > 93600000) {
+                JOptionPane.showMessageDialog(null, "La hora de finalización no puede excederse de las 8:00 p.m", "Atención",JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "ERROR");
-            }
-        }
+                String nombre = txtNombreActividadModal.getText();
+                String descripcion = txtDescripcionModal.getText();
+                SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
+                String fechaInicio = formatoDia.format(dateFechaInicio.getDate());
+                String dInicio = fechaInicio + formatoHora.format(modelInicio.getDate());
+                String dFin = fechaInicio + formatoHora.format(modelFin.getDate());
+                String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
+                int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
 
+                if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, idUbicacion)) {
+                    JOptionPane.showMessageDialog(null, "Actividad ingresada");
+                    resetarCampos();
+                    Activities acti = new Activities();
+                    Admin.cargarActividades();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error global"+e.getMessage());
+        }
     }
 
 

@@ -5,6 +5,7 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -45,19 +46,19 @@ public class ModalModificarActividad extends javax.swing.JPanel {
     public ModalModificarActividad() {
         initComponents();
         Calendar min = Calendar.getInstance();
-        min.set(Calendar.YEAR, 2019);
-        min.set(Calendar.MONTH, 9);
-        min.set(Calendar.DATE, 25);
+        min.set(Calendar.YEAR, Integer.parseInt(Activities.getMinAnioInicio()));
+        min.set(Calendar.MONTH, Integer.parseInt(Activities.getMinMesInicio()) - 1);
+        min.set(Calendar.DATE, Integer.parseInt(Activities.getMinDiaInicio()));
 
         Calendar max = Calendar.getInstance();
-        max.set(Calendar.YEAR, 2019);
-        max.set(Calendar.MONTH, 9);
-        max.set(Calendar.DATE, 29);
-        
+        max.set(Calendar.YEAR, Integer.parseInt(Activities.getMinAnioInicio()));
+        max.set(Calendar.MONTH, Integer.parseInt(Activities.getMaxMesInicio()) - 1);
+        max.set(Calendar.DATE, Integer.parseInt(Activities.getMaxDiaInicio()));
+
         dateFechaInicio.setMinSelectableDate(min.getTime());
         dateFechaInicio.setMaxSelectableDate(max.getTime());
         cbxUbicacionModal.removeAllItems();
-        
+
         createComboBox(map, cbxUbicacionModal);
         dateFechaInicio.setDateFormatString("yyyy-MM-dd");
         //Spinner
@@ -242,12 +243,16 @@ public class ModalModificarActividad extends javax.swing.JPanel {
     private void actualizar() {
         try {
             if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(null, "Exisen campos vacíos");
+                JOptionPane.showMessageDialog(null, "Exisen campos vacíos", "Atención",JOptionPane.INFORMATION_MESSAGE);
             } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
-                JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales");
-            } else if (modelInicio.getCalendarField() < modelFin.getCalendarField()) {
-                JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio");
-            } else {
+                JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelInicio.getDate().getTime() > modelFin.getDate().getTime()) {
+                JOptionPane.showMessageDialog(null, "La hora de finalización no debe ser menor a la de inicio", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelInicio.getDate().getTime() < 50400000 || modelFin.getDate().getTime() < 50400000) {
+                JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser antes que las 8:00 a.m.", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            } else if (modelFin.getDate().getTime() > 93600000 || modelInicio.getDate().getTime() > 93600000) {
+                JOptionPane.showMessageDialog(null, "La hora de finalización no puede excederse de las 8:00 p.m", "Atención",JOptionPane.INFORMATION_MESSAGE);
+            }else {
 
                 String nombre = txtNombreActividadModal.getText();
                 String descripcion = txtDescripcionModal.getText();
@@ -281,14 +286,13 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                 Activities acti = new Activities();
                 Admin.cargarActividades();
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             System.out.println("ERROR");
         }
     }
 
     private void cargarActividades() {
-        Admin ad = new Admin();
-        ad.cargarActividades();
+        Admin.cargarActividades();
     }
 
     private void btnActualizarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarModalActionPerformed

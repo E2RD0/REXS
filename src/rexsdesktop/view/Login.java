@@ -6,6 +6,7 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -38,6 +39,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setTitle("REXS");
         cambiarCardLayoutPanel("InicioSesion");
+        setIconImage(new ImageIcon(getClass().getResource("resources/Icono REXS.png")).getImage());
         LoginBG.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("resources/loginbg.png")).getImage().getScaledInstance(500, 625, Image.SCALE_SMOOTH)));
 //        jLabel1.setFont(f.light.deriveFont(30f));
         btnCardRecuperarClave.setContentAreaFilled(false);
@@ -111,7 +113,7 @@ public class Login extends javax.swing.JFrame {
                 lblErrorEmail.setText("");
                 lblErrorPassword.setText("");
                 if (User.iniciarSesion(email, password)) {
-                    System.out.println("Inicio Correcto");
+//                    System.out.println("Inicio Correcto");
                     if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
                         if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
                             Admin fAdmin = new Admin();
@@ -122,6 +124,8 @@ public class Login extends javax.swing.JFrame {
                             this.dispose();
                             General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
                             General.getEdicion();
+                            Admin.lblEdicion.setText(CurrentUser.edicionExpotecnica);
+                            Admin.cargarActividades();
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
                             txtEmail.setBackground(new java.awt.Color(255, 204, 204));
@@ -373,7 +377,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("Inicia sesión");
         jLabel1.setPreferredSize(new java.awt.Dimension(131, 28));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/rexslogo.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LogoNegroREXS.png"))); // NOI18N
 
         txtEmail.setBackground(new java.awt.Color(249, 250, 255));
         txtEmail.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
@@ -513,25 +517,23 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnCardRecuperarClave))
+                                .addComponent(btnCardRecuperarClave)
+                                .addGap(1, 1, 1))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
-                                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCardRegistro)))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCardRegistro))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlIniciarSesionLayout.createSequentialGroup()
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(137, 137, 137))
+                        .addGap(136, 136, 136))
                     .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                         .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblErrorGeneral)
@@ -547,7 +549,7 @@ public class Login extends javax.swing.JFrame {
         pnlIniciarSesionLayout.setVerticalGroup(
             pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
                 .addComponent(jLabel3)
                 .addGap(60, 60, 60)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -563,20 +565,20 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(lblErrorEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
+                .addGap(1, 1, 1)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(lblErrorPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCardRecuperarClave)
+                .addGap(18, 18, 18)
+                .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(btnCardRegistro))
                 .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(lblErrorPassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCardRecuperarClave)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(btnCardRegistro))
                         .addGroup(pnlIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                                 .addGap(27, 27, 27)
@@ -584,13 +586,14 @@ public class Login extends javax.swing.JFrame {
                             .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
                                 .addGap(38, 38, 38)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSignGoogle, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSignFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlIniciarSesionLayout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIniciarSesionLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)))
+                .addComponent(btnSignGoogle, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSignFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
         );
 
