@@ -377,4 +377,20 @@ public class General {
         }
         return result;
     }
+
+    public static int countUsuarios() {
+        return new Db().countUsuarios();
+    }
+    
+    public static int countVotos() {
+        return new Db().countVotos();
+    }
+    
+    public static int countProyectos() {
+        return new Db().countProyectos();
+    }
+    
+    public static int countUbicacion() {
+        return new Db().countUbicacion();
+    }
 }

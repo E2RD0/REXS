@@ -2016,7 +2016,7 @@ public class Db {
         }
         return 0;
     }
-    
+
     public int votosNuevosHoy() {
         try {
             String query = "SELECT COUNT(idVotacion) from votacion where fecha BETWEEN DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE())) AND GETDATE()";
@@ -2042,13 +2042,13 @@ public class Db {
         }
         return 0;
     }
-    
+
     public int countIniciosSesion(int diffHora, int diffDia) {
         try {
             String query = "declare @dt datetime;select @dt = cast(cast(getdate() as date) as datetime)+cast(datepart(hour,getdate()) as float)/24;SELECT COUNT(*) from bitacora where fecha BETWEEN DATEADD(dd, ?, DATEADD(hh,?,@dt)) AND DATEADD(dd, ?, DATEADD(hh,?,@dt)) AND idAccionBitacora = 1";
             PreparedStatement cmd = cn.prepareStatement(query);
             cmd.setInt(1, diffDia);
-            cmd.setInt(2, diffHora-1);
+            cmd.setInt(2, diffHora - 1);
             cmd.setInt(3, diffDia);
             cmd.setInt(4, diffHora);
             ResultSet rs = cmd.executeQuery();
@@ -2059,6 +2059,7 @@ public class Db {
         }
         return 0;
     }
+
     public String horaInicioSesion(int diff) {
         try {
             String query = "declare @dt datetime;select @dt = cast(cast(getdate() as date) as datetime)+cast(datepart(hour,getdate()) as float)/24;SELECT CONVERT(VARCHAR(5),DATEADD(hh,?,@dt),108)";
@@ -2071,5 +2072,57 @@ public class Db {
             System.out.println("Error: " + e);
         }
         return "";
+    }
+
+    public int countUsuarios() {
+        try {
+            String query = "SELECT COUNT(idUsuario) from usuario";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
+    }
+
+    public int countVotos() {
+        try {
+            String query = "SELECT COUNT(idVotacion) from votacion";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
+    }
+
+    public int countProyectos() {
+        try {
+            String query = "SELECT COUNT(idProyecto) from proyecto";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
+    }
+
+    public int countUbicacion() {
+        try {
+            String query = "SELECT COUNT(idUbicacion) from ubicacion";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
     }
 }

@@ -46,6 +46,8 @@ import rexsdesktop.controller.Projects;
 import rexsdesktop.controller.User;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -104,7 +106,7 @@ public class Admin extends javax.swing.JFrame {
         /*END Scrollbar Look and Feel*/
         initComponents();
         /*Form Stuff*/
-        jLabel80.setText(CurrentUser.nombreCompleto);
+        lblNombreUsuario.setText(CurrentUser.nombreCompleto);
         this.setTitle("REXS");
         if (CurrentUser.idTipoUsuario == 1) {
             btnAjustesActividades.setVisible(true);
@@ -170,7 +172,8 @@ public class Admin extends javax.swing.JFrame {
         jpnlDia5.getVerticalScrollBar().setUnitIncrement(10);
         /*END Scrollbar movement*/
  /*Datos de usuario en ajustes*/
-        loadDashboardAndAnaliticas();
+        loadDashboard();
+        loadAnaliticas();
         loadAjustes();
         /*Datos de usuario en ajustes*/
     }
@@ -206,7 +209,7 @@ public class Admin extends javax.swing.JFrame {
 
     ImageIcon iconIncremento = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconIncremento.png"));
     ImageIcon iconDisminucion = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconDecenso.png"));
-    
+
     Color colorActive = new Color(46, 91, 255);
     Color colorNormal = new Color(176, 186, 201);
     Color bgActive = new Color(238, 242, 255);
@@ -354,7 +357,7 @@ public class Admin extends javax.swing.JFrame {
         pnlBackground = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel80 = new javax.swing.JLabel();
+        lblNombreUsuario = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JLabel();
         pnlCardLayoutAdmin = new javax.swing.JPanel();
         pnlDashboard = new javax.swing.JScrollPane();
@@ -446,19 +449,19 @@ public class Admin extends javax.swing.JFrame {
         btnReporte = new javax.swing.JButton();
         jPanel146 = new javax.swing.JPanel();
         jLabel86 = new javax.swing.JLabel();
-        jLabel87 = new javax.swing.JLabel();
+        lblCountUsuarios = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jPanel150 = new javax.swing.JPanel();
         jLabel88 = new javax.swing.JLabel();
-        jLabel89 = new javax.swing.JLabel();
+        lblCountProyectos = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jPanel151 = new javax.swing.JPanel();
         jLabel90 = new javax.swing.JLabel();
-        jLabel93 = new javax.swing.JLabel();
+        lblCountUbicaciones = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel152 = new javax.swing.JPanel();
         jLabel94 = new javax.swing.JLabel();
-        jLabel95 = new javax.swing.JLabel();
+        lblCountVotos = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         pnlUsuarios = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -1334,9 +1337,10 @@ public class Admin extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/rexslogo.png"))); // NOI18N
 
-        jLabel80.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        jLabel80.setForeground(new java.awt.Color(46, 91, 255));
-        jLabel80.setText("Eduardo Estrada");
+        lblNombreUsuario.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
+        lblNombreUsuario.setForeground(new java.awt.Color(46, 91, 255));
+        lblNombreUsuario.setText("Eduardo Estrada");
+        lblNombreUsuario.setIconTextGap(14);
 
         btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/signout.png"))); // NOI18N
         btnCerrarSesion.setToolTipText("Cerrar sesión");
@@ -1354,7 +1358,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel80)
+                .addComponent(lblNombreUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCerrarSesion)
                 .addGap(80, 80, 80))
@@ -1365,7 +1369,7 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(16, 16, 16))
-            .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(btnCerrarSesion)
@@ -1453,14 +1457,13 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(jPanel117Layout.createSequentialGroup()
                         .addComponent(jLabel285)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel252, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel252, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel117Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel295)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel97)))
-                .addGap(11, 11, 11))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(btnAjustesActividades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -2355,9 +2358,11 @@ public class Admin extends javax.swing.JFrame {
         jLabel86.setForeground(new java.awt.Color(135, 152, 173));
         jLabel86.setText("Usuarios registrados");
 
-        jLabel87.setFont(new java.awt.Font("Rubik Light", 0, 36)); // NOI18N
-        jLabel87.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel87.setText("1008");
+        lblCountUsuarios.setFont(new java.awt.Font("Rubik Light", 0, 32)); // NOI18N
+        lblCountUsuarios.setForeground(new java.awt.Color(46, 56, 77));
+        lblCountUsuarios.setText("1008");
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconCircleTotalUsers.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel146Layout = new javax.swing.GroupLayout(jPanel146);
         jPanel146.setLayout(jPanel146Layout);
@@ -2367,20 +2372,20 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel146Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel87)
+                    .addComponent(lblCountUsuarios)
                     .addComponent(jLabel86))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel146Layout.setVerticalGroup(
             jPanel146Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel146Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel87)
+                .addGap(4, 4, 4)
+                .addComponent(lblCountUsuarios)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel86)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel150.setBackground(new java.awt.Color(255, 255, 255));
@@ -2391,9 +2396,11 @@ public class Admin extends javax.swing.JFrame {
         jLabel88.setForeground(new java.awt.Color(135, 152, 173));
         jLabel88.setText("Proyectos inscritos");
 
-        jLabel89.setFont(new java.awt.Font("Rubik Light", 0, 36)); // NOI18N
-        jLabel89.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel89.setText("225");
+        lblCountProyectos.setFont(new java.awt.Font("Rubik Light", 0, 32)); // NOI18N
+        lblCountProyectos.setForeground(new java.awt.Color(46, 56, 77));
+        lblCountProyectos.setText("225");
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconProjectsCircle.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel150Layout = new javax.swing.GroupLayout(jPanel150);
         jPanel150.setLayout(jPanel150Layout);
@@ -2403,20 +2410,20 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel150Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
-                    .addComponent(jLabel89)
+                    .addComponent(lblCountProyectos)
                     .addComponent(jLabel88))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel150Layout.setVerticalGroup(
             jPanel150Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel150Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel89)
+                .addGap(4, 4, 4)
+                .addComponent(lblCountProyectos)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel88)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel151.setBackground(new java.awt.Color(255, 255, 255));
@@ -2427,9 +2434,11 @@ public class Admin extends javax.swing.JFrame {
         jLabel90.setForeground(new java.awt.Color(135, 152, 173));
         jLabel90.setText("Ubicaciones totales");
 
-        jLabel93.setFont(new java.awt.Font("Rubik Light", 0, 36)); // NOI18N
-        jLabel93.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel93.setText("38");
+        lblCountUbicaciones.setFont(new java.awt.Font("Rubik Light", 0, 32)); // NOI18N
+        lblCountUbicaciones.setForeground(new java.awt.Color(46, 56, 77));
+        lblCountUbicaciones.setText("38");
+
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconLocationCircle.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel151Layout = new javax.swing.GroupLayout(jPanel151);
         jPanel151.setLayout(jPanel151Layout);
@@ -2439,20 +2448,20 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel151Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel30)
-                    .addComponent(jLabel93)
+                    .addComponent(lblCountUbicaciones)
                     .addComponent(jLabel90))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel151Layout.setVerticalGroup(
             jPanel151Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel151Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addComponent(jLabel30)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel93)
+                .addGap(4, 4, 4)
+                .addComponent(lblCountUbicaciones)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel90)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel152.setBackground(new java.awt.Color(255, 255, 255));
@@ -2463,9 +2472,11 @@ public class Admin extends javax.swing.JFrame {
         jLabel94.setForeground(new java.awt.Color(135, 152, 173));
         jLabel94.setText("Votos realizados");
 
-        jLabel95.setFont(new java.awt.Font("Rubik Light", 0, 36)); // NOI18N
-        jLabel95.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel95.setText("694");
+        lblCountVotos.setFont(new java.awt.Font("Rubik Light", 0, 32)); // NOI18N
+        lblCountVotos.setForeground(new java.awt.Color(46, 56, 77));
+        lblCountVotos.setText("694");
+
+        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconVotesCircle.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel152Layout = new javax.swing.GroupLayout(jPanel152);
         jPanel152.setLayout(jPanel152Layout);
@@ -2475,20 +2486,20 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel152Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel31)
-                    .addComponent(jLabel95)
+                    .addComponent(lblCountVotos)
                     .addComponent(jLabel94))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel152Layout.setVerticalGroup(
             jPanel152Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel152Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addComponent(jLabel31)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel95)
+                .addGap(4, 4, 4)
+                .addComponent(lblCountVotos)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel94)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlAnaliticasLayout = new javax.swing.GroupLayout(pnlAnaliticas);
@@ -5220,23 +5231,18 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
-    private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
-    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
-    private javax.swing.JLabel jLabel93;
     private javax.swing.JLabel jLabel94;
-    private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
     private javax.swing.JLabel jLabel97;
     private javax.swing.JLabel jLabel98;
@@ -5339,6 +5345,10 @@ public class Admin extends javax.swing.JFrame {
     public static javax.swing.JLabel lblCantidadActividades3;
     public static javax.swing.JLabel lblCantidadActividades4;
     public static javax.swing.JLabel lblCantidadActividades5;
+    private javax.swing.JLabel lblCountProyectos;
+    private javax.swing.JLabel lblCountUbicaciones;
+    private javax.swing.JLabel lblCountUsuarios;
+    private javax.swing.JLabel lblCountVotos;
     private javax.swing.JLabel lblDashboard;
     private static javax.swing.JLabel lblDia1;
     private static javax.swing.JLabel lblDia2;
@@ -5351,6 +5361,7 @@ public class Admin extends javax.swing.JFrame {
     private static javax.swing.JLabel lblFechaDia4;
     private static javax.swing.JLabel lblFechaDia5;
     private javax.swing.JLabel lblFotoPerfil;
+    private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel lblNumUsuariosNuevos;
     private javax.swing.JLabel lblNumVotosNuevos;
     private javax.swing.JLabel lblPorcentajeUsuarios;
@@ -5409,48 +5420,60 @@ public class Admin extends javax.swing.JFrame {
             try {
                 BufferedImage icon = General.resizeSquare(CurrentUser.fotoPerfil, 128);
                 lblFotoPerfil.setIcon(new ImageIcon(icon));
+                BufferedImage icon2 = General.resizeSquare(CurrentUser.fotoPerfil, 38);
+                lblNombreUsuario.setIcon(new ImageIcon(icon2));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
             btnEliminarFotoPerfil.setEnabled(false);
-            lblFotoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png")));
+            ImageIcon defaultPic = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"));
+            lblFotoPerfil.setIcon(defaultPic);
+            BufferedImage bi = new BufferedImage(
+                    defaultPic.getIconWidth(),
+                    defaultPic.getIconHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics g = bi.createGraphics();
+            defaultPic.paintIcon(null, g, 0, 0);
+            g.dispose();
+            try {
+                lblNombreUsuario.setIcon(new ImageIcon(General.resizeSquare(bi, 38)));
+            } catch (IOException ex) {
+            }
         }
         txtAPIKey.setText(General.getMapwizeAPIKey());
         txtVenueID.setText(General.getMapwizeVenueID());
     }
 
-    private void loadDashboardAndAnaliticas() {
+    private void loadDashboard() {
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.CEILING);
         Color verde = new java.awt.Color(45, 183, 68);
         Color rojo = new java.awt.Color(232, 74, 80);
-       double usuariosNuevosDiaPorcentaje = General.porcentajeUsuariosNuevosDia();
-        if (usuariosNuevosDiaPorcentaje>=0) {
+        double usuariosNuevosDiaPorcentaje = General.porcentajeUsuariosNuevosDia();
+        if (usuariosNuevosDiaPorcentaje >= 0) {
             lblPorcentajeUsuarios.setForeground(verde);
             lblPorcentajeUsuarios.setIcon(iconIncremento);
-        }
-        else{
-            usuariosNuevosDiaPorcentaje = usuariosNuevosDiaPorcentaje*(-1);
+        } else {
+            usuariosNuevosDiaPorcentaje = usuariosNuevosDiaPorcentaje * (-1);
             lblPorcentajeUsuarios.setForeground(rojo);
-            lblPorcentajeUsuarios.setIcon(iconDisminucion);   
+            lblPorcentajeUsuarios.setIcon(iconDisminucion);
         }
         lblPorcentajeUsuarios.setText(df.format(usuariosNuevosDiaPorcentaje) + "%");
         lblNumUsuariosNuevos.setText(String.valueOf(General.usuariosNuevosHoy()));
-        
+
         double votosPorcentaje = General.porcentajeVotosNuevosDia();
-        if (votosPorcentaje>=0) {
+        if (votosPorcentaje >= 0) {
             lblPorcentajeVotos.setForeground(verde);
             lblPorcentajeVotos.setIcon(iconIncremento);
-        }
-        else{
-            votosPorcentaje = votosPorcentaje*(-1);
+        } else {
+            votosPorcentaje = votosPorcentaje * (-1);
             lblPorcentajeVotos.setForeground(rojo);
-            lblPorcentajeVotos.setIcon(iconDisminucion);   
+            lblPorcentajeVotos.setIcon(iconDisminucion);
         }
         lblPorcentajeVotos.setText(df.format(votosPorcentaje) + "%");
         lblNumVotosNuevos.setText(String.valueOf(General.votosNuevosHoy()));
-        
+
         ChartPanel chartPanel = new ChartPanel(createChart());
         // default size
         chartPanel.setPreferredSize(new java.awt.Dimension(375, 217));
@@ -5461,8 +5484,16 @@ public class Admin extends javax.swing.JFrame {
         pnlChartIniciosSesion.validate();
         validate();  // try this
         repaint();
-        
+
     }
+
+    private void loadAnaliticas() {
+        lblCountUsuarios.setText(String.valueOf(General.countUsuarios()));
+        lblCountProyectos.setText(String.valueOf(General.countProyectos()));
+        lblCountUbicaciones.setText(String.valueOf(General.countUbicacion()));
+        lblCountVotos.setText(String.valueOf(General.countVotos()));
+    }
+
     private JFreeChart createChart() {
 
         CategoryDataset dataset = General.createDatasetChartInicioSesion();
