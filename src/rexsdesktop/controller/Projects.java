@@ -210,6 +210,7 @@ public class Projects {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     nuevo = (JPanel) e.getSource();
+                    System.out.println(nuevo.getName());
                     nuevo.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     ModalViewProyecto modalProye = new ModalViewProyecto();
                     Projects p = getProject(Integer.parseInt(nuevo.getName()));

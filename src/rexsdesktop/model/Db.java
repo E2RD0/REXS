@@ -129,7 +129,7 @@ public class Db {
 
     public ResultSet getNumIMGresources(int id) {
         try {
-            String query = "select COUNT(idRecurso) from recursoProyecto where idProyecto=? and nombreRecurso like '%.jpg' or nombreRecurso like '%.png'";
+            String query = "select COUNT(idRecurso) from recursoProyecto where  nombreRecurso like '%.jpg' or nombreRecurso like '%.png' and  idProyecto=? ";
             PreparedStatement cmd = cn.prepareStatement(query);
             cmd.setInt(1, id);
             ResultSet rs = cmd.executeQuery();

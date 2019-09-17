@@ -602,9 +602,10 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
         try {
             jButton1.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            
+
             if (cbxNivel.getSelectedIndex() > 0) {
-         
+             
+                if (cbxSeccionNivel.getSelectedIndex() >= 0) {
                     Projects o = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
                     if (Projects.actualizarPro(txtnombre.getText(), txtDesc.getText(), o.getIdSeccionNivel, Integer.parseInt(lbl.getText()))) {
                         System.out.println("proyecto actualizado");
@@ -624,6 +625,10 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                     } else {
                         JOptionPane.showMessageDialog(this, "Error al actualizar el proyecto.");
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Seleccione un nivel el cuál contenga una sección.");
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione el nivel al que desea agregar el proyecto");
             }
@@ -786,7 +791,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                 jLabel14.enable();
                 Img.setIcon(new ImageIcon(db.RecImagenes.get(contador)));
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "No hay imágenes disponibles en este proyecto.");
         }
@@ -797,27 +802,27 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
         if (jLabel14.isEnabled()) {
             Db db = new Db();
-        Projects p = new Projects();
-        Projects t = getNumIMG(Integer.parseInt(lbl.getText()));
-        db.getIMGresources(Integer.parseInt(lbl.getText()));
-        if (t.CountIMGresources != 0) {
-            if (contador  < t.CountIMGresources) {
-                if (contador == 1) {
-                    contador = t.CountIMGresources;
-                }
-                contador--;
-                System.out.println("Aqui " + contador);
-                if (contador > 0) {
-                     Img.setIcon(new ImageIcon(db.RecImagenes.get(contador)));
-                }
-               
-            }
+            Projects p = new Projects();
+            Projects t = getNumIMG(Integer.parseInt(lbl.getText()));
+            db.getIMGresources(Integer.parseInt(lbl.getText()));
+            if (t.CountIMGresources != 0) {
+                if (contador < t.CountIMGresources) {
+                    if (contador == 0) {
+                        contador = t.CountIMGresources;
+                    }
+                    contador--;
+                    System.out.println("Aqui " + contador);
+                    if (contador >= 0) {
+                        Img.setIcon(new ImageIcon(db.RecImagenes.get(contador)));
+                    }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay imágenes disponibles en este proyecto.");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay imágenes disponibles en este proyecto.");
+            }
         }
-        }
-        
+
 
     }//GEN-LAST:event_jLabel14MouseClicked
 

@@ -332,28 +332,33 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             Db db = new Db();
             if (!txtnombreProyecto.getText().isEmpty() && !txtDesc.getText().isEmpty()) {
                 if (cbxNivel.getSelectedIndex() > 0) {
-                    if (!db.proyectoExiste(txtnombreProyecto.getText())) {
-                        if (img != null) {
-                            Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                            if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
-                                System.out.println("Proyecto ingresado");
-                                txtnombreProyecto.setText(null);
-                                txtDesc.setText(null);
-                                Admin.cdProyectos.removeAll();
-                                cargarProyectos();
-                                Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
-                                w.setVisible(false);
+                    if (cbxSeccionNivel.getSelectedIndex() >= 0) {
+                        if (!db.proyectoExiste(txtnombreProyecto.getText())) {
+                            if (img != null) {
+                                Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                    System.out.println("Proyecto ingresado");
+                                    txtnombreProyecto.setText(null);
+                                    txtDesc.setText(null);
+                                    Admin.cdProyectos.removeAll();
+                                    cargarProyectos();
+                                    Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
+                                    w.setVisible(false);
 
+                                } else {
+                                    System.out.println("Error al ingresar el proyecto, inténtelo de nuevo.");
+                                }
                             } else {
-                                System.out.println("Error al ingresar el proyecto, inténtelo de nuevo.");
+
+                                JOptionPane.showMessageDialog(this, "Por favor ingrese una imagen de su proyecto.");
                             }
+
                         } else {
-
-                            JOptionPane.showMessageDialog(this, "Por favor ingrese una imagen de su proyecto.");
+                            JOptionPane.showMessageDialog(this, "Existe un proyecto con el mismo nombre, por favor colocar uno nuevo.");
                         }
-
                     } else {
-                        JOptionPane.showMessageDialog(this, "Existe un proyecto con el mismo nombre, por favor colocar uno nuevo.");
+                        JOptionPane.showMessageDialog(this, "Por favor, seleccione un nivel el cuál contenga una sección asignada.");
+
                     }
 
                 } else {
