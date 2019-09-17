@@ -8,13 +8,16 @@ package rexsdesktop.view;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,6 +68,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
+import static rexsdesktop.controller.Projects.getNumProyectosFiltrados;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.modal.ModalModificarEstadoUsuario;
@@ -77,6 +81,8 @@ import rexsdesktop.modal.ModalNuevoNivel;
 import rexsdesktop.modal.ModalNuevoProyecto;
 import rexsdesktop.modal.ModalNuevoTipoUsuario;
 import rexsdesktop.modal.ModalNuevoUsuario;
+import rexsdesktop.modal.ModalViewProyecto;
+import rexsdesktop.model.Db;
 import rexsdesktop.model.DbConnection;
 
 /**
@@ -123,6 +129,7 @@ public class Admin extends javax.swing.JFrame {
             jPanel143.setVisible(true);
             jLabel81.setVisible(true);
             jPanel2.setPreferredSize(new Dimension(944, 1450));
+            
         } else {
             btnAjustesActividades.setVisible(false);
             btnEliminarActividades.setVisible(false);
@@ -135,8 +142,7 @@ public class Admin extends javax.swing.JFrame {
         }
 
         /*Projects*/
-        Projects cargarPaneles = new Projects();
-        cargarPaneles.CrearPanelesProyectos(cdProyectos);
+        cargarProyectos();
 
         /*User*/
         User cargar = new User();
@@ -470,6 +476,20 @@ public class Admin extends javax.swing.JFrame {
         btnBackup = new javax.swing.JButton();
         jLabel70 = new javax.swing.JLabel();
         checkTodo = new javax.swing.JCheckBox();
+        pnlProyectos = new javax.swing.JPanel();
+        pnlViewProyectos = new javax.swing.JPanel();
+        jLabel214 = new javax.swing.JLabel();
+        btnAgregarEspecialidad1 = new javax.swing.JButton();
+        jLabel228 = new javax.swing.JLabel();
+        jcNivel = new javax.swing.JComboBox<>();
+        jcEspecialidad = new javax.swing.JComboBox<>();
+        jLabel215 = new javax.swing.JLabel();
+        jcSeccion = new javax.swing.JComboBox<>();
+        jLabel229 = new javax.swing.JLabel();
+        btnFiltrarLista1 = new javax.swing.JButton();
+        jLabel230 = new javax.swing.JLabel();
+        jsProyectos = new javax.swing.JScrollPane();
+        cdProyectos = new javax.swing.JPanel();
         jpnlAnaliticas = new javax.swing.JScrollPane();
         pnlAnaliticas = new javax.swing.JPanel();
         jPanel145 = new javax.swing.JPanel();
@@ -534,20 +554,6 @@ public class Admin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnFiltrarLista2 = new javax.swing.JButton();
         btnLimpiarFiltro = new javax.swing.JButton();
-        pnlProyectos = new javax.swing.JPanel();
-        jPanel31 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        cdProyectos = new javax.swing.JPanel();
-        jLabel214 = new javax.swing.JLabel();
-        btnAgregarEspecialidad1 = new javax.swing.JButton();
-        jLabel228 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel215 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jLabel229 = new javax.swing.JLabel();
-        btnFiltrarLista1 = new javax.swing.JButton();
-        jLabel230 = new javax.swing.JLabel();
         pnlUbicaciones = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel98 = new javax.swing.JLabel();
@@ -1542,7 +1548,7 @@ public class Admin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel288))
                     .addComponent(jLabel253))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel118Layout.setVerticalGroup(
             jPanel118Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1555,7 +1561,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel288))
                 .addGap(4, 4, 4)
                 .addComponent(lblPorcentajeUsuarios)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel125.setBackground(new java.awt.Color(255, 255, 255));
@@ -1633,15 +1639,16 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel126Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel251)
-                .addContainerGap(163, Short.MAX_VALUE))
-            .addGroup(jPanel126Layout.createSequentialGroup()
+                .addContainerGap(154, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel126Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(pnlChartIniciosSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel126Layout.setVerticalGroup(
             jPanel126Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel126Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addComponent(jLabel251)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlChartIniciosSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1739,7 +1746,7 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(jLabel308))
                     .addGroup(jPanel135Layout.createSequentialGroup()
                         .addComponent(jLabel306)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(jLabel310)))
                 .addGap(1, 1, 1))
         );
@@ -1812,7 +1819,7 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(jLabel313))
                     .addGroup(jPanel137Layout.createSequentialGroup()
                         .addComponent(jLabel311)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(jLabel315)))
                 .addGap(1, 1, 1))
         );
@@ -1881,7 +1888,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel139Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel139Layout.createSequentialGroup()
                         .addComponent(jLabel317)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jLabel318))
                     .addGroup(jPanel139Layout.createSequentialGroup()
                         .addComponent(jLabel316)
@@ -1954,7 +1961,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel141Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel141Layout.createSequentialGroup()
                         .addComponent(jLabel322)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(jLabel323))
                     .addGroup(jPanel141Layout.createSequentialGroup()
                         .addComponent(jLabel321)
@@ -2141,7 +2148,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel71)
                     .addComponent(jLabel298)
                     .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel129Layout.setVerticalGroup(
             jPanel129Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2236,7 +2243,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel300)
                     .addComponent(checkUbicaciones))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel130Layout.setVerticalGroup(
             jPanel130Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2255,7 +2262,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(checkActividades)
                 .addGap(5, 5, 5)
                 .addComponent(checkUbicaciones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
                 .addComponent(checkTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2305,6 +2312,169 @@ public class Admin extends javax.swing.JFrame {
         pnlDashboard.setViewportView(jPanel115);
 
         pnlCardLayoutAdmin.add(pnlDashboard, "Dashboard");
+
+        pnlProyectos.setBackground(new java.awt.Color(244, 246, 252));
+
+        pnlViewProyectos.setBackground(new java.awt.Color(244, 246, 252));
+        pnlViewProyectos.setPreferredSize(new java.awt.Dimension(808, 545));
+
+        jLabel214.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
+        jLabel214.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel214.setText("Proyectos");
+
+        btnAgregarEspecialidad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Button_Add.png"))); // NOI18N
+        btnAgregarEspecialidad1.setBorder(null);
+        btnAgregarEspecialidad1.setBorderPainted(false);
+        btnAgregarEspecialidad1.setContentAreaFilled(false);
+        btnAgregarEspecialidad1.setPreferredSize(new java.awt.Dimension(52, 52));
+        btnAgregarEspecialidad1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/ActiveButton_Add.png"))); // NOI18N
+        btnAgregarEspecialidad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarEspecialidad1ActionPerformed(evt);
+            }
+        });
+
+        jLabel228.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jLabel228.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel228.setText("Nivel");
+
+        jcNivel.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcNivel.setForeground(new java.awt.Color(135, 152, 173));
+        jcNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un nivel" }));
+        jcNivel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcNivel.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcNivelItemStateChanged(evt);
+            }
+        });
+
+        jcEspecialidad.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcEspecialidad.setForeground(new java.awt.Color(135, 152, 173));
+        jcEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
+        jcEspecialidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+
+        jLabel215.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jLabel215.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel215.setText("Especialidad");
+
+        jcSeccion.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcSeccion.setForeground(new java.awt.Color(135, 152, 173));
+        jcSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
+        jcSeccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+
+        jLabel229.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jLabel229.setForeground(new java.awt.Color(46, 56, 77));
+        jLabel229.setText("Sección");
+
+        btnFiltrarLista1.setBackground(new java.awt.Color(46, 91, 255));
+        btnFiltrarLista1.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
+        btnFiltrarLista1.setForeground(new java.awt.Color(255, 255, 255));
+        btnFiltrarLista1.setText("Filtrar Lista");
+        btnFiltrarLista1.setBorderPainted(false);
+        btnFiltrarLista1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarLista1ActionPerformed(evt);
+            }
+        });
+
+        jLabel230.setText("240 en total ");
+
+        jsProyectos.setBackground(new java.awt.Color(244, 246, 252));
+        jsProyectos.setBorder(null);
+
+        cdProyectos.setBackground(new java.awt.Color(244, 246, 252));
+
+        javax.swing.GroupLayout cdProyectosLayout = new javax.swing.GroupLayout(cdProyectos);
+        cdProyectos.setLayout(cdProyectosLayout);
+        cdProyectosLayout.setHorizontalGroup(
+            cdProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        cdProyectosLayout.setVerticalGroup(
+            cdProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jsProyectos.setViewportView(cdProyectos);
+
+        javax.swing.GroupLayout pnlViewProyectosLayout = new javax.swing.GroupLayout(pnlViewProyectos);
+        pnlViewProyectos.setLayout(pnlViewProyectosLayout);
+        pnlViewProyectosLayout.setHorizontalGroup(
+            pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlViewProyectosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel214, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel230, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel228)
+                    .addComponent(jcNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel215)
+                    .addComponent(jcEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel229)
+                    .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
+            .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                .addComponent(jsProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        pnlViewProyectosLayout.setVerticalGroup(
+            pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                        .addComponent(jLabel214)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel230))
+                    .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                        .addComponent(jLabel228)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlViewProyectosLayout.createSequentialGroup()
+                        .addComponent(jLabel215)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlViewProyectosLayout.createSequentialGroup()
+                        .addComponent(jLabel229)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jsProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 386, Short.MAX_VALUE)
+                .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout pnlProyectosLayout = new javax.swing.GroupLayout(pnlProyectos);
+        pnlProyectos.setLayout(pnlProyectosLayout);
+        pnlProyectosLayout.setHorizontalGroup(
+            pnlProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProyectosLayout.createSequentialGroup()
+                .addContainerGap(72, Short.MAX_VALUE)
+                .addComponent(pnlViewProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
+        );
+        pnlProyectosLayout.setVerticalGroup(
+            pnlProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlProyectosLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(pnlViewProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        pnlCardLayoutAdmin.add(pnlProyectos, "Proyectos");
 
         jpnlAnaliticas.setBorder(null);
         jpnlAnaliticas.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2390,7 +2560,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel145Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbProyectos)
                     .addComponent(jrbActividades))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(btnReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -2419,7 +2589,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel19)
                     .addComponent(lblCountUsuarios)
                     .addComponent(jLabel86))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel146Layout.setVerticalGroup(
             jPanel146Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2430,7 +2600,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(lblCountUsuarios)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel86)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel150.setBackground(new java.awt.Color(255, 255, 255));
@@ -2457,7 +2627,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel20)
                     .addComponent(lblCountProyectos)
                     .addComponent(jLabel88))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel150Layout.setVerticalGroup(
             jPanel150Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2468,7 +2638,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(lblCountProyectos)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel88)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel151.setBackground(new java.awt.Color(255, 255, 255));
@@ -2495,7 +2665,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel30)
                     .addComponent(lblCountUbicaciones)
                     .addComponent(jLabel90))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel151Layout.setVerticalGroup(
             jPanel151Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2506,7 +2676,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(lblCountUbicaciones)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel90)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel152.setBackground(new java.awt.Color(255, 255, 255));
@@ -2533,7 +2703,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel31)
                     .addComponent(lblCountVotos)
                     .addComponent(jLabel94))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel152Layout.setVerticalGroup(
             jPanel152Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2544,7 +2714,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(lblCountVotos)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel94)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel131.setBackground(new java.awt.Color(255, 255, 255));
@@ -2582,7 +2752,7 @@ public class Admin extends javax.swing.JFrame {
         jPanel131Layout.setVerticalGroup(
             jPanel131Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel131Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addComponent(jLabel254)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlChartTiposUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2755,7 +2925,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel42))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel44)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
@@ -2831,7 +3001,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCEstadoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel11.setBackground(new java.awt.Color(244, 246, 252));
@@ -2974,7 +3144,7 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, Short.MAX_VALUE)
                             .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3008,158 +3178,10 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addComponent(jLabel10)
                 .addGap(45, 45, 45)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
         );
 
         pnlCardLayoutAdmin.add(pnlUsuarios, "Usuarios");
-
-        pnlProyectos.setBackground(new java.awt.Color(244, 246, 252));
-
-        jPanel31.setBackground(new java.awt.Color(244, 246, 252));
-        jPanel31.setPreferredSize(new java.awt.Dimension(808, 545));
-
-        jScrollPane1.setBorder(null);
-
-        cdProyectos.setBackground(new java.awt.Color(244, 246, 252));
-        cdProyectos.setLayout(new java.awt.GridLayout(0, 2, 15, 20));
-        jScrollPane1.setViewportView(cdProyectos);
-
-        jLabel214.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
-        jLabel214.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel214.setText("Proyectos");
-
-        btnAgregarEspecialidad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Button_Add.png"))); // NOI18N
-        btnAgregarEspecialidad1.setToolTipText("Agregar un proyecto");
-        btnAgregarEspecialidad1.setBorder(null);
-        btnAgregarEspecialidad1.setBorderPainted(false);
-        btnAgregarEspecialidad1.setContentAreaFilled(false);
-        btnAgregarEspecialidad1.setPreferredSize(new java.awt.Dimension(52, 52));
-        btnAgregarEspecialidad1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/ActiveButton_Add.png"))); // NOI18N
-        btnAgregarEspecialidad1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarEspecialidad1ActionPerformed(evt);
-            }
-        });
-
-        jLabel228.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel228.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel228.setText("Nivel");
-
-        jComboBox4.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jComboBox4.setForeground(new java.awt.Color(135, 152, 173));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
-
-        jComboBox3.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jComboBox3.setForeground(new java.awt.Color(135, 152, 173));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
-
-        jLabel215.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel215.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel215.setText("Especialidad");
-
-        jComboBox5.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jComboBox5.setForeground(new java.awt.Color(135, 152, 173));
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
-
-        jLabel229.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel229.setForeground(new java.awt.Color(46, 56, 77));
-        jLabel229.setText("Sección");
-
-        btnFiltrarLista1.setBackground(new java.awt.Color(46, 91, 255));
-        btnFiltrarLista1.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
-        btnFiltrarLista1.setForeground(new java.awt.Color(255, 255, 255));
-        btnFiltrarLista1.setText("Filtrar Lista");
-        btnFiltrarLista1.setToolTipText("Buscar un proyecto");
-        btnFiltrarLista1.setBorderPainted(false);
-        btnFiltrarLista1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltrarLista1ActionPerformed(evt);
-            }
-        });
-
-        jLabel230.setText("240 en total ");
-
-        javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
-        jPanel31.setLayout(jPanel31Layout);
-        jPanel31Layout.setHorizontalGroup(
-            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel31Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel214, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel230, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(57, 57, 57)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel228)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel215)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel229)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-            .addGroup(jPanel31Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel31Layout.setVerticalGroup(
-            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel31Layout.createSequentialGroup()
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addComponent(jLabel214)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel230))
-                    .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addComponent(jLabel228)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addComponent(jLabel215)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
-                        .addComponent(jLabel229)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAgregarEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
-        );
-
-        javax.swing.GroupLayout pnlProyectosLayout = new javax.swing.GroupLayout(pnlProyectos);
-        pnlProyectos.setLayout(pnlProyectosLayout);
-        pnlProyectosLayout.setHorizontalGroup(
-            pnlProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProyectosLayout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
-                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66))
-        );
-        pnlProyectosLayout.setVerticalGroup(
-            pnlProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProyectosLayout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
-
-        pnlCardLayoutAdmin.add(pnlProyectos, "Proyectos");
 
         pnlUbicaciones.setBackground(new java.awt.Color(244, 246, 252));
 
@@ -3533,7 +3555,7 @@ public class Admin extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtAjustesContraNC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)))))
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3575,7 +3597,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(lblAErrorContra)
                     .addComponent(lblAErrorContraN)
                     .addComponent(lblAErrorContraNC))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(btnActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
@@ -3657,7 +3679,7 @@ public class Admin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarFotoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jLabel81.setFont(new java.awt.Font("Rubik Light", 0, 22)); // NOI18N
@@ -3721,7 +3743,7 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(btnSeleccionarBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel43Layout.setVerticalGroup(
             jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3738,7 +3760,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(checkCombinar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAjustesBackup)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel143.setBackground(new java.awt.Color(255, 255, 255));
@@ -3794,7 +3816,7 @@ public class Admin extends javax.swing.JFrame {
                         .addGroup(jPanel143Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel264)
                             .addComponent(txtAPIKey, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(66, Short.MAX_VALUE))
+                        .addContainerGap(57, Short.MAX_VALUE))
                     .addGroup(jPanel143Layout.createSequentialGroup()
                         .addGroup(jPanel143Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAErrorPlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3818,7 +3840,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(txtVenueID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAErrorPlaces, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addComponent(lblAErrorPlaces, javax.swing.GroupLayout.DEFAULT_SIZE, 15, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLoadPlaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
@@ -3904,7 +3926,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel144Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbCriterio)
                     .addComponent(jrbAccion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(btnTablasCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -4439,7 +4461,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(pnlBackgroundLayout.createSequentialGroup()
                 .addComponent(pnlSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pnlCardLayoutAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
+                .addComponent(pnlCardLayoutAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 584, Short.MAX_VALUE))
         );
 
         getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -4539,6 +4561,70 @@ public class Admin extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }
+
+    public void cargarProyectos() {
+        try {
+            Db db = new Db();
+
+            General.getEdicion();
+            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            db.obtenerNivel();
+            for (int i = 0; i < db.SNnivel.size(); i++) {
+                jcNivel.addItem(db.SNnivel.get(i));
+            }
+
+            jcEspecialidad.disable();
+            jcSeccion.disable();
+            cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
+            try {
+                Projects cargarPaneles = new Projects();
+                cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+            } catch (Exception e) {
+                System.out.println("hi "+ e.getMessage());
+            }
+
+            jsProyectos.setBorder(null);
+            jsProyectos.setBackground(new Color(244, 246, 252));
+            cdProyectos.setBackground(new Color(244, 246, 252));
+
+            switch (db.getCantidadProyecto()) {
+                case 0:
+                    jsProyectos.disable();
+                    cdProyectos.disable();
+                    JLabel label = new JLabel();
+                    label.setBounds(150, 120, 500, 200);
+                    label.setText("<html>" + "No existen proyectos, por favor ingrese un proyecto o cargue el archivo de Excel"
+                            + "predeterminado para agregar proyectos en conjunto" + "</html>");
+                    label.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+                    label.setForeground(new Color(46, 56, 77));
+                    pnlViewProyectos.add(label);
+                    break;
+                case 1:
+                    jsProyectos.setBounds(0, 70, 377, 120);
+                    cdProyectos.setLayout(null);
+                    break;
+                case 2:
+                    jsProyectos.setBounds(0, 70, 808, 120);
+                    break;
+                case 3:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 4:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 5:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+                    break;
+                default:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+            }
+            pnlViewProyectos.add(jsProyectos);
+        } catch (Exception e) {
+            System.out.println("Admin " + e.toString());
+        }
+
+    }
+
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         if (pnlMenu.getWidth() == 150) {
@@ -4963,21 +5049,6 @@ public class Admin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarFotoPerfilActionPerformed
 
-    private void btnFiltrarLista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFiltrarLista1ActionPerformed
-
-    private void btnAgregarEspecialidad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEspecialidad1ActionPerformed
-        // TODO add your handling code here:
-        ModalNuevoProyecto modalProye = new ModalNuevoProyecto();
-
-        JDialog modal1 = new JDialog(this, "Nuevo Proyecto", true);
-        modal1.getContentPane().add(modalProye);
-        modal1.pack();
-        modal1.setLocationRelativeTo(null);
-        modal1.setVisible(true);
-    }//GEN-LAST:event_btnAgregarEspecialidad1ActionPerformed
-
     private void btnTablasCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablasCatalogoActionPerformed
         int seleccion = JOptionPane.showOptionDialog(this, "¿Que desea hacer?",
                 "Selector de opciones", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -5088,11 +5159,9 @@ public class Admin extends javax.swing.JFrame {
             nombreReporte = "usuarios";
         } else if (buttonGroupReportes.isSelected(jrbBitacoras.getModel())) {
             nombreReporte = "bitacora";
-        }
-        else if (buttonGroupReportes.isSelected(jrbProyectos.getModel())) {
+        } else if (buttonGroupReportes.isSelected(jrbProyectos.getModel())) {
             nombreReporte = "proyectos";
-        }
-        else if (buttonGroupReportes.isSelected(jrbActividades.getModel())) {
+        } else if (buttonGroupReportes.isSelected(jrbActividades.getModel())) {
             nombreReporte = "actividades";
         }
         try {
@@ -5153,7 +5222,7 @@ public class Admin extends javax.swing.JFrame {
         Admin.jPanel1.removeAll();
         User CargarUsuario = new User();
         CargarUsuario.CrearPanelesUsuarios(Admin.jPanel1);
-        
+
         jTBuscar.setText("");
     }//GEN-LAST:event_btnLimpiarFiltroActionPerformed
 
@@ -5163,9 +5232,121 @@ public class Admin extends javax.swing.JFrame {
         fc.setFileFilter(filter);
         fc.setAcceptAllFileFilterUsed(false);
         if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                File backupFile = fc.getSelectedFile();
+            File backupFile = fc.getSelectedFile();
         }
     }//GEN-LAST:event_btnSeleccionarBackupActionPerformed
+
+    private void btnAgregarEspecialidad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEspecialidad1ActionPerformed
+        // TODO add your handling code here:
+        ModalNuevoProyecto modalProye = new ModalNuevoProyecto();
+
+        JDialog modal1 = new JDialog(this, "Nuevo Proyecto", true);
+        modal1.getContentPane().add(modalProye);
+        modal1.pack();
+        modal1.setLocationRelativeTo(null);
+        modal1.setVisible(true);
+    }//GEN-LAST:event_btnAgregarEspecialidad1ActionPerformed
+
+    private void jcNivelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcNivelItemStateChanged
+        Db db = new Db();
+        db.obtenerEspecialidad();
+        jcSeccion.removeAllItems();
+        jcSeccion.addItem("Seleccione una sección");
+        try {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                if (jcNivel.getSelectedIndex() > 0) {
+                    if (jcNivel.getSelectedItem().equals(String.valueOf("Primer año")) || jcNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || jcNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
+                        jcEspecialidad.enable();
+                        jcEspecialidad.removeAllItems();
+                        jcSeccion.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            jcEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        jcEspecialidad.removeItem(String.valueOf("Basica"));
+                        db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
+                        jcSeccion.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            jcSeccion.addItem(db.SNseccion.get(i));
+                        }
+                    } else {
+                        jcEspecialidad.removeAllItems();
+                        jcSeccion.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            jcEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        jcEspecialidad.setSelectedItem("Basica");
+
+                        db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
+                        jcSeccion.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            jcSeccion.addItem(db.SNseccion.get(i));
+                        }
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jcNivelItemStateChanged
+
+    private void btnFiltrarLista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista1ActionPerformed
+        btnFiltrarLista1.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (jcNivel.getSelectedIndex() > 0) {
+            if (jcSeccion.getItemCount() != 0) {
+                cdProyectos.removeAll();
+                General.getEdicion();
+                Projects p = getNumProyectosFiltrados(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(),
+                        jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
+                Projects cargar = new Projects();
+                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                jsProyectos.setBorder(null);
+                jsProyectos.setBackground(new Color(244, 246, 252));
+                cdProyectos.setBackground(new Color(244, 246, 252));
+                switch (p.getNumProyectosFiltrados) {
+                    case 0:
+                        jsProyectos.disable();
+                        cdProyectos.disable();
+                        JLabel label = new JLabel();
+                        label.setBounds(150, 120, 500, 200);
+                        label.setText("<html>" + "No existen proyectos, por favor ingrese un proyecto" + "</html>");
+                        label.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+                        label.setForeground(new Color(46, 56, 77));
+                        pnlViewProyectos.add(label);
+                        break;
+                    case 1:
+                        jsProyectos.setBounds(0, 70, 377, 120);
+                        cdProyectos.setLayout(null);
+                        break;
+                    case 2:
+                        jsProyectos.setBounds(0, 70, 808, 120);
+                        break;
+                    case 3:
+                        jsProyectos.setBounds(0, 70, 808, 260);
+                        break;
+                    case 4:
+                        jsProyectos.setBounds(0, 70, 808, 260);
+                        break;
+                    case 5:
+                        jsProyectos.setBounds(0, 70, 808, 363);
+                        break;
+                    default:
+                        jsProyectos.setBounds(0, 70, 808, 363);
+                }
+                pnlViewProyectos.add(jsProyectos);
+                cdProyectos.repaint();
+                cdProyectos.revalidate();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione el nivel, especialidad y la sección que desea buscar.");
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione el nivel, especialidad y la sección que desea buscar.");
+        }
+        btnFiltrarLista1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnFiltrarLista1ActionPerformed
 
     private void setColorInterfaz() {
         //        setBackground(new Color(24, 25, 27) );
@@ -5292,7 +5473,7 @@ public class Admin extends javax.swing.JFrame {
         //Proyectos
         pnlProyectos.setBackground(fondo);
         cdProyectos.setBackground(panel);
-        jPanel31.setBackground(fondo);
+        //jPanel31.setBackground(fondo);
 
         jLabel214.setForeground(Blue);
         jLabel230.setForeground(new Color(135, 152, 173));
@@ -5372,7 +5553,7 @@ public class Admin extends javax.swing.JFrame {
         jLabel82.setForeground(Blue);
         jLabel264.setForeground(Blue);
         jLabel265.setForeground(Blue);
-        
+
         createChartInicioSesion();
     }
 
@@ -5465,9 +5646,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jCEstadoUsuario;
     private javax.swing.JComboBox<String> jCTipoUsuario;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     public static javax.swing.JLabel jLUsuarioActivos;
     public static javax.swing.JLabel jLUsuarioTotal;
     private javax.swing.JLabel jLabel1;
@@ -5633,7 +5811,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel31;
     public static javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel5;
@@ -5648,7 +5825,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -5656,6 +5832,9 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTBuscar;
+    public static javax.swing.JComboBox<String> jcEspecialidad;
+    public static javax.swing.JComboBox<String> jcNivel;
+    public static javax.swing.JComboBox<String> jcSeccion;
     private javax.swing.JScrollPane jpnlAnaliticas;
     private javax.swing.JScrollPane jpnlDia2;
     private javax.swing.JScrollPane jpnlDia3;
@@ -5670,6 +5849,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrbProyectos;
     private javax.swing.JRadioButton jrbTipo;
     private javax.swing.JRadioButton jrbUsuarios;
+    public static javax.swing.JScrollPane jsProyectos;
     private javax.swing.JLabel lblAErrorContra;
     private javax.swing.JLabel lblAErrorContraN;
     private javax.swing.JLabel lblAErrorContraNC;
@@ -5736,6 +5916,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSuperior;
     private javax.swing.JPanel pnlUbicaciones;
     private javax.swing.JPanel pnlUsuarios;
+    public static javax.swing.JPanel pnlViewProyectos;
     private javax.swing.JTextField txtAPIKey;
     private javax.swing.JPasswordField txtAjustesContraA;
     private javax.swing.JPasswordField txtAjustesContraN;
@@ -5820,17 +6001,17 @@ public class Admin extends javax.swing.JFrame {
         // default size
         chartPanel.setPreferredSize(new java.awt.Dimension(375, 217));
         chartPanel.setVisible(true);
-        
+
         Color co = null;
-        
+
         if (color == 1) {
             co = darkfondo;
-        }else if(color == 0){
+        } else if (color == 0) {
             co = Color.WHITE;
         }
         chartPanel.setBackground(co);
         chartPanel.repaint();
-        
+
         pnlChartIniciosSesion.setLayout(new java.awt.BorderLayout());
         pnlChartIniciosSesion.add(chartPanel, BorderLayout.CENTER);
         pnlChartIniciosSesion.validate();
@@ -5844,7 +6025,7 @@ public class Admin extends javax.swing.JFrame {
         lblCountProyectos.setText(String.valueOf(General.countProyectos()));
         lblCountUbicaciones.setText(String.valueOf(General.countUbicacion()));
         lblCountVotos.setText(String.valueOf(General.countVotos()));
-        
+
         ChartPanel chartPanel = new ChartPanel(createChartTiposUsuario());
         // default size
         chartPanel.setPreferredSize(new java.awt.Dimension(792, 217));
@@ -5878,15 +6059,16 @@ public class Admin extends javax.swing.JFrame {
         Color co = null;
         if (color == 1) {
             co = darkfondo;
-        }else if(color == 0){
+        } else if (color == 0) {
             co = Color.WHITE;
         }
-        
+
         result.setBackgroundPaint(co);
         return result;
     }
-    private JFreeChart createChartTiposUsuario(){
-    JFreeChart barChart = ChartFactory.createBarChart(
+
+    private JFreeChart createChartTiposUsuario() {
+        JFreeChart barChart = ChartFactory.createBarChart(
                 "",
                 "Total",
                 "Tipos de usuario",
@@ -5895,7 +6077,7 @@ public class Admin extends javax.swing.JFrame {
                 true, true, false);
         ((CategoryPlot) barChart.getPlot()).getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         CategoryPlot plot = barChart.getCategoryPlot();
-        plot.setBackgroundPaint( Color.WHITE );
+        plot.setBackgroundPaint(Color.WHITE);
         ((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
         return barChart;
     }

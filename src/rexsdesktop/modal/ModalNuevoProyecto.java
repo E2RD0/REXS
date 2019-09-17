@@ -5,27 +5,47 @@
  */
 package rexsdesktop.modal;
 
+import com.lowagie.text.html.simpleparser.Img;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Window;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.General;
 import rexsdesktop.controller.Projects;
-import rexsdesktop.controller.User;
+import static rexsdesktop.controller.Projects.getIdSeccionNivel;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
+import static rexsdesktop.view.Admin.cdProyectos;
+import static rexsdesktop.view.Admin.jcEspecialidad;
+import static rexsdesktop.view.Admin.jcNivel;
+import static rexsdesktop.view.Admin.jcSeccion;
+import static rexsdesktop.view.Admin.jsProyectos;
+import static rexsdesktop.view.Admin.pnlViewProyectos;
 
 /**
  * Clase que contiene el Panel para agregar un nuevo proyecto.
+ *
  * @author Lulac
  */
 public class ModalNuevoProyecto extends javax.swing.JPanel {
+
+    BufferedImage img;
+    //BufferedImage fotoProyecto = new javax.swing.b(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
 
     /**
      * Creates new form ModalNuevoProyecto
@@ -33,11 +53,65 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     public ModalNuevoProyecto() {
         initComponents();
         Db db = new Db();
-
-        db.obtenerSeccionNivel();
-
+        db.obtenerNivel();
         for (int i = 0; i < db.SNnivel.size(); i++) {
-            cbxSeccionNivel.addItem(db.SNnivel.get(i) + " " + db.SNespecialidad.get(i) + " " + db.SNseccion.get(i));
+            cbxNivel.addItem(db.SNnivel.get(i));
+        }
+        cbxEspecialidad.disable();
+        cbxSeccionNivel.disable();
+    }
+
+    public void cargarProyectos() {
+        try {
+            General.getEdicion();
+            Db db = new Db();
+            db.obtenerNivel();
+            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            for (int i = 0; i < db.SNnivel.size(); i++) {
+                jcNivel.addItem(db.SNnivel.get(i));
+            }
+            jcEspecialidad.disable();
+            jcSeccion.disable();
+            cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
+            Projects cargarPaneles = new Projects();
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+            jsProyectos.setBorder(null);
+            jsProyectos.setBackground(new Color(244, 246, 252));
+            cdProyectos.setBackground(new Color(244, 246, 252));
+            switch (db.getCantidadProyecto()) {
+                case 0:
+                    jsProyectos.disable();
+                    cdProyectos.disable();
+                    JLabel label = new JLabel();
+                    label.setBounds(150, 120, 500, 200);
+                    label.setText("<html>" + "No existen proyectos, por favor ingrese un proyecto o cargue el archivo de Excel"
+                            + "predeterminado para agregar proyectos en conjunto" + "</html>");
+                    label.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+                    label.setForeground(new Color(46, 56, 77));
+                    pnlViewProyectos.add(label);
+                    break;
+                case 1:
+                    jsProyectos.setBounds(0, 70, 377, 120);
+                    cdProyectos.setLayout(null);
+                    break;
+                case 2:
+                    jsProyectos.setBounds(0, 70, 808, 120);
+                    break;
+                case 3:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 4:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 5:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+                    break;
+                default:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+            }
+            pnlViewProyectos.add(jsProyectos);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
     }
@@ -51,21 +125,24 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel65 = new javax.swing.JLabel();
+        jIMG = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         txtnombreProyecto = new javax.swing.JTextField();
         jLabel69 = new javax.swing.JLabel();
         txtDesc = new javax.swing.JTextField();
         btnCambiarFotoPro = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnEliminarFotoPro = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         btnAceptarModal = new javax.swing.JButton();
         btnCancelarModal = new javax.swing.JButton();
-        cbxSeccionNivel = new javax.swing.JComboBox<>();
+        cbxNivel = new javax.swing.JComboBox<>();
         jLabel70 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        cbxEspecialidad = new javax.swing.JComboBox<>();
+        cbxSeccionNivel = new javax.swing.JComboBox<>();
 
-        jLabel65.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
-        jLabel65.setToolTipText("Foto del proyecto");
+        jIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
 
         jLabel67.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(176, 186, 201));
@@ -74,7 +151,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         txtnombreProyecto.setBackground(new java.awt.Color(249, 250, 255));
         txtnombreProyecto.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtnombreProyecto.setForeground(new java.awt.Color(46, 56, 77));
-        txtnombreProyecto.setToolTipText("Nombre del nuevo proyecto");
         txtnombreProyecto.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         jLabel69.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
@@ -84,14 +160,12 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         txtDesc.setBackground(new java.awt.Color(249, 250, 255));
         txtDesc.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtDesc.setForeground(new java.awt.Color(46, 56, 77));
-        txtDesc.setToolTipText("Descripción del nuevo proyecto");
         txtDesc.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         btnCambiarFotoPro.setBackground(new java.awt.Color(238, 238, 238));
         btnCambiarFotoPro.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
         btnCambiarFotoPro.setForeground(new java.awt.Color(107, 107, 107));
         btnCambiarFotoPro.setText("Cambiar Foto");
-        btnCambiarFotoPro.setToolTipText("Cambiar foto por defecto");
         btnCambiarFotoPro.setBorderPainted(false);
         btnCambiarFotoPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,12 +173,16 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(238, 238, 238));
-        jButton4.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(107, 107, 107));
-        jButton4.setText("Eliminar Foto");
-        jButton4.setToolTipText("Eliminar foto");
-        jButton4.setBorderPainted(false);
+        btnEliminarFotoPro.setBackground(new java.awt.Color(238, 238, 238));
+        btnEliminarFotoPro.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
+        btnEliminarFotoPro.setForeground(new java.awt.Color(107, 107, 107));
+        btnEliminarFotoPro.setText("Eliminar Foto");
+        btnEliminarFotoPro.setBorderPainted(false);
+        btnEliminarFotoPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarFotoProActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -112,7 +190,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         btnAceptarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
         btnAceptarModal.setForeground(new java.awt.Color(46, 91, 255));
         btnAceptarModal.setText("Aceptar");
-        btnAceptarModal.setToolTipText("Ingresar un nuevo proyecto");
         btnAceptarModal.setBorderPainted(false);
         btnAceptarModal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,25 +202,38 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
-        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarModalActionPerformed(evt);
-            }
-        });
 
-        cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
-        cbxSeccionNivel.setToolTipText("Sección y nivel del nuevo proyecto");
-        cbxSeccionNivel.setPreferredSize(new java.awt.Dimension(56, 27));
-        cbxSeccionNivel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxSeccionNivelActionPerformed(evt);
+        cbxNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        cbxNivel.setForeground(new java.awt.Color(46, 56, 77));
+        cbxNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un nivel" }));
+        cbxNivel.setPreferredSize(new java.awt.Dimension(56, 27));
+        cbxNivel.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxNivelItemStateChanged(evt);
             }
         });
 
         jLabel70.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel70.setForeground(new java.awt.Color(176, 186, 201));
-        jLabel70.setText("SECCION NIVEL");
+        jLabel70.setText("NIVEL");
+
+        jLabel71.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel71.setText("ESPECIALIDAD");
+
+        jLabel72.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel72.setText("SECCION");
+
+        cbxEspecialidad.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        cbxEspecialidad.setForeground(new java.awt.Color(46, 56, 77));
+        cbxEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
+        cbxEspecialidad.setPreferredSize(new java.awt.Dimension(56, 27));
+
+        cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
+        cbxSeccionNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
+        cbxSeccionNivel.setPreferredSize(new java.awt.Dimension(56, 27));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -151,32 +241,49 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCambiarFotoPro)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel65))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel67)
-                    .addComponent(jLabel69)
-                    .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                    .addComponent(txtnombreProyecto))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel70)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbxSeccionNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jIMG))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnCambiarFotoPro)
+                                    .addComponent(btnEliminarFotoPro, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel70)
+                                        .addGap(51, 51, 51)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel67)
+                                    .addComponent(jLabel69)
+                                    .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                                    .addComponent(txtnombreProyecto))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(jLabel71)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel72)
+                                .addGap(33, 33, 33))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 236, Short.MAX_VALUE)
+                                .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbxNivel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(35, 35, 35)
+                                .addComponent(cbxEspecialidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(31, 31, 31)
+                                .addComponent(cbxSeccionNivel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -185,12 +292,11 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel65)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jIMG)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCambiarFotoPro, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50))
+                        .addComponent(btnEliminarFotoPro, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel67)
@@ -199,12 +305,18 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         .addGap(16, 16, 16)
                         .addComponent(jLabel69)
                         .addGap(1, 1, 1)
-                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbxSeccionNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel70))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel70)
+                    .addComponent(jLabel71)
+                    .addComponent(jLabel72))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxSeccionNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -215,51 +327,153 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
-        Db obj = new Db();
-        Projects panel = new Projects();
-        String nombre = txtnombreProyecto.getText();
-        String descripcion = txtDesc.getText();
-        int idSeccionNivel = cbxSeccionNivel.getSelectedIndex() + 1;
-        if (!obj.proyectoExiste(nombre)) {
-            if (Projects.nuevoProyecto(nombre, descripcion, idSeccionNivel)) {
-                System.out.println("proyecto Ingresada");
-                txtnombreProyecto.setText(null);
-                txtDesc.setText(null);
-                Admin.cdProyectos.removeAll();
-                panel.CrearPanelesProyectos(Admin.cdProyectos);
+        try {
+            btnAceptarModal.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Db db = new Db();
+            if (!txtnombreProyecto.getText().isEmpty() && !txtDesc.getText().isEmpty()) {
+                if (cbxNivel.getSelectedIndex() > 0) {
+                    if (!db.proyectoExiste(txtnombreProyecto.getText())) {
+                        if (img != null) {
+                            Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
+                            if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                System.out.println("Proyecto ingresado");
+                                txtnombreProyecto.setText(null);
+                                txtDesc.setText(null);
+                                Admin.cdProyectos.removeAll();
+                                cargarProyectos();
+                                Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
+                                w.setVisible(false);
+
+                            } else {
+                                System.out.println("Error al ingresar el proyecto, inténtelo de nuevo.");
+                            }
+                        } else {
+
+                            JOptionPane.showMessageDialog(this, "Por favor ingrese una imagen de su proyecto.");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Existe un proyecto con el mismo nombre, por favor colocar uno nuevo.");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Seleccione el nivel al que desea agregar el proyecto");
+                }
             } else {
-                System.out.println("Nel, falló");
+                JOptionPane.showMessageDialog(this, "Algunos campos están vacíos.");
             }
-        } else {
-            System.out.println("El proyecto ya existe");
+
+        } catch (Exception e) {
+            System.out.println("Nuevo " + e.getMessage());
+        } finally {
+
+            btnAceptarModal.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
 
 
     }//GEN-LAST:event_btnAceptarModalActionPerformed
 
-    private void cbxSeccionNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSeccionNivelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxSeccionNivelActionPerformed
-
     private void btnCambiarFotoProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarFotoProActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+        fc.addChoosableFileFilter(imageFilter);
+        fc.setAcceptAllFileFilterUsed(false);
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                File file = fc.getSelectedFile();
+                if (Validation.VerificadorImagen.verifyFile(file)) {
+                    FileInputStream fis = new FileInputStream(file);
+                    BufferedImage imgOriginal = ImageIO.read(fis);
+                    if (Validation.VerificadorImagen.verifyIMG(imgOriginal)) {
+                        img = new BufferedImage(imgOriginal.getWidth(),
+                                imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
+                        jIMG.setIcon(new ImageIcon(img.getScaledInstance(jIMG.getWidth(), jIMG.getHeight(), Image.SCALE_DEFAULT)));
+                    } else {
+                        JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
 
     }//GEN-LAST:event_btnCambiarFotoProActionPerformed
 
-    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+    private void cbxNivelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNivelItemStateChanged
+        Db db = new Db();
+        db.obtenerEspecialidad();
+        cbxSeccionNivel.removeAllItems();
+        cbxSeccionNivel.addItem("Seleccione una sección");
+        try {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                if (cbxNivel.getSelectedIndex() > 0) {
+                    if (cbxNivel.getSelectedItem().equals(String.valueOf("Primer año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
+                        cbxEspecialidad.enable();
+                        cbxEspecialidad.removeAllItems();
+                        cbxSeccionNivel.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            cbxEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        cbxEspecialidad.removeItem(String.valueOf("Basica"));
+                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                        cbxSeccionNivel.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                        }
+                    } else {
+                        cbxEspecialidad.removeAllItems();
+                        cbxSeccionNivel.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            cbxEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        cbxEspecialidad.setSelectedItem("Basica");
+
+                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                        cbxSeccionNivel.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                        }
+                    }
+
+                } else {
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_cbxNivelItemStateChanged
+
+    private void btnEliminarFotoProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFotoProActionPerformed
+        img = null;
+        jIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png")));
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelarModalActionPerformed
+    }//GEN-LAST:event_btnEliminarFotoProActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarModal;
     private javax.swing.JButton btnCambiarFotoPro;
     private javax.swing.JButton btnCancelarModal;
+    private javax.swing.JButton btnEliminarFotoPro;
+    private javax.swing.JComboBox<String> cbxEspecialidad;
+    private javax.swing.JComboBox<String> cbxNivel;
     private javax.swing.JComboBox<String> cbxSeccionNivel;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jIMG;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtnombreProyecto;

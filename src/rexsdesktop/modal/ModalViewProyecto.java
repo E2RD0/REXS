@@ -6,28 +6,54 @@
 package rexsdesktop.modal;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+
+import java.awt.Window;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.General;
 
 import rexsdesktop.controller.Projects;
+import static rexsdesktop.controller.Projects.getIdSeccionNivel;
+import static rexsdesktop.controller.Projects.getNumIMG;
+import static rexsdesktop.controller.Projects.getNumMembers;
 import static rexsdesktop.controller.Projects.getProject;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
+import static rexsdesktop.view.Admin.cdProyectos;
+import static rexsdesktop.view.Admin.jcEspecialidad;
+import static rexsdesktop.view.Admin.jcNivel;
+import static rexsdesktop.view.Admin.jcSeccion;
+import static rexsdesktop.view.Admin.jsProyectos;
+import static rexsdesktop.view.Admin.pnlViewProyectos;
 
 /**
  * Clase que contiene el Panel para visualizar y editar un proyecto.
+ *
  * @author Lulac
  */
 public class ModalViewProyecto extends javax.swing.JPanel {
+
+    int contador = 0;
 
     /**
      * Creates new form ModalViewProyecto
@@ -37,11 +63,70 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         jcpNormal.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jcpNormal.getVerticalScrollBar().setUnitIncrement(10);
         Db db = new Db();
-        db.obtenerSeccionNivel();
-        for(int i = 0; i < db.SNnivel.size(); i++) {
-            combo.addItem(db.SNnivel.get(i) + " " + db.SNespecialidad.get(i) + " " + db.SNseccion.get(i));
+        db.obtenerNivel();
+        for (int i = 0; i < db.SNnivel.size(); i++) {
+            cbxNivel.addItem(db.SNnivel.get(i));
         }
-        
+        cbxEspecialidad.disable();
+        cbxSeccionNivel.disable();
+        jLabel14.disable();
+
+    }
+
+    public void cargarProyectos() {
+        try {
+            General.getEdicion();
+            Db db = new Db();
+            db.obtenerNivel();
+            db.NumProyectos(CurrentUser.edicionExpotecnica);
+
+            for (int i = 0; i < db.SNnivel.size(); i++) {
+                jcNivel.addItem(db.SNnivel.get(i));
+            }
+            jcEspecialidad.disable();
+            jcSeccion.disable();
+            cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
+            Projects cargarPaneles = new Projects();
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+            jsProyectos.setBorder(null);
+            jsProyectos.setBackground(new Color(244, 246, 252));
+            cdProyectos.setBackground(new Color(244, 246, 252));
+            switch (db.getCantidadProyecto()) {
+                case 0:
+                    jsProyectos.disable();
+                    cdProyectos.disable();
+                    JLabel label = new JLabel();
+                    label.setBounds(150, 120, 500, 200);
+                    label.setText("<html>" + "No existen proyectos, por favor ingrese un proyecto o cargue el archivo de Excel"
+                            + "predeterminado para agregar proyectos en conjunto" + "</html>");
+                    label.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+                    label.setForeground(new Color(46, 56, 77));
+                    pnlViewProyectos.add(label);
+                    break;
+                case 1:
+                    jsProyectos.setBounds(0, 70, 377, 120);
+                    cdProyectos.setLayout(null);
+                    break;
+                case 2:
+                    jsProyectos.setBounds(0, 70, 808, 120);
+                    break;
+                case 3:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 4:
+                    jsProyectos.setBounds(0, 70, 808, 260);
+                    break;
+                case 5:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+                    break;
+                default:
+                    jsProyectos.setBounds(0, 70, 808, 363);
+            }
+            pnlViewProyectos.add(jsProyectos);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
@@ -54,364 +139,375 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     private void initComponents() {
 
         pnlImg = new javax.swing.JPanel();
+        jlAgregarImagen = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         Img = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jsImagenes = new javax.swing.JScrollPane();
+        pnlImagenes = new javax.swing.JPanel();
         pnlPrincipal = new javax.swing.JPanel();
         jcpNormal = new javax.swing.JScrollPane();
         pnlView = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JLabel();
+        pnlVotos = new javax.swing.JPanel();
+        stars = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        NumCreatividad = new javax.swing.JLabel();
+        txtPromVoto = new javax.swing.JLabel();
+        Exposicion = new javax.swing.JLabel();
+        Creatividad = new javax.swing.JLabel();
+        Innovacion = new javax.swing.JLabel();
+        Circle3 = new javax.swing.JLabel();
+        Circle1 = new javax.swing.JLabel();
+        Circle2 = new javax.swing.JLabel();
+        txtNumVotos = new javax.swing.JLabel();
+        Separator2 = new javax.swing.JSeparator();
+        txtDescView = new javax.swing.JLabel();
+        jlEdit1 = new javax.swing.JLabel();
+        lbl = new javax.swing.JLabel();
+        pnlInfoNivel = new javax.swing.JPanel();
+        txtSeccion = new javax.swing.JLabel();
         txtNivel = new javax.swing.JLabel();
         txtEspecialidad = new javax.swing.JLabel();
-        txtSeccion = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jSeparator3 = new javax.swing.JSeparator();
-        lbl = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JLabel();
+        dot1 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        pnlUbicacion = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jlPoint = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         txtUbiView = new javax.swing.JLabel();
-        txtDescView = new javax.swing.JLabel();
-        pnlPrueba = new javax.swing.JPanel();
-        pnlContInte = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        jlEdit1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        jlMapa = new javax.swing.JLabel();
+        pnlViewIntegrantes = new javax.swing.JPanel();
+        jlDelete = new javax.swing.JLabel();
         jcpEdit = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         lblFotoPerfil = new javax.swing.JLabel();
+        cbxNivel = new javax.swing.JComboBox<>();
         txtnombre = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
-        combo = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        cbxEspecialidad = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
+        cbxSeccionNivel = new javax.swing.JComboBox<>();
 
-        setBackground(new java.awt.Color(79, 54, 125));
+        setBackground(new java.awt.Color(244, 246, 252));
 
         pnlImg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jlAgregarImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlAgregarImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/plus.png"))); // NOI18N
+        jlAgregarImagen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlAgregarImagenMouseClicked(evt);
+            }
+        });
+        pnlImg.add(jlAgregarImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 350, 50, 40));
+
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/002-left.png"))); // NOI18N
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel14MouseClicked(evt);
+            }
+        });
         pnlImg.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 420));
 
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/001-right.png"))); // NOI18N
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
         pnlImg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 50, 420));
 
         Img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/prueba3.jpg"))); // NOI18N
+        Img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/zz.png"))); // NOI18N
         pnlImg.add(Img, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 420));
 
-        jScrollPane3.setBorder(null);
+        jsImagenes.setBorder(null);
 
-        jPanel6.setBackground(new java.awt.Color(201, 176, 245));
-        jPanel6.setToolTipText("");
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel7.setText("jLabel7");
-        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 120, 100));
-
-        jLabel8.setText("jLabel7");
-        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 100));
-
-        jLabel9.setText("jLabel7");
-        jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 100));
-
-        jLabel10.setText("jLabel7");
-        jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 100));
-
-        jScrollPane3.setViewportView(jPanel6);
+        pnlImagenes.setBackground(new java.awt.Color(244, 246, 252));
+        pnlImagenes.setToolTipText("");
+        pnlImagenes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jsImagenes.setViewportView(pnlImagenes);
 
         pnlPrincipal.setLayout(new java.awt.CardLayout());
 
         jcpNormal.setBorder(null);
 
-        pnlView.setBackground(new java.awt.Color(79, 54, 125));
+        pnlView.setBackground(new java.awt.Color(244, 246, 252));
         pnlView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(156, 117, 226));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtNivel.setFont(new java.awt.Font("Rubik Medium",0,18));
-        txtNivel.setForeground(new java.awt.Color(255, 255, 255));
-        txtNivel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(txtNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 90, 34));
-
-        txtEspecialidad.setFont(new java.awt.Font("Rubik Medium",0,18));
-        txtEspecialidad.setForeground(new java.awt.Color(255, 255, 255));
-        txtEspecialidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(txtEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 110, 34));
-
-        txtSeccion.setFont(new java.awt.Font("Rubik Medium",0,18));
-        txtSeccion.setForeground(new java.awt.Color(255, 255, 255));
-        txtSeccion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(txtSeccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 79, 34));
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 10, 30));
-
-        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator3.setPreferredSize(new java.awt.Dimension(4, 0));
-        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 10, 30));
-
-        pnlView.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 410, 50));
-
-        lbl.setEnabled(false);
-        pnlView.add(lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 508, -1, -1));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Button_Add.png"))); // NOI18N
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        pnlView.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 60, 60));
 
         txtNombre.setBackground(new java.awt.Color(79, 54, 125));
-        txtNombre.setFont(new java.awt.Font("Rubik Bold",0,25) {
+        txtNombre.setFont(new java.awt.Font("Rubik Ligth",0,29)
+        );
+        txtNombre.setForeground(new java.awt.Color(46, 56, 77));
+        txtNombre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        txtNombre.setToolTipText("");
+        txtNombre.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        txtNombre.setIconTextGap(0);
+        pnlView.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 37, 360, 80));
+
+        pnlVotos.setBackground(new java.awt.Color(255, 255, 255));
+        pnlVotos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        stars.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/stars.png"))); // NOI18N
+        pnlVotos.add(stars, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 38, -1, -1));
+
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("9.8");
+        jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 10, -1, 20));
+
+        jLabel7.setText("7.0");
+        pnlVotos.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 10, -1, 20));
+
+        NumCreatividad.setText("8.9");
+        pnlVotos.add(NumCreatividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 10, -1, 20));
+
+        txtPromVoto.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        txtPromVoto.setText("8.9");
+        pnlVotos.add(txtPromVoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 12, 25, 26));
+
+        Exposicion.setForeground(new java.awt.Color(136, 136, 136));
+        Exposicion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Exposicion.setText("Exposición");
+        Exposicion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Exposicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, -1, -1));
+
+        Creatividad.setForeground(new java.awt.Color(136, 136, 136));
+        Creatividad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Creatividad.setText("Creatividad");
+        Creatividad.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Creatividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
+
+        Innovacion.setForeground(new java.awt.Color(136, 136, 136));
+        Innovacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Innovacion.setText("Innovación");
+        Innovacion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Innovacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, -1, -1));
+
+        Circle3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Circle3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
+        Circle3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Circle3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, -1, 40));
+
+        Circle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Circle1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
+        Circle1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Circle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 40, 40));
+
+        Circle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Circle2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
+        Circle2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlVotos.add(Circle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, -1, 40));
+
+        txtNumVotos.setForeground(new java.awt.Color(136, 136, 136));
+        txtNumVotos.setText("+100 votos");
+        pnlVotos.add(txtNumVotos, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 21, -1, -1));
+
+        Separator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        pnlVotos.add(Separator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 10, 35));
+
+        pnlView.add(pnlVotos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 400, 61));
+
+        txtDescView.setFont(new java.awt.Font("Rubik", 0, 14)
+        );
+        txtDescView.setForeground(new java.awt.Color(136, 136, 136));
+        txtDescView.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        pnlView.add(txtDescView, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 390, 100));
+
+        jlEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBlue.png"))); // NOI18N
+        jlEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlEdit1MouseClicked(evt);
+            }
+        });
+        pnlView.add(jlEdit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
+
+        lbl.setBackground(new java.awt.Color(244, 246, 252));
+        lbl.setFont(new java.awt.Font("Tahoma", 0, 3)); // NOI18N
+        lbl.setForeground(new java.awt.Color(244, 246, 252));
+        pnlView.add(lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 740, 10, 10));
+
+        pnlInfoNivel.setBackground(new java.awt.Color(244, 246, 252));
+
+        txtSeccion.setFont(new java.awt.Font("Rubik",1, 13)
+        );
+        txtSeccion.setForeground(new java.awt.Color(135, 152, 173));
+        txtSeccion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        txtNivel.setFont(new java.awt.Font("Rubik",1, 13)
+        );
+        txtNivel.setForeground(new java.awt.Color(135, 152, 173));
+        txtNivel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        txtEspecialidad.setFont(new java.awt.Font("Rubik",1, 13)
+        );
+        txtEspecialidad.setForeground(new java.awt.Color(135, 152, 173));
+        txtEspecialidad.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        dot1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dot1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/dot.png"))); // NOI18N
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/dot.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlInfoNivelLayout = new javax.swing.GroupLayout(pnlInfoNivel);
+        pnlInfoNivel.setLayout(pnlInfoNivelLayout);
+        pnlInfoNivelLayout.setHorizontalGroup(
+            pnlInfoNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInfoNivelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dot1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(txtSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlInfoNivelLayout.setVerticalGroup(
+            pnlInfoNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInfoNivelLayout.createSequentialGroup()
+                .addGroup(pnlInfoNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtSeccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtEspecialidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(txtNivel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(dot1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnlView.add(pnlInfoNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 124, 360, 22));
+
+        jSeparator1.setForeground(new java.awt.Color(221, 221, 221));
+        jSeparator1.setPreferredSize(new java.awt.Dimension(70, 20));
+        pnlView.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 370, 10));
+
+        jLabel24.setText("DESCRIPCIÓN");
+        pnlView.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+
+        pnlUbicacion.setBackground(new java.awt.Color(255, 255, 255));
+        pnlUbicacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setFont(new java.awt.Font("Rubik Medium", 0, 10)
+        );
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Base.png"))); // NOI18N
+        jLabel6.setText("Ver Mapa");
+        jLabel6.setFocusable(false);
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlUbicacion.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 90, 20));
+
+        jLabel5.setText("Ubicación");
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlUbicacion.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 90, 20));
+
+        jlPoint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlPoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Point.png"))); // NOI18N
+        pnlUbicacion.add(jlPoint, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 40, 40));
+
+        jLabel3.setText("Encuentralo en:");
+        pnlUbicacion.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 90, 20));
+
+        txtUbiView.setBackground(new java.awt.Color(255, 255, 255));
+        txtUbiView.setFont(new java.awt.Font("Montserrat", 1, 12)
+        );
+        txtUbiView.setForeground(new java.awt.Color(34, 34, 34));
+        txtUbiView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pnlUbicacion.add(txtUbiView, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 65, 240, 20));
+
+        jlMapa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlMapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/map img.png"))); // NOI18N
+        pnlUbicacion.add(jlMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 120));
+
+        pnlView.add(pnlUbicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 400, 120));
+
+        pnlViewIntegrantes.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pnlViewIntegrantesLayout = new javax.swing.GroupLayout(pnlViewIntegrantes);
+        pnlViewIntegrantes.setLayout(pnlViewIntegrantesLayout);
+        pnlViewIntegrantesLayout.setHorizontalGroup(
+            pnlViewIntegrantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        pnlViewIntegrantesLayout.setVerticalGroup(
+            pnlViewIntegrantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 160, Short.MAX_VALUE)
+        );
+
+        pnlView.add(pnlViewIntegrantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 400, 160));
+
+        jlDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/delete_1.png"))); // NOI18N
+        jlDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlDeleteMouseClicked(evt);
+            }
+        });
+        pnlView.add(jlDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 20, 20));
+
+        jcpNormal.setViewportView(pnlView);
+
+        pnlPrincipal.add(jcpNormal, "card2");
+
+        jcpEdit.setBorder(null);
+
+        jPanel1.setBackground(new java.awt.Color(244, 246, 252));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel23.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(193, 193, 193)));
+        jPanel23.setPreferredSize(new java.awt.Dimension(130, 130));
+        jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblFotoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
+        jPanel23.add(lblFotoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jPanel1.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 350, -1, -1));
+
+        cbxNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        cbxNivel.setForeground(new java.awt.Color(46, 56, 77));
+        cbxNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un nivel" }));
+        cbxNivel.setPreferredSize(new java.awt.Dimension(56, 27));
+        cbxNivel.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxNivelItemStateChanged(evt);
+            }
+        });
+        cbxNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxNivelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 120, -1));
+
+        txtnombre.setFont(new java.awt.Font("Rubik Bold",0,25) {
         }
-    );
-    txtNombre.setForeground(new java.awt.Color(255, 255, 255));
-    pnlView.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 390, 60));
-
-    jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
-    pnlView.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 390, 10));
-
-    jPanel4.setBackground(new java.awt.Color(156, 117, 226));
-
-    jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/project-management.png"))); // NOI18N
-
-    jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/exposition_1.png"))); // NOI18N
-
-    jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/creativity.png"))); // NOI18N
-
-    jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel6.setText(" Votación");
-
-    jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel11.setText("Innovación");
-
-    jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel12.setText("Exposición");
-
-    jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel15.setText("Creatividad");
-
-    jLabel16.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
-    jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel16.setText("9.6");
-
-    jLabel17.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
-    jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel17.setText("8.7");
-
-    jLabel18.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
-    jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel18.setText("8.0");
-
-    jLabel19.setFont(new java.awt.Font("Comfortaa", 1, 18)); // NOI18N
-    jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel19.setText("8.0");
-
-    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-    jPanel4.setLayout(jPanel4Layout);
-    jPanel4Layout.setHorizontalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel4Layout.createSequentialGroup()
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(18, 18, 18)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(18, 18, 18)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))))
-            .addGap(52, 52, 52)
-            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-            .addGap(37, 37, 37))
-    );
-    jPanel4Layout.setVerticalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel4Layout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jLabel1)
-                .addComponent(jLabel3)
-                .addComponent(jLabel5)
-                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(44, Short.MAX_VALUE))
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap())
-    );
-
-    pnlView.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 410, 170));
-
-    jPanel5.setBackground(new java.awt.Color(156, 117, 226));
-
-    jLabel20.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel20.setText("Ubicación");
-
-    txtUbiView.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-    txtUbiView.setForeground(new java.awt.Color(255, 255, 255));
-    txtUbiView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-    javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-    jPanel5.setLayout(jPanel5Layout);
-    jPanel5Layout.setHorizontalGroup(
-        jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel5Layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addComponent(jLabel20)
-                    .addGap(0, 337, Short.MAX_VALUE))
-                .addComponent(txtUbiView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap())
-    );
-    jPanel5Layout.setVerticalGroup(
-        jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel5Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(txtUbiView, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(20, Short.MAX_VALUE))
-    );
-
-    pnlView.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 410, 100));
-
-    txtDescView.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-    txtDescView.setForeground(new java.awt.Color(255, 255, 255));
-    pnlView.add(txtDescView, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 390, 100));
-
-    pnlPrueba.setBackground(new java.awt.Color(79, 54, 125));
-
-    pnlContInte.setBackground(new java.awt.Color(156, 117, 226));
-
-    jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel21.setText("Integrantes");
-
-    javax.swing.GroupLayout pnlContInteLayout = new javax.swing.GroupLayout(pnlContInte);
-    pnlContInte.setLayout(pnlContInteLayout);
-    pnlContInteLayout.setHorizontalGroup(
-        pnlContInteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(pnlContInteLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(jLabel21)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    pnlContInteLayout.setVerticalGroup(
-        pnlContInteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(pnlContInteLayout.createSequentialGroup()
-            .addGap(11, 11, 11)
-            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(20, Short.MAX_VALUE))
-    );
-
-    javax.swing.GroupLayout pnlPruebaLayout = new javax.swing.GroupLayout(pnlPrueba);
-    pnlPrueba.setLayout(pnlPruebaLayout);
-    pnlPruebaLayout.setHorizontalGroup(
-        pnlPruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(pnlContInte, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    );
-    pnlPruebaLayout.setVerticalGroup(
-        pnlPruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(pnlPruebaLayout.createSequentialGroup()
-            .addComponent(pnlContInte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(280, Short.MAX_VALUE))
-    );
-
-    pnlView.add(pnlPrueba, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 410, 330));
-
-    jlEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBlue.png"))); // NOI18N
-    jlEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            jlEdit1MouseClicked(evt);
-        }
-    });
-    pnlView.add(jlEdit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, -1, -1));
-
-    jButton4.setText("jButton4");
-    pnlView.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 930, -1, -1));
-
-    jcpNormal.setViewportView(pnlView);
-
-    pnlPrincipal.add(jcpNormal, "card2");
-
-    jcpEdit.setBorder(null);
-
-    jPanel1.setBackground(new java.awt.Color(79, 54, 125));
-    jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-    jPanel23.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(193, 193, 193)));
-    jPanel23.setPreferredSize(new java.awt.Dimension(130, 130));
-    jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-    lblFotoPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
-    jPanel23.add(lblFotoPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-    jPanel1.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 339, -1, -1));
-
-    txtnombre.setFont(new java.awt.Font("Rubik Bold",0,25) {
-    }
     );
     jPanel1.add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 360, 56));
 
@@ -425,11 +521,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
     jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 106, 360, 140));
 
-    combo.setBackground(new java.awt.Color(156, 117, 226));
-    combo.setBorder(null);
-    jPanel1.add(combo, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 264, 356, 40));
-
-    jButton1.setBackground(new java.awt.Color(156, 117, 226));
+    jButton1.setBackground(new java.awt.Color(46, 91, 255));
     jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
     jButton1.setForeground(new java.awt.Color(255, 255, 255));
     jButton1.setText("Actualizar");
@@ -443,15 +535,21 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
     jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
     jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel2.setText("Regresar");
+    jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconBack.png"))); // NOI18N
     jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             jLabel2MouseClicked(evt);
         }
     });
-    jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 60, -1));
+    jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 30, -1));
 
-    jButton2.setBackground(new java.awt.Color(156, 117, 226));
+    cbxEspecialidad.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+    cbxEspecialidad.setForeground(new java.awt.Color(46, 56, 77));
+    cbxEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
+    cbxEspecialidad.setPreferredSize(new java.awt.Dimension(56, 27));
+    jPanel1.add(cbxEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 130, -1));
+
+    jButton2.setBackground(new java.awt.Color(46, 91, 255));
     jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
     jButton2.setForeground(new java.awt.Color(255, 255, 255));
     jButton2.setText("Agregar foto portada");
@@ -461,10 +559,16 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             jButton2ActionPerformed(evt);
         }
     });
-    jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, 140, 50));
+    jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 140, 50));
 
     jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
     jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 410, 10));
+
+    cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+    cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
+    cbxSeccionNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
+    cbxSeccionNivel.setPreferredSize(new java.awt.Dimension(56, 27));
+    jPanel1.add(cbxSeccionNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 130, -1));
 
     jcpEdit.setViewportView(jPanel1);
 
@@ -475,11 +579,11 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(pnlImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(pnlImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jsImagenes, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
     );
@@ -489,41 +593,49 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         .addGroup(layout.createSequentialGroup()
             .addComponent(pnlImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
+            .addComponent(jsImagenes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(20, 20, 20))
     );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Db obj = new Db();
-        Projects panel = new Projects();
-        String nombre = txtnombre.getText();
-        String descripcion = txtDesc.getText();
-        int idSeccionNivel = combo.getSelectedIndex() + 1;
-        int id = Integer.parseInt(lbl.getText());
-        if (!obj.proyectoExiste(nombre) || nombre.equals(nombre)) {
-            if (Projects.actualizarPro(nombre, descripcion, idSeccionNivel, id)) {
-                System.out.println("proyecto actualizado");
-                Admin.cdProyectos.removeAll();
-                panel.CrearPanelesProyectos(Admin.cdProyectos);
-                Projects p = getProject(Integer.parseInt(lbl.getText()));
-                txtDescView.setText(p.DescripcionP);
-                txtEspecialidad.setText(p.EspecialidadP);
-                txtSeccion.setText(p.SeccionP);
-                txtNombre.setText("<html>" + p.nombreP + "</html>");
-                txtnombre.setText(null);
-                txtDesc.setText(null);
-                pnlPrincipal.removeAll();
-                pnlPrincipal.add(jcpNormal);
-                pnlPrincipal.repaint();
-                pnlPrincipal.revalidate();
 
+        try {
+            jButton1.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Db db = new Db();
+            if (cbxNivel.getSelectedIndex() > 0) {
+                if (!db.proyectoExiste(txtnombre.getText())) {
+                    Projects o = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
+                    if (Projects.actualizarPro(txtnombre.getText(), txtDesc.getText(), o.getIdSeccionNivel, Integer.parseInt(lbl.getText()))) {
+                        System.out.println("proyecto actualizado");
+                        Projects p = getProject(Integer.parseInt(lbl.getText()));
+                        txtDescView.setText("<html>" + p.DescripcionP + "</html>");
+                        txtEspecialidad.setText(p.EspecialidadP);
+                        txtSeccion.setText(p.SeccionP);
+                        txtNombre.setText("<html>" + p.nombreP + "</html>");
+                        txtnombre.setText(null);
+                        txtDesc.setText(null);
+                        pnlPrincipal.removeAll();
+                        pnlPrincipal.add(jcpNormal);
+                        pnlPrincipal.repaint();
+                        pnlPrincipal.revalidate();
+                        Admin.cdProyectos.removeAll();
+                        cargarProyectos();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error al actualizar el proyecto.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Existe un proyecto con el mismo nombre, por favor colocar uno nuevo.");
+                }
             } else {
-                System.out.println("Nel, falló");
+                JOptionPane.showMessageDialog(this, "Seleccione el nivel al que desea agregar el proyecto");
             }
-        } else {
-            System.out.println("El proyecto ya existe");
+        } catch (Exception e) {
+        } finally {
+
+            jButton1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -542,6 +654,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             try {
 
                 File file = fc.getSelectedFile();
+
                 if (Validation.VerificadorImagen.verifyFile(file)) {
                     FileInputStream fis = new FileInputStream(file);
                     BufferedImage imgOriginal = ImageIO.read(fis);
@@ -549,7 +662,10 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                         BufferedImage img = new BufferedImage(imgOriginal.getWidth(),
                                 imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
                         img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
+
                         if (Projects.actualizarFotoPortada(img, Integer.parseInt(lbl.getText()))) {
+                            lblFotoPerfil.setIcon(new ImageIcon(img.getScaledInstance(lblFotoPerfil.getWidth(), lblFotoPerfil.getHeight(), Image.SCALE_DEFAULT)));
+
                             JOptionPane.showMessageDialog(this, "Foto de perfil actualizada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
 
                         } else {
@@ -572,34 +688,214 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jlEdit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlEdit1MouseClicked
-        // TODO add your handling code here:
-         pnlPrincipal.removeAll();
+        pnlPrincipal.removeAll();
         pnlPrincipal.add(jcpEdit);
         pnlPrincipal.repaint();
         pnlPrincipal.revalidate();
     }//GEN-LAST:event_jlEdit1MouseClicked
 
 
+    private void jlDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlDeleteMouseClicked
+        int res = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este proyecto? Los datos no se recuperarán");
+        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (res == 0) {
+
+            Projects p = new Projects();
+            p.eliminarProyecto(Integer.parseInt(lbl.getText()));
+            Window w = SwingUtilities.getWindowAncestor(ModalViewProyecto.this);
+            w.setVisible(false);
+            Admin.cdProyectos.removeAll();
+            cargarProyectos();
+        }
+        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+    }//GEN-LAST:event_jlDeleteMouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        Db db = new Db();
+
+        String Integrante = JOptionPane.showInputDialog(this, "Ingrese el nombre del estudiante", "Nuevo estudiante", JOptionPane.INFORMATION_MESSAGE);
+        if (!Integrante.isEmpty()) {
+            Projects g = getNumMembers(Integer.parseInt(lbl.getText()));
+            if (g.CountInte <= 5) {
+                if (!db.IntegranteExiste(Integrante)) {
+                    Projects p = new Projects();
+                    p.nuevoIntegrante(Integrante, Integer.parseInt(lbl.getText()));
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "El integrante ya existe");
+                }
+            } else {
+
+                JOptionPane.showMessageDialog(this, "No puede haber más de 6 integrantes en un mismo proyecto.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "El campo está vacío.");
+        }
+
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jlAgregarImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlAgregarImagenMouseClicked
+        JFileChooser fc = new JFileChooser();
+        FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+        fc.addChoosableFileFilter(imageFilter);
+        fc.setAcceptAllFileFilterUsed(false);
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                File file = fc.getSelectedFile();
+                if (Validation.VerificadorImagen.verifyFile(file)) {
+                    FileInputStream fis = new FileInputStream(file);
+                    BufferedImage imgOriginal = ImageIO.read(fis);
+                    if (Validation.VerificadorImagen.verifyIMG(imgOriginal)) {
+                        BufferedImage img = new BufferedImage(imgOriginal.getWidth(),
+                                imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
+                        if (Projects.agregarRecursoIMG(file.getName(), Img.getWidth(), Img.getHeight(), 10, img, Integer.parseInt(lbl.getText()))) {
+
+                            JOptionPane.showMessageDialog(this, "Foto agregada con éxito.", "Agregar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Error al actualizar la foto de perfil.", "Actualizar foto de perfil", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+
+    }//GEN-LAST:event_jlAgregarImagenMouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        Db db = new Db();
+        Projects p = new Projects();
+        Projects t = getNumIMG(Integer.parseInt(lbl.getText()));
+        db.getIMGresources(Integer.parseInt(lbl.getText()));
+        if (t.CountIMGresources != 0) {
+            if (contador + 1 < t.CountIMGresources) {
+                if (contador + 1 == t.CountIMGresources) {
+                    contador = 0;
+                }
+                contador++;
+                System.out.println("Aqui " + contador);
+                jLabel14.enable();
+                Img.setIcon(new ImageIcon(db.RecImagenes.get(contador)));
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay imágenes disponibles en este proyecto.");
+        }
+
+
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
+        if (jLabel14.isEnabled()) {
+            Db db = new Db();
+        Projects p = new Projects();
+        Projects t = getNumIMG(Integer.parseInt(lbl.getText()));
+        db.getIMGresources(Integer.parseInt(lbl.getText()));
+        if (t.CountIMGresources != 0) {
+            if (contador  < t.CountIMGresources) {
+                if (contador == 1) {
+                    contador = t.CountIMGresources;
+                }
+                contador--;
+                System.out.println("Aqui " + contador);
+                if (contador > 0) {
+                     Img.setIcon(new ImageIcon(db.RecImagenes.get(contador)));
+                }
+               
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay imágenes disponibles en este proyecto.");
+        }
+        }
+        
+
+    }//GEN-LAST:event_jLabel14MouseClicked
+
+    private void cbxNivelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNivelItemStateChanged
+        Db db = new Db();
+        db.obtenerEspecialidad();
+        cbxSeccionNivel.removeAllItems();
+        cbxSeccionNivel.addItem("Seleccione una sección");
+        try {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                if (cbxNivel.getSelectedIndex() > 0) {
+                    if (cbxNivel.getSelectedItem().equals(String.valueOf("Primer año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
+                        cbxEspecialidad.enable();
+                        cbxEspecialidad.removeAllItems();
+                        cbxSeccionNivel.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            cbxEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        cbxEspecialidad.removeItem(String.valueOf("Basica"));
+                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                        cbxSeccionNivel.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                        }
+                    } else {
+                        cbxEspecialidad.removeAllItems();
+                        cbxSeccionNivel.removeAllItems();
+                        for (int i = 0; i < db.SNespecialidad.size(); i++) {
+                            cbxEspecialidad.addItem(db.SNespecialidad.get(i));
+                        }
+                        cbxEspecialidad.setSelectedItem("Basica");
+
+                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                        cbxSeccionNivel.enable();
+                        for (int i = 0; i < db.SNseccion.size(); i++) {
+                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                        }
+                    }
+
+                } else {
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }//GEN-LAST:event_cbxNivelItemStateChanged
+
+    private void cbxNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNivelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxNivelActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Circle1;
+    private javax.swing.JLabel Circle2;
+    private javax.swing.JLabel Circle3;
+    private javax.swing.JLabel Creatividad;
+    private javax.swing.JLabel Exposicion;
     public javax.swing.JLabel Img;
-    private javax.swing.JComboBox<String> combo;
+    private javax.swing.JLabel Innovacion;
+    private javax.swing.JLabel NumCreatividad;
+    private javax.swing.JSeparator Separator2;
+    private javax.swing.JComboBox<String> cbxEspecialidad;
+    private javax.swing.JComboBox<String> cbxNivel;
+    private javax.swing.JComboBox<String> cbxSeccionNivel;
+    private javax.swing.JLabel dot1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -607,32 +903,36 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JScrollPane jcpEdit;
     private javax.swing.JScrollPane jcpNormal;
+    private javax.swing.JLabel jlAgregarImagen;
+    public javax.swing.JLabel jlDelete;
     private javax.swing.JLabel jlEdit1;
+    private javax.swing.JLabel jlMapa;
+    private javax.swing.JLabel jlPoint;
+    public javax.swing.JScrollPane jsImagenes;
     public javax.swing.JLabel lbl;
     private javax.swing.JLabel lblFotoPerfil;
-    public static javax.swing.JPanel pnlContInte;
+    public javax.swing.JPanel pnlImagenes;
     private javax.swing.JPanel pnlImg;
+    private javax.swing.JPanel pnlInfoNivel;
     private javax.swing.JPanel pnlPrincipal;
-    public static javax.swing.JPanel pnlPrueba;
+    private javax.swing.JPanel pnlUbicacion;
     private javax.swing.JPanel pnlView;
+    public javax.swing.JPanel pnlViewIntegrantes;
+    private javax.swing.JPanel pnlVotos;
+    private javax.swing.JLabel stars;
     public javax.swing.JTextArea txtDesc;
     public javax.swing.JLabel txtDescView;
     public javax.swing.JLabel txtEspecialidad;
     public javax.swing.JLabel txtNivel;
     public javax.swing.JLabel txtNombre;
+    private javax.swing.JLabel txtNumVotos;
+    private javax.swing.JLabel txtPromVoto;
     public javax.swing.JLabel txtSeccion;
     public javax.swing.JLabel txtUbiView;
     public javax.swing.JTextField txtnombre;
