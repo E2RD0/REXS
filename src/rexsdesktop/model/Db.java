@@ -63,23 +63,24 @@ public class Db {
      * agregar.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, int idUbicacion) {
+    public boolean agregarActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, String encargado, int idUbicacion) {
         boolean bandera = false;
         try {
-            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, edicion, idUbicacion) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO actividad (nombre, descripcion, fechaInicio, fechaFin, edicion, encargado, idUbicacion) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setString(1, nombre);
             stm.setString(2, descripcion);
             stm.setString(3, fechaInicio);
             stm.setString(4, fechaFin);
             stm.setString(5, edicion);
-            stm.setInt(6, idUbicacion);
+            stm.setString(6, encargado);
+            stm.setInt(7, idUbicacion);
 
             if (stm.executeUpdate() > 0) {
                 bandera = true;
             }
-        } catch (Exception e) {
-            System.out.println("ERROR" + e);
+        } catch (SQLException e) {
+            System.out.println("ERROR al agregar" + e);
         }
         return bandera;
     }
@@ -145,17 +146,18 @@ public class Db {
      * @param id identificador de la actividad a eliminar.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    public boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
+    public boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, String encargado, int idUbicacion, int id) {
         boolean bandera = false;
         try {
-            String sql = "UPDATE actividad set nombre = (?), descripcion = (?), fechaInicio = (?), fechaFin = (?), idUbicacion = (?) where idActividad = (?)";
+            String sql = "UPDATE actividad set nombre = (?), descripcion = (?), fechaInicio = (?), fechaFin = (?),encargado = (?), idUbicacion = (?) where idActividad = (?)";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setString(1, nombre);
             stm.setString(2, descripcion);
             stm.setString(3, fechaInicio);
             stm.setString(4, fechaFin);
-            stm.setInt(5, idUbicacion);
-            stm.setInt(6, id);
+            stm.setString(5, encargado);
+            stm.setInt(6, idUbicacion);
+            stm.setInt(7, id);
 
             if (stm.executeUpdate() > 0) {
                 bandera = true;
@@ -310,6 +312,21 @@ public class Db {
     public String getDescripcionActividad(int id) {
         try {
             String sql = "select descripcion from actividad where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return "";
+    }
+    
+    public String getEncargadoActividad(int id) {
+        try {
+            String sql = "select encargado from actividad where idActividad = (?)";
             PreparedStatement stm = cn.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -1592,7 +1609,7 @@ public class Db {
     private ArrayList<String> Especialidad_Seccion;
     private ArrayList<String> Ubicacion_Seccion;
 
-   public ResultSet NumSeccion(int idNiv) {
+    public ResultSet NumSeccion(int idNiv) {
         boolean respuesta = false;
         try {
             String sql = "select COUNT(idSeccionNivel) from seccionNivel where idNivel = ?";
@@ -1610,7 +1627,7 @@ public class Db {
 
     }
 
-   public void MostrarSeccion(int idNiv) {
+    public void MostrarSeccion(int idNiv) {
         try {
 
             String sql = "select idSeccionNivel, seccion, nivel, especialidad, ubicacion from seccionNivel,nivel, especialidad, ubicacion "
@@ -1846,7 +1863,6 @@ public class Db {
     }
 
     //Filtrar
-
     /**
      * @return the CantidadProyecto
      */

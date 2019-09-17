@@ -185,6 +185,7 @@ public class Activities {
 
                     String nombreAc;
                     String descripcion;
+                    String encargado;
                     Date fechaIni;
                     String ubi = "";
                     String horaInicio, horaFin;
@@ -198,6 +199,7 @@ public class Activities {
                     int id = (db.getIdActividad(nombre2));
                     nombreAc = nombre2;
                     descripcion = db.getDescripcionActividad(id);
+                    encargado = db.getEncargadoActividad(id);
                     fechaIni = db.getFechaInicioActividad(id);
                     horaInicio = db.getHoraInicio(id);
                     horaFin = db.getHoraFinString(id);
@@ -206,6 +208,7 @@ public class Activities {
 
                     //Luego de consulta
                     ModalModificarActividad.txtNombreActividadModal.setText(nombreAc);
+                    ModalModificarActividad.txtNombreEncargadoModal.setText(encargado);
                     ModalModificarActividad.txtDescripcionModal.setText(descripcion);
                     ModalModificarActividad.dateFechaInicio.setDate(fechaIni);
                     ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubi);
@@ -296,10 +299,11 @@ public class Activities {
      * @param idUbicacion ubicación de la actividad.
      * @return retorna un valor booleano para ser utilizado en la capa modelo.
      */
-    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, int idUbicacion) {
+    public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, String encargado, int idUbicacion
+        ) {
         Db db = new Db();
         try {
-            if (db.agregarActividad(nombre, descripcion, fechaInicio, edicion, fechaFin, idUbicacion)) {
+            if (db.agregarActividad(nombre, descripcion, fechaInicio, edicion, fechaFin, encargado,  idUbicacion)) {
                 return true;
             }
         } catch (Exception e) {
@@ -308,10 +312,10 @@ public class Activities {
         return false;
     }
 
-    public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, int idUbicacion, int id) {
+    public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin,String encargado, int idUbicacion, int id) {
         Db db = new Db();
         try {
-            if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin, idUbicacion, id)) {
+            if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin,encargado, idUbicacion, id)) {
                 return true;
             }
         } catch (Exception e) {
@@ -387,7 +391,7 @@ public class Activities {
         }
         return "Vacio";
     }
-    
+
     public static String getMinDiaInicio() {
         Db db = new Db();
         try {
@@ -398,7 +402,7 @@ public class Activities {
         }
         return "Vacio";
     }
-    
+
     public static String getMaxMesInicio() {
         Db db = new Db();
         try {
@@ -409,7 +413,7 @@ public class Activities {
         }
         return "Vacio";
     }
-    
+
     public static String getMaxDiaInicio() {
         Db db = new Db();
         try {

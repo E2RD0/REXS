@@ -94,9 +94,12 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnCancelarModal = new javax.swing.JButton();
+        txtNombreEncargadoModal = new javax.swing.JTextField();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(345, 325));
+        setMaximumSize(new java.awt.Dimension(345, 400));
         setMinimumSize(new java.awt.Dimension(345, 325));
         setPreferredSize(new java.awt.Dimension(345, 325));
 
@@ -161,6 +164,20 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
             }
         });
 
+        txtNombreEncargadoModal.setBackground(new java.awt.Color(249, 250, 255));
+        txtNombreEncargadoModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtNombreEncargadoModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtNombreEncargadoModal.setToolTipText("Nombre de la actividad");
+        txtNombreEncargadoModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+
+        jLabel68.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel68.setText("ENCARGADO");
+
+        jLabel69.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel69.setText("DESCRIPCIÓN");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,33 +192,42 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                             .addComponent(jLabel67)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel68)
+                                            .addComponent(txtNombreEncargadoModal)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel69)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(28, 28, 28)
                 .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addComponent(jLabel67)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreActividadModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,19 +239,25 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                         .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel68)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNombreEncargadoModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 /**
@@ -247,7 +279,6 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         SimpleDateFormat formato = new SimpleDateFormat("HH:mm:ss");
         String prueba = formato.format(modelInicio.getDate());
         String prueba2 = formato.format(modelFin.getDate());
-        System.out.println(prueba);
         String max = "20:00:00";
         String min = "08:00:00";
         try {
@@ -263,7 +294,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                 d3 = sdf.parse(max);
                 d4 = sdf.parse(min);
 
-                if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("")) {
+                if (txtDescripcionModal.getText().trim().equals("") || txtNombreActividadModal.getText().trim().equals("") || txtNombreEncargadoModal.getText().trim().equals("")) {
                     JOptionPane.showMessageDialog(null, "Exisen campos vacíos", "Atención", JOptionPane.INFORMATION_MESSAGE);
                 } else if (modelFin.getDate().toString().equals(modelInicio.getDate().toString())) {
                     JOptionPane.showMessageDialog(null, "Las horas no deben ser iguales", "Atención", JOptionPane.INFORMATION_MESSAGE);
@@ -281,6 +312,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser luego de la de finalización", "Atención", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     String nombre = txtNombreActividadModal.getText();
+                    String encargado = txtNombreEncargadoModal.getText();
                     String descripcion = txtDescripcionModal.getText();
                     SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
@@ -290,7 +322,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                     String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
                     int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
 
-                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, idUbicacion)) {
+                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, encargado, idUbicacion)) {
                         JOptionPane.showMessageDialog(null, "Actividad ingresada");
                         resetarCampos();
                         Activities acti = new Activities();
@@ -330,12 +362,15 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner spHoraFin;
     private javax.swing.JSpinner spHoraInicio;
     private javax.swing.JTextArea txtDescripcionModal;
     private javax.swing.JTextField txtNombreActividadModal;
+    private javax.swing.JTextField txtNombreEncargadoModal;
     // End of variables declaration//GEN-END:variables
 
     private Map<String, Location> createMap() {

@@ -112,7 +112,7 @@ public class Admin extends javax.swing.JFrame {
         initComponents();
         /*Form Stuff*/
         lblNombreUsuario.setText(CurrentUser.nombreCompleto);
-        setIconImage(new ImageIcon(getClass().getResource("resources/Icono REXS.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("resources/IconoREXS.png")).getImage());
         this.setTitle("REXS");
         //Permisos de usuarios
         if (CurrentUser.idTipoUsuario == 1) {
@@ -1402,7 +1402,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(70, 70, 70)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblNombreUsuario)
+                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -2290,7 +2290,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel115Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel116, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel127, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel115Layout.setVerticalGroup(
             jPanel115Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5820,7 +5820,17 @@ public class Admin extends javax.swing.JFrame {
         // default size
         chartPanel.setPreferredSize(new java.awt.Dimension(375, 217));
         chartPanel.setVisible(true);
+        
+        Color co = null;
+        
+        if (color == 1) {
+            co = darkfondo;
+        }else if(color == 0){
+            co = Color.WHITE;
+        }
+        chartPanel.setBackground(co);
         chartPanel.repaint();
+        
         pnlChartIniciosSesion.setLayout(new java.awt.BorderLayout());
         pnlChartIniciosSesion.add(chartPanel, BorderLayout.CENTER);
         pnlChartIniciosSesion.validate();
@@ -5868,7 +5878,7 @@ public class Admin extends javax.swing.JFrame {
         Color co = null;
         if (color == 1) {
             co = darkfondo;
-        }else{
+        }else if(color == 0){
             co = Color.WHITE;
         }
         
