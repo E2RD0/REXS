@@ -2205,6 +2205,30 @@ public class Db {
         }
         return 0;
     }
+    public int countUsuarios(int idTipoUsuario) {
+        try {
+            String query = "SELECT COUNT(idUsuario) from usuario where idTipoUsuario = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idTipoUsuario);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return 0;
+    }
+    
+    public ResultSet tiposUsuario(){
+        try {
+            String query = "SELECT idTipoUsuario, tipo from tipoUsuario";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            return cmd.executeQuery();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return null;
+    }
 
     /**
      * @return the NivelSeleccionado

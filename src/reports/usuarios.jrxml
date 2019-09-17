@@ -2,10 +2,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarios" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="708307bf-1a42-4c75-a0bd-5de06d66505a">
 	<property name="ireport.zoom" value="1.4641000000000013"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="605"/>
+	<property name="ireport.y" value="615"/>
 	<parameter name="NombreUsuario" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT u.idUsuario,u.idTipoUsuario, tipo, nombreCompleto, fechaRegistro, email, estado FROM usuario u INNER JOIN estadoUsuario e ON u.idEstadoUsuario = e.idEstadoUsuario INNER JOIN tipoUsuario t ON u.idTipoUsuario = t.idTipoUsuario ORDER BY t.idTipoUsuario]]>
+		<![CDATA[SELECT u.idUsuario,u.idTipoUsuario, tipo, nombreCompleto, fechaRegistro, email, estado FROM usuario u INNER JOIN estadoUsuario e ON u.idEstadoUsuario = e.idEstadoUsuario INNER JOIN tipoUsuario t ON u.idTipoUsuario = t.idTipoUsuario ORDER BY t.idTipoUsuario;]]>
 	</queryString>
 	<field name="idUsuario" class="java.lang.Integer"/>
 	<field name="idTipoUsuario" class="java.lang.Integer"/>
@@ -14,6 +14,9 @@
 	<field name="fechaRegistro" class="java.sql.Timestamp"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="estado" class="java.lang.String"/>
+	<variable name="idTipoUsuario_1" class="java.lang.Integer" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{idTipoUsuario}]]></variableExpression>
+	</variable>
 	<group name="tipo">
 		<groupExpression><![CDATA[$F{idTipoUsuario}]]></groupExpression>
 		<groupHeader>
@@ -72,7 +75,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="97" splitType="Stretch">
+		<band height="157" splitType="Stretch">
 			<staticText>
 				<reportElement x="21" y="71" width="177" height="26" forecolor="#2E5BFF" backcolor="#FFFFFF" uuid="8b848453-4c00-4eb0-99bc-279f2b9da4f5"/>
 				<textElement>
@@ -82,41 +85,39 @@
 			</staticText>
 			<image>
 				<reportElement x="21" y="17" width="71" height="20" uuid="65b637af-899b-4cb7-b131-8d4de866a429"/>
-				<imageExpression><![CDATA["C:\\Users\\Eduardo\\Dropbox\\EDUCATION\\Colegio\\Ricaldone2019\\Tecnicas\\Expo\\Media\\logo\\Asset 2.png"]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="99" splitType="Stretch">
-			<staticText>
-				<reportElement x="21" y="7" width="77" height="20" forecolor="#2E384D" uuid="3d347845-80e0-4adb-84c3-c1ea21cb4562"/>
-				<textElement>
-					<font fontName="Rubik"/>
-				</textElement>
-				<text><![CDATA[Generado por:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="98" y="7" width="100" height="20" forecolor="#8798AD" uuid="1ccf4ee6-d9a1-446b-af4e-5aa3137e1a67"/>
-				<textElement>
-					<font fontName="Rubik"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{NombreUsuario}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="21" y="31" width="38" height="20" forecolor="#2E384D" uuid="645405dd-f190-4a22-9fac-6b0c76fc0b78"/>
-				<textElement>
-					<font fontName="Rubik"/>
-				</textElement>
-				<text><![CDATA[Fecha:]]></text>
-			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="70" y="31" width="100" height="20" forecolor="#8798AD" uuid="8e17b820-0fda-4d48-aca0-c2f82b18236b"/>
+				<reportElement x="71" y="133" width="100" height="20" forecolor="#8798AD" uuid="c045ecd8-3cdc-4409-9043-3e3b7e159a3c"/>
 				<textElement>
 					<font fontName="Rubik"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="22" y="109" width="77" height="20" forecolor="#2E384D" uuid="6171e943-537c-4293-b057-48d78a59905a"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Generado por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="133" width="38" height="20" forecolor="#2E384D" uuid="a82e8cb3-a5cb-4f16-a6a9-77e96ac2e86e"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="109" width="100" height="20" forecolor="#8798AD" uuid="ec0ef492-2912-4958-a0da-1962072fcc73"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreUsuario}]]></textFieldExpression>
+			</textField>
 		</band>
+	</title>
+	<pageHeader>
+		<band height="31" splitType="Stretch"/>
 	</pageHeader>
 	<detail>
 		<band height="29" splitType="Stretch">

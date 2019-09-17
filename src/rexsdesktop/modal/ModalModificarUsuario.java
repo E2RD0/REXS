@@ -260,9 +260,9 @@ public class ModalModificarUsuario extends javax.swing.JPanel {
             } else {
                 Conexion.setNombreCompleto(txtNombreUsuarioModal.getText());
                 Conexion.setEmail(txtEmailUsuarioModal.getText());
-                Conexion.setClave(txtClaveUsuarioModal.getText());
-                Conexion.setIdTipoUsuario(cbxTipoUsuarioModal.getSelectedIndex());
-                Conexion.setIdEstadoUsuario(cbxEstadoUsuarioModal.getSelectedIndex());
+                Conexion.setClave(String.valueOf(txtClaveUsuarioModal.getPassword()));
+                Conexion.setIdTipoUsuario(User.getIdTipoUsuario((String)cbxTipoUsuarioModal.getSelectedItem()));
+                Conexion.setIdEstadoUsuario(User.getIdEstadoUsuario((String)cbxEstadoUsuarioModal.getSelectedItem()));
                 Conexion.setIdUsuario(Integer.parseInt(jLabel70.getText()));
                 String nombre = txtNombreUsuarioModal.getText();
                 String correo = txtEmailUsuarioModal.getText();

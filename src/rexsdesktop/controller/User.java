@@ -270,8 +270,8 @@ public class User {
             stm.setString(1, getNombreCompleto());
             stm.setString(2, getEmail());
             stm.setString(3, Encriptado);
-            stm.setInt(4, getIdTipoUsuario() + 1);
-            stm.setInt(5, getIdEstadoUsuario() + 1);
+            stm.setInt(4, getIdTipoUsuario());
+            stm.setInt(5, getIdEstadoUsuario());
 
             if (!stm.execute()) {
                 respuesta = true;
@@ -293,8 +293,8 @@ public class User {
             stm.setString(1, nombreCompleto);
             stm.setString(2, email);
             stm.setString(3, Encriptado);
-            stm.setInt(4, idTipoUsuario + 1);
-            stm.setInt(5, idEstadoUsuario + 1);
+            stm.setInt(4, idTipoUsuario );
+            stm.setInt(5, idEstadoUsuario);
             stm.setInt(6, getIdUsuario());
 
             if (!stm.execute()) {

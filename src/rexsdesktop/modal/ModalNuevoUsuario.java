@@ -11,6 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.view.Admin;
@@ -29,6 +30,9 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
         initComponents();
         User Conexion = new User();
         cbxTipoUsuarioModal.setModel(Conexion.obtenerTipoUsuario());
+        if (CurrentUser.idTipoUsuario != User.getIdTipoUsuario("Superadministrador")) {
+            cbxTipoUsuarioModal.removeItem("Superadministrador");
+        }
         cbxEstadoUsuarioModal.setModel(Conexion.obtenerEstadoUsuario());
     }
 
@@ -245,7 +249,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
@@ -259,8 +263,8 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
                 Conexion.setNombreCompleto(txtNombreUsuarioModal.getText());
                 Conexion.setEmail(txtEmailUsuarioModal.getText());
                 Conexion.setClave(txtClaveUsuarioModal.getText());
-                Conexion.setIdTipoUsuario(cbxTipoUsuarioModal.getSelectedIndex());
-                Conexion.setIdEstadoUsuario(cbxEstadoUsuarioModal.getSelectedIndex());
+                Conexion.setIdTipoUsuario(User.getIdTipoUsuario((String)cbxTipoUsuarioModal.getSelectedItem()));
+                Conexion.setIdEstadoUsuario(User.getIdEstadoUsuario((String)cbxEstadoUsuarioModal.getSelectedItem()));
 
                 String nombre = txtNombreUsuarioModal.getText();
                 String correo = txtEmailUsuarioModal.getText();

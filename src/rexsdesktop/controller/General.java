@@ -16,12 +16,15 @@ import java.math.RoundingMode;
 import java.security.Key;
 import rexsdesktop.model.Db;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.crypto.Cipher;
@@ -376,6 +379,21 @@ public class General {
             System.out.println(hora);
         }
         return result;
+    }
+    public static CategoryDataset createDatasetChartTiposUsuario() {
+        Db db = new Db();
+        ResultSet rs = db.tiposUsuario();
+       DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        try {
+            while(rs.next()){
+                int idTipo = rs.getInt(1);
+                String tipo = rs.getString(2);
+                dataset.addValue(db.countUsuarios(idTipo), tipo, "");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error createDatasetChartTiposUsuarios(): " + ex.getMessage());
+        }
+        return dataset;
     }
 
     public static int countUsuarios() {

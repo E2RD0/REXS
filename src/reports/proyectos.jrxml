@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarios" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="708307bf-1a42-4c75-a0bd-5de06d66505a">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NombreUsuario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT ipo.idProyecto, nombre, ipo.nombreIntegrante, descripcion, p.idSeccionNivel, nivel, seccion, especialidad, sn.idEspecialidad FROM integranteProyecto ipo INNER JOIN proyecto p ON ipo.idProyecto=p.idProyecto INNER JOIN seccionNivel sn ON p.idSeccionNivel = sn.idSeccionNivel INNER JOIN nivel n ON n.idNivel = sn.idNivel INNER JOIN especialidad e ON sn.idEspecialidad = e.idEspecialidad ORDER BY sn.idEspecialidad]]>
+	</queryString>
+	<field name="idProyecto" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="nombreIntegrante" class="java.lang.String"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="idSeccionNivel" class="java.lang.Integer"/>
+	<field name="nivel" class="java.lang.String"/>
+	<field name="seccion" class="java.lang.String"/>
+	<field name="especialidad" class="java.lang.String"/>
+	<field name="idEspecialidad" class="java.lang.Integer"/>
+	<group name="especialidad">
+		<groupExpression><![CDATA[$F{idEspecialidad}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<textField>
+					<reportElement x="89" y="6" width="165" height="20" uuid="ad2ba241-29c6-49be-bae5-8f96f24c8788"/>
+					<textElement>
+						<font fontName="Rubik Medium"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{especialidad}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="21" y="6" width="61" height="20" uuid="b4b0298e-6af9-4a8d-8901-d0364fd982f0"/>
+					<textElement>
+						<font fontName="Rubik"/>
+					</textElement>
+					<text><![CDATA[Especialidad:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="22" y="27" width="545" height="1" forecolor="#2E5BFF" uuid="0c4afb16-c533-45de-b85b-1af8ca621212"/>
+					<graphicElement>
+						<pen lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="12"/>
+		</groupFooter>
+	</group>
+	<group name="seccionNivel">
+		<groupExpression><![CDATA[$F{idSeccionNivel}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<textField>
+					<reportElement x="105" y="1" width="41" height="20" uuid="4b8e4f10-64bb-4f5f-8b6d-eec5c69ff709"/>
+					<textElement>
+						<font fontName="Rubik Medium"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="150" y="1" width="25" height="20" uuid="47d4d27d-902f-4550-8591-0b5d9bbe914b"/>
+					<textElement>
+						<font fontName="Rubik Medium"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="21" y="1" width="78" height="20" uuid="72bcf054-4f16-43d3-8d23-de946c4b5d42"/>
+					<textElement>
+						<font fontName="Rubik"/>
+					</textElement>
+					<text><![CDATA[Grado y sección:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20"/>
+		</groupFooter>
+	</group>
+	<group name="proyecto">
+		<groupExpression><![CDATA[$F{idProyecto}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement mode="Opaque" x="21" y="0" width="78" height="30" forecolor="#FFFFFF" backcolor="#2E5BFF" uuid="c1219f6d-d065-435c-8dac-2bd63101edb0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Rubik Medium" size="11"/>
+						<paragraph leftIndent="16"/>
+					</textElement>
+					<text><![CDATA[Proyecto:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="21" y="30" width="545" height="20" forecolor="#2E5BFF" backcolor="#D5DEFF" uuid="c3d97500-693f-4778-8113-b3a26bfaf04d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium"/>
+						<paragraph leftIndent="16"/>
+					</textElement>
+					<text><![CDATA[Integrantes:]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="98" y="0" width="468" height="30" forecolor="#FFFFFF" backcolor="#2E5BFF" uuid="5b70f6bc-0e15-454b-847c-966b1b6caf15"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Rubik Medium" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="30"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="157" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="71" width="177" height="26" forecolor="#2E5BFF" backcolor="#FFFFFF" uuid="8b848453-4c00-4eb0-99bc-279f2b9da4f5"/>
+				<textElement>
+					<font fontName="Rubik Light" size="18"/>
+				</textElement>
+				<text><![CDATA[Reporte de proyectos]]></text>
+			</staticText>
+			<image>
+				<reportElement x="21" y="17" width="71" height="20" uuid="65b637af-899b-4cb7-b131-8d4de866a429"/>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="71" y="133" width="100" height="20" forecolor="#8798AD" uuid="c045ecd8-3cdc-4409-9043-3e3b7e159a3c"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="109" width="77" height="20" forecolor="#2E384D" uuid="6171e943-537c-4293-b057-48d78a59905a"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Generado por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="133" width="38" height="20" forecolor="#2E384D" uuid="a82e8cb3-a5cb-4f16-a6a9-77e96ac2e86e"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="109" width="100" height="20" forecolor="#8798AD" uuid="ec0ef492-2912-4958-a0da-1962072fcc73"/>
+				<textElement>
+					<font fontName="Rubik"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NombreUsuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="38" y="4" width="510" height="20" uuid="4700e7d5-ad76-4378-9208-e70dddc0bfb9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Rubik Light"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreIntegrante}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="21" y="28" width="545" height="1" forecolor="#8798AD" uuid="0238ab07-34a5-451c-b01b-8ac9f2cad9c6"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="21" y="1" width="1" height="27" forecolor="#8798AD" uuid="08aeb17d-97c2-425c-9a8e-35c8af301aaa"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="565" y="1" width="1" height="27" forecolor="#8798AD" uuid="ff71efe5-d75c-44ba-bc54-e12256fc3fcf"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="535" y="14" width="31" height="20" forecolor="#2E384D" uuid="4ce49c6d-4b3a-496f-905a-4be8a146f6c3"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="14" width="119" height="20" forecolor="#8798AD" backcolor="#FFFFFF" uuid="ed16664e-6455-40b7-b637-e00cdee0f5f1"/>
+				<textElement>
+					<font fontName="Rubik Light" size="11"/>
+				</textElement>
+				<text><![CDATA[Reporte de proyectos]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="315" splitType="Stretch">
+			<elementGroup/>
+		</band>
+	</summary>
+</jasperReport>
