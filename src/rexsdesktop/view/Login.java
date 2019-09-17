@@ -49,6 +49,12 @@ public class Login extends javax.swing.JFrame {
         btnCardInicioSesion1.setContentAreaFilled(false);
         btnSignGoogle1.setContentAreaFilled(false);
         btnSignFacebook1.setContentAreaFilled(false);
+        
+//        btnSignFacebook.setVisible(false);
+//        btnSignFacebook1.setVisible(false);
+//        btnSignGoogle1.setVisible(false);
+//        btnSignGoogle.setVisible(false);
+        
     }
 
     /**

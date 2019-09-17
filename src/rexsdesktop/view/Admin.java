@@ -129,7 +129,7 @@ public class Admin extends javax.swing.JFrame {
             jPanel143.setVisible(true);
             jLabel81.setVisible(true);
             jPanel2.setPreferredSize(new Dimension(944, 1450));
-            
+
         } else {
             btnAjustesActividades.setVisible(false);
             btnEliminarActividades.setVisible(false);
@@ -140,25 +140,6 @@ public class Admin extends javax.swing.JFrame {
             jLabel81.setVisible(false);
             jPanel2.setPreferredSize(new Dimension(944, 1000));
         }
-
-        /*Projects*/
-        cargarProyectos();
-
-        /*User*/
-        User cargar = new User();
-        cargar.CrearPanelesUsuarios(jPanel1);
-        cargar.getCantidadUsuarios();
-        cantidadesUsuarios();
-        /*Especialidad*/
-        Sections CargarEspecialidad = new Sections();
-        CargarEspecialidad.CrearPanelesEspecialidades(jPanel18);
-        /*Nivel*/
-        Sections CargarNivel = new Sections();
-        CargarNivel.CrearPanelesNivel(jPanel17);
-        /*ComboBox*/
-        User Conexion = new User();
-        jCTipoUsuario.setModel(Conexion.obtenerTipoUsuario());
-        jCEstadoUsuario.setModel(Conexion.obtenerEstadoUsuario());
 
         /*Menu*/
         btnMenu.setContentAreaFilled(false);
@@ -189,17 +170,12 @@ public class Admin extends javax.swing.JFrame {
         jpnlDia5.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jpnlDia5.getVerticalScrollBar().setUnitIncrement(10);
         /*END Scrollbar movement*/
- /*Datos de usuario en ajustes*/
         loadDashboard();
-        loadAnaliticas();
-        loadAjustes();
-        /*Datos de usuario en ajustes*/
- /*Activities*/
-//        cargarActividades();
     }
 
     private void cantidadesUsuarios() {
         User cargar = new User();
+        cargar.getCantidadUsuarios();
         jLUsuarioTotal.setText(String.valueOf((cargar.getCantidadUsuarios())));
         jLUsuarioActivos.setText(String.valueOf((cargar.getCantidadUsuariosActivos())));
     }
@@ -4563,6 +4539,7 @@ public class Admin extends javax.swing.JFrame {
     }
 
     public void cargarProyectos() {
+        Admin.cdProyectos.removeAll();
         try {
             Db db = new Db();
 
@@ -4580,7 +4557,7 @@ public class Admin extends javax.swing.JFrame {
                 Projects cargarPaneles = new Projects();
                 cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
             } catch (Exception e) {
-                System.out.println("hi "+ e.getMessage());
+                System.out.println("hi " + e.getMessage());
             }
 
             jsProyectos.setBorder(null);
@@ -4635,11 +4612,18 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseClicked
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        loadDashboard();
+
         makeActiveMenuItem(btnInicio, pnlActiveInicio, lblDashboard, "Dashboard");
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnInicioMouseClicked
 
     private void btnAnaliticasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAnaliticasMouseClicked
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        loadAnaliticas();
         makeActiveMenuItem(btnAnaliticas, pnlActiveAnaliticas, lblAnaliticas, "Analiticas");
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnAnaliticasMouseClicked
 
     private void btnAnaliticasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAnaliticasMouseEntered
@@ -4686,7 +4670,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarModalActionPerformed
 
     private void btnUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseClicked
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        loadUsuarios();
         makeActiveMenuItem(btnUsuarios, pnlActiveUsuarios, lblUsuarios, "Usuarios");
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnUsuariosMouseClicked
 
     private void btnUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseEntered
@@ -4704,7 +4691,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsuariosMouseExited
 
     private void btnProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProyectosMouseClicked
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        cargarProyectos();
         makeActiveMenuItem(btnProyectos, pnlActiveProyectos, lblProyectos, "Proyectos");
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnProyectosMouseClicked
 
     private void btnProyectosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProyectosMouseEntered
@@ -4722,8 +4712,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProyectosMouseExited
 
     private void btnUbicacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbicacionesMouseClicked
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        cargarPnlUbicaciones();
         makeActiveMenuItem(btnUbicaciones, pnlActiveUbicaciones, lblUbicaciones, "Ubicaciones");
-
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnUbicacionesMouseClicked
 
     private void btnUbicacionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbicacionesMouseEntered
@@ -4741,8 +4733,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUbicacionesMouseExited
 
     private void btnActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActividadesMouseClicked
-//        cargarActividades();
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        cargarActividades();
         makeActiveMenuItem(btnActividades, pnlActiveActividades, lblActividades, "Actividades");
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnActividadesMouseClicked
 
     private void btnActividadesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActividadesMouseEntered
@@ -4760,8 +4754,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActividadesMouseExited
 
     private void btnAjustesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAjustesMouseClicked
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         loadAjustes();
         makeActiveMenuItem(btnAjustes, pnlActiveAjustes, lblAjustes, "Ajustes");
+         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnAjustesMouseClicked
 
     private void btnAjustesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAjustesMouseEntered
@@ -5192,6 +5188,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActividadesActionPerformed
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
+        General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
         CurrentUser.clear();
         Login login = new Login();
         this.setVisible(false);
@@ -5472,9 +5469,10 @@ public class Admin extends javax.swing.JFrame {
 
         //Proyectos
         pnlProyectos.setBackground(fondo);
+        pnlViewProyectos.setBackground(fondo);
         cdProyectos.setBackground(panel);
-        //jPanel31.setBackground(fondo);
 
+        //jPanel31.setBackground(fondo);
         jLabel214.setForeground(Blue);
         jLabel230.setForeground(new Color(135, 152, 173));
         jLabel215.setForeground(normal);
@@ -6038,6 +6036,15 @@ public class Admin extends javax.swing.JFrame {
         repaint();
     }
 
+    private void loadUsuarios() {
+        Admin.jPanel1.removeAll();
+        cantidadesUsuarios();
+        User CargarUsuario = new User();
+        CargarUsuario.CrearPanelesUsuarios(jPanel1);
+        jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuario());
+        jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+    }
+
     private JFreeChart createChartInicioSesion() {
 
         CategoryDataset dataset = General.createDatasetChartInicioSesion();
@@ -6080,6 +6087,15 @@ public class Admin extends javax.swing.JFrame {
         plot.setBackgroundPaint(Color.WHITE);
         ((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
         return barChart;
+    }
+
+    private void cargarPnlUbicaciones() {
+        Admin.jPanel18.removeAll();
+        Admin.jPanel17.removeAll();
+        Sections CargarEspecialidad = new Sections();
+        CargarEspecialidad.CrearPanelesEspecialidades(jPanel18);
+        Sections CargarNivel = new Sections();
+        CargarNivel.CrearPanelesNivel(jPanel17);
     }
 }
 

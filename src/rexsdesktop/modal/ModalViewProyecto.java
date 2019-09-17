@@ -602,9 +602,9 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
         try {
             jButton1.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            Db db = new Db();
+            
             if (cbxNivel.getSelectedIndex() > 0) {
-                if (!db.proyectoExiste(txtnombre.getText())) {
+         
                     Projects o = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
                     if (Projects.actualizarPro(txtnombre.getText(), txtDesc.getText(), o.getIdSeccionNivel, Integer.parseInt(lbl.getText()))) {
                         System.out.println("proyecto actualizado");
@@ -624,9 +624,6 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                     } else {
                         JOptionPane.showMessageDialog(this, "Error al actualizar el proyecto.");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Existe un proyecto con el mismo nombre, por favor colocar uno nuevo.");
-                }
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione el nivel al que desea agregar el proyecto");
             }
