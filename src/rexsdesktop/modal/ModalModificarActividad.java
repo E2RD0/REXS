@@ -90,9 +90,12 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         btnEliminarModal = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        txtNombreEncargadoModal = new javax.swing.JTextField();
+        jLabel68 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(345, 325));
+        setMaximumSize(new java.awt.Dimension(345, 450));
         setMinimumSize(new java.awt.Dimension(345, 325));
         setPreferredSize(new java.awt.Dimension(345, 325));
 
@@ -159,6 +162,20 @@ public class ModalModificarActividad extends javax.swing.JPanel {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Clock.png"))); // NOI18N
 
+        jLabel69.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel69.setText("DESCRIPCIÓN");
+
+        txtNombreEncargadoModal.setBackground(new java.awt.Color(249, 250, 255));
+        txtNombreEncargadoModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtNombreEncargadoModal.setForeground(new java.awt.Color(46, 56, 77));
+        txtNombreEncargadoModal.setToolTipText("Nombre de la actividad seleccionada.");
+        txtNombreEncargadoModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+
+        jLabel68.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(176, 186, 201));
+        jLabel68.setText("ENCARGADO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,19 +190,19 @@ public class ModalModificarActividad extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(20, 26, Short.MAX_VALUE)
                         .addComponent(jLabel67)
                         .addGap(163, 163, 163))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNombreActividadModal)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,8 +211,19 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, 0)
                                         .addComponent(spHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(txtNombreActividadModal))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel68)
+                                            .addComponent(txtNombreEncargadoModal, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel69)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
@@ -214,17 +242,23 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                             .addComponent(dateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(16, 16, 16)
-                        .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel68)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbxUbicacionModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombreEncargadoModal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel69)
+                .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEliminarModal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -279,6 +313,7 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "La hora de inicio no puede ser luego de la de finalización", "Atención", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     String nombre = txtNombreActividadModal.getText();
+                    String encargado = txtNombreEncargadoModal.getText();
                     String descripcion = txtDescripcionModal.getText();
                     SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat formatoHora = new SimpleDateFormat(" HH:mm:ss");
@@ -288,7 +323,7 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                     String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
                     int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
 
-                    if (Activities.actualizarActividad(nombre, descripcion, dInicio, dFin, idUbicacion, id)) {
+                    if (Activities.actualizarActividad(nombre, descripcion, dInicio, dFin, encargado, idUbicacion, id)) {
                         JOptionPane.showMessageDialog(null, "Actividad actualizada correctamente", "Actividades", JOptionPane.INFORMATION_MESSAGE);
                         resetarCampos();
                         Activities acti = new Activities();
@@ -346,6 +381,8 @@ public class ModalModificarActividad extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     public static javax.swing.JTextField lblPrueba;
@@ -353,6 +390,7 @@ public class ModalModificarActividad extends javax.swing.JPanel {
     public static javax.swing.JSpinner spHoraInicio;
     public static javax.swing.JTextArea txtDescripcionModal;
     public static javax.swing.JTextField txtNombreActividadModal;
+    public static javax.swing.JTextField txtNombreEncargadoModal;
     public static javax.swing.JTextField txtPrueba;
     // End of variables declaration//GEN-END:variables
 
