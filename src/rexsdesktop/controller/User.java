@@ -95,9 +95,22 @@ public class User {
         return res;
     }
 
-    public DefaultComboBoxModel obtenerTipoUsuario() {
+    public DefaultComboBoxModel obtenerTipoUsuarioSuperAdministrador() {
         DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
         ResultSet rst = this.consulta("select * from tipoUsuario order by idTipoUsuario");
+        try {
+            while (rst.next()) {
+                listaModelo.addElement(rst.getString("tipo"));
+            }
+            rst.close();
+        } catch (Exception e) {
+        }
+        return listaModelo;
+    }
+    
+    public DefaultComboBoxModel obtenerTipoUsuarioAdministrador() {
+        DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
+        ResultSet rst = this.consulta("select * from tipoUsuario where idTipoUsuario != "+1+" order by idTipoUsuario");
         try {
             while (rst.next()) {
                 listaModelo.addElement(rst.getString("tipo"));

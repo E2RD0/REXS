@@ -42,7 +42,7 @@ public class Db {
     public Db() {
         cn = new DbConnection().conectar();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Projects">
     // <editor-fold defaultstate="collapsed" desc="Mostrar-Proyectos">
     public int CantidadProyecto;
@@ -188,10 +188,10 @@ public class Db {
                 } catch (Exception e) {
 
                 }
-               
+
             }
         } catch (SQLException e) {
-            System.out.println("Db "+ e.getMessage());
+            System.out.println("Db " + e.getMessage());
 
         }
     }
@@ -306,10 +306,8 @@ public class Db {
             cmd.setString(2, descripcion);
             cmd.setString(3, edicion);
             cmd.setInt(4, idSeccionNivel);
-            cmd.setBinaryStream(5, bais, immAsBytes.length);    
-           
-            
-            
+            cmd.setBinaryStream(5, bais, immAsBytes.length);
+
             if (cmd.executeUpdate() > 0) {
                 r = true;
             }
@@ -583,8 +581,6 @@ public class Db {
 
     // </editor-fold>
     // </editor-fold>
-    
-    
     // <editor-fold defaultstate="collapsed" desc="Activities">
     private int CantidadActividades;
     private ArrayList<String> HorasActividadesInicio;
@@ -865,7 +861,7 @@ public class Db {
         }
         return "";
     }
-    
+
     public String getEncargadoActividad(int id) {
         try {
             String sql = "select encargado from actividad where idActividad = (?)";
@@ -1531,6 +1527,7 @@ public class Db {
         return false;
     }
     private int CantidadUsuarios;
+    private int CantidadUsuarios2;
     public ArrayList<Integer> idUsuario;
     public ArrayList<String> nombreCompleto;
     public ArrayList<String> email;
@@ -1543,13 +1540,24 @@ public class Db {
      */
     public void NumUsuarios() {
         try {
+            int tipoU = CurrentUser.idTipoUsuario;
+            String sql;
 
-            String sql = "select COUNT(idUsuario) from usuario";
+            sql = "select COUNT(idUsuario) from usuario where idTipoUsuario != " + 1 + "and idUsuario != " + CurrentUser.idUsuario;
+            String sql2 = "select COUNT(idUsuario) from usuario where idUsuario !=" + tipoU;
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
                 setCantidadUsuarios(rs.getInt(1));
+                //System.out.println(getCantidadProyecto());
+            }
+
+            Statement st2 = cn.createStatement();
+            ResultSet rs2 = st.executeQuery(sql2);
+
+            while (rs2.next()) {
+                setCantidadUsuarios2(rs2.getInt(1));
                 //System.out.println(getCantidadProyecto());
             }
         } catch (Exception e) {
@@ -1580,9 +1588,14 @@ public class Db {
     public void MostrarUsuarios() {
         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario"
-                    + " u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN"
-                    + " tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario";
+            int tipoU = CurrentUser.idTipoUsuario;
+            String sql;
+            if (tipoU == 1) {
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.idUsuario;
+            } else {
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != " + 1 + "and u.idUsuario != " + CurrentUser.idUsuario;
+            }
+
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             idUsuario = new ArrayList<>();
@@ -1853,7 +1866,7 @@ public class Db {
         }
         return false;
     }
-    
+
     private int CantidadEspecialidad;
     private ArrayList<Integer> idEspecialidad;
     private ArrayList<String> Especialidad;
@@ -2114,15 +2127,13 @@ public class Db {
 
     //Filtrar
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
-        boolean respuesta = false;
+         boolean respuesta = false;
         try {
-            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario \n"
-                    + "and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and nombreCompleto = ? and \n"
-                    + "estadoUsuario.estado=? and tipoUsuario.tipo = ?";
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
-            cmd.setString(1, nombre);
-            cmd.setString(2, idE);
-            cmd.setString(3, idT);
+            cmd.setString(1, idE);
+            cmd.setString(2, idT);
+            cmd.setString(3, "%"+nombre+"%");
             ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
@@ -2136,16 +2147,13 @@ public class Db {
     }
 
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
-        try {
+         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, "
-                    + "estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and "
-                    + "usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and nombreCompleto = ? "
-                    + "and estadoUsuario.estado=? and tipoUsuario.tipo =?";
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
-            cmd.setString(1, nombre);
-            cmd.setString(2, idE);
-            cmd.setString(3, idT);
+            cmd.setString(1, idE);
+            cmd.setString(2, idT);
+            cmd.setString(3, "%"+nombre+"%");
             ResultSet rs = cmd.executeQuery();
 
             idUsuario2 = new ArrayList<>();
@@ -2515,6 +2523,7 @@ public class Db {
         }
         return 0;
     }
+
     public int countUsuarios(int idTipoUsuario) {
         try {
             String query = "SELECT COUNT(idUsuario) from usuario where idTipoUsuario = ?";
@@ -2528,8 +2537,8 @@ public class Db {
         }
         return 0;
     }
-    
-    public ResultSet tiposUsuario(){
+
+    public ResultSet tiposUsuario() {
         try {
             String query = "SELECT idTipoUsuario, tipo from tipoUsuario";
             PreparedStatement cmd = cn.prepareStatement(query);
@@ -2552,5 +2561,19 @@ public class Db {
      */
     public void setNivelSeleccionado(int NivelSeleccionado) {
         this.NivelSeleccionado = NivelSeleccionado;
+    }
+
+    /**
+     * @return the CantidadUsuarios2
+     */
+    public int getCantidadUsuarios2() {
+        return CantidadUsuarios2;
+    }
+
+    /**
+     * @param CantidadUsuarios2 the CantidadUsuarios2 to set
+     */
+    public void setCantidadUsuarios2(int CantidadUsuarios2) {
+        this.CantidadUsuarios2 = CantidadUsuarios2;
     }
 }

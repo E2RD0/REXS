@@ -249,14 +249,7 @@ public class ModalModificarSecciones extends javax.swing.JPanel {
 
     private void txtSeccionModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeccionModalKeyTyped
         // TODO add your handling code here:
-        char validar = evt.getKeyChar();
-
-        if (Character.isDigit(validar)) {
-            getToolkit().beep();
-
-            evt.consume();
-            JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
-        }
+        
     }//GEN-LAST:event_txtSeccionModalKeyTyped
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
