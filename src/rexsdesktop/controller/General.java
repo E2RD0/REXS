@@ -375,8 +375,8 @@ public class General {
             result.addValue(count, series1, hora);
             int count2 = db.countIniciosSesion(i, -1);
             result.addValue(count2, series2, hora);
-            System.out.println(count);
-            System.out.println(hora);
+//            System.out.println(count);
+//            System.out.println(hora);
         }
         return result;
     }
@@ -410,5 +410,11 @@ public class General {
     
     public static int countUbicacion() {
         return new Db().countUbicacion();
+    }
+    
+    public void cargarMejoresProyectos(javax.swing.JPanel panel, String edicion){
+        Db db = new Db();
+        
+    
     }
 }

@@ -5,7 +5,6 @@
  */
 package rexsdesktop.modal;
 
-import com.lowagie.text.html.simpleparser.Img;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.GridLayout;
@@ -20,7 +19,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import rexsdesktop.CurrentUser;
@@ -31,6 +32,7 @@ import rexsdesktop.controller.Validation;
 import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
 import static rexsdesktop.view.Admin.cdProyectos;
+import static rexsdesktop.view.Admin.color;
 import static rexsdesktop.view.Admin.jcEspecialidad;
 import static rexsdesktop.view.Admin.jcNivel;
 import static rexsdesktop.view.Admin.jcSeccion;
@@ -44,7 +46,8 @@ import static rexsdesktop.view.Admin.pnlViewProyectos;
  */
 public class ModalNuevoProyecto extends javax.swing.JPanel {
 
-    BufferedImage img;
+    public static BufferedImage img;
+    public static JLabel label;
     //BufferedImage fotoProyecto = new javax.swing.b(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
 
     /**
@@ -67,49 +70,95 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             Db db = new Db();
             db.obtenerNivel();
             db.NumProyectos(CurrentUser.edicionExpotecnica);
+            jcNivel.removeAllItems();
+            jcNivel.addItem("Seleccione un nivel");
             for (int i = 0; i < db.SNnivel.size(); i++) {
                 jcNivel.addItem(db.SNnivel.get(i));
             }
+            if (label != null) {
+                pnlViewProyectos.remove(label);
+            }
+            cdProyectos.removeAll();
+            pnlViewProyectos.repaint();
+            pnlViewProyectos.revalidate();
             jcEspecialidad.disable();
             jcSeccion.disable();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
             cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
             jsProyectos.setBorder(null);
-            jsProyectos.setBackground(new Color(244, 246, 252));
-            cdProyectos.setBackground(new Color(244, 246, 252));
+            if (color == 0) {
+
+                jsProyectos.setBackground(new Color(244, 246, 252));
+                cdProyectos.setBackground(new Color(244, 246, 252));
+
+            } else {
+                jsProyectos.setBackground(new Color(52, 48, 57));
+                cdProyectos.setBackground(new Color(52, 48, 57));
+
+            }
             switch (db.getCantidadProyecto()) {
                 case 0:
                     jsProyectos.disable();
                     cdProyectos.disable();
-                    JLabel label = new JLabel();
-                    label.setBounds(150, 120, 500, 200);
-                    label.setText("<html>" + "No existen proyectos, por favor ingrese un proyecto o cargue el archivo de Excel"
-                            + "predeterminado para agregar proyectos en conjunto" + "</html>");
+                    label = new JLabel("<html>" + "No existen proyectos, por favor ingrese un proyecto" + "</html>", SwingConstants.CENTER);
+                    label.setBounds(170, 200, 350, 50);
                     label.setFont(new java.awt.Font("Rubik Medium", 0, 12));
                     label.setForeground(new Color(46, 56, 77));
                     pnlViewProyectos.add(label);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 case 1:
                     jsProyectos.setBounds(0, 70, 377, 120);
                     cdProyectos.setLayout(null);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 case 2:
                     jsProyectos.setBounds(0, 70, 808, 120);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 case 3:
                     jsProyectos.setBounds(0, 70, 808, 260);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 case 4:
                     jsProyectos.setBounds(0, 70, 808, 260);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 case 5:
                     jsProyectos.setBounds(0, 70, 808, 363);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
                     break;
                 default:
                     jsProyectos.setBounds(0, 70, 808, 363);
+                    pnlViewProyectos.repaint();
+                    pnlViewProyectos.revalidate();
+                    cdProyectos.repaint();
+                    cdProyectos.revalidate();
             }
             pnlViewProyectos.add(jsProyectos);
+            pnlViewProyectos.repaint();
+            pnlViewProyectos.revalidate();
+            cdProyectos.repaint();
+            cdProyectos.revalidate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -337,20 +386,37 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                             if (img != null) {
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
                                 if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
-                                    System.out.println("Proyecto ingresado");
                                     txtnombreProyecto.setText(null);
                                     txtDesc.setText(null);
                                     Admin.cdProyectos.removeAll();
                                     cargarProyectos();
+                                    pnlViewProyectos.repaint();
+                                    pnlViewProyectos.revalidate();
+                                    cdProyectos.repaint();
+                                    cdProyectos.revalidate();
                                     Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
                                     w.setVisible(false);
-
                                 } else {
-                                    System.out.println("Error al ingresar el proyecto, inténtelo de nuevo.");
+                                    JOptionPane.showMessageDialog(this, "Error al ingresar el proyecto, inténtelo de nuevo.");
                                 }
                             } else {
 
-                                JOptionPane.showMessageDialog(this, "Por favor ingrese una imagen de su proyecto.");
+                                Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                    txtnombreProyecto.setText(null);
+                                    txtDesc.setText(null);
+                                    Admin.cdProyectos.removeAll();
+                                    cargarProyectos();
+
+                                    pnlViewProyectos.repaint();
+                                    pnlViewProyectos.revalidate();
+                                    cdProyectos.repaint();
+                                    cdProyectos.revalidate();
+                                    Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
+                                    w.setVisible(false);
+                                } else {
+                                    JOptionPane.showMessageDialog(this, "Error al ingresar el proyecto, inténtelo de nuevo.");
+                                }
                             }
 
                         } else {
@@ -369,7 +435,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            System.out.println("Nuevo " + e.getMessage());
+            System.out.println("Agregar proyecto" + e.getMessage());
         } finally {
 
             btnAceptarModal.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -395,6 +461,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                                 imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
                         img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
                         jIMG.setIcon(new ImageIcon(img.getScaledInstance(jIMG.getWidth(), jIMG.getHeight(), Image.SCALE_DEFAULT)));
+                        
                     } else {
                         JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
                     }
@@ -433,6 +500,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         }
                     } else {
                         cbxEspecialidad.removeAllItems();
+                        cbxEspecialidad.disable();
                         cbxSeccionNivel.removeAllItems();
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
                             cbxEspecialidad.addItem(db.SNespecialidad.get(i));
@@ -445,8 +513,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                             cbxSeccionNivel.addItem(db.SNseccion.get(i));
                         }
                     }
-
-                } else {
 
                 }
             }

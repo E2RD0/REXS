@@ -10,26 +10,16 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
-
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -39,14 +29,17 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import rexsdesktop.CurrentUser;
-
+import static rexsdesktop.modal.ModalNuevoProyecto.img;
 import rexsdesktop.modal.ModalViewProyecto;
+import static rexsdesktop.modal.ModalViewProyecto.pnlView;
+import static rexsdesktop.modal.ModalViewProyecto.pnlViewEdit;
+import static rexsdesktop.modal.ModalViewProyecto.pnlViewImagenes;
+import static rexsdesktop.modal.ModalViewProyecto.txtDescView;
+import static rexsdesktop.modal.ModalViewProyecto.txtNombre;
 
 import rexsdesktop.model.Db;
-import rexsdesktop.model.DbConnection;
+import static rexsdesktop.view.Admin.color;
 
 /**
  * Clase que contiene los atributos y métodos de un proyecto.
@@ -56,16 +49,16 @@ import rexsdesktop.model.DbConnection;
  */
 public class Projects {
 
-    private Connection cn;
     //private List<JPanel> paneles;
-
     public JPanel nuevo;
     public static JPanel panelInte;
     public static JPanel pnlIntegrantes;
     public static JScrollPane jsIntegrantes;
     public static JLabel txtIntegrantes;
     public static JLabel labelIntegrante;
-    JLabel lbIMG;
+    public static JLabel lbIMG;
+    public static JPanel pnlImagenes;
+    public static JScrollPane jsImagenes;
     JDialog modal1;
 
     ImageIcon iconLocation = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconLocation.png"));
@@ -91,11 +84,9 @@ public class Projects {
 
     public void CrearPanelesProyectos(javax.swing.JPanel panel, String edicion) {
         Db db = new Db();
-      
         db.Proyectos(edicion);
         db.NumProyectos(edicion);
-        
-        
+
         for (int i = 0; i < db.getCantidadProyecto(); i++) {
 
             //Creando el primer JPanel principal 
@@ -103,6 +94,7 @@ public class Projects {
             panel.add(nuevo);
             //paneles.add(nuevo);
             nuevo.setName(String.valueOf(db.PjId.get(i)));
+            nuevo.setToolTipText(db.PjNombre.get(i));
             nuevo.setLayout(new BorderLayout(0, 0));
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
@@ -111,19 +103,18 @@ public class Projects {
             Border borde = new LineBorder(new Color(46, 92, 255), 1, true);
             nuevo.setBorder(borde);
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
-            JPanel img = new JPanel();
-            img.setBackground(Color.white);
-            img.setLayout(new BorderLayout(0, 0));
-            img.setPreferredSize(new Dimension(140, 120));
-            img.setSize(new Dimension(140, 120));
-            nuevo.add(img, BorderLayout.WEST);
+            JPanel imgPanel = new JPanel();
+            imgPanel.setBackground(Color.white);
+            imgPanel.setLayout(new BorderLayout(0, 0));
+            imgPanel.setPreferredSize(new Dimension(140, 120));
+            imgPanel.setSize(new Dimension(140, 120));
+            nuevo.add(imgPanel, BorderLayout.WEST);
             //Creando el Label que contendrá la imagen del proyecto
             JLabel imagen = new JLabel();
             BufferedImage icon = db.PjImagenes.get(i);
             if (icon != null) {
 
                 try {
-                    // BufferedImage icon = General.resizeSquare(CurrentUser.fotoPerfil, 128);
                     imagen.setIcon(new ImageIcon(icon));
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -134,7 +125,7 @@ public class Projects {
 
             // imagen.setIcon(fotoProyecto);
             imagen.setHorizontalAlignment(SwingConstants.CENTER);
-            img.add(imagen);
+            imgPanel.add(imagen);
             //Creando el tercer JPanel para la informacion a la derecha
             JPanel info = new JPanel();
             info.setLayout(new GridLayout(0, 1, 0, 0));
@@ -145,7 +136,7 @@ public class Projects {
 
             //Creando el Label para el nombre del proyecto
             JLabel nombre = new JLabel();
-            nombre.setFont(new java.awt.Font("Rubik Medium", 0, 14));
+            nombre.setFont(new java.awt.Font("Rubik Light", 0, 14));
             nombre.setForeground(new Color(46, 56, 77));
             //nombre.setBorder(hola);
             nombre.setText("  " + db.PjNombre.get(i));
@@ -153,7 +144,7 @@ public class Projects {
             info.add(nombre);
             //Creando el Label para el grado
             JLabel nivel = new JLabel();
-            nivel.setFont(new java.awt.Font("Rubik", 0, 11));
+            nivel.setFont(new java.awt.Font("Rubik", 0, 12));
             nivel.setForeground(new Color(136, 136, 136));
             //nivel.setBorder(hola);
             nivel.setText("   " + db.PjNivel.get(i) + " " + db.PjSeccion.get(i));
@@ -161,7 +152,7 @@ public class Projects {
             info.add(nivel);
             //Creando el Label seccion-nivel del proyecto
             JLabel seccion = new JLabel();
-            seccion.setFont(new java.awt.Font("Rubik", 0, 11));
+            seccion.setFont(new java.awt.Font("Rubik", 0, 12));
             seccion.setForeground(new Color(136, 136, 136));
             seccion.setText("   " + db.PjEspecialidad.get(i));
             //seccion.setBorder(hola);
@@ -182,7 +173,7 @@ public class Projects {
 
             //Creando el Label de ubicacion del proyecto
             JLabel ubi = new JLabel();
-            ubi.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            ubi.setFont(new java.awt.Font("Rubik", 0, 13));
             ubi.setForeground(new Color(34, 34, 34));
 
             ubi.setBounds(23, 4, 170, 22);
@@ -191,15 +182,15 @@ public class Projects {
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
-            img3.setBounds(200, 5, 18, 20);
+            img3.setBounds(190, 5, 18, 20);
             img3.setIcon(iconRating);
             //img3.setBorder(hola);
             info2.add(img3);
 
             JLabel voto = new JLabel();
-            voto.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
-            voto.setBounds(220, 4, 27, 20);
+            voto.setBounds(210, 4, 27, 20);
             voto.setText("8.9");
             //voto.setBorder(hola);
             info2.add(voto);
@@ -210,28 +201,40 @@ public class Projects {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     nuevo = (JPanel) e.getSource();
-                    System.out.println(nuevo.getName());
                     nuevo.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     ModalViewProyecto modalProye = new ModalViewProyecto();
                     Projects p = getProject(Integer.parseInt(nuevo.getName()));
-                    modalProye.txtDescView.setText("<html>" + p.DescripcionP + "</html>");
+                    txtDescView.setText("<html>" + p.DescripcionP + "</html>");
                     modalProye.txtNivel.setText(p.nivelP);
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
-                    modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    modalProye.txtnombre.setText(p.nombreP);
+                    txtNombre.setText("<html>" + p.nombreP + "</html>");
+                    modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
                     modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
-                    modalProye.lbl.setText(nuevo.getName());
+                    modalProye.id.setText(nuevo.getName());
+
+                    if (color == 0) {
+
+                        modalProye.setBackground(new Color(244, 246, 252));
+                        modalProye.setBackground(new Color(244, 246, 252));
+
+                    } else {
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        modalProye.setBackground(new Color(52, 48, 57));
+
+                    }
+
+                    if (img != null) {
+                        modalProye.lblFotoPortada.setIcon(new ImageIcon(img.getScaledInstance(128, 128, Image.SCALE_DEFAULT)));
+                    }
 
                     //CREACIÓN DEL PANEL DONDE SE MUESTRA LOS INTEGRANTES
-                    modalProye.pnlViewIntegrantes.setLayout(null);
-                   txtIntegrantes = new JLabel();
-                    txtIntegrantes.setBounds(10, 10, 70, 20);
-                    // txtIntegrantes.setBorder(new EtchedBorder());
+                    txtIntegrantes = new JLabel();
+                    txtIntegrantes.setBounds(10, 10, 100, 20);
                     txtIntegrantes.setText("Integrantes");
                     txtIntegrantes.setHorizontalTextPosition(CENTER);
-                    txtIntegrantes.setFont(new java.awt.Font("Rubik", 1, 12));
+                    txtIntegrantes.setFont(new java.awt.Font("Rubik", 0, 12));
                     pnlIntegrantes = new JPanel();
                     pnlIntegrantes.setLayout(new GridLayout(1, 0, 15, 15));
                     pnlIntegrantes.setBackground(Color.white);
@@ -242,6 +245,8 @@ public class Projects {
                     modalProye.pnlViewIntegrantes.add(jsIntegrantes);
                     Projects g = getNumMembers(Integer.parseInt(nuevo.getName()));
                     db.ViewIntegrantes(Integer.parseInt(nuevo.getName()));
+
+                    // Integrantes(modalProye.pnlViewIntegrantes, Integer.parseInt(nuevo.getName()));
                     if (g.CountInte != 0) {
                         try {
                             int y = 0;
@@ -257,10 +262,8 @@ public class Projects {
                                     JLabel imgMember = new JLabel();
                                     imgMember.setHorizontalAlignment(CENTER);
                                     imgMember.setIcon(Member);
-                                    //imgMember.setBorder(new EtchedBorder());
                                     JLabel labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
                                     labelIntegrante.setBounds(0, 15, 50, 20);
-                                    //labelIntegrante.setBorder(new EtchedBorder());
                                     panelInte.add(imgMember, BorderLayout.NORTH);
                                     panelInte.add(labelIntegrante, BorderLayout.CENTER);
                                     pnlIntegrantes.add(panelInte);
@@ -274,11 +277,11 @@ public class Projects {
                                     panelInte.setBackground(Color.WHITE);
                                     JLabel imgMember = new JLabel();
                                     imgMember.setHorizontalAlignment(CENTER);
-                                    imgMember.setIcon(Member);
-                                    //imgMember.setBorder(new EtchedBorder());
+                                    imgMember.setIcon(Member1);
+
                                     JLabel labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
                                     labelIntegrante.setBounds(0, 15, 50, 20);
-                                    //labelIntegrante.setBorder(new EtchedBorder());
+
                                     panelInte.add(imgMember, BorderLayout.NORTH);
                                     panelInte.add(labelIntegrante, BorderLayout.CENTER);
                                     panelInte.setBorder(null);
@@ -293,13 +296,15 @@ public class Projects {
                                         String nameMember = JOptionPane.showInputDialog(modalProye, "Ingrese correctamente el nombre del estudiante", panelInte.getName());
                                         Db db = new Db();
                                         if (!nameMember.isEmpty()) {
-
                                             if (!db.IntegranteExiste(nameMember)) {
                                                 Projects.actualizarInte(nameMember, panelInte.getName(), Integer.parseInt(nuevo.getName()));
+                                                pnlIntegrantes.removeAll();
+                                                modalProye.cargarIntegrantes();
+                                                pnlIntegrantes.repaint();
+                                                pnlIntegrantes.revalidate();
                                             } else {
                                                 JOptionPane.showMessageDialog(modalProye, "El integrante ya existe");
                                             }
-
                                         } else {
                                             JOptionPane.showMessageDialog(modalProye, "El campo está vacío.");
                                         }
@@ -337,34 +342,64 @@ public class Projects {
                     } else {
 
                         txtIntegrantes.setText("No hay integrantes asignados a este proyecto.");
-                        txtIntegrantes.setSize(new Dimension(300, 50));
+                        txtIntegrantes.setSize(new Dimension(300, 20));
                         jsIntegrantes.disable();
+                        pnlIntegrantes.disable();
 
                     }
 
                     Projects t = getNumIMG(Integer.parseInt(nuevo.getName()));
                     db.getIMGresources(Integer.parseInt(nuevo.getName()));
+
                     if (t.CountIMGresources != 0) {
                         try {
+
+                            pnlImagenes = new JPanel();
+                            pnlImagenes.setLayout(new GridLayout(1, 0, 15, 15));
+                            pnlImagenes.setBackground(Color.white);
+                            jsImagenes = new JScrollPane(pnlImagenes);
+                            jsImagenes.setBounds(2, 2, 140, 135);
+                            jsImagenes.setBorder(null);
+                            pnlViewImagenes.add(jsImagenes);
+
+                            int y2 = 0;
                             modalProye.Img.setIcon(new ImageIcon(db.RecImagenes.get(0)));
                             for (int j = 0; j < t.CountIMGresources; j++) {
-                                modalProye.pnlImagenes.setLayout(new GridLayout(1, 0, 15, 15));
-                                lbIMG = new JLabel();
-                                lbIMG.setPreferredSize(new Dimension(120, 70));
+                                if (t.CountIMGresources <= 2) {
+                                    lbIMG = new JLabel();
 
-                                //lbIMG.setBorder(new EtchedBorder());
-                                BufferedImage icon = db.RecImagenes.get(j);
-                                if (icon != null) {
-                                    try {
-                                        lbIMG.setIcon(new ImageIcon(icon));
-                                    } catch (Exception w) {
-                                        System.out.println(w.getMessage());
+                                    jsImagenes.setBounds(2, 2, 140 + y2, 135);
+                                    BufferedImage icon = db.RecImagenes.get(j);
+                                    if (icon != null) {
+                                        try {
+                                            lbIMG.setIcon(new ImageIcon(icon.getScaledInstance(133, 125, Image.SCALE_DEFAULT)));
+                                        } catch (Exception w) {
+                                            System.out.println(w.getMessage());
+                                        }
+                                    } else {
+                                        lbIMG.setIcon(fotoProyecto);
                                     }
+                                    lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
+                                    pnlImagenes.add(lbIMG);
+                                    y2 = y2 + 155;
                                 } else {
-                                    lbIMG.setIcon(fotoProyecto);
+                                    lbIMG = new JLabel();
+
+                                    jsImagenes.setBounds(2, 2, 420, 140);
+                                    BufferedImage icon = db.RecImagenes.get(j);
+                                    if (icon != null) {
+                                        try {
+                                            lbIMG.setIcon(new ImageIcon(icon.getScaledInstance(133, 125, Image.SCALE_DEFAULT)));
+                                        } catch (Exception w) {
+                                            System.out.println(w.getMessage());
+                                        }
+                                    } else {
+                                        lbIMG.setIcon(fotoProyecto);
+                                    }
+                                    lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
+                                    pnlImagenes.add(lbIMG);
+
                                 }
-                                lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
-                                modalProye.pnlImagenes.add(lbIMG);
 
                                 lbIMG.addMouseListener(new MouseListener() {
                                     Frame gt;
@@ -403,14 +438,47 @@ public class Projects {
                         }
 
                     } else {
-                        modalProye.pnlImagenes.setLayout(null);
+
+                        pnlViewImagenes.setLayout(null);
                         lbIMG = new JLabel();
                         lbIMG.setBounds(60, 30, 300, 50);
-                        //lbIMG.setBorder(new EtchedBorder());
                         lbIMG.setText("<html>" + "No hay imágenes que mostrar en este proyecto." + "</html>");
-                        modalProye.pnlImagenes.add(lbIMG);
+                        lbIMG.setFont(new java.awt.Font("Rubik Light", 0, 14));
+                        pnlViewImagenes.add(lbIMG);
+
                     }
-                    JDialog modal1 = new JDialog(fr, "Nuevo Proyecto", true);
+
+                    if (color == 0) {
+                        modalProye.setBackground(new Color(244, 246, 252));
+
+                        pnlViewImagenes.setBackground(new Color(244, 246, 252));
+
+                        if (pnlImagenes != null) {
+                            pnlImagenes.setBackground(new Color(244, 246, 252));
+                        }
+
+                        pnlView.setBackground(new Color(244, 246, 252));
+
+                        pnlViewEdit.setBackground(new Color(244, 246, 252));
+
+                        txtDescView.setForeground(new Color(136, 136, 136));
+
+                        txtNombre.setForeground(new Color(46, 56, 77));
+
+                    } else {
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        pnlViewImagenes.setBackground(new Color(52, 48, 57));
+                        if (pnlImagenes != null) {
+                            pnlImagenes.setBackground(new Color(52, 48, 57));
+                        }
+                        pnlView.setBackground(new Color(52, 48, 57));
+                        pnlViewEdit.setBackground(new Color(52, 48, 57));
+                        txtDescView.setForeground(Color.white);
+                        txtNombre.setForeground(Color.white);
+                    }
+
+                    modal1 = new JDialog(fr, "Nuevo Proyecto", true);
                     modal1.getContentPane().add(modalProye);
                     modal1.pack();
                     modal1.setLocationRelativeTo(null);
@@ -445,10 +513,9 @@ public class Projects {
     }
 
     public void FiltroPanelesProyectos(javax.swing.JPanel panel, String nivel1, String especialidad1, String seccion1, String edicion) {
-
         Db db = new Db();
-        db.FiltroProyectos(nivel1, especialidad1, seccion1,edicion);
-        Projects p = getNumProyectosFiltrados(nivel1, especialidad1, seccion1,edicion);
+        db.FiltroProyectos(nivel1, especialidad1, seccion1, edicion);
+        Projects p = getNumProyectosFiltrados(nivel1, especialidad1, seccion1, edicion);
         for (int i = 0; i < p.getNumProyectosFiltrados; i++) {
 
             //Creando el primer JPanel principal 
@@ -456,6 +523,7 @@ public class Projects {
             panel.add(nuevo);
             //paneles.add(nuevo);
             nuevo.setName(String.valueOf(db.PjId2.get(i)));
+            nuevo.setToolTipText(db.PjNombre2.get(i));
             nuevo.setLayout(new BorderLayout(0, 0));
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
@@ -464,12 +532,12 @@ public class Projects {
             Border borde = new LineBorder(new Color(46, 92, 255), 1, true);
             nuevo.setBorder(borde);
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
-            JPanel img = new JPanel();
-            img.setBackground(Color.white);
-            img.setLayout(new BorderLayout(0, 0));
-            img.setPreferredSize(new Dimension(140, 120));
-            img.setSize(new Dimension(140, 120));
-            nuevo.add(img, BorderLayout.WEST);
+            JPanel imgPanel = new JPanel();
+            imgPanel.setBackground(Color.white);
+            imgPanel.setLayout(new BorderLayout(0, 0));
+            imgPanel.setPreferredSize(new Dimension(140, 120));
+            imgPanel.setSize(new Dimension(140, 120));
+            nuevo.add(imgPanel, BorderLayout.WEST);
             //Creando el Label que contendrá la imagen del proyecto
             JLabel imagen = new JLabel();
             BufferedImage icon = db.PjImagenes2.get(i);
@@ -487,7 +555,7 @@ public class Projects {
 
             // imagen.setIcon(fotoProyecto);
             imagen.setHorizontalAlignment(SwingConstants.CENTER);
-            img.add(imagen);
+            imgPanel.add(imagen);
             //Creando el tercer JPanel para la informacion a la derecha
             JPanel info = new JPanel();
             info.setLayout(new GridLayout(0, 1, 0, 0));
@@ -498,7 +566,7 @@ public class Projects {
 
             //Creando el Label para el nombre del proyecto
             JLabel nombre = new JLabel();
-            nombre.setFont(new java.awt.Font("Rubik Medium", 0, 14));
+            nombre.setFont(new java.awt.Font("Rubik Light", 0, 14));
             nombre.setForeground(new Color(46, 56, 77));
             //nombre.setBorder(hola);
             nombre.setText("  " + db.PjNombre2.get(i));
@@ -506,7 +574,7 @@ public class Projects {
             info.add(nombre);
             //Creando el Label para el grado
             JLabel nivel = new JLabel();
-            nivel.setFont(new java.awt.Font("Rubik", 0, 11));
+            nivel.setFont(new java.awt.Font("Rubik", 0, 12));
             nivel.setForeground(new Color(136, 136, 136));
             //nivel.setBorder(hola);
             nivel.setText("   " + db.PjNivel2.get(i) + " " + db.PjSeccion2.get(i));
@@ -514,7 +582,7 @@ public class Projects {
             info.add(nivel);
             //Creando el Label seccion-nivel del proyecto
             JLabel seccion = new JLabel();
-            seccion.setFont(new java.awt.Font("Rubik", 0, 11));
+            seccion.setFont(new java.awt.Font("Rubik", 0, 12));
             seccion.setForeground(new Color(136, 136, 136));
             seccion.setText("   " + db.PjEspecialidad2.get(i));
             //seccion.setBorder(hola);
@@ -535,7 +603,7 @@ public class Projects {
 
             //Creando el Label de ubicacion del proyecto
             JLabel ubi = new JLabel();
-            ubi.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            ubi.setFont(new java.awt.Font("Rubik", 0, 13));
             ubi.setForeground(new Color(34, 34, 34));
 
             ubi.setBounds(23, 4, 170, 22);
@@ -544,15 +612,15 @@ public class Projects {
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
-            img3.setBounds(200, 5, 18, 20);
+            img3.setBounds(190, 5, 18, 20);
             img3.setIcon(iconRating);
             //img3.setBorder(hola);
             info2.add(img3);
 
             JLabel voto = new JLabel();
-            voto.setFont(new java.awt.Font("Rubik Medium", 0, 11));
+            voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
-            voto.setBounds(220, 4, 27, 20);
+            voto.setBounds(210, 4, 27, 20);
             voto.setText("8.9");
             //voto.setBorder(hola);
             info2.add(voto);
@@ -566,35 +634,46 @@ public class Projects {
                     nuevo.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     ModalViewProyecto modalProye = new ModalViewProyecto();
                     Projects p = getProject(Integer.parseInt(nuevo.getName()));
-                    modalProye.txtDescView.setText("<html>" + p.DescripcionP + "</html>");
+                    txtDescView.setText("<html>" + p.DescripcionP + "</html>");
                     modalProye.txtNivel.setText(p.nivelP);
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
-                    modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    modalProye.txtnombre.setText(p.nombreP);
+                    txtNombre.setText("<html>" + p.nombreP + "</html>");
+                    modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
                     modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
-                    modalProye.lbl.setText(nuevo.getName());
+                    modalProye.id.setText(nuevo.getName());
+                    if (color == 0) {
 
+                        modalProye.setBackground(new Color(244, 246, 252));
+                        modalProye.setBackground(new Color(244, 246, 252));
+
+                    } else {
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        modalProye.setBackground(new Color(52, 48, 57));
+
+                    }
+                    if (img != null) {
+                        modalProye.lblFotoPortada.setIcon(new ImageIcon(img.getScaledInstance(128, 128, Image.SCALE_DEFAULT)));
+                    }
                     //CREACIÓN DEL PANEL DONDE SE MUESTRA LOS INTEGRANTES
-                    modalProye.pnlViewIntegrantes.setLayout(null);
-                    
                     txtIntegrantes = new JLabel();
-                    txtIntegrantes.setBounds(10, 10, 70, 20);
-                    // txtIntegrantes.setBorder(new EtchedBorder());
+                    txtIntegrantes.setBounds(10, 10, 100, 20);
                     txtIntegrantes.setText("Integrantes");
                     txtIntegrantes.setHorizontalTextPosition(CENTER);
-                    txtIntegrantes.setFont(new java.awt.Font("Rubik", 1, 12));
+                    txtIntegrantes.setFont(new java.awt.Font("Rubik", 0, 12));
                     pnlIntegrantes = new JPanel();
                     pnlIntegrantes.setLayout(new GridLayout(1, 0, 15, 15));
                     pnlIntegrantes.setBackground(Color.white);
-                     jsIntegrantes = new JScrollPane(pnlIntegrantes);
+                    jsIntegrantes = new JScrollPane(pnlIntegrantes);
                     jsIntegrantes.setBounds(10, 35, 90, 90);
                     jsIntegrantes.setBorder(null);
                     modalProye.pnlViewIntegrantes.add(txtIntegrantes);
                     modalProye.pnlViewIntegrantes.add(jsIntegrantes);
                     Projects g = getNumMembers(Integer.parseInt(nuevo.getName()));
                     db.ViewIntegrantes(Integer.parseInt(nuevo.getName()));
+
+                    // Integrantes(modalProye.pnlViewIntegrantes, Integer.parseInt(nuevo.getName()));
                     if (g.CountInte != 0) {
                         try {
                             int y = 0;
@@ -610,10 +689,8 @@ public class Projects {
                                     JLabel imgMember = new JLabel();
                                     imgMember.setHorizontalAlignment(CENTER);
                                     imgMember.setIcon(Member);
-                                    //imgMember.setBorder(new EtchedBorder());
-                                    labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
+                                    JLabel labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
                                     labelIntegrante.setBounds(0, 15, 50, 20);
-                                    //labelIntegrante.setBorder(new EtchedBorder());
                                     panelInte.add(imgMember, BorderLayout.NORTH);
                                     panelInte.add(labelIntegrante, BorderLayout.CENTER);
                                     pnlIntegrantes.add(panelInte);
@@ -627,11 +704,11 @@ public class Projects {
                                     panelInte.setBackground(Color.WHITE);
                                     JLabel imgMember = new JLabel();
                                     imgMember.setHorizontalAlignment(CENTER);
-                                    imgMember.setIcon(Member);
-                                    //imgMember.setBorder(new EtchedBorder());
-                                    labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
+                                    imgMember.setIcon(Member1);
+
+                                    JLabel labelIntegrante = new JLabel("<html>" + db.nombreInte.get(k) + "</html>", SwingConstants.CENTER);
                                     labelIntegrante.setBounds(0, 15, 50, 20);
-                                    //labelIntegrante.setBorder(new EtchedBorder());
+
                                     panelInte.add(imgMember, BorderLayout.NORTH);
                                     panelInte.add(labelIntegrante, BorderLayout.CENTER);
                                     panelInte.setBorder(null);
@@ -646,13 +723,15 @@ public class Projects {
                                         String nameMember = JOptionPane.showInputDialog(modalProye, "Ingrese correctamente el nombre del estudiante", panelInte.getName());
                                         Db db = new Db();
                                         if (!nameMember.isEmpty()) {
-
                                             if (!db.IntegranteExiste(nameMember)) {
                                                 Projects.actualizarInte(nameMember, panelInte.getName(), Integer.parseInt(nuevo.getName()));
+                                                pnlIntegrantes.removeAll();
+                                                modalProye.cargarIntegrantes();
+                                                pnlIntegrantes.repaint();
+                                                pnlIntegrantes.revalidate();
                                             } else {
                                                 JOptionPane.showMessageDialog(modalProye, "El integrante ya existe");
                                             }
-
                                         } else {
                                             JOptionPane.showMessageDialog(modalProye, "El campo está vacío.");
                                         }
@@ -690,34 +769,62 @@ public class Projects {
                     } else {
 
                         txtIntegrantes.setText("No hay integrantes asignados a este proyecto.");
-                        txtIntegrantes.setSize(new Dimension(300, 50));
+                        txtIntegrantes.setSize(new Dimension(300, 20));
                         jsIntegrantes.disable();
+                        pnlIntegrantes.disable();
 
                     }
 
                     Projects t = getNumIMG(Integer.parseInt(nuevo.getName()));
                     db.getIMGresources(Integer.parseInt(nuevo.getName()));
+
                     if (t.CountIMGresources != 0) {
                         try {
+                            pnlImagenes = new JPanel();
+                            pnlImagenes.setLayout(new GridLayout(1, 0, 15, 15));
+                            pnlImagenes.setBackground(Color.white);
+                            jsImagenes = new JScrollPane(pnlImagenes);
+                            jsImagenes.setBounds(2, 2, 140, 135);
+                            jsImagenes.setBorder(null);
+                            pnlViewImagenes.add(jsImagenes);
+                            int y2 = 0;
                             modalProye.Img.setIcon(new ImageIcon(db.RecImagenes.get(0)));
                             for (int j = 0; j < t.CountIMGresources; j++) {
-                                modalProye.pnlImagenes.setLayout(new GridLayout(1, 0, 15, 15));
-                                lbIMG = new JLabel();
-                                lbIMG.setPreferredSize(new Dimension(120, 70));
+                                if (t.CountIMGresources <= 2) {
+                                    lbIMG = new JLabel();
 
-                                //lbIMG.setBorder(new EtchedBorder());
-                                BufferedImage icon = db.RecImagenes.get(j);
-                                if (icon != null) {
-                                    try {
-                                        lbIMG.setIcon(new ImageIcon(icon));
-                                    } catch (Exception w) {
-                                        System.out.println(w.getMessage());
+                                    jsImagenes.setBounds(2, 2, 140 + y2, 135);
+                                    BufferedImage icon = db.RecImagenes.get(j);
+                                    if (icon != null) {
+                                        try {
+                                            lbIMG.setIcon(new ImageIcon(icon.getScaledInstance(133, 125, Image.SCALE_DEFAULT)));
+                                        } catch (Exception w) {
+                                            System.out.println(w.getMessage());
+                                        }
+                                    } else {
+                                        lbIMG.setIcon(fotoProyecto);
                                     }
+                                    lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
+                                    pnlImagenes.add(lbIMG);
+                                    y2 = y2 + 155;
                                 } else {
-                                    lbIMG.setIcon(fotoProyecto);
+                                    lbIMG = new JLabel();
+
+                                    jsImagenes.setBounds(2, 2, 420, 140);
+                                    BufferedImage icon = db.RecImagenes.get(j);
+                                    if (icon != null) {
+                                        try {
+                                            lbIMG.setIcon(new ImageIcon(icon.getScaledInstance(133, 125, Image.SCALE_DEFAULT)));
+                                        } catch (Exception w) {
+                                            System.out.println(w.getMessage());
+                                        }
+                                    } else {
+                                        lbIMG.setIcon(fotoProyecto);
+                                    }
+                                    lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
+                                    pnlImagenes.add(lbIMG);
+
                                 }
-                                lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
-                                modalProye.pnlImagenes.add(lbIMG);
 
                                 lbIMG.addMouseListener(new MouseListener() {
                                     Frame gt;
@@ -756,13 +863,45 @@ public class Projects {
                         }
 
                     } else {
-                        modalProye.pnlImagenes.setLayout(null);
+                        pnlViewImagenes.setLayout(null);
                         lbIMG = new JLabel();
                         lbIMG.setBounds(60, 30, 300, 50);
                         //lbIMG.setBorder(new EtchedBorder());
                         lbIMG.setText("<html>" + "No hay imágenes que mostrar en este proyecto." + "</html>");
-                        modalProye.pnlImagenes.add(lbIMG);
+                        lbIMG.setFont(new java.awt.Font("Rubik Light", 0, 14));
+                        pnlViewImagenes.add(lbIMG);
                     }
+
+                    if (color == 0) {
+                        modalProye.setBackground(new Color(244, 246, 252));
+
+                        pnlViewImagenes.setBackground(new Color(244, 246, 252));
+
+                        if (pnlImagenes != null) {
+                            pnlImagenes.setBackground(new Color(244, 246, 252));
+                        }
+
+                        pnlView.setBackground(new Color(244, 246, 252));
+
+                        pnlViewEdit.setBackground(new Color(244, 246, 252));
+
+                        txtDescView.setForeground(new Color(136, 136, 136));
+
+                        txtNombre.setForeground(new Color(46, 56, 77));
+
+                    } else {
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        modalProye.setBackground(new Color(52, 48, 57));
+                        pnlViewImagenes.setBackground(new Color(52, 48, 57));
+                        if (pnlImagenes != null) {
+                            pnlImagenes.setBackground(new Color(52, 48, 57));
+                        }
+                        pnlView.setBackground(new Color(52, 48, 57));
+                        pnlViewEdit.setBackground(new Color(52, 48, 57));
+                        txtDescView.setForeground(Color.white);
+                        txtNombre.setForeground(Color.white);
+                    }
+
                     modal1 = new JDialog(fr, "Nuevo Proyecto", true);
                     modal1.getContentPane().add(modalProye);
                     modal1.pack();
@@ -814,7 +953,8 @@ public class Projects {
                     System.out.println(ex);
                 }
             } else {
-                return db.agregarProyecto(nombre, descripcion, edicion, idSeccionNivel, null);
+
+                return db.agregarProyectoSinImagen(nombre, descripcion, edicion, idSeccionNivel);
             }
 
         } else {

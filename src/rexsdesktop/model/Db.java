@@ -6,11 +6,7 @@
 package rexsdesktop.model;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -19,15 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultComboBoxModel;
-import rexsdesktop.CurrentUser;
 
 /**
  * Clase utilizada como modelo o capa de gestión de datos.
@@ -42,7 +33,7 @@ public class Db {
     public Db() {
         cn = new DbConnection().conectar();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Projects">
     // <editor-fold defaultstate="collapsed" desc="Mostrar-Proyectos">
     public int CantidadProyecto;
@@ -98,9 +89,10 @@ public class Db {
     public void getIMGresources(int id) {
         try {
 
-            String sql = "select idRecurso, streamRecurso from recursoProyecto where idProyecto= ? and nombreRecurso like '%.jpg' or nombreRecurso like '%.png'";
+            String sql = "select idRecurso, streamRecurso from recursoProyecto  where nombreRecurso like '%.jpg' and idProyecto=? or nombreRecurso like '%.png' and idProyecto=?";
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setInt(1, id);
+            cmd.setInt(2, id);
             ResultSet rs = cmd.executeQuery();
             RecIdRecurso = new ArrayList<>();
             RecImagenes = new ArrayList<>();
@@ -129,9 +121,10 @@ public class Db {
 
     public ResultSet getNumIMGresources(int id) {
         try {
-            String query = "select COUNT(idRecurso) from recursoProyecto where  nombreRecurso like '%.jpg' or nombreRecurso like '%.png' and  idProyecto=? ";
+            String query = "select COUNT(idRecurso) from recursoProyecto  where nombreRecurso like '%.jpg' and idProyecto=? or nombreRecurso like '%.png' and idProyecto=?";
             PreparedStatement cmd = cn.prepareStatement(query);
             cmd.setInt(1, id);
+            cmd.setInt(2, id);
             ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
@@ -188,10 +181,10 @@ public class Db {
                 } catch (Exception e) {
 
                 }
-               
+
             }
         } catch (SQLException e) {
-            System.out.println("Db "+ e.getMessage());
+            System.out.println("Db " + e.getMessage());
 
         }
     }
@@ -295,6 +288,10 @@ public class Db {
     }
 
     // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="MostrarMejoresProyectos">
+    
+    
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="CRUD-Projects">
     public boolean agregarProyecto(String nombre, String descripcion, String edicion, int idSeccionNivel, byte[] immAsBytes) {
         boolean r = false;
@@ -306,10 +303,29 @@ public class Db {
             cmd.setString(2, descripcion);
             cmd.setString(3, edicion);
             cmd.setInt(4, idSeccionNivel);
-            cmd.setBinaryStream(5, bais, immAsBytes.length);    
-           
-            
-            
+            cmd.setBinaryStream(5, bais, immAsBytes.length);
+            if (cmd.executeUpdate() > 0) {
+                r = true;
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error db : " + e);
+        }
+
+        return r;
+    }
+
+    public boolean agregarProyectoSinImagen(String nombre, String descripcion, String edicion, int idSeccionNivel) {
+        boolean r = false;
+        try {
+            String query = "INSERT INTO proyecto (nombre, descripcion, edicion, idSeccionNivel) " + "VALUES (?,?,?,?);";
+            PreparedStatement cmd = cn.prepareStatement(query);
+
+            cmd.setString(1, nombre);
+            cmd.setString(2, descripcion);
+            cmd.setString(3, edicion);
+            cmd.setInt(4, idSeccionNivel);
             if (cmd.executeUpdate() > 0) {
                 r = true;
             }
@@ -583,6 +599,8 @@ public class Db {
 
     // </editor-fold>
     // </editor-fold>
+    
+    
     
     
     // <editor-fold defaultstate="collapsed" desc="Activities">
@@ -865,7 +883,7 @@ public class Db {
         }
         return "";
     }
-    
+
     public String getEncargadoActividad(int id) {
         try {
             String sql = "select encargado from actividad where idActividad = (?)";
@@ -1853,7 +1871,7 @@ public class Db {
         }
         return false;
     }
-    
+
     private int CantidadEspecialidad;
     private ArrayList<Integer> idEspecialidad;
     private ArrayList<String> Especialidad;
@@ -2515,6 +2533,7 @@ public class Db {
         }
         return 0;
     }
+
     public int countUsuarios(int idTipoUsuario) {
         try {
             String query = "SELECT COUNT(idUsuario) from usuario where idTipoUsuario = ?";
@@ -2528,8 +2547,8 @@ public class Db {
         }
         return 0;
     }
-    
-    public ResultSet tiposUsuario(){
+
+    public ResultSet tiposUsuario() {
         try {
             String query = "SELECT idTipoUsuario, tipo from tipoUsuario";
             PreparedStatement cmd = cn.prepareStatement(query);
