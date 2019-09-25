@@ -212,6 +212,7 @@ public class Projects {
                     modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
                     modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
 
                     if (color == 0) {

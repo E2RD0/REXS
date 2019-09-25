@@ -8,6 +8,7 @@ package rexsdesktop.modal;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -20,6 +21,10 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -38,6 +43,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
+import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Projects;
 import static rexsdesktop.controller.Projects.getIdSeccionNivel;
 import static rexsdesktop.controller.Projects.getNumIMG;
@@ -68,7 +74,8 @@ import static rexsdesktop.view.Admin.pnlViewProyectos;
  * @author Lulac
  */
 public class ModalViewProyecto extends javax.swing.JPanel {
-
+    
+    public String idUbicacion;
     int contador = 0;
     ImageIcon Member = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member.png"));
     ImageIcon Member2 = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member2.png"));
@@ -447,6 +454,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         txtNumVotos = new javax.swing.JLabel();
         Separator2 = new javax.swing.JSeparator();
         pnlUbicacion = new javax.swing.JPanel();
+        btnVerMapa = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jlPoint = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -722,6 +730,20 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         pnlUbicacion.setBackground(new java.awt.Color(255, 255, 255));
         pnlUbicacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnVerMapa.setBackground(new java.awt.Color(46, 91, 255));
+        btnVerMapa.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        btnVerMapa.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerMapa.setText("Ver en mapa");
+        btnVerMapa.setToolTipText("Iniciar sesión");
+        btnVerMapa.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        btnVerMapa.setBorderPainted(false);
+        btnVerMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerMapaActionPerformed(evt);
+            }
+        });
+        pnlUbicacion.add(btnVerMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 96, 26));
+
         jLabel5.setFont(new java.awt.Font("Rubik Light", 0, 12)); // NOI18N
         jLabel5.setText("Ubicación");
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -740,7 +762,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         txtUbiView.setForeground(new java.awt.Color(34, 34, 34));
         txtUbiView.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtUbiView.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        pnlUbicacion.add(txtUbiView, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 240, 40));
+        pnlUbicacion.add(txtUbiView, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 240, 30));
 
         jlMapa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlMapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/map img.png"))); // NOI18N
@@ -1151,8 +1173,8 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                 }
 
             } else {
-                Projects s = getIdSeccionNivel(txtNivel.getText(),txtEspecialidad.getText(), txtSeccion.getText());
-                if (Projects.actualizarPro(txtnombreEdit.getText(), txtDesc.getText(),s.getIdSeccionNivel, Integer.parseInt(id.getText()))) {
+                Projects s = getIdSeccionNivel(txtNivel.getText(), txtEspecialidad.getText(), txtSeccion.getText());
+                if (Projects.actualizarPro(txtnombreEdit.getText(), txtDesc.getText(), s.getIdSeccionNivel, Integer.parseInt(id.getText()))) {
                     System.out.println("proyecto actualizado");
                     Projects p = getProject(Integer.parseInt(id.getText()));
                     txtDescView.setText("<html>" + p.DescripcionP + "</html>");
@@ -1428,7 +1450,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
                         if (Projects.actualizarFotoPortada(img, Integer.parseInt(id.getText()))) {
                             lblFotoPortada.setIcon(new ImageIcon(img.getScaledInstance(lblFotoPortada.getWidth(), lblFotoPortada.getHeight(), Image.SCALE_DEFAULT)));
-                            
+
                             JOptionPane.showMessageDialog(this, "Foto de perfil actualizada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
 
                         } else {
@@ -1449,6 +1471,18 @@ public class ModalViewProyecto extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jLabel6MouseClicked
 
+    private void btnVerMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerMapaActionPerformed
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            String alias = Locations.getAlias(idUbicacion);
+            try {
+                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/"+alias+"?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
+            } catch (Exception ex) {
+                System.out.println("Open map in web browser error: " + ex.getMessage());
+            }
+        }
+        //
+    }//GEN-LAST:event_btnVerMapaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Creatividad;
@@ -1461,6 +1495,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     private javax.swing.JSeparator Separator2;
     private javax.swing.JButton btnActualizarProyecto;
     private javax.swing.JLabel btnAddMember;
+    private javax.swing.JButton btnVerMapa;
     private javax.swing.JComboBox<String> cbxEspecialidad;
     private javax.swing.JComboBox<String> cbxNivel;
     private javax.swing.JComboBox<String> cbxSeccionNivel;

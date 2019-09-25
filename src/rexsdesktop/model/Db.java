@@ -290,8 +290,6 @@ public class Db {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="MostrarMejoresProyectos">
-    
-    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="CRUD-Projects">
     public boolean agregarProyecto(String nombre, String descripcion, String edicion, int idSeccionNivel, byte[] immAsBytes) {
@@ -600,10 +598,6 @@ public class Db {
 
     // </editor-fold>
     // </editor-fold>
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="Activities">
     private int CantidadActividades;
     private ArrayList<String> HorasActividadesInicio;
@@ -2150,13 +2144,13 @@ public class Db {
 
     //Filtrar
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
-         boolean respuesta = false;
+        boolean respuesta = false;
         try {
             String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
-            cmd.setString(3, "%"+nombre+"%");
+            cmd.setString(3, "%" + nombre + "%");
             ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
@@ -2170,13 +2164,13 @@ public class Db {
     }
 
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
-         try {
+        try {
 
             String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
-            cmd.setString(3, "%"+nombre+"%");
+            cmd.setString(3, "%" + nombre + "%");
             ResultSet rs = cmd.executeQuery();
 
             idUsuario2 = new ArrayList<>();
@@ -2598,5 +2592,86 @@ public class Db {
      */
     public void setCantidadUsuarios2(int CantidadUsuarios2) {
         this.CantidadUsuarios2 = CantidadUsuarios2;
+    }
+
+    public int getIdCriterioVotacion(String criterio) {
+        try {
+            String query = "SELECT idCriterioVotacion FROM criterioVotacion where criterio=?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setString(1, criterio);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return -1;
+    }
+
+    public int getIdVotacion(int idUsuario, int idProyecto) {
+        try {
+            String query = "SELECT idVotacion FROM votacion WHERE idUsuario= ? AND idProyecto = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idUsuario);
+            cmd.setInt(2, idProyecto);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return -1;
+    }
+
+    public boolean addVotacion(int idUsuario, int idProyecto) {
+        try {
+            String query = "INSERT INTO votacion(idUsuario, idProyecto) VALUES(?, ?)";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idUsuario);
+            cmd.setInt(2, idProyecto);
+            if (cmd.executeUpdate() > 0) {
+                cmd.close();
+                cn.close();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return false;
+    }
+
+    public boolean addDetalleVotacion(double puntuacion, int idCriterioVotacion, int idVotacion) {
+        try {
+            String query = "INSERT INTO detalleVotacion (puntuacion, idCriterioVotacion, idVotacion) VALUES (?,?,?)";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setDouble(1, puntuacion);
+            cmd.setInt(2, idCriterioVotacion);
+            cmd.setInt(3, idVotacion);
+            if (cmd.executeUpdate() > 0) {
+                cmd.close();
+                cn.close();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return false;
+    }
+
+    public boolean addPromedio(double promedio, int idVotacion) {
+        try {
+            String query = "UPDATE votacion set promedioSimple = ? WHERE idVotacion = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setDouble(1, promedio);
+            cmd.setInt(2, idVotacion);
+            if (cmd.executeUpdate() > 0) {
+                cmd.close();
+                cn.close();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return false;
     }
 }

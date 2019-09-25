@@ -62,8 +62,10 @@ public class Locations {
         }
         return null;
     }
+
     /**
-     * Método utilizado para cargar los nombres de las ubicaciones de la API MapWize.
+     * Método utilizado para cargar los nombres de las ubicaciones de la API
+     * MapWize.
      */
     public static String getPlaceName(String placeId) {
         String placeName = "";
@@ -91,6 +93,34 @@ public class Locations {
             System.out.println("Exception in getPlaceName(): -" + e);
         }
         return placeName;
+    }
+
+    public static String getAlias(String placeId) {
+        String alias = "";
+        try {
+            String APIPlace = String.format("https://api.mapwize.io/v1/places/%s?api_key=%s", placeId, General.getMapwizeAPIKey());
+            URL url = new URL(APIPlace);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP Error code : "
+                        + conn.getResponseCode());
+            }
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            BufferedReader br = new BufferedReader(in);
+            String output;
+            JSONParser parser = new JSONParser();
+            if ((output = br.readLine()) != null) {
+                Object obj = parser.parse(output);
+                JSONObject place = (JSONObject) obj;
+                alias = String.valueOf(place.get("alias"));
+
+            }
+        } catch (Exception e) {
+            System.out.println("Exception in getPlaceName(): -" + e);
+        }
+        return alias;
     }
 
     public static boolean loadPlacesToDb() {
