@@ -21,6 +21,7 @@ import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
+import static rexsdesktop.view.LoginPoint.lblEdicion;
 
 /**
  *
@@ -34,6 +35,7 @@ public class Login extends javax.swing.JFrame {
     RubikFonts f = new RubikFonts();
     Timer t;
     String correo = null;
+
     public Login() {
         initComponents();
         this.setTitle("REXS");
@@ -49,12 +51,11 @@ public class Login extends javax.swing.JFrame {
         btnCardInicioSesion1.setContentAreaFilled(false);
         btnSignGoogle1.setContentAreaFilled(false);
         btnSignFacebook1.setContentAreaFilled(false);
-        
+
 //        btnSignFacebook.setVisible(false);
 //        btnSignFacebook1.setVisible(false);
 //        btnSignGoogle1.setVisible(false);
 //        btnSignGoogle.setVisible(false);
-        
     }
 
     /**
@@ -372,7 +373,7 @@ public class Login extends javax.swing.JFrame {
         pnlIniciarSesion.setBackground(new java.awt.Color(255, 255, 255));
         pnlIniciarSesion.setPreferredSize(new java.awt.Dimension(500, 625));
 
-        jLabel1.setFont(new java.awt.Font("Rubik Light", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Rubik", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(46, 56, 77));
         jLabel1.setText("Inicia sesión");
         jLabel1.setPreferredSize(new java.awt.Dimension(131, 28));
@@ -385,6 +386,9 @@ public class Login extends javax.swing.JFrame {
         txtEmail.setToolTipText("Ingresa tu correo electrónico");
         txtEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
         txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtEmailKeyReleased(evt);
             }
@@ -1302,6 +1306,18 @@ public class Login extends javax.swing.JFrame {
             verificarPIN();
         }
     }//GEN-LAST:event_txtPINKeyTyped
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        int teclaPresionada = evt.getKeyCode();
+
+        if (teclaPresionada == KeyEvent.VK_F6) {
+            LoginPoint login2 = new LoginPoint();
+            login2.setVisible(true);
+            General.getEdicion();
+            LoginPoint.lblEdicion.setText(CurrentUser.edicionExpotecnica);
+            this.dispose();
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
 
     /**
      * @param args the command line arguments

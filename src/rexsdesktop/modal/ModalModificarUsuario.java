@@ -10,6 +10,7 @@ import javax.sound.sampled.LineEvent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.view.Admin;
@@ -26,8 +27,15 @@ public class ModalModificarUsuario extends javax.swing.JPanel {
     public ModalModificarUsuario() {
         initComponents();
         User Conexion = new User();
-        cbxTipoUsuarioModal.setModel(Conexion.obtenerTipoUsuario());
-        cbxEstadoUsuarioModal.setModel(Conexion.obtenerEstadoUsuario());
+        int tipoU = CurrentUser.idTipoUsuario;
+        User CargarUsuario = new User();
+        if (tipoU == 1) {
+            cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());
+            cbxEstadoUsuarioModal.setModel(CargarUsuario.obtenerEstadoUsuario());
+        }else if (tipoU == 2) {
+            cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioAdministrador());
+            cbxEstadoUsuarioModal.setModel(CargarUsuario.obtenerEstadoUsuario());
+        }
     }
 
     /**

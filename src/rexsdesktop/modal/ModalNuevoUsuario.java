@@ -29,11 +29,15 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
     public ModalNuevoUsuario() {
         initComponents();
         User Conexion = new User();
-        cbxTipoUsuarioModal.setModel(Conexion.obtenerTipoUsuario());
-        if (CurrentUser.idTipoUsuario != User.getIdTipoUsuario("Superadministrador")) {
-            cbxTipoUsuarioModal.removeItem("Superadministrador");
+        int tipoU = CurrentUser.idTipoUsuario;
+        User CargarUsuario = new User();
+        if (tipoU == 1) {
+            cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());
+            cbxEstadoUsuarioModal.setModel(CargarUsuario.obtenerEstadoUsuario());
+        }else if (tipoU == 2) {
+            cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioAdministrador());
+            cbxEstadoUsuarioModal.setModel(CargarUsuario.obtenerEstadoUsuario());
         }
-        cbxEstadoUsuarioModal.setModel(Conexion.obtenerEstadoUsuario());
     }
 
     /**

@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.imageio.ImageIO;
@@ -94,9 +95,22 @@ public class User {
         return res;
     }
 
-    public DefaultComboBoxModel obtenerTipoUsuario() {
+    public DefaultComboBoxModel obtenerTipoUsuarioSuperAdministrador() {
         DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
         ResultSet rst = this.consulta("select * from tipoUsuario order by idTipoUsuario");
+        try {
+            while (rst.next()) {
+                listaModelo.addElement(rst.getString("tipo"));
+            }
+            rst.close();
+        } catch (Exception e) {
+        }
+        return listaModelo;
+    }
+    
+    public DefaultComboBoxModel obtenerTipoUsuarioAdministrador() {
+        DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
+        ResultSet rst = this.consulta("select * from tipoUsuario where idTipoUsuario != "+1+" order by idTipoUsuario");
         try {
             while (rst.next()) {
                 listaModelo.addElement(rst.getString("tipo"));
@@ -119,7 +133,7 @@ public class User {
         }
         return listaModelo;
     }
-     //FILTRAR USUARIOS
+    //FILTRAR USUARIOS
     JPanel ContenedorFiltrarUsuarios;
 
     ArrayList<JPanel> panelFiltrarUsuarios;
@@ -134,7 +148,7 @@ public class User {
         JLabel nombreuser = null;
         panelFiltrarUsuarios = new ArrayList<>();
 
-        for (int i = 0; i < u.NumUserFiltrados ; i++) {
+        for (int i = 0; i < u.NumUserFiltrados; i++) {
             ContenedorFiltrarUsuarios = new JPanel();
             panel.add(ContenedorFiltrarUsuarios);
             panelFiltrarUsuarios.add(ContenedorFiltrarUsuarios);
@@ -284,6 +298,30 @@ public class User {
         return respuesta;
     }
 
+    public boolean agregarUsuarioPoint() {
+        boolean respuesta = false;
+
+        try {
+            String sql = "INSERT INTO usuario (nombreCompleto,email,clave,idTipoUsuario,idEstadoUsuario) " + "VALUES (?,?,?,?,?);";
+            try (PreparedStatement stm = getCn().prepareStatement(sql)) {
+                String Encriptado = hashPW(getClave());
+                stm.setString(1, getNombreCompleto());
+                stm.setString(2, getEmail());
+                stm.setString(3, Encriptado);
+                stm.setInt(4, getIdTipoUsuario());
+                stm.setInt(5, getIdEstadoUsuario());
+
+                if (!stm.execute()) {
+                    respuesta = true;
+                }
+            }
+            getCn().close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return respuesta;
+    }
+
     public boolean ActualizarUsuario() {
         boolean respuesta = false;
         try {
@@ -293,7 +331,7 @@ public class User {
             stm.setString(1, nombreCompleto);
             stm.setString(2, email);
             stm.setString(3, Encriptado);
-            stm.setInt(4, idTipoUsuario );
+            stm.setInt(4, idTipoUsuario);
             stm.setInt(5, idEstadoUsuario);
             stm.setInt(6, getIdUsuario());
 
@@ -428,8 +466,8 @@ public class User {
             if (idUsuario != 0) {
                 String pin = UUID.randomUUID().toString().toUpperCase().substring(0, 5);
                 if (db.insertarPin(pin, idUsuario)) {
-                    String remitente = "pluzedu@gmail.com";
-                    String clave = "!3uCmXA3CFwXLK0a";
+                    String remitente = "rexsDesktop@gmail.com";
+                    String clave = "@Rexsdesktop123";
 
                     Properties props = new Properties();
 
@@ -541,8 +579,9 @@ public class User {
         }
         return bcHash;
     }
-    public int getCantidadUsuarios(){
-    Db db =  new Db();
+
+    public int getCantidadUsuarios() {
+        Db db = new Db();
         try {
             db.NumUsuarios();
             int Numero = db.getCantidadUsuarios();
@@ -551,8 +590,9 @@ public class User {
         }
         return 0;
     }
-    public int getCantidadUsuariosActivos(){
-    Db db =  new Db();
+
+    public int getCantidadUsuariosActivos() {
+        Db db = new Db();
         try {
             int Numero = db.getUsuariosActivados();
             return Numero;
@@ -1062,6 +1102,7 @@ public class User {
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
     /**
      * @return the Clave
      */
@@ -1075,7 +1116,7 @@ public class User {
     public void setClave(String Clave) {
         this.Clave = Clave;
     }
-    
+
     public static User getNumUserFiltrados(String nombre, String idE, String idT) {
         try {
             Db db = new Db();

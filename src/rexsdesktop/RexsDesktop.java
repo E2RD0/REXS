@@ -6,6 +6,7 @@
 package rexsdesktop;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import rexsdesktop.controller.General;
 import rexsdesktop.view.Login;
@@ -22,22 +23,27 @@ public class RexsDesktop {
 
     /**
      * Método para inciar el sistema
+     *
      * @param args the command line arguments
      *
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Login inicio = new Login();
-            inicio.setLocationRelativeTo(null);
-            inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            inicio.setVisible(true);
-        });
+        try {
+            SwingUtilities.invokeLater(() -> {
+                Login inicio = new Login();
+                inicio.setLocationRelativeTo(null);
+                inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                inicio.setVisible(true);
+            });
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (CurrentUser.idUsuario != 0) {
-                General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
-            }
-        }));
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                if (CurrentUser.idUsuario != 0) {
+                    General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+                }
+            }));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "REXS ha dejado de funcionar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

@@ -822,6 +822,11 @@ public class Admin extends javax.swing.JFrame {
         btnCancelarModal1.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal1.setText("Cancelar");
         btnCancelarModal1.setBorderPainted(false);
+        btnCancelarModal1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModal1ActionPerformed(evt);
+            }
+        });
 
         dateFechaInicio.setToolTipText("Ingresar la fecha de inicio de la Expotécnica");
         dateFechaInicio.setDateFormatString("yyyy-MM-dd HH:mm:ss");
@@ -1923,7 +1928,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(checkActividades)
                 .addGap(5, 5, 5)
                 .addComponent(checkUbicaciones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)
                 .addComponent(checkTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2204,7 +2209,7 @@ public class Admin extends javax.swing.JFrame {
                                 .addGroup(jPanel145Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jrbProyectos)
                                     .addComponent(jrbBitacoras))))
-                        .addContainerGap(174, Short.MAX_VALUE))))
+                        .addContainerGap(182, Short.MAX_VALUE))))
         );
         jPanel145Layout.setVerticalGroup(
             jPanel145Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2545,7 +2550,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel64)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
@@ -2916,8 +2921,7 @@ public class Admin extends javax.swing.JFrame {
                         .addGap(225, 225, 225))
                     .addGroup(jPanel27Layout.createSequentialGroup()
                         .addGap(397, 397, 397)
-                        .addComponent(jScrollPane4)
-                        .addContainerGap())))
+                        .addComponent(jScrollPane4))))
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel21)
@@ -2988,7 +2992,7 @@ public class Admin extends javax.swing.JFrame {
         pnlUbicacionesLayout.setVerticalGroup(
             pnlUbicacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlUbicacionesLayout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(pnlUbicacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel27, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUbicacionesLayout.createSequentialGroup()
@@ -3565,7 +3569,7 @@ public class Admin extends javax.swing.JFrame {
                                     .addComponent(jrbEstado)
                                     .addGap(32, 32, 32)
                                     .addComponent(jrbTipo)))
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addContainerGap(116, Short.MAX_VALUE))
                         .addGroup(jPanel144Layout.createSequentialGroup()
                             .addComponent(jrbCriterio)
                             .addGap(18, 18, 18)
@@ -3587,7 +3591,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPanel144Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbCriterio)
                     .addComponent(jrbAccion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(btnTablasCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -5095,6 +5099,10 @@ public class Admin extends javax.swing.JFrame {
         btnFiltrarLista1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnFiltrarLista1ActionPerformed
 
+    private void btnCancelarModal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModal1ActionPerformed
+        modal.dispose();
+    }//GEN-LAST:event_btnCancelarModal1ActionPerformed
+
     private void setColorInterfaz() {
         //        setBackground(new Color(24, 25, 27) );
         Color superior;
@@ -5762,8 +5770,14 @@ public class Admin extends javax.swing.JFrame {
         cantidadesUsuarios();
         User CargarUsuario = new User();
         CargarUsuario.CrearPanelesUsuarios(jPanel1);
-        jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuario());
-        jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+        int tipoU = CurrentUser.idTipoUsuario;
+        if (tipoU == 1) {
+            jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());
+            jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+        }else if (tipoU == 2) {
+            jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioAdministrador());
+            jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+        }
     }
 
     private JFreeChart createChartInicioSesion() {
