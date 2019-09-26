@@ -2165,7 +2165,7 @@ public class Db {
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
         boolean respuesta = false;
         try {
-            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ?";
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
@@ -2185,7 +2185,7 @@ public class Db {
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ?";
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
