@@ -31,4 +31,14 @@ public class Votes {
         }
         return false;
     }
+
+    public static double getPromedioFinalVoto(int idUsuario, int idProyecto) {
+        Db db = new Db();
+        return db.getPromedioFinalVoto(idUsuario, idProyecto);
+    }
+
+    public static boolean existeVoto(int idUsuario, int idProyecto) {
+        Db db = new Db();
+        return db.existeVoto(idUsuario, idProyecto);
+    }
 }

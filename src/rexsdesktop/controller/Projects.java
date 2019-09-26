@@ -637,6 +637,7 @@ public class Projects {
                 public void mouseClicked(MouseEvent e) {
                     nuevo = (JPanel) e.getSource();
                     nuevo.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    ModalViewProyectoPoint.idProyecto = Integer.parseInt(nuevo.getName());
                     ModalViewProyectoPoint modalProye = new ModalViewProyectoPoint();
                     Projects p = getProject(Integer.parseInt(nuevo.getName()));
                     ModalViewProyectoPoint.txtDescView.setText("<html>" + p.DescripcionP + "</html>");
@@ -649,7 +650,7 @@ public class Projects {
                     modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
-
+ 
                     if (color == 0) {
 
                         modalProye.setBackground(new Color(244, 246, 252));

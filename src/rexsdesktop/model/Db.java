@@ -876,7 +876,7 @@ public class Db {
         return "";
     }
 
-        /**
+    /**
      * Método utilizado para obtener la descripción de una actividad
      * seleccionada.
      *
@@ -897,7 +897,7 @@ public class Db {
         }
         return "";
     }
-    
+
     public String getEncargadoActividad(int id) {
         try {
             String sql = "select encargado from actividad where idActividad = (?)";
@@ -2650,7 +2650,6 @@ public class Db {
             cmd.setInt(2, idProyecto);
             if (cmd.executeUpdate() > 0) {
                 cmd.close();
-                cn.close();
                 return true;
             }
         } catch (Exception e) {
@@ -2668,7 +2667,6 @@ public class Db {
             cmd.setInt(3, idVotacion);
             if (cmd.executeUpdate() > 0) {
                 cmd.close();
-                cn.close();
                 return true;
             }
         } catch (Exception e) {
@@ -2688,6 +2686,35 @@ public class Db {
                 cn.close();
                 return true;
             }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return false;
+    }
+
+    public double getPromedioFinalVoto(int idUsuario, int idProyecto) {
+        try {
+            String query = "SELECT promedioSimple FROM votacion WHERE idUsuario= ? AND idProyecto = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idUsuario);
+            cmd.setInt(2, idProyecto);
+            ResultSet rs = cmd.executeQuery();
+            rs.next();
+            return rs.getDouble(1);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return -1;
+    }
+
+    public boolean existeVoto(int idUsuario, int idProyecto) {
+        try {
+            String query = "SELECT * FROM votacion WHERE idUsuario= ? AND idProyecto = ?";
+            PreparedStatement cmd = cn.prepareStatement(query);
+            cmd.setInt(1, idUsuario);
+            cmd.setInt(2, idProyecto);
+            ResultSet rs = cmd.executeQuery();
+            return rs.next();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

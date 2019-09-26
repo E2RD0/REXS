@@ -77,7 +77,7 @@ import static rexsdesktop.view.Admin.pnlViewProyectos;
  * @author Lulac
  */
 public class ModalViewProyectoPoint extends javax.swing.JPanel {
-    
+    public static int idProyecto;
     public String idUbicacion;
     int contador = 0;
     ImageIcon Member = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member.png"));
@@ -93,23 +93,37 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         jcpNormal.getVerticalScrollBar().setUnitIncrement(10);
         jcpEdit.getVerticalScrollBar().setPreferredSize(new Dimension(6, Integer.MAX_VALUE));
         jcpEdit.getVerticalScrollBar().setUnitIncrement(10);
-        
+
         criterio1.setMinimum(1);
         criterio2.setMinimum(1);
         criterio3.setMinimum(1);
         criterio1.setMaximum(10);
         criterio2.setMaximum(10);
         criterio3.setMaximum(10);
-        
+        lblPuntajeFinal.setVisible(false);
+
         Db db = new Db();
         db.obtenerNivel();
         for (int i = 0; i < db.SNnivel.size(); i++) {
             cbxNivel.addItem(db.SNnivel.get(i));
         }
-        cbxEspecialidad.disable();
-        cbxSeccionNivel.disable();
-        jLabel14.disable();
+        cbxEspecialidad.setEnabled(false);
+        cbxSeccionNivel.setEnabled(false);
+        jLabel14.setEnabled(false);
+        CurrentUser.idUsuario = 1;
+        if (Votes.existeVoto(CurrentUser.idUsuario, idProyecto)) {
+            yaExiste();
+        }
 
+    }
+
+    private void yaExiste() {
+        btnVotar.setEnabled(false);
+        criterio1.setEnabled(false);
+        criterio2.setEnabled(false);
+        criterio3.setEnabled(false);
+        lblPuntajeFinal.setVisible(true);
+        lblPuntajeFinal.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, idProyecto)));
     }
 
     public void cargarProyectos() {
@@ -473,8 +487,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         lb = new javax.swing.JLabel();
         dot1 = new javax.swing.JLabel();
         dot2 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        criterio1 = new javax.swing.JSlider();
+        pnlVotacion = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         criterio2 = new javax.swing.JSlider();
@@ -484,6 +497,9 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         lblCriterio1 = new javax.swing.JLabel();
         lblCriterio2 = new javax.swing.JLabel();
         lblCriterio3 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        criterio1 = new javax.swing.JSlider();
+        lblPuntajeFinal = new javax.swing.JLabel();
         jcpEdit = new javax.swing.JScrollPane();
         pnlViewEdit = new javax.swing.JPanel();
         cbxNivel = new javax.swing.JComboBox<>();
@@ -798,14 +814,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         dot2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dot2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/dot.png"))); // NOI18N
 
-        jLabel12.setText("Votación");
-
-        criterio1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                criterio1StateChanged(evt);
-            }
-        });
-
         jLabel15.setText("Exposición");
 
         jLabel16.setText("Creatividad");
@@ -843,6 +851,77 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
         lblCriterio3.setText("9.0");
 
+        jLabel12.setText("Votación");
+
+        criterio1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                criterio1StateChanged(evt);
+            }
+        });
+
+        lblPuntajeFinal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
+        lblPuntajeFinal.setText("Puntaje final: 9.0");
+
+        javax.swing.GroupLayout pnlVotacionLayout = new javax.swing.GroupLayout(pnlVotacion);
+        pnlVotacion.setLayout(pnlVotacionLayout);
+        pnlVotacionLayout.setHorizontalGroup(
+            pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVotacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlVotacionLayout.createSequentialGroup()
+                        .addGroup(pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlVotacionLayout.createSequentialGroup()
+                                .addComponent(criterio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblCriterio1))
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addGroup(pnlVotacionLayout.createSequentialGroup()
+                                .addComponent(criterio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblCriterio3))
+                            .addComponent(jLabel17)
+                            .addComponent(btnVotar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlVotacionLayout.createSequentialGroup()
+                        .addComponent(criterio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblCriterio2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPuntajeFinal)
+                        .addGap(32, 32, 32))))
+        );
+        pnlVotacionLayout.setVerticalGroup(
+            pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVotacionLayout.createSequentialGroup()
+                .addComponent(jLabel12)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel15)
+                .addGap(2, 2, 2)
+                .addGroup(pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblCriterio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(criterio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel16)
+                .addGroup(pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlVotacionLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(criterio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCriterio2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPuntajeFinal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel17)
+                .addGroup(pnlVotacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlVotacionLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(criterio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCriterio3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVotar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout pnlViewLayout = new javax.swing.GroupLayout(pnlView);
         pnlView.setLayout(pnlViewLayout);
         pnlViewLayout.setHorizontalGroup(
@@ -871,45 +950,28 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlViewLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(pnlViewIntegrantes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pnlVotos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDescView, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlViewLayout.createSequentialGroup()
-                                    .addGap(139, 139, 139)
-                                    .addComponent(btnAddMember, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(pnlUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlViewLayout.createSequentialGroup()
+                            .addGap(159, 159, 159)
+                            .addComponent(btnAddMember, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlViewLayout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(pnlViewIntegrantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pnlVotos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDescView, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pnlUbicacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pnlVotacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addComponent(criterio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblCriterio1))
-                            .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addComponent(criterio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblCriterio2))
-                            .addComponent(jLabel16)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addComponent(criterio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblCriterio3))
-                            .addComponent(jLabel17)
-                            .addComponent(btnVotar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlViewLayout.setVerticalGroup(
             pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlViewLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(15, 15, 15)
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dot1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -932,30 +994,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel15)
-                .addGap(2, 2, 2)
-                .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblCriterio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(criterio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel16)
-                .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlViewLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(criterio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblCriterio2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel17)
-                .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlViewLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(criterio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblCriterio3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnVotar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addComponent(pnlVotacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1534,7 +1574,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             String alias = Locations.getAlias(idUbicacion);
             try {
-                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/"+alias+"?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
+                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/" + alias + "?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
             } catch (Exception ex) {
                 System.out.println("Open map in web browser error: " + ex.getMessage());
             }
@@ -1544,21 +1584,32 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
     private void btnVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVotarActionPerformed
         List<Object> criterioExpo = new Vector<Object>();
-        /*{criterio1.getValue(), "Exposición"};
-        Votes.ingresarVotacion(CurrentUser.idUsuario, idProyecto, votos)*/
+        criterioExpo.add((double)criterio1.getValue());
+        criterioExpo.add("Exposición");
+
+        List<Object> criterioCreatividad = new Vector<Object>();
+        criterioCreatividad.add((double)criterio2.getValue());
+        criterioCreatividad.add("Creatividad");
+
+        List<Object> criterioInnovacion = new Vector<Object>();
+        criterioInnovacion.add((double)criterio3.getValue());
+        criterioInnovacion.add("Innovación");
+
+        Votes.ingresarVotacion(CurrentUser.idUsuario, idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);
+        yaExiste();
     }//GEN-LAST:event_btnVotarActionPerformed
 
     private void criterio1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_criterio1StateChanged
         lblCriterio1.setText(String.valueOf(criterio1.getValue()));
     }//GEN-LAST:event_criterio1StateChanged
 
-    private void criterio2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_criterio2StateChanged
-        lblCriterio2.setText(String.valueOf(criterio2.getValue()));
-    }//GEN-LAST:event_criterio2StateChanged
-
     private void criterio3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_criterio3StateChanged
         lblCriterio3.setText(String.valueOf(criterio3.getValue()));
     }//GEN-LAST:event_criterio3StateChanged
+
+    private void criterio2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_criterio2StateChanged
+        lblCriterio2.setText(String.valueOf(criterio2.getValue()));
+    }//GEN-LAST:event_criterio2StateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1619,6 +1670,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JLabel lblCriterio2;
     private javax.swing.JLabel lblCriterio3;
     public javax.swing.JLabel lblFotoPortada;
+    private javax.swing.JLabel lblPuntajeFinal;
     private javax.swing.JPanel pnlImg;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlUbicacion;
@@ -1626,6 +1678,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     public static javax.swing.JPanel pnlViewEdit;
     public static javax.swing.JPanel pnlViewImagenes;
     public javax.swing.JPanel pnlViewIntegrantes;
+    private javax.swing.JPanel pnlVotacion;
     private javax.swing.JPanel pnlVotos;
     private javax.swing.JLabel stars;
     public javax.swing.JTextArea txtDesc;
