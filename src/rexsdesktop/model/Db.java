@@ -718,9 +718,6 @@ public class Db {
                 bandera = true;
             }
 
-            stm.close();
-            cn.close();
-
         } catch (SQLException e) {
             System.out.println("ERROR" + e);
         }
@@ -879,6 +876,28 @@ public class Db {
         return "";
     }
 
+        /**
+     * Método utilizado para obtener la descripción de una actividad
+     * seleccionada.
+     *
+     * @param id identificador de la actividad
+     * @return retorna la descripción.
+     */
+    public String getUbicacion(int id) {
+        try {
+            String sql = "select ubicacion from actividad ac inner join ubicacion ubi on ac.idUbicacion = ubi.idUbicacion where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return "";
+    }
+    
     public String getEncargadoActividad(int id) {
         try {
             String sql = "select encargado from actividad where idActividad = (?)";

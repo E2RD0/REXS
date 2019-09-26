@@ -3264,6 +3264,9 @@
                           </Properties>
                         </Component>
                         <Container class="javax.swing.JPanel" name="pnlChartTiposUsuario">
+                          <Properties>
+                            <Property name="toolTipText" type="java.lang.String" value="Cantidad de usuarios segun su tipo"/>
+                          </Properties>
 
                           <Layout>
                             <DimensionLayout dim="0">

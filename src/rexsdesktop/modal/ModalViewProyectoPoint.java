@@ -425,7 +425,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private void initComponents() {
 
         pnlImg = new javax.swing.JPanel();
-        jlAgregarImagen = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         Img = new javax.swing.JLabel();
@@ -433,9 +432,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         pnlPrincipal = new javax.swing.JPanel();
         jcpNormal = new javax.swing.JScrollPane();
         pnlView = new javax.swing.JPanel();
-        btnAddMember = new javax.swing.JLabel();
-        jlEdit1 = new javax.swing.JLabel();
-        jlDelete = new javax.swing.JLabel();
         txtNombre = new javax.swing.JLabel();
         txtDescView = new javax.swing.JLabel();
         txtNivel = new javax.swing.JLabel();
@@ -499,17 +495,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
         pnlImg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jlAgregarImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlAgregarImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/plus.png"))); // NOI18N
-        jlAgregarImagen.setEnabled(false);
-        jlAgregarImagen.setFocusable(false);
-        jlAgregarImagen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlAgregarImagenMouseClicked(evt);
-            }
-        });
-        pnlImg.add(jlAgregarImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 350, 50, 40));
-
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/002-left.png"))); // NOI18N
         jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -556,33 +541,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
         pnlView.setBackground(new java.awt.Color(244, 246, 252));
         pnlView.setMinimumSize(new java.awt.Dimension(442, 586));
-
-        btnAddMember.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAddMember.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Button_Add.png"))); // NOI18N
-        btnAddMember.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(46, 91, 255), 1, true));
-        btnAddMember.setEnabled(false);
-        btnAddMember.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAddMemberMouseClicked(evt);
-            }
-        });
-
-        jlEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBlue.png"))); // NOI18N
-        jlEdit1.setEnabled(false);
-        jlEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlEdit1MouseClicked(evt);
-            }
-        });
-
-        jlDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/delete_1.png"))); // NOI18N
-        jlDelete.setEnabled(false);
-        jlDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlDeleteMouseClicked(evt);
-            }
-        });
 
         txtNombre.setBackground(new java.awt.Color(79, 54, 125));
         txtNombre.setFont(new java.awt.Font("Rubik Ligth",0,29)
@@ -817,7 +775,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                                 .addComponent(dot2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(8, 8, 8)
                                 .addComponent(txtSeccion)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 9, Short.MAX_VALUE)))
                 .addGap(328, 328, 328))
             .addGroup(pnlViewLayout.createSequentialGroup()
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -826,32 +784,20 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                         .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addComponent(jlEdit1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlDelete))))
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(pnlViewIntegrantes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pnlVotos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtDescView, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addGap(139, 139, 139)
-                                .addComponent(btnAddMember, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(pnlUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnlViewLayout.setVerticalGroup(
             pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlViewLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(48, 48, 48)
                 .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(15, 15, 15)
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -870,9 +816,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                 .addComponent(pnlVotos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlViewIntegrantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddMember, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addComponent(pnlUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1208,125 +1152,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnActualizarProyectoActionPerformed
 
-    private void jlEdit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlEdit1MouseClicked
-        pnlPrincipal.removeAll();
-        pnlPrincipal.add(jcpEdit);
-        pnlPrincipal.repaint();
-        pnlPrincipal.revalidate();
-    }//GEN-LAST:event_jlEdit1MouseClicked
-
-
-    private void jlDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlDeleteMouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este proyecto? Los datos no se recuperarán");
-        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        if (res == 0) {
-
-            Projects p = new Projects();
-            p.eliminarProyecto(Integer.parseInt(id.getText()));
-            Window w = SwingUtilities.getWindowAncestor(ModalViewProyectoPoint.this);
-            w.setVisible(false);
-            Admin.cdProyectos.removeAll();
-            cargarProyectos();
-            pnlViewProyectos.repaint();
-            pnlViewProyectos.revalidate();
-            cdProyectos.repaint();
-            cdProyectos.revalidate();
-
-        }
-        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-    }//GEN-LAST:event_jlDeleteMouseClicked
-
-    private void btnAddMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMemberMouseClicked
-        Db db = new Db();
-
-        String Integrante = JOptionPane.showInputDialog(this, "Ingrese el nombre del estudiante", "Nuevo estudiante", JOptionPane.INFORMATION_MESSAGE);
-        if (Integrante != null) {
-            if (!Integrante.isEmpty()) {
-                Projects g = getNumMembers(Integer.parseInt(id.getText()));
-                if (g.CountInte <= 5) {
-                    if (!db.IntegranteExiste(Integrante)) {
-                        Projects p = new Projects();
-                        p.nuevoIntegrante(Integrante, Integer.parseInt(id.getText()));
-                        pnlIntegrantes.removeAll();
-                        cargarIntegrantes();
-                        pnlIntegrantes.repaint();
-                        pnlIntegrantes.revalidate();
-
-                    } else {
-                        JOptionPane.showMessageDialog(this, "El integrante ya existe");
-                    }
-                } else {
-
-                    JOptionPane.showMessageDialog(this, "No puede haber más de 6 integrantes en un mismo proyecto.");
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(this, "El campo está vacío.");
-            }
-
-        } else {
-
-        }
-
-    }//GEN-LAST:event_btnAddMemberMouseClicked
-
-    private void jlAgregarImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlAgregarImagenMouseClicked
-
-        Projects t = getNumIMG(Integer.parseInt(id.getText()));
-        if (t.CountIMGresources <= 5) {
-            JFileChooser fc = new JFileChooser();
-            FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
-            fc.addChoosableFileFilter(imageFilter);
-            fc.setAcceptAllFileFilterUsed(false);
-            if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                try {
-
-                    File file = fc.getSelectedFile();
-                    if (Validation.VerificadorImagen.verifyFile(file)) {
-                        FileInputStream fis = new FileInputStream(file);
-                        BufferedImage imgOriginal = ImageIO.read(fis);
-                        if (Validation.VerificadorImagen.verifyIMG(imgOriginal)) {
-                            BufferedImage img = new BufferedImage(imgOriginal.getWidth(),
-                                    imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
-                            img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
-                            if (Projects.agregarRecursoIMG(file.getName(), Img.getWidth(), Img.getHeight(), 10, img, Integer.parseInt(id.getText()))) {
-
-                                if (pnlImagenes != null) {
-                                    pnlImagenes.removeAll();
-                                    System.out.println("No es nulo");
-                                } else {
-                                    System.out.println("Es nulo");
-                                }
-                                cargarImagenes();
-                                pnlViewImagenes.repaint();
-                                pnlViewImagenes.revalidate();
-                                pnlImagenes.repaint();
-                                pnlImagenes.revalidate();
-                                JOptionPane.showMessageDialog(this, "Foto agregada con éxito.", "Agregar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
-
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Error al actualizar la foto de perfil.", "Actualizar foto de perfil", JOptionPane.WARNING_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
-                    }
-
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Solo se permiten un máximo de 6 imágenes.");
-        }
-
-
-    }//GEN-LAST:event_jlAgregarImagenMouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
         Db db = new Db();
@@ -1500,7 +1325,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JPanel PanelInfo1;
     private javax.swing.JSeparator Separator2;
     private javax.swing.JButton btnActualizarProyecto;
-    private javax.swing.JLabel btnAddMember;
     private javax.swing.JButton btnVerMapa;
     private javax.swing.JComboBox<String> cbxEspecialidad;
     private javax.swing.JComboBox<String> cbxNivel;
@@ -1528,10 +1352,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JScrollPane jcpEdit;
     private javax.swing.JScrollPane jcpNormal;
-    private javax.swing.JLabel jlAgregarImagen;
     private javax.swing.JLabel jlBack;
-    public javax.swing.JLabel jlDelete;
-    private javax.swing.JLabel jlEdit1;
     private javax.swing.JLabel jlMapa;
     private javax.swing.JLabel jlPoint;
     private javax.swing.JLabel lb;

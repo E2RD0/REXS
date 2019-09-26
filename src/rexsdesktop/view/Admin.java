@@ -105,6 +105,7 @@ public class Admin extends javax.swing.JFrame {
     private Date dia3;
     private Date dia4;
     public static int color = 0;
+    public ChartPanel chartPanel;
 
     public Admin() {
         /*Scrollbar Look and Feel*/
@@ -2278,6 +2279,8 @@ public class Admin extends javax.swing.JFrame {
         jLabel254.setForeground(new java.awt.Color(135, 152, 173));
         jLabel254.setText("TIPOS DE USUARIO");
 
+        pnlChartTiposUsuario.setToolTipText("Cantidad de usuarios segun su tipo");
+
         javax.swing.GroupLayout pnlChartTiposUsuarioLayout = new javax.swing.GroupLayout(pnlChartTiposUsuario);
         pnlChartTiposUsuario.setLayout(pnlChartTiposUsuarioLayout);
         pnlChartTiposUsuarioLayout.setHorizontalGroup(
@@ -4088,6 +4091,18 @@ public class Admin extends javax.swing.JFrame {
         actividades.CrearPanelesActividades(jPanel15, fecha5Inicio, CurrentUser.edicionExpotecnica, fecha5Fin, contador);
         lblCantidadActividades5.setText(String.valueOf(actividades.getCantidadDia1()));
 //        actividades.resetearIdioma();
+
+        jPanel4.repaint();
+        jPanel12.repaint();
+        jPanel13.repaint();
+        jPanel14.repaint();
+        jPanel15.repaint();
+
+        jPanel4.revalidate();
+        jPanel12.revalidate();
+        jPanel13.revalidate();
+        jPanel14.revalidate();
+        jPanel15.revalidate();
     }
 
     private void cargarEdiciones() {
@@ -4183,10 +4198,9 @@ public class Admin extends javax.swing.JFrame {
             pnlViewProyectos.add(jsProyectos);
         } catch (Exception e) {
             System.out.println("Admin " + e.toString());
-        }finally{
-        jLabel230.setText(String.valueOf(canti)+" en total");
+        } finally {
+            jLabel230.setText(String.valueOf(canti) + " en total");
         }
-        
 
     }
 
@@ -5052,7 +5066,6 @@ public class Admin extends javax.swing.JFrame {
         pnlMejoresProyectos.setBackground(panel);
         jPanel129.setBackground(panel);
         jPanel130.setBackground(panel);
- 
 
         checkActividades.setBackground(panel);
         checkCombinar.setBackground(panel);
@@ -5081,11 +5094,17 @@ public class Admin extends javax.swing.JFrame {
 
         //Analiticas
         pnlAnaliticas.setBackground(fondo);
+        jPanel131.setBackground(panel);
         jPanel145.setBackground(panel);
         jPanel146.setBackground(panel);
         jPanel150.setBackground(panel);
         jPanel151.setBackground(panel);
         jPanel152.setBackground(panel);
+
+        jLabel254.setForeground(Blue);
+
+        pnlChartTiposUsuario.setBackground(panel);
+        pnlChartIniciosSesion.setBackground(panel);
 
         //jLabel87.setForeground(new Color(46, 91, 255));
         //jLabel89.setForeground(new Color(46, 91, 255));
@@ -5199,7 +5218,8 @@ public class Admin extends javax.swing.JFrame {
         jLabel264.setForeground(Blue);
         jLabel265.setForeground(Blue);
 
-        createChartInicioSesion();
+        chartPanel.setBackground(panel);
+
     }
 
     /**
@@ -5606,7 +5626,7 @@ public class Admin extends javax.swing.JFrame {
         lblPorcentajeVotos.setText(df.format(votosPorcentaje) + "%");
         lblNumVotosNuevos.setText(String.valueOf(General.votosNuevosHoy()));
 
-        ChartPanel chartPanel = new ChartPanel(createChartInicioSesion());
+        chartPanel = new ChartPanel(createChartInicioSesion());
         // default size
         chartPanel.setPreferredSize(new java.awt.Dimension(375, 217));
         chartPanel.setVisible(true);
@@ -5643,8 +5663,9 @@ public class Admin extends javax.swing.JFrame {
         pnlChartTiposUsuario.setLayout(new java.awt.BorderLayout());
         pnlChartTiposUsuario.add(chartPanel, BorderLayout.CENTER);
         pnlChartTiposUsuario.validate();
-        validate();  // try this
-        repaint();
+        pnlChartTiposUsuario.setBackground(Color.RED);
+//        validate();  // try this
+//        pnlChartTiposUsuario.repaint();
     }
 
     private void loadUsuarios() {
@@ -5656,7 +5677,7 @@ public class Admin extends javax.swing.JFrame {
         if (tipoU == 1) {
             jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());
             jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
-        }else if (tipoU == 2) {
+        } else if (tipoU == 2) {
             jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioAdministrador());
             jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
         }
@@ -5701,6 +5722,13 @@ public class Admin extends javax.swing.JFrame {
                 true, true, false);
         ((CategoryPlot) barChart.getPlot()).getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         CategoryPlot plot = barChart.getCategoryPlot();
+//        Color co = null;
+//        int co2 = color;
+//        if (co2 == 1) {
+//            co = darkfondo;
+//        } else {
+//            co = Color.WHITE;
+//        }
         plot.setBackgroundPaint(Color.WHITE);
         ((BarRenderer) plot.getRenderer()).setBarPainter(new StandardBarPainter());
         return barChart;

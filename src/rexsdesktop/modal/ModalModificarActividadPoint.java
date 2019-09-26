@@ -101,7 +101,6 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         jSeparator1.setForeground(new java.awt.Color(164, 164, 164));
 
         cbxUbicacionModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        cbxUbicacionModal.setForeground(new java.awt.Color(46, 56, 77));
         cbxUbicacionModal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxUbicacionModal.setToolTipText("Ubicación de la actividad");
         cbxUbicacionModal.setEnabled(false);
@@ -111,6 +110,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         txtNombreActividadModal.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtNombreActividadModal.setToolTipText("Nombre de la actividad seleccionada.");
         txtNombreActividadModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtNombreActividadModal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtNombreActividadModal.setEnabled(false);
 
         jLabel67.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
@@ -135,6 +135,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         txtDescripcionModal.setColumns(20);
         txtDescripcionModal.setRows(5);
         txtDescripcionModal.setToolTipText("Descripción de la actividad");
+        txtDescripcionModal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtDescripcionModal.setEnabled(false);
         jScrollPane1.setViewportView(txtDescripcionModal);
 
@@ -163,6 +164,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         txtNombreEncargadoModal.setForeground(new java.awt.Color(46, 56, 77));
         txtNombreEncargadoModal.setToolTipText("Nombre de la actividad seleccionada.");
         txtNombreEncargadoModal.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtNombreEncargadoModal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtNombreEncargadoModal.setEnabled(false);
 
         jLabel68.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
@@ -244,7 +246,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
                 .addComponent(jLabel69)
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
