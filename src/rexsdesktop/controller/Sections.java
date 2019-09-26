@@ -369,7 +369,7 @@ public class Sections {
                     nombreSeccion = db.getNombreSeccion(Integer.parseInt(ContenedorSecciones.getName()));
                     Nivel = db.getNivel_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
                     Especialidad = db.getEspecialidad_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
-                    Ubicacion = db.getUbicacion_Seccion(Integer.parseInt(ContenedorSecciones.getName()));
+                    Ubicacion = Locations.getPlaceName(db.getUbicacion_Seccion(Integer.parseInt(ContenedorSecciones.getName())));
                     Modal.txtSeccionModal.setText(nombreSeccion);
                     Modal.cbxNivelModal.setSelectedItem(Nivel);
                     Modal.cbxEspecialidadModal.setSelectedItem(Especialidad);

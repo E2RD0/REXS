@@ -12,10 +12,12 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.controller.User;
 import rexsdesktop.model.DbConnection;
@@ -32,12 +34,15 @@ public class ModalModificarSecciones extends javax.swing.JPanel {
      * Creates new form ModalModificarSecciones
      */
     DefaultTableModel modelo = new DefaultTableModel();
+    Locations l = new Locations();
+    Map<String, Locations.Location> map = l.createMap();
 
     public ModalModificarSecciones() {
         initComponents();
         Sections Conexion = new Sections();
         cbxEspecialidadModal.setModel(Conexion.obtenerEspecialidad());
-        cbxUbicacionModal.setModel(Conexion.obtenerUbicacion());
+        cbxUbicacionModal.removeAllItems();
+        l.createComboBox(map, cbxUbicacionModal);
         cbxNivelModal.setModel(Conexion.obtenerNivel());
 
     }
@@ -249,12 +254,12 @@ public class ModalModificarSecciones extends javax.swing.JPanel {
 
     private void txtSeccionModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeccionModalKeyTyped
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txtSeccionModalKeyTyped
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 
