@@ -718,9 +718,6 @@ public class Db {
                 bandera = true;
             }
 
-            stm.close();
-            cn.close();
-
         } catch (SQLException e) {
             System.out.println("ERROR" + e);
         }
@@ -879,6 +876,28 @@ public class Db {
         return "";
     }
 
+        /**
+     * Método utilizado para obtener la descripción de una actividad
+     * seleccionada.
+     *
+     * @param id identificador de la actividad
+     * @return retorna la descripción.
+     */
+    public String getUbicacion(int id) {
+        try {
+            String sql = "select ubicacion from actividad ac inner join ubicacion ubi on ac.idUbicacion = ubi.idUbicacion where idActividad = (?)";
+            PreparedStatement stm = cn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        return "";
+    }
+    
     public String getEncargadoActividad(int id) {
         try {
             String sql = "select encargado from actividad where idActividad = (?)";
@@ -2146,7 +2165,7 @@ public class Db {
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
         boolean respuesta = false;
         try {
-            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ?";
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
@@ -2166,7 +2185,7 @@ public class Db {
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ?";
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);

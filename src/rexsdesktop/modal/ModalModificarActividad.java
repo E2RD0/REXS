@@ -253,7 +253,7 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                 .addComponent(jLabel69)
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 42, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,7 +322,7 @@ public class ModalModificarActividad extends javax.swing.JPanel {
                     String dFin = fechaInicio + formatoHora.format(modelFin.getDate());
                     String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
                     int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
-
+                    System.out.println(ubicacion + "And "+idUbicacion);
                     if (Activities.actualizarActividad(nombre, descripcion, dInicio, dFin, encargado, idUbicacion, id)) {
                         JOptionPane.showMessageDialog(null, "Actividad actualizada correctamente", "Actividades", JOptionPane.INFORMATION_MESSAGE);
                         resetarCampos();

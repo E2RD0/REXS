@@ -204,14 +204,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="txtNombre" min="-2" pref="400" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jlEdit1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jlDelete" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="txtNombre" min="-2" pref="400" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -262,12 +255,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jlEdit1" min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="jlDelete" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="txtNombre" pref="21" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -307,10 +295,7 @@
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="criterio2" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                  <Component id="lblCriterio2" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="lblCriterio2" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
@@ -319,10 +304,7 @@
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="criterio3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                  <Component id="lblCriterio3" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="lblCriterio3" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnVotar" min="-2" pref="26" max="-2" attributes="0"/>
@@ -352,32 +334,6 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddMemberMouseClicked"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jlEdit1">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/rexsdesktop/view/resources/iconEditBlue.png"/>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jlEdit1MouseClicked"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jlDelete">
-                  <Properties>
-                    <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/rexsdesktop/view/resources/delete_1.png"/>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jlDeleteMouseClicked"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="txtNombre">
                   <Properties>

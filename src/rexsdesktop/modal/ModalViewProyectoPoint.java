@@ -444,8 +444,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         jcpNormal = new javax.swing.JScrollPane();
         pnlView = new javax.swing.JPanel();
         btnAddMember = new javax.swing.JLabel();
-        jlEdit1 = new javax.swing.JLabel();
-        jlDelete = new javax.swing.JLabel();
         txtNombre = new javax.swing.JLabel();
         txtDescView = new javax.swing.JLabel();
         txtNivel = new javax.swing.JLabel();
@@ -585,23 +583,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         btnAddMember.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAddMemberMouseClicked(evt);
-            }
-        });
-
-        jlEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/iconEditBlue.png"))); // NOI18N
-        jlEdit1.setEnabled(false);
-        jlEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlEdit1MouseClicked(evt);
-            }
-        });
-
-        jlDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/delete_1.png"))); // NOI18N
-        jlDelete.setEnabled(false);
-        jlDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlDeleteMouseClicked(evt);
             }
         });
 
@@ -889,12 +870,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlViewLayout.createSequentialGroup()
-                                .addComponent(jlEdit1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlDelete))))
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -932,11 +908,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         pnlViewLayout.setVerticalGroup(
             pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlViewLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(48, 48, 48)
                 .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addGap(15, 15, 15)
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -973,18 +945,14 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(criterio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlViewLayout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(lblCriterio2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblCriterio2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel17)
                 .addGroup(pnlViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlViewLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(criterio3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlViewLayout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(lblCriterio3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblCriterio3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVotar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
@@ -1322,27 +1290,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActualizarProyectoActionPerformed
 
 
-    private void jlDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlDeleteMouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este proyecto? Los datos no se recuperarán");
-        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        if (res == 0) {
-
-            Projects p = new Projects();
-            p.eliminarProyecto(Integer.parseInt(id.getText()));
-            Window w = SwingUtilities.getWindowAncestor(ModalViewProyectoPoint.this);
-            w.setVisible(false);
-            Admin.cdProyectos.removeAll();
-            cargarProyectos();
-            pnlViewProyectos.repaint();
-            pnlViewProyectos.revalidate();
-            cdProyectos.repaint();
-            cdProyectos.revalidate();
-
-        }
-        jlDelete.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-    }//GEN-LAST:event_jlDeleteMouseClicked
-
     private void btnAddMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMemberMouseClicked
         Db db = new Db();
 
@@ -1595,13 +1542,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         //
     }//GEN-LAST:event_btnVerMapaActionPerformed
 
-    private void jlEdit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlEdit1MouseClicked
-        pnlPrincipal.removeAll();
-        pnlPrincipal.add(jcpEdit);
-        pnlPrincipal.repaint();
-        pnlPrincipal.revalidate();
-    }//GEN-LAST:event_jlEdit1MouseClicked
-
     private void btnVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVotarActionPerformed
         List<Object> criterioExpo = new Vector<Object>();
         /*{criterio1.getValue(), "Exposición"};
@@ -1669,8 +1609,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JScrollPane jcpNormal;
     private javax.swing.JLabel jlAgregarImagen;
     private javax.swing.JLabel jlBack;
-    public javax.swing.JLabel jlDelete;
-    private javax.swing.JLabel jlEdit1;
     private javax.swing.JLabel jlMapa;
     private javax.swing.JLabel jlPoint;
     private javax.swing.JLabel lb;

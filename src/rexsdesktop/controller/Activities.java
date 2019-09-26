@@ -6,6 +6,7 @@
 package rexsdesktop.controller;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
@@ -31,6 +32,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarActividad;
 import rexsdesktop.modal.ModalModificarActividadPoint;
+import rexsdesktop.view.VisitorAndGuest;
 
 /**
  * Clase que contiene los atributos y métodos de una actividad.
@@ -205,6 +207,8 @@ public class Activities {
                     horaInicio = db.getHoraInicio(id);
                     horaFin = db.getHoraFinString(id);
                     int ide = cambiarID(id);
+                    String ubicacion = Locations.getPlaceName(db.getUbicacion(id));
+                    
 //                    System.out.println("Activites ="+horaInicio);
 
                     //Luego de consulta
@@ -212,7 +216,7 @@ public class Activities {
                     ModalModificarActividad.txtNombreEncargadoModal.setText(encargado);
                     ModalModificarActividad.txtDescripcionModal.setText(descripcion);
                     ModalModificarActividad.dateFechaInicio.setDate(fechaIni);
-                    ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubi);
+                    ModalModificarActividad.cbxUbicacionModal.setSelectedItem(ubicacion);
                     Modal.id = ide;
 
                     //Fecha
@@ -401,6 +405,7 @@ public class Activities {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     Contenedor = (JPanel) e.getSource();
 
                     String nombreAc;
@@ -448,14 +453,14 @@ public class Activities {
 
                     Modal.modelInicio.setValue(d);
                     ModalModificarActividadPoint.spHoraInicio.setModel(Modal.modelInicio);
-                    ModalModificarActividadPoint.spHoraInicio.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraInicio, "h:mma"));
+                    ModalModificarActividadPoint.spHoraInicio.setEditor(new JSpinner.DateEditor(ModalModificarActividadPoint.spHoraInicio, "h:mma"));
 
                     Modal.modelFin.setValue(d2);
                     ModalModificarActividadPoint.spHoraFin.setModel(Modal.modelFin);
-                    ModalModificarActividadPoint.spHoraFin.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraFin, "h:mma"));
+                    ModalModificarActividadPoint.spHoraFin.setEditor(new JSpinner.DateEditor(ModalModificarActividadPoint.spHoraFin, "h:mma"));
 
                     ModalModificarActividadPoint.txtPrueba.setText(String.valueOf(ide));
-
+                    Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     modal1 = new JDialog(fr, "Modificar Actividad", true);
                     modal1.getContentPane().add(Modal);
                     modal1.pack();

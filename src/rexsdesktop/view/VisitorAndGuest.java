@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -36,6 +37,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.RoundingMode;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -182,6 +184,9 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         panelUbicaciones = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         panelProyectos = new javax.swing.JPanel();
         pnlViewProyectos = new javax.swing.JPanel();
         jLabel214 = new javax.swing.JLabel();
@@ -793,12 +798,12 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -821,12 +826,12 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -836,15 +841,46 @@ public class VisitorAndGuest extends javax.swing.JFrame {
 
         panelCardLayout.add(panelInicio, "Inicio");
 
+        panelUbicaciones.setBackground(new java.awt.Color(244, 246, 252));
+
+        jSeparator3.setBackground(new java.awt.Color(164, 164, 164));
+        jSeparator3.setForeground(new java.awt.Color(164, 164, 164));
+
+        jLabel6.setFont(new java.awt.Font("Rubik Light", 0, 36)); // NOI18N
+        jLabel6.setText("Mapa de la Institución");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Webp.net-resizeimage (11).png"))); // NOI18N
+        jLabel2.setToolTipText("Ver mapa");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelUbicacionesLayout = new javax.swing.GroupLayout(panelUbicaciones);
         panelUbicaciones.setLayout(panelUbicacionesLayout);
         panelUbicacionesLayout.setHorizontalGroup(
             panelUbicacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1031, Short.MAX_VALUE)
+            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(panelUbicacionesLayout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelUbicacionesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelUbicacionesLayout.setVerticalGroup(
             panelUbicacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGroup(panelUbicacionesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         panelCardLayout.add(panelUbicaciones, "Ubicaciones");
@@ -932,19 +968,19 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                             .addGroup(pnlViewProyectosLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel230, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel228)
                             .addComponent(jcNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel215)
                             .addComponent(jcEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel229)
                             .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jsProyectos))
                 .addContainerGap())
@@ -971,19 +1007,19 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jsProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
+                .addComponent(jsProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelProyectosLayout = new javax.swing.GroupLayout(panelProyectos);
         panelProyectos.setLayout(panelProyectosLayout);
         panelProyectosLayout.setHorizontalGroup(
             panelProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlViewProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE)
+            .addComponent(pnlViewProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
         );
         panelProyectosLayout.setVerticalGroup(
             panelProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelProyectosLayout.createSequentialGroup()
-                .addComponent(pnlViewProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                .addComponent(pnlViewProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1329,15 +1365,15 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel26, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1363,7 +1399,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1617,7 +1653,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         lblNombreUsuario.setFont(new java.awt.Font("Rubik Medium", 0, 18)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(46, 91, 255));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblNombreUsuario.setText("Visitante");
+        lblNombreUsuario.setText("Invitado");
         lblNombreUsuario.setIconTextGap(14);
 
         btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1638,8 +1674,8 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                 .addComponent(lblAyuda, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(300, 300, 300)
-                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(282, 282, 282)
+                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1650,13 +1686,11 @@ public class VisitorAndGuest extends javax.swing.JFrame {
             .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelSuperiorLayout.createSequentialGroup()
-                .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSuperiorLayout.createSequentialGroup()
-                        .addContainerGap(16, Short.MAX_VALUE)
-                        .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)))
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(lblAyuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
@@ -1681,11 +1715,11 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE)
+            .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+            .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
         );
 
         pack();
@@ -1777,11 +1811,15 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         jLabel36.setForeground(letrasNormales);
         jLabel39.setForeground(letrasNormales);
 
+        //Ubicaciones
+        panelUbicaciones.setBackground(panel);
+        jLabel6.setForeground(Blue);
+
         //Projects
         pnlViewProyectos.setBackground(panel);
         panelProyectos.setBackground(panel);
         cdProyectos.setBackground(panel);
-        
+
         jLabel214.setForeground(letrasNormales);
         jLabel215.setForeground(letrasNormales);
         jLabel228.setForeground(letrasNormales);
@@ -1939,19 +1977,19 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         lblCantidadActividades1.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel5, fecha2Inicio, CurrentUser.edicionExpotecnica, fecha2Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel6, fecha2Inicio, CurrentUser.edicionExpotecnica, fecha2Fin, contador);
         lblCantidadActividades2.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel6, fecha3Inicio, CurrentUser.edicionExpotecnica, fecha3Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel5, fecha3Inicio, CurrentUser.edicionExpotecnica, fecha3Fin, contador);
         lblCantidadActividades3.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel7, fecha4Inicio, CurrentUser.edicionExpotecnica, fecha4Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel8, fecha4Inicio, CurrentUser.edicionExpotecnica, fecha4Fin, contador);
         lblCantidadActividades4.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel8, fecha5Inicio, CurrentUser.edicionExpotecnica, fecha5Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel7, fecha5Inicio, CurrentUser.edicionExpotecnica, fecha5Fin, contador);
         lblCantidadActividades5.setText(String.valueOf(actividades.getCantidadDia1()));
 //        actividades.resetearIdioma();
     }
@@ -2060,6 +2098,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionMouseClicked
 
     private void btnProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProyectosMouseClicked
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         jcNivel.removeAllItems();
         jcNivel.addItem("Seleccione un nivel");
         jcEspecialidad.removeAllItems();
@@ -2071,6 +2110,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         cdProyectos.repaint();
         cdProyectos.revalidate();
         makeActiveMenuItem(btnProyectos, pnlActiveProyectos, lblProyectos, "Proyectos");
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnProyectosMouseClicked
 
     private void btnUbicacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbicacionesMouseClicked
@@ -2078,8 +2118,10 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUbicacionesMouseClicked
 
     private void btnActividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActividadesMouseClicked
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         cargarActividades();
         makeActiveMenuItem(btnActividades, pnlActiveActividades, lblActividades, "Actividades");
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnActividadesMouseClicked
 
     private void btnInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseClicked
@@ -2340,7 +2382,6 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                 cdProyectos.revalidate();
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, seleccione el nivel, especialidad y la sección que desea buscar.");
-
             }
 
         } else {
@@ -2348,6 +2389,19 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         }
         btnFiltrarLista1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnFiltrarLista1ActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            String alias = "lab_centro_de_c_mputo";
+            try {
+                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/" + alias + "?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
+            } catch (Exception ex) {
+                System.out.println("Open map in web browser error: " + ex.getMessage());
+            }
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -2405,6 +2459,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel214;
@@ -2432,6 +2487,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -2465,6 +2521,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     public static javax.swing.JComboBox<String> jcEspecialidad;
     public static javax.swing.JComboBox<String> jcNivel;
     public static javax.swing.JComboBox<String> jcSeccion;
