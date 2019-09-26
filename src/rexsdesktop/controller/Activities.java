@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarActividad;
+import rexsdesktop.modal.ModalModificarActividadPoint;
 
 /**
  * Clase que contiene los atributos y métodos de una actividad.
@@ -235,6 +236,225 @@ public class Activities {
                     ModalModificarActividad.spHoraFin.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraFin, "h:mma"));
 
                     ModalModificarActividad.txtPrueba.setText(String.valueOf(ide));
+
+                    modal1 = new JDialog(fr, "Modificar Actividad", true);
+                    modal1.getContentPane().add(Modal);
+                    modal1.pack();
+                    modal1.invalidate();
+                    modal1.validate();
+                    modal1.repaint();
+                    modal1.setLocationRelativeTo(null);
+                    modal1.setVisible(true);
+                }
+
+                @Override
+
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+        }
+        /*
+        JLabel img2 = new JLabel();
+            img2.setBounds(5, 5, 14, 20);
+            img2.setIcon(iconLocation);
+            //img2.setBorder(hola);
+            info2.add(img2);
+         */
+    }
+    
+    /**
+     * Método para visualizar los paneles con la información de la base de
+     * datos.
+     *
+     * @param panel panel donde se visualizarán los datos
+     */
+    public void CrearPanelesActividadesPoint(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
+        Db db = new Db();
+        db.NumActividades(inicio, edicion, fin);
+        db.Actividades(inicio, edicion, fin);
+        db.HorasInicioActividades(inicio, edicion, fin);
+        db.HorasFinActividades(inicio, edicion, fin);
+        cantidadDia1 = db.getCantidadActividades();
+
+        panelesActividades = new ArrayList<>();
+
+        for (int i = 0; i < db.getCantidadActividades(); i++) {
+
+            Contenedor = new JPanel();
+            panel.add(Contenedor);
+            panelesActividades.add(Contenedor);
+
+            Contenedor.setBackground(Color.white);
+            Contenedor.setPreferredSize(new Dimension(150, 76));
+            Contenedor.setLayout(null);
+            switch (contador) {
+                case 1:
+                    colores = Color.CYAN;
+                    break;
+
+                case 2:
+                    colores = Color.MAGENTA;
+                    break;
+
+                case 3:
+                    colores = Color.BLUE;
+                    break;
+
+                case 4:
+//                    colores = Color.getHSBColor(43f, 92f, 59f);
+                    colores = Color.YELLOW;
+                    break;
+
+                case 5:
+//                    colores = Color.getHSBColor(117f, 57f, 42f);
+                    colores = Color.GREEN;
+                    break;
+
+                default:
+                    colores = Color.BLACK;
+                    break;
+
+            }
+            Border borde = new LineBorder(colores, 1, true);
+
+            Contenedor.setBorder(borde);
+
+            JLabel nombre = new JLabel();
+            nombre.setFont(new java.awt.Font("Rubik", 0, 12));
+            nombre.setForeground(new Color(46, 56, 77));
+            nombre.setHorizontalAlignment(SwingConstants.LEADING);
+
+            nombre.setBounds(15, 5, 140, 25);
+            nombre.setText("<html> <b>" + db.getNombreAct().get(i) + "</html>");
+            //nombre.setBorder(new EtchedBorder());
+            String nombre2 = db.getNombreAct().get(i);
+            Contenedor.add(nombre);
+
+            //Hora
+            JLabel hora = new JLabel();
+            hora.setFont(new java.awt.Font("Rubik", 0, 10));
+            hora.setForeground(new Color(135, 156, 173));
+            hora.setHorizontalAlignment(SwingConstants.CENTER);
+            hora.setBounds(10, 30, 110, 20);
+
+            SimpleDateFormat formato = new SimpleDateFormat("hh:mm a");
+            String formato2 = formato.format(db.getHoraInicio().get(i));
+            String formato3 = formato.format(db.getHoraFin().get(i));
+
+            hora.setText("<html>" + formato2 + "-" + formato3 + "</html>");
+            //hora.setBorder(new EtchedBorder());
+            Contenedor.add(hora);
+
+            JLabel edit = new JLabel();
+            edit.setBounds(125, 44, 20, 20);
+
+            switch (contador) {
+                case 1:
+                    edit.setIcon(iconEditCyan);
+                    break;
+
+                case 2:
+                    edit.setIcon(iconEditPurple);
+                    break;
+
+                case 3:
+                    edit.setIcon(iconEditBlue);
+                    break;
+
+                case 4:
+                    edit.setIcon(iconEditOrange);
+                    break;
+
+                case 5:
+                    edit.setIcon(iconEditGreen);
+                    break;
+
+                default:
+                    edit.setIcon(iconEditCyan);
+                    break;
+
+            }
+            //edit.setBorder(new EtchedBorder());
+            Contenedor.add(edit);
+
+            Contenedor.addMouseListener(new MouseListener() {
+                Frame fr;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Contenedor = (JPanel) e.getSource();
+
+                    String nombreAc;
+                    String descripcion;
+                    String encargado;
+                    Date fechaIni;
+                    String ubi = "";
+                    String horaInicio, horaFin;
+                    String h;
+
+                    //System.out.println(Contenedor1.getName());
+                    ModalModificarActividadPoint Modal = new ModalModificarActividadPoint();
+//                    Modal.jLabel70.setText(Contenedor.getName());
+
+                    //Consulta
+                    int id = (db.getIdActividad(nombre2));
+                    nombreAc = nombre2;
+                    descripcion = db.getDescripcionActividad(id);
+                    encargado = db.getEncargadoActividad(id);
+                    fechaIni = db.getFechaInicioActividad(id);
+                    horaInicio = db.getHoraInicio(id);
+                    horaFin = db.getHoraFinString(id);
+                    int ide = cambiarID(id);
+//                    System.out.println("Activites ="+horaInicio);
+
+                    //Luego de consulta
+                    ModalModificarActividadPoint.txtNombreActividadModal.setText(nombreAc);
+                    ModalModificarActividadPoint.txtNombreEncargadoModal.setText(encargado);
+                    ModalModificarActividadPoint.txtDescripcionModal.setText(descripcion);
+                    ModalModificarActividadPoint.dateFechaInicio.setDate(fechaIni);
+                    ModalModificarActividadPoint.cbxUbicacionModal.setSelectedItem(ubi);
+                    Modal.id = ide;
+
+                    //Fecha
+                    SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
+                    sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+                    Date d = null;
+                    Date d2 = null;
+                    try {
+                        d = sdf.parse(horaInicio);
+                        d2 = sdf.parse(horaFin);
+                    } catch (ParseException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                    Modal.modelInicio.setValue(d);
+                    ModalModificarActividadPoint.spHoraInicio.setModel(Modal.modelInicio);
+                    ModalModificarActividadPoint.spHoraInicio.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraInicio, "h:mma"));
+
+                    Modal.modelFin.setValue(d2);
+                    ModalModificarActividadPoint.spHoraFin.setModel(Modal.modelFin);
+                    ModalModificarActividadPoint.spHoraFin.setEditor(new JSpinner.DateEditor(ModalModificarActividad.spHoraFin, "h:mma"));
+
+                    ModalModificarActividadPoint.txtPrueba.setText(String.valueOf(ide));
 
                     modal1 = new JDialog(fr, "Modificar Actividad", true);
                     modal1.getContentPane().add(Modal);

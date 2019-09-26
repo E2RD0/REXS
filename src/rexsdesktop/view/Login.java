@@ -49,8 +49,6 @@ public class Login extends javax.swing.JFrame {
 //        btnSignFacebook.setContentAreaFilled(false);
         btnCardInicioSesion.setContentAreaFilled(false);
         btnCardInicioSesion1.setContentAreaFilled(false);
-        btnSignGoogle1.setContentAreaFilled(false);
-        btnSignFacebook1.setContentAreaFilled(false);
 
 //        btnSignFacebook.setVisible(false);
 //        btnSignFacebook1.setVisible(false);
@@ -301,13 +299,8 @@ public class Login extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtPasswordR = new javax.swing.JPasswordField();
         btnCrearCuenta = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
         btnCardInicioSesion = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JSeparator();
-        btnSignGoogle1 = new javax.swing.JButton();
-        btnSignFacebook1 = new javax.swing.JButton();
         txtNombreCompletoR = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         lblErrorNombre = new javax.swing.JLabel();
@@ -613,16 +606,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setFont(new java.awt.Font("Rubik Medium", 0, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(112, 112, 112));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("o");
-
-        jSeparator4.setForeground(new java.awt.Color(193, 193, 193));
-        jSeparator4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(193, 193, 193)));
-        jSeparator4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jSeparator4.setPreferredSize(new java.awt.Dimension(100, 2));
-
         jLabel14.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(176, 186, 201));
         jLabel14.setText("¿Ya tienes una cuenta?");
@@ -640,20 +623,6 @@ public class Login extends javax.swing.JFrame {
                 btnCardInicioSesionActionPerformed(evt);
             }
         });
-
-        jSeparator5.setForeground(new java.awt.Color(193, 193, 193));
-        jSeparator5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(193, 193, 193)));
-        jSeparator5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jSeparator5.setPreferredSize(new java.awt.Dimension(100, 2));
-
-        btnSignGoogle1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/btn_google_signin_light_normal_web.png"))); // NOI18N
-        btnSignGoogle1.setBorderPainted(false);
-        btnSignGoogle1.setIconTextGap(0);
-        btnSignGoogle1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/btn_google_signin_light_pressed_web.png"))); // NOI18N
-
-        btnSignFacebook1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/continuefacebook.png"))); // NOI18N
-        btnSignFacebook1.setBorderPainted(false);
-        btnSignFacebook1.setIconTextGap(0);
 
         txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
         txtNombreCompletoR.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
@@ -684,12 +653,6 @@ public class Login extends javax.swing.JFrame {
         pnlRegistroLayout.setHorizontalGroup(
             pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRegistroLayout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSignFacebook1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSignGoogle1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlRegistroLayout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRegistroLayout.createSequentialGroup()
@@ -713,13 +676,7 @@ public class Login extends javax.swing.JFrame {
                                         .addComponent(jLabel14)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnCardInicioSesion)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlRegistroLayout.createSequentialGroup()
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 13, Short.MAX_VALUE)))
                         .addGap(137, 137, 137))
                     .addGroup(pnlRegistroLayout.createSequentialGroup()
                         .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -733,7 +690,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(pnlRegistroLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel9)
-                .addGap(33, 33, 33)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
@@ -755,29 +712,13 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(txtPasswordR, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(lblErrorPasswordR)
-                .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlRegistroLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(btnCardInicioSesion))
-                        .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlRegistroLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlRegistroLayout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSignGoogle1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSignFacebook1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlRegistroLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(btnCardInicioSesion))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         CardLayoutPanel.add(pnlRegistro, "Registro");
@@ -1369,14 +1310,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnEnviarCodigo;
     private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JButton btnSignFacebook1;
-    private javax.swing.JButton btnSignGoogle1;
     private javax.swing.JButton btnVerificarCodigo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1403,8 +1341,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel lblErrorEmail;
     private javax.swing.JLabel lblErrorEmailR;
     private javax.swing.JLabel lblErrorEmailRecu;

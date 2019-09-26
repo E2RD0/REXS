@@ -6,6 +6,7 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.util.concurrent.Executors;
@@ -25,7 +26,30 @@ import rexsdesktop.controller.Validation;
 public class LoginPoint extends javax.swing.JFrame {
 
     private static JDialog modal;
+    
+    private ImageIcon iconNegroVisitante = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/WhiteVisitante.png"));
+    private ImageIcon iconNegroInvitado = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/WhiteInvitado.png"));
+    private ImageIcon iconBlancoVisitante = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/BlackVisitante.png"));
+    private ImageIcon iconBlancoInvitado = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/BlackInvitado.png"));
+    private ImageIcon iconNegro = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LogoNegroREXS.png"));
+    private ImageIcon iconBlanco = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LogoBlancoREXS.png"));
+    private ImageIcon iconDia = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Day.png"));
+    private ImageIcon iconNoche = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Night.png"));
 
+    private int color = 0;
+    
+    private Color colorActive = new Color(46, 91, 255);
+    private Color colorNormal = new Color(176, 186, 201);
+    private Color bgActive = new Color(238, 242, 255);
+    private Color bgNormal = new Color(255, 255, 255);
+    private Color darkSuperior = new Color(18, 20, 18);
+    private Color darkMenu = new Color(30, 31, 36);
+    private Color darkbtn = new Color(41, 41, 41);
+    private Color darkfondo = new Color(52, 48, 57);
+    private Color darkBlue = new Color(46, 91, 255);
+    private Color darkPanel = new Color(37, 37, 37);
+    private Color darknormal = new Color(46, 56, 77);
+    
     /**
      * Creates new form LoginPoint
      */
@@ -363,7 +387,7 @@ public class LoginPoint extends javax.swing.JFrame {
             }
         });
 
-        lblAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LogoTactil.png"))); // NOI18N
+        lblAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/info.png"))); // NOI18N
         lblAyuda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAyudaMouseClicked(evt);
@@ -385,8 +409,8 @@ public class LoginPoint extends javax.swing.JFrame {
             .addComponent(panelCardLayout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(lblAyuda, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(391, 391, 391)
+                .addComponent(lblAyuda)
+                .addGap(386, 386, 386)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblColor)
@@ -401,12 +425,12 @@ public class LoginPoint extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblAyuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                .addGap(18, 21, Short.MAX_VALUE)
                 .addComponent(panelCardLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -429,7 +453,73 @@ public class LoginPoint extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setColorInterfaz() {
-
+        Color superior;
+        Color menu;
+        Color btn;
+        Color fondo;
+        Color Blue;
+        Color panel;
+        Color normal;
+        Color letrasNormales;
+        if (color == 0) {
+            superior = darkSuperior;
+            menu = darkMenu;
+            btn = darkbtn;
+            fondo = darkfondo;
+            Blue = darkBlue;
+            panel = darkPanel;
+            normal = Color.WHITE;
+            bgNormal = fondo;
+            letrasNormales = Color.WHITE;
+            
+            lblColor.setIcon(iconNoche);
+            jLabel2.setIcon(iconBlanco);
+            
+            jLabel3.setIcon(iconBlancoVisitante);
+            jLabel1.setIcon(iconBlancoInvitado);
+            
+            color = 1;
+        } else {
+            superior = new Color(255, 255, 255);
+            menu = new Color(255, 255, 255);
+            btn = new Color(255, 255, 255);
+            fondo = new Color(244, 246, 252);
+            Blue = new Color(46, 56, 77);
+            panel = new Color(255, 255, 255);
+            normal = new Color(46, 56, 77);
+            letrasNormales = new Color(0, 0, 0);
+            bgNormal = new Color(255, 255, 255);
+            lblColor.setIcon(iconDia);
+            jLabel2.setIcon(iconNegro);
+            
+            jLabel3.setIcon(iconNegroVisitante);
+            jLabel1.setIcon(iconNegroInvitado);
+            
+            color = 0;
+        }
+        //Barras
+        jPanel2.setBackground(fondo);
+        jPanel3.setBackground(fondo);
+        jPanel4.setBackground(fondo);
+        jSeparator2.setBackground(fondo);
+        
+        jLabel4.setForeground(letrasNormales);
+        jLabel8.setForeground(letrasNormales);
+    }
+    
+    private void ingresar(String nombre) {
+        VisitorAndGuest clase1 = new VisitorAndGuest();
+        if (color == 1) {
+            color = 0;
+        } else {
+            color = 1;
+        }
+        VisitorAndGuest.lblNombreUsuario.setText(nombre);
+        clase1.color = color;
+        clase1.setColorInterfaz();
+        clase1.setVisible(true);
+        //Falta agregar el nombre o por lo menos enviarlo a la base
+        this.dispose();
     }
 
     public void cambiarCardLayoutPanel(String nombre) {
@@ -438,7 +528,7 @@ public class LoginPoint extends javax.swing.JFrame {
     }
 
     private void lblColorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblColorMouseClicked
-//        setColorInterfaz();
+        setColorInterfaz();
     }//GEN-LAST:event_lblColorMouseClicked
 
     private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
@@ -472,7 +562,7 @@ public class LoginPoint extends javax.swing.JFrame {
             String nombre = txtNombre.getText();
             String correo = txtEmail.getText();
             String password = nombre.toUpperCase() + "123";
-
+            
             if (!Validation.VerificadorNombre.verify(nombre)) {
                 txtNombre.setBackground(new java.awt.Color(255, 204, 204));
             } else {
@@ -485,20 +575,12 @@ public class LoginPoint extends javax.swing.JFrame {
             }
             lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
             lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
-            if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
+            if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo)) {
                 if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
                     txtEmail.setBackground(new java.awt.Color(249, 250, 255));
                     lblErrorEmailR.setText("");
-//                    cambiarCardLayoutPanel("Exito");
-//                    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-//                    executorService.scheduleAtFixedRate(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            cambiarCardLayoutPanel("InicioSesion");
-//                            executorService.shutdownNow();
-//                        }
-//                    }, 2, 1, TimeUnit.SECONDS);
-
+                    CurrentUser.idTipoUsuario = 3;
+                    ingresar(nombre);
                 } else {
                     if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
                         txtEmail.setBackground(new java.awt.Color(255, 204, 204));
@@ -508,8 +590,8 @@ public class LoginPoint extends javax.swing.JFrame {
                     }
                 }
             }
-
-        } catch (Exception e) {
+            
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Error al registrar", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearCuentaActionPerformed

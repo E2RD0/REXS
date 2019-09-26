@@ -192,7 +192,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         TercerCiclo.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Tercer Ciclo.png"))); // NOI18N
 
         jSeparator10.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -237,7 +237,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
                                 .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(54, 54, 54)
                                 .addComponent(jLabel69)
-                                .addGap(0, 52, Short.MAX_VALUE))
+                                .addGap(0, 75, Short.MAX_VALUE))
                             .addComponent(jLabel78, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(TercerCicloLayout.createSequentialGroup()
                         .addContainerGap()
@@ -268,7 +268,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Auto.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel61.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel61.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Auto.png"))); // NOI18N
 
         jSeparator9.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -363,7 +363,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Conta.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Contaduria.png"))); // NOI18N
 
         jSeparator8.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -456,7 +456,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Itec.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Itec.png"))); // NOI18N
 
         jSeparator7.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -551,7 +551,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Arquitectura.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Arquitectura.png"))); // NOI18N
 
         jSeparator6.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -646,7 +646,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Emca.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Emca.png"))); // NOI18N
 
         jSeparator5.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -741,7 +741,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Eca.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Eca.png"))); // NOI18N
 
         jSeparator4.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -836,7 +836,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         Diseño.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Software.png"))); // NOI18N
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Disenio.png"))); // NOI18N
 
         jSeparator3.setForeground(new java.awt.Color(164, 164, 164));
 
@@ -968,9 +968,9 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
             SoftwareLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator2)
             .addGroup(SoftwareLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(SoftwareLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SoftwareLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(SoftwareLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -979,7 +979,6 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(SoftwareLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(SoftwareLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
