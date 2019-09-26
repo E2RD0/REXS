@@ -14,7 +14,7 @@ import rexsdesktop.model.Db;
  */
 public class Votes {
 
-    public boolean ingresarVotacion(int idUsuario, int idProyecto, List<Object>... votos) {
+    public static boolean ingresarVotacion(int idUsuario, int idProyecto, List<Object>... votos) {
         Db db = new Db();
         double total = 0;
         if (db.addVotacion(idUsuario, idProyecto)) {

@@ -35,7 +35,8 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
-    Map<String, Location> map = createMap();
+    Locations l = new Locations();
+    Map<String, Locations.Location> map = l.createMap();
     private SpinnerDateModel modelInicio = new SpinnerDateModel();
     private SpinnerDateModel modelFin = new SpinnerDateModel();
     private JDialog parent;
@@ -58,7 +59,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
         dateFechaInicio.setMaxSelectableDate(max.getTime());
 
         cbxUbicacionModal.removeAllItems();
-        createComboBox(map, cbxUbicacionModal);
+        l.createComboBox(map, cbxUbicacionModal);
 
         dateFechaInicio.setDateFormatString("yyyy-MM-dd");
         dateFechaInicio.setDate(min.getTime());
@@ -372,52 +373,4 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombreActividadModal;
     private javax.swing.JTextField txtNombreEncargadoModal;
     // End of variables declaration//GEN-END:variables
-
-    private Map<String, Location> createMap() {
-        Map<String, Location> map = new HashMap<>();
-        List<String> ubicaciones = Locations.getPlacesFromDb();
-        for (String ubicacion : ubicaciones) {
-            Location s = new Location(ubicacion, Locations.getPlaceName(ubicacion));
-            map.put(s.getName(), s);
-        }
-        return map;
-    }
-
-    private void createComboBox(final Map<String, Location> map, JComboBox cbox) {
-        for (String name : map.keySet()) {
-            cbox.addItem(name);
-        }
-
-        cbox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = (String) cbox.getSelectedItem();
-                System.out.println(map.get(name));
-            }
-        });
-    }
-
-    class Location {
-
-        String name;
-        String id;
-
-        public Location(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String toString() {
-            return id;
-        }
-    }
 }

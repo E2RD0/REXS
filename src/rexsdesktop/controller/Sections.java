@@ -345,7 +345,7 @@ public class Sections {
             Ubicacion.setHorizontalAlignment(SwingConstants.CENTER);
             Ubicacion.setBounds(450, 15, 150, 20);
             //Especialidades.setBorder(new EtchedBorder());
-            Ubicacion.setText(db.getUbicacion_Seccion().get(i));
+            Ubicacion.setText(Locations.getPlaceName(db.getUbicacion_Seccion().get(i)));
             // email.setBorder(new EtchedBorder());
             ContenedorSecciones.add(Ubicacion);
 

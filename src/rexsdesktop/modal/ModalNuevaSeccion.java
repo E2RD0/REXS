@@ -6,8 +6,10 @@
 package rexsdesktop.modal;
 
 import java.awt.Window;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Sections;
 import static rexsdesktop.modal.ModalModificarSecciones.jLId;
 
@@ -21,11 +23,14 @@ public class ModalNuevaSeccion extends javax.swing.JPanel {
     /**
      * Creates new form ModalNuevaSeccion1
      */
+    Locations l = new Locations();
+    Map<String, Locations.Location> map = l.createMap();
     public ModalNuevaSeccion() {
         initComponents();
         Sections Conexion = new Sections();
         cbxEspecialidadModal.setModel(Conexion.obtenerEspecialidad());
-        cbxUbicacionModal.setModel(Conexion.obtenerUbicacion());
+        cbxUbicacionModal.removeAllItems();
+        l.createComboBox(map, cbxUbicacionModal);
         cbxNivelModal.setModel(Conexion.obtenerNivel());
     }
 
