@@ -169,7 +169,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-          ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
+            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -211,7 +211,8 @@ public class Projects {
                     modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
                     db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
                     modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
-                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.PromProyecto(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtPromVoto.setText(String.valueOf(db.Prom));
                     db.COUNTvotos(Integer.parseInt(nuevo.getName()));
                     modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
@@ -618,7 +619,8 @@ public class Projects {
                     modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
                     db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
                     modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
-                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.PromProyecto(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtPromVoto.setText(String.valueOf(db.Prom));
                     db.COUNTvotos(Integer.parseInt(nuevo.getName()));
                     modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
@@ -972,7 +974,8 @@ public class Projects {
                     modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
                     db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
                     modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
-                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.PromProyecto(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtPromVoto.setText(String.valueOf(db.Prom));
                     db.COUNTvotos(Integer.parseInt(nuevo.getName()));
                     modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
@@ -1371,7 +1374,8 @@ public class Projects {
                     modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
                     db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
                     modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
-                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.PromProyecto(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtPromVoto.setText(String.valueOf(db.Prom));
                     db.COUNTvotos(Integer.parseInt(nuevo.getName()));
                     modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {

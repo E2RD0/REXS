@@ -5620,7 +5620,7 @@ public class Admin extends javax.swing.JFrame {
             g.getEdicion();
             Db db = new Db();
             db.CountVotosMejoresProyectos(CurrentUser.edicionExpotecnica);
-            if (db.countVotos > 30) {
+            if (db.countVotos > 10) {
                 g.cargarMejoresProyectos(pnlViewMejoresProyectos, CurrentUser.edicionExpotecnica);
             } else {
                 JLabel lb12 = new JLabel();

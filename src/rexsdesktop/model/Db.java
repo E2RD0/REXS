@@ -395,6 +395,24 @@ public class Db {
             System.out.println(e.getMessage());
         }
     }
+    public int Prom;
+
+    public void PromProyecto(int id) {
+        try {
+
+            String sql = "SELECT AVG(promedioSimple)from votacion where idProyecto=(?)";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setInt(1, id);
+            ResultSet rs = cmd.executeQuery();
+
+            while (rs.next()) {
+                Prom = rs.getInt(1);
+            }
+            System.out.println(Prom);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="CRUD-Projects">
