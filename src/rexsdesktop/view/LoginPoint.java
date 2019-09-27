@@ -24,7 +24,7 @@ import rexsdesktop.model.Db;
 public class LoginPoint extends javax.swing.JFrame {
 
     private static JDialog modal;
-    
+
     private ImageIcon iconNegroVisitante = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/WhiteVisitante.png"));
     private ImageIcon iconNegroInvitado = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/WhiteInvitado.png"));
     private ImageIcon iconBlancoVisitante = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/BlackVisitante.png"));
@@ -35,7 +35,7 @@ public class LoginPoint extends javax.swing.JFrame {
     private ImageIcon iconNoche = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Noche.png"));
 
     private int color = 0;
-    
+
     private Color colorActive = new Color(46, 91, 255);
     private Color colorNormal = new Color(176, 186, 201);
     private Color bgActive = new Color(238, 242, 255);
@@ -47,7 +47,7 @@ public class LoginPoint extends javax.swing.JFrame {
     private Color darkBlue = new Color(46, 91, 255);
     private Color darkPanel = new Color(37, 37, 37);
     private Color darknormal = new Color(46, 56, 77);
-    
+
     /**
      * Creates new form LoginPoint
      */
@@ -470,13 +470,13 @@ public class LoginPoint extends javax.swing.JFrame {
             normal = Color.WHITE;
             bgNormal = fondo;
             letrasNormales = Color.WHITE;
-            
+
             lblColor.setIcon(iconNoche);
             jLabel2.setIcon(iconBlanco);
-            
+
             jLabel3.setIcon(iconBlancoVisitante);
             jLabel1.setIcon(iconBlancoInvitado);
-            
+
             color = 1;
         } else {
             superior = new Color(255, 255, 255);
@@ -490,10 +490,10 @@ public class LoginPoint extends javax.swing.JFrame {
             bgNormal = new Color(255, 255, 255);
             lblColor.setIcon(iconDia);
             jLabel2.setIcon(iconNegro);
-            
+
             jLabel3.setIcon(iconNegroVisitante);
             jLabel1.setIcon(iconNegroInvitado);
-            
+
             color = 0;
         }
         //Barras
@@ -501,11 +501,11 @@ public class LoginPoint extends javax.swing.JFrame {
         jPanel3.setBackground(fondo);
         jPanel4.setBackground(fondo);
         jSeparator2.setBackground(fondo);
-        
+
         jLabel4.setForeground(letrasNormales);
         jLabel8.setForeground(letrasNormales);
     }
-    
+
     private void ingresar(String nombre) {
         VisitorAndGuest clase1 = new VisitorAndGuest();
         if (color == 1) {
@@ -561,7 +561,7 @@ public class LoginPoint extends javax.swing.JFrame {
             String nombre = txtNombre.getText();
             String correo = txtEmail.getText();
             String password = nombre.toUpperCase() + "123";
-            
+
             if (!Validation.VerificadorNombre.verify(nombre)) {
                 txtNombre.setBackground(new java.awt.Color(255, 204, 204));
             } else {
@@ -583,6 +583,7 @@ public class LoginPoint extends javax.swing.JFrame {
                     Db db = new Db();
                     int id = db.getIdUsuario(correo);
                     CurrentUser.idUsuario = id;
+                    CurrentUser.idTipoUsuario = db.getIdTipoUsuario("Visitante");
                     CurrentUser.email = correo;
                     ingresar(nombre);
                 } else {
@@ -594,14 +595,19 @@ public class LoginPoint extends javax.swing.JFrame {
                     }
                 }
             }
-            
+
         } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Error al registrar", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        cambiarCardLayoutPanel("CrearCuenta");
+        Login fAdmin = new Login();
+        this.setVisible(false);
+        fAdmin.setLocationRelativeTo(null);
+        fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        fAdmin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel210MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel210MouseClicked

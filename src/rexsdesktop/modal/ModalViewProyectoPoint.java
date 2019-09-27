@@ -25,9 +25,11 @@ import rexsdesktop.model.Db;
  * @author Lulac
  */
 public class ModalViewProyectoPoint extends javax.swing.JPanel {
+
     public static int idProyecto;
     public String idUbicacion;
     int contador = 0;
+
     /**
      * Creates new form ModalViewProyecto
      */
@@ -43,9 +45,13 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio3.setMaximum(10);
         lblPuntajeFinal.setVisible(false);
         jLabel14.setEnabled(false);
-        CurrentUser.idUsuario = 2;
-        if (Votes.existeVoto(CurrentUser.idUsuario, idProyecto)) {
-            yaExiste();
+        if (CurrentUser.idUsuario != 0) {
+            if (Votes.existeVoto(CurrentUser.idUsuario, idProyecto)) {
+                yaExiste();
+            }
+        }
+        else{
+            pnlVotacion.setVisible(false);
         }
 
     }
@@ -56,10 +62,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio2.setEnabled(false);
         criterio3.setEnabled(false);
         lblPuntajeFinal.setVisible(true);
-        lblPuntajeFinal.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, idProyecto)));
+        lblPuntajeFinal.setText("Puntaje final: " + String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, idProyecto)));
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -639,15 +643,15 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
     private void btnVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVotarActionPerformed
         List<Object> criterioExpo = new Vector<Object>();
-        criterioExpo.add((double)criterio1.getValue());
+        criterioExpo.add((double) criterio1.getValue());
         criterioExpo.add("Exposición");
 
         List<Object> criterioCreatividad = new Vector<Object>();
-        criterioCreatividad.add((double)criterio2.getValue());
+        criterioCreatividad.add((double) criterio2.getValue());
         criterioCreatividad.add("Creatividad");
 
         List<Object> criterioInnovacion = new Vector<Object>();
-        criterioInnovacion.add((double)criterio3.getValue());
+        criterioInnovacion.add((double) criterio3.getValue());
         criterioInnovacion.add("Innovación");
 
         Votes.ingresarVotacion(CurrentUser.idUsuario, idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);

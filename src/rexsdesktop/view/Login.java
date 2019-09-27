@@ -114,7 +114,7 @@ public class Login extends javax.swing.JFrame {
                 lblErrorEmail.setText("");
                 lblErrorPassword.setText("");
                 if (User.iniciarSesion(email, password)) {
-                  //  System.out.println("Inicio Correcto");
+                    //  System.out.println("Inicio Correcto");
                     if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
                         if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
                             Admin fAdmin = new Admin();
@@ -127,7 +127,16 @@ public class Login extends javax.swing.JFrame {
                             General.getEdicion();
                             Admin.lblEdicion.setText(CurrentUser.edicionExpotecnica);
                             //Admin.cargarActividades();
-                            
+
+                        } else if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Visitante")) {
+                            VisitorAndGuest va  = new VisitorAndGuest();
+                            this.setVisible(false);
+                            va.setLocationRelativeTo(null);
+                            va.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                            va.setVisible(true);
+                            this.dispose();
+                            General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
+                            General.getEdicion();
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
                             txtEmail.setBackground(new java.awt.Color(255, 204, 204));
@@ -182,7 +191,7 @@ public class Login extends javax.swing.JFrame {
             lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
             lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
             if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-                if (User.nuevoUsuario(nombre, correo, password, "Administrador", "Activo")) {
+                if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
                     txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
                     lblErrorEmailR.setText("");
                     cambiarCardLayoutPanel("Exito");

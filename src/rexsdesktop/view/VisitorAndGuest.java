@@ -70,7 +70,9 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     public VisitorAndGuest() {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
-        lblNombreUsuario.setText(CurrentUser.nombreCompleto);
+        if (CurrentUser.idUsuario != 0) {
+                    lblNombreUsuario.setText(CurrentUser.nombreCompleto);
+        }
         pnlActiveInicio.setBackground(bgNormal);
         pnlActiveProyectos.setBackground(bgNormal);
         pnlActiveUbicaciones.setBackground(bgNormal);
@@ -2043,7 +2045,9 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel32MouseClicked
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
-        General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+        if(CurrentUser.idUsuario != 0){
+            General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+        }
         CurrentUser.clear();
         LoginPoint login = new LoginPoint();
         this.setVisible(false);
