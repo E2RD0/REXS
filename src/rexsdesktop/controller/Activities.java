@@ -45,8 +45,6 @@ public class Activities {
     private int cantidadDia1;
     private JDialog modal1;
     public String prueba;
-    
-    
 
     private Color colores = null;
     private ImageIcon icono = null;
@@ -67,7 +65,7 @@ public class Activities {
      */
     public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
         Db db = new Db();
-        
+
         db.NumActividades(inicio, edicion, fin);
         db.Actividades(inicio, edicion, fin);
         db.HorasInicioActividades(inicio, edicion, fin);
@@ -206,9 +204,8 @@ public class Activities {
                     horaFin = db.getHoraFinString(id);
                     int ide = cambiarID(id);
                     String ubicacion = Locations.getPlaceName(db.getUbicacion(id));
-                    
-//                    System.out.println("Activites ="+horaInicio);
 
+//                    System.out.println("Activites ="+horaInicio);
                     //Luego de consulta
                     ModalModificarActividad.txtNombreActividadModal.setText(nombreAc);
                     ModalModificarActividad.txtNombreEncargadoModal.setText(encargado);
@@ -283,7 +280,7 @@ public class Activities {
             info2.add(img2);
          */
     }
-    
+
     /**
      * Método para visualizar los paneles con la información de la base de
      * datos.
@@ -367,10 +364,10 @@ public class Activities {
             //hora.setBorder(new EtchedBorder());
             Contenedor.add(hora);
 
-            JLabel edit = new JLabel();
-            edit.setBounds(125, 44, 20, 20);
+//            JLabel edit = new JLabel();
+//            edit.setBounds(125, 44, 20, 20);
 
-            switch (contador) {
+            /*switch (contador) {
                 case 1:
                     edit.setIcon(iconEditCyan);
                     break;
@@ -395,10 +392,9 @@ public class Activities {
                     edit.setIcon(iconEditCyan);
                     break;
 
-            }
+            }*/
             //edit.setBorder(new EtchedBorder());
-            Contenedor.add(edit);
-
+            //Contenedor.add(edit);
             Contenedor.addMouseListener(new MouseListener() {
                 Frame fr;
 
@@ -416,11 +412,11 @@ public class Activities {
                     String h;
 
                     //System.out.println(Contenedor1.getName());
-                    ModalModificarActividadPoint Modal = new ModalModificarActividadPoint();
 //                    Modal.jLabel70.setText(Contenedor.getName());
-
                     //Consulta
                     int id = (db.getIdActividad(nombre2));
+                    ModalModificarActividadPoint.idUbicacion = db.getUbicacion(id);
+                    ModalModificarActividadPoint Modal = new ModalModificarActividadPoint();
                     nombreAc = nombre2;
                     descripcion = db.getDescripcionActividad(id);
                     encargado = db.getEncargadoActividad(id);
@@ -524,10 +520,10 @@ public class Activities {
      * @return retorna un valor booleano para ser utilizado en la capa modelo.
      */
     public static boolean nuevaActividad(String nombre, String descripcion, String fechaInicio, String edicion, String fechaFin, String encargado, int idUbicacion
-        ) {
+    ) {
         Db db = new Db();
         try {
-            if (db.agregarActividad(nombre, descripcion, fechaInicio, edicion, fechaFin, encargado,  idUbicacion)) {
+            if (db.agregarActividad(nombre, descripcion, fechaInicio, edicion, fechaFin, encargado, idUbicacion)) {
                 return true;
             }
         } catch (Exception e) {
@@ -536,10 +532,10 @@ public class Activities {
         return false;
     }
 
-    public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin,String encargado, int idUbicacion, int id) {
+    public static boolean actualizarActividad(String nombre, String descripcion, String fechaInicio, String fechaFin, String encargado, int idUbicacion, int id) {
         Db db = new Db();
         try {
-            if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin,encargado, idUbicacion, id)) {
+            if (db.actualizarActividad(nombre, descripcion, fechaInicio, fechaFin, encargado, idUbicacion, id)) {
                 return true;
             }
         } catch (Exception e) {

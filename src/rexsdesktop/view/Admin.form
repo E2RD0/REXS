@@ -1694,7 +1694,7 @@
                                           </Group>
                                           <Component id="jLabel253" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace pref="34" max="32767" attributes="0"/>
+                                      <EmptySpace pref="37" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1710,7 +1710,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                       <Component id="lblPorcentajeUsuarios" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="22" max="32767" attributes="0"/>
+                                      <EmptySpace pref="27" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1887,7 +1887,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Component id="jLabel251" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="154" max="32767" attributes="0"/>
+                                      <EmptySpace pref="163" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
@@ -1899,7 +1899,7 @@
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                                      <EmptySpace pref="28" max="32767" attributes="0"/>
                                       <Component id="jLabel251" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="pnlChartIniciosSesion" min="-2" max="-2" attributes="0"/>
@@ -1994,7 +1994,7 @@
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Component id="jLabel293" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                                      <EmptySpace pref="114" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
@@ -2173,7 +2173,7 @@
                                           <Component id="jLabel300" min="-2" max="-2" attributes="0"/>
                                           <Component id="checkUbicaciones" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace pref="65" max="32767" attributes="0"/>
+                                      <EmptySpace pref="53" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2194,7 +2194,7 @@
                                       <Component id="checkActividades" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                       <Component id="checkUbicaciones" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="3" max="32767" attributes="0"/>
+                                      <EmptySpace pref="5" max="32767" attributes="0"/>
                                       <Component id="checkTodo" min="-2" pref="18" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                                       <Component id="btnBackup" min="-2" pref="36" max="-2" attributes="0"/>
@@ -2419,7 +2419,7 @@
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="btnFiltrarLista1" min="-2" pref="125" max="-2" attributes="0"/>
-                              <EmptySpace pref="13" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jsProyectos" min="-2" pref="0" max="-2" attributes="0"/>
@@ -2455,7 +2455,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jsProyectos" min="-2" pref="0" max="-2" attributes="0"/>
-                              <EmptySpace pref="386" max="32767" attributes="0"/>
+                              <EmptySpace pref="387" max="32767" attributes="0"/>
                               <Component id="btnAgregarEspecialidad1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -2807,7 +2807,7 @@
                                       <Component id="jrbProyectos" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jrbActividades" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                                  <EmptySpace pref="20" max="32767" attributes="0"/>
                                   <Component id="btnReporte" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
@@ -2934,7 +2934,7 @@
                                       <Component id="lblCountUsuarios" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel86" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="35" max="32767" attributes="0"/>
+                                  <EmptySpace pref="31" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2947,7 +2947,7 @@
                                   <Component id="lblCountUsuarios" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel86" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="14" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3011,7 +3011,7 @@
                                       <Component id="lblCountProyectos" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel88" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                                  <EmptySpace pref="37" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3024,7 +3024,7 @@
                                   <Component id="lblCountProyectos" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel88" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="14" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3088,7 +3088,7 @@
                                       <Component id="lblCountUbicaciones" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel90" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="41" max="32767" attributes="0"/>
+                                  <EmptySpace pref="36" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3101,7 +3101,7 @@
                                   <Component id="lblCountUbicaciones" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel90" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="14" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3165,7 +3165,7 @@
                                       <Component id="lblCountVotos" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel94" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="57" max="32767" attributes="0"/>
+                                  <EmptySpace pref="54" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3178,7 +3178,7 @@
                                   <Component id="lblCountVotos" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel94" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="14" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3250,7 +3250,7 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace pref="27" max="32767" attributes="0"/>
+                                  <EmptySpace pref="28" max="32767" attributes="0"/>
                                   <Component id="jLabel254" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="pnlChartTiposUsuario" min="-2" max="-2" attributes="0"/>
@@ -3326,7 +3326,7 @@
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                          <Component id="jPanel5" pref="465" max="32767" attributes="0"/>
+                          <Component id="jPanel5" pref="467" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -3616,7 +3616,7 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel44" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="12" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3713,7 +3713,7 @@
                                   <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jCEstadoUsuario" min="-2" pref="28" max="-2" attributes="0"/>
-                                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                                  <EmptySpace pref="26" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4662,7 +4662,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="171" max="32767" attributes="0"/>
+                                  <EmptySpace pref="177" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4713,7 +4713,7 @@
                                       <Component id="lblAErrorContraN" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblAErrorContraNC" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                                   <Component id="btnActualizarPerfil" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               </Group>
@@ -5081,7 +5081,7 @@
                                       </Group>
                                       <Component id="jPanel23" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="28" max="32767" attributes="0"/>
+                                  <EmptySpace pref="30" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5226,7 +5226,7 @@
                                           <Component id="jButton9" min="-2" pref="160" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="84" max="32767" attributes="0"/>
+                                  <EmptySpace pref="59" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5246,7 +5246,7 @@
                                   <Component id="checkCombinar" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="lblAjustesBackup" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                                  <EmptySpace pref="37" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5364,7 +5364,7 @@
                                               <Component id="jLabel264" min="-2" max="-2" attributes="0"/>
                                               <Component id="txtAPIKey" min="-2" pref="250" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="57" max="32767" attributes="0"/>
+                                          <EmptySpace pref="66" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -5394,7 +5394,7 @@
                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                   <Component id="txtVenueID" min="-2" pref="28" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblAErrorPlaces" pref="15" max="32767" attributes="0"/>
+                                  <Component id="lblAErrorPlaces" pref="18" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="btnLoadPlaces" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -5591,7 +5591,7 @@
                                       <Component id="jrbCriterio" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jrbAccion" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                                  <EmptySpace pref="48" max="32767" attributes="0"/>
                                   <Component id="btnTablasCatalogo" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>

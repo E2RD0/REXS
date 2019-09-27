@@ -5,8 +5,10 @@
  */
 package rexsdesktop.modal;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
     public final SpinnerDateModel modelInicio = new SpinnerDateModel();
     public final SpinnerDateModel modelFin = new SpinnerDateModel();
     public int id = Activities.getId2();
+    public static String idUbicacion;
 
     public ModalModificarActividadPoint() {
         initComponents();
@@ -50,6 +53,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
 
         createComboBox(map, cbxUbicacionModal);
         dateFechaInicio.setDateFormatString("yyyy-MM-dd");
+        cbxUbicacionModal.setSelectedItem(Locations.getPlaceName(idUbicacion));
         //Spinner
     }
 
@@ -74,12 +78,12 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         spHoraFin = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcionModal = new javax.swing.JTextArea();
-        btnEliminarModal = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel69 = new javax.swing.JLabel();
         txtNombreEncargadoModal = new javax.swing.JTextField();
         jLabel68 = new javax.swing.JLabel();
+        btnVerMapa = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(345, 450));
@@ -127,18 +131,6 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         txtDescripcionModal.setEnabled(false);
         jScrollPane1.setViewportView(txtDescripcionModal);
 
-        btnEliminarModal.setBackground(new java.awt.Color(247, 214, 218));
-        btnEliminarModal.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
-        btnEliminarModal.setForeground(new java.awt.Color(214, 54, 73));
-        btnEliminarModal.setText("Eliminar");
-        btnEliminarModal.setToolTipText("Eliminar la actividad");
-        btnEliminarModal.setBorderPainted(false);
-        btnEliminarModal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarModalActionPerformed(evt);
-            }
-        });
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/LocationActivities.png"))); // NOI18N
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Clock.png"))); // NOI18N
@@ -159,15 +151,22 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
         jLabel68.setForeground(new java.awt.Color(176, 186, 201));
         jLabel68.setText("ENCARGADO");
 
+        btnVerMapa.setBackground(new java.awt.Color(213, 222, 255));
+        btnVerMapa.setFont(new java.awt.Font("Rubik Medium", 0, 11)); // NOI18N
+        btnVerMapa.setForeground(new java.awt.Color(46, 91, 255));
+        btnVerMapa.setText("Ver ubicación");
+        btnVerMapa.setBorderPainted(false);
+        btnVerMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerMapaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -206,6 +205,10 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
                                 .addComponent(jLabel69)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(28, 28, 28))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnVerMapa)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,17 +237,24 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
                 .addComponent(jLabel69)
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 21, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEliminarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnVerMapa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarModalActionPerformed
-        
-    }//GEN-LAST:event_btnEliminarModalActionPerformed
+    private void btnVerMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerMapaActionPerformed
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            String alias = Locations.getAlias(idUbicacion);
+            try {
+                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/" + alias + "?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
+            } catch (Exception ex) {
+                System.out.println("Open map in web browser error: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnVerMapaActionPerformed
 
     /**
      * Método utilizado para volver a nulos los valores de los campos de
@@ -257,7 +267,7 @@ public class ModalModificarActividadPoint extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminarModal;
+    private javax.swing.JButton btnVerMapa;
     public static javax.swing.JComboBox<String> cbxUbicacionModal;
     public static com.toedter.calendar.JDateChooser dateFechaInicio;
     private javax.swing.JLabel jLabel1;

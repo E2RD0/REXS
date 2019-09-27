@@ -4517,7 +4517,7 @@ public class Admin extends javax.swing.JFrame {
         dateFechaInicio.setDate(new Date(fechaActual.getTime() + 1 * 24 * 60 * 60 * 1000));
         dateFechaFin.setDate(new Date(fechaActual.getTime() + 5 * 24 * 60 * 60 * 1000));
 
-        dateFechaInicio.setMinSelectableDate(new Date(fechaActual.getTime() + 1 * 24 * 60 * 60 * 1000));
+        //dateFechaInicio.setMinSelectableDate(new Date(fechaActual.getTime() + 1 * 24 * 60 * 60 * 1000));
 
         cargarEdiciones();
 
