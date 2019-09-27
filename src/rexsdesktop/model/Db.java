@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import javax.imageio.ImageIO;
 import rexsdesktop.CurrentUser;
+import rexsdesktop.controller.Locations;
 
 /**
  * Clase utilizada como modelo o capa de gestión de datos.
@@ -33,6 +34,21 @@ public class Db {
 
     public Db() {
         cn = new DbConnection().conectar();
+    }
+   
+    public ArrayList<String> ubiArrayList;
+
+    public void cargarUbicacionesLogin() {
+        try {
+            String sql = "select ubicacion from ubicacion";
+            Statement cmd = cn.createStatement();
+            ResultSet rs = cmd.executeQuery(sql);
+            ubiArrayList = new ArrayList<>();
+            while (rs.next()){
+                ubiArrayList.add(Locations.getPlaceName(rs.getString(1)));
+            }
+        } catch (Exception e) {
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Projects">
