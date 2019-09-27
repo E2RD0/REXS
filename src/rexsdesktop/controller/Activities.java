@@ -46,7 +46,7 @@ public class Activities {
     private JDialog modal1;
     public String prueba;
     
-    Db db = new Db();
+    
 
     private Color colores = null;
     private ImageIcon icono = null;
@@ -66,7 +66,8 @@ public class Activities {
      * @param panel panel donde se visualizarán los datos
      */
     public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
-        Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Db db = new Db();
+        
         db.NumActividades(inicio, edicion, fin);
         db.Actividades(inicio, edicion, fin);
         db.HorasInicioActividades(inicio, edicion, fin);
@@ -290,7 +291,7 @@ public class Activities {
      * @param panel panel donde se visualizarán los datos
      */
     public void CrearPanelesActividadesPoint(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
-        Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Db db = new Db();
         db.NumActividades(inicio, edicion, fin);
         db.Actividades(inicio, edicion, fin);
         db.HorasInicioActividades(inicio, edicion, fin);

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
+import rexsdesktop.CurrentUser;
 import static rexsdesktop.modal.ModalNuevoProyecto.img;
 import rexsdesktop.modal.ModalViewProyecto;
 import rexsdesktop.modal.ModalViewProyectoPoint;
@@ -78,7 +79,6 @@ public class Projects {
         Db db = new Db();
         db.Proyectos(edicion);
         db.NumProyectos(edicion);
-
         numProyectos = db.getCantidadProyecto();
         for (int i = 0; i < db.getCantidadProyecto(); i++) {
 
@@ -169,7 +169,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
+//            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -202,10 +202,18 @@ public class Projects {
                     modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
                     modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
-                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
-
+                    db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(1, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
+                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.COUNTvotos(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
 
                         modalProye.setBackground(new Color(244, 246, 252));
@@ -393,37 +401,6 @@ public class Projects {
 
                                 }
 
-                                lbIMG.addMouseListener(new MouseListener() {
-                                    Frame gt;
-
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                        lbIMG = (JLabel) e.getSource();
-                                        System.out.println(lbIMG.getName());
-                                    }
-
-                                    @Override
-
-                                    public void mousePressed(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseReleased(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseEntered(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseExited(MouseEvent e
-                                    ) {
-                                    }
-                                }
-                                );
                             }
                         } catch (Exception q) {
                             System.out.println(q.getMessage());
@@ -600,7 +577,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
+            //ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -632,10 +609,18 @@ public class Projects {
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
                     ModalViewProyectoPoint.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
-
+                    db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(1, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
+                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.COUNTvotos(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
 
                         modalProye.setBackground(new Color(244, 246, 252));
@@ -724,16 +709,16 @@ public class Projects {
 
                     if (t.CountIMGresources != 0) {
                         try {
-                          
+
                             pnlImagenes = new JPanel();
                             pnlImagenes.setLayout(new GridLayout(1, 0, 15, 15));
                             pnlImagenes.setBackground(Color.white);
                             jsImagenes = new JScrollPane(pnlImagenes);
-                           
+
                             jsImagenes.setBounds(2, 2, 140, 135);
                             jsImagenes.setBorder(null);
-                             modalProye.pnlViewImagenes.add(jsImagenes);
-                        
+                            modalProye.pnlViewImagenes.add(jsImagenes);
+
                             int y2 = 0;
                             modalProye.Img.setIcon(new ImageIcon(db.RecImagenes.get(0)));
 
@@ -752,7 +737,7 @@ public class Projects {
                                     } else {
                                         lbIMG.setIcon(fotoProyecto);
                                     }
-               
+
                                     lbIMG.setName(String.valueOf(db.RecIdRecurso.get(j)));
                                     pnlImagenes.add(lbIMG);
                                     y2 = y2 + 155;
@@ -946,7 +931,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
+            //ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -979,8 +964,17 @@ public class Projects {
                     modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
                     modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
-                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.id.setText(nuevo.getName());
+                    db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(1, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
+                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.COUNTvotos(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
 
                         modalProye.setBackground(new Color(244, 246, 252));
@@ -1164,37 +1158,6 @@ public class Projects {
 
                                 }
 
-                                lbIMG.addMouseListener(new MouseListener() {
-                                    Frame gt;
-
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                        lbIMG = (JLabel) e.getSource();
-                                        System.out.println(lbIMG.getName());
-                                    }
-
-                                    @Override
-
-                                    public void mousePressed(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseReleased(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseEntered(MouseEvent e
-                                    ) {
-                                    }
-
-                                    @Override
-                                    public void mouseExited(MouseEvent e
-                                    ) {
-                                    }
-                                }
-                                );
                             }
                         } catch (Exception q) {
                             System.out.println(q.getMessage());
@@ -1369,7 +1332,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
+            //ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -1400,8 +1363,17 @@ public class Projects {
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
                     ModalViewProyectoPoint.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.id.setText(nuevo.getName());
+                    db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(1, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumExpo.setText(Double.toString(db.DetalleVoto));
+                    db.PromDetalleVotos(3, Integer.parseInt(nuevo.getName()));
+                    modalProye.NumInnovacion.setText(Double.toString(db.DetalleVoto));
+                    modalProye.txtPromVoto.setText(String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, Integer.parseInt(nuevo.getName()))));
+                    db.COUNTvotos(Integer.parseInt(nuevo.getName()));
+                    modalProye.txtNumVotos.setText(String.valueOf(db.COUNTVotosPorProyecto) + " votos");
                     if (color == 0) {
 
                         modalProye.setBackground(new Color(244, 246, 252));
@@ -1496,7 +1468,7 @@ public class Projects {
                             jsImagenes = new JScrollPane(pnlImagenes);
                             jsImagenes.setBounds(2, 2, 140, 135);
                             jsImagenes.setBorder(null);
-                             modalProye.pnlViewImagenes.add(jsImagenes);
+                            modalProye.pnlViewImagenes.add(jsImagenes);
                             int y2 = 0;
                             modalProye.Img.setIcon(new ImageIcon(db.RecImagenes.get(0)));
                             for (int j = 0; j < t.CountIMGresources; j++) {
@@ -1541,13 +1513,13 @@ public class Projects {
                         }
 
                     } else {
-                         modalProye.pnlViewImagenes.setLayout(null);
+                        modalProye.pnlViewImagenes.setLayout(null);
                         lbIMG = new JLabel();
                         lbIMG.setBounds(60, 30, 300, 50);
                         //lbIMG.setBorder(new EtchedBorder());
                         lbIMG.setText("<html>" + "No hay imágenes que mostrar en este proyecto." + "</html>");
                         lbIMG.setFont(new java.awt.Font("Rubik Light", 0, 14));
-                         modalProye.pnlViewImagenes.add(lbIMG);
+                        modalProye.pnlViewImagenes.add(lbIMG);
                     }
 
                     if (color == 0) {

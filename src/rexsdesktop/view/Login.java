@@ -114,7 +114,7 @@ public class Login extends javax.swing.JFrame {
                 lblErrorEmail.setText("");
                 lblErrorPassword.setText("");
                 if (User.iniciarSesion(email, password)) {
-//                    System.out.println("Inicio Correcto");
+                  //  System.out.println("Inicio Correcto");
                     if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
                         if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
                             Admin fAdmin = new Admin();
@@ -126,7 +126,8 @@ public class Login extends javax.swing.JFrame {
                             General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
                             General.getEdicion();
                             Admin.lblEdicion.setText(CurrentUser.edicionExpotecnica);
-                            Admin.cargarActividades();
+                            //Admin.cargarActividades();
+                            
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
                             txtEmail.setBackground(new java.awt.Color(255, 204, 204));

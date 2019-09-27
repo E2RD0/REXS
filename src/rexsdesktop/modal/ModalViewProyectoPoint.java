@@ -43,7 +43,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio3.setMaximum(10);
         lblPuntajeFinal.setVisible(false);
         jLabel14.setEnabled(false);
-        CurrentUser.idUsuario = 1;
+        CurrentUser.idUsuario = 2;
         if (Votes.existeVoto(CurrentUser.idUsuario, idProyecto)) {
             yaExiste();
         }
@@ -87,8 +87,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         pnlVotos = new javax.swing.JPanel();
         stars = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        NumExpo = new javax.swing.JLabel();
+        NumInnovacion = new javax.swing.JLabel();
         NumCreatividad = new javax.swing.JLabel();
         txtPromVoto = new javax.swing.JLabel();
         Exposicion = new javax.swing.JLabel();
@@ -212,17 +212,17 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
 
         stars.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/stars.png"))); // NOI18N
 
-        jLabel9.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
-        jLabel9.setText("9.8");
-        jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NumExpo.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        NumExpo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NumExpo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
+        NumExpo.setText("9.8");
+        NumExpo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel7.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
-        jLabel7.setText("7.0");
-        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        NumInnovacion.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        NumInnovacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NumInnovacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/1.png"))); // NOI18N
+        NumInnovacion.setText("7.0");
+        NumInnovacion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         NumCreatividad.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         NumCreatividad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -282,9 +282,9 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                 .addGroup(pnlVotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlVotosLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jLabel7)
+                        .addComponent(NumInnovacion)
                         .addGap(43, 43, 43)
-                        .addComponent(jLabel9)
+                        .addComponent(NumExpo)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlVotosLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -302,8 +302,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
                             .addGroup(pnlVotosLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(pnlVotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NumInnovacion)
+                                    .addComponent(NumExpo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(NumCreatividad))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtNumVotos, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -672,7 +672,9 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JLabel Exposicion;
     public javax.swing.JLabel Img;
     private javax.swing.JLabel Innovacion;
-    private javax.swing.JLabel NumCreatividad;
+    public javax.swing.JLabel NumCreatividad;
+    public javax.swing.JLabel NumExpo;
+    public javax.swing.JLabel NumInnovacion;
     private javax.swing.JSeparator Separator2;
     private javax.swing.JButton btnVerMapa;
     private javax.swing.JButton btnVotar;
@@ -690,8 +692,6 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JScrollPane jcpNormal;
     private javax.swing.JLabel jlMapa;
@@ -714,8 +714,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     public javax.swing.JLabel txtEspecialidad;
     public javax.swing.JLabel txtNivel;
     public static javax.swing.JLabel txtNombre;
-    private javax.swing.JLabel txtNumVotos;
-    private javax.swing.JLabel txtPromVoto;
+    public javax.swing.JLabel txtNumVotos;
+    public javax.swing.JLabel txtPromVoto;
     public javax.swing.JLabel txtSeccion;
     public javax.swing.JLabel txtUbiView;
     // End of variables declaration//GEN-END:variables

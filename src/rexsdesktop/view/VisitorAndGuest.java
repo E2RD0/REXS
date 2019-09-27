@@ -1967,7 +1967,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
             jcEspecialidad1.disable();
             jcSeccion1.disable();
             db.NumProyectos(CurrentUser.edicionExpotecnica);
-            cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
+            cdProyectos.setLayout(new GridLayout(0, 3, 15, 20));
             try {
                 Projects cargarPaneles = new Projects();
                 cargarPaneles.CrearPanelesProyectosPoint(cdProyectos, CurrentUser.edicionExpotecnica);
@@ -2014,7 +2014,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     jsProyectos.setBounds(0, 70, 808, 363);
                     break;
                 default:
-                    jsProyectos.setBounds(0, 70, 808, 470);
+                    jsProyectos.setBounds(45, 110, 1200, 480);
             }
             pnlViewProyectos.add(jsProyectos);
         } catch (Exception e) {

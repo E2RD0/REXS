@@ -190,6 +190,42 @@ public class Db {
         }
     }
 
+    public double DetalleVoto;
+
+    public void PromDetalleVotos(int idCriterio, int idProyecto) {
+        try {
+
+            String sql = "SELECT AVG(puntuacion) from detalleVotacion d INNER JOIN votacion v on d.idVotacion=v.idVotacion where idCriterioVotacion=(?) and idProyecto=(?)";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setInt(1, idCriterio);
+            cmd.setInt(2, idProyecto);
+            ResultSet rs = cmd.executeQuery();
+            while (rs.next()) {
+                DetalleVoto = rs.getDouble(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Db " + e.getMessage());
+
+        }
+    }
+    public int COUNTVotosPorProyecto;
+
+    public void COUNTvotos(int idProyecto) {
+        try {
+
+            String sql = "SELECT COUNT(idVotacion) from votacion where idProyecto=(?)";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setInt(1, idProyecto);
+            ResultSet rs = cmd.executeQuery();
+            while (rs.next()) {
+                COUNTVotosPorProyecto = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Db " + e.getMessage());
+
+        }
+    }
+
     /**
      * @return the CantidadProyecto
      */

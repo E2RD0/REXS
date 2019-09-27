@@ -4036,7 +4036,6 @@ public class Admin extends javax.swing.JFrame {
         jPanel13.removeAll();
         jPanel14.removeAll();
         jPanel15.removeAll();
-
         Activities actividades = new Activities();
 
         final String dia1 = "actividadesFechaInicio";
@@ -4077,7 +4076,7 @@ public class Admin extends javax.swing.JFrame {
         String fecha3Fin = fecha3 + " 23:59:59";
         String fecha4Fin = fecha4 + " 23:59:59";
         String fecha5Fin = fecha5 + " 23:59:59";
-
+        //System.out.println("Helow 3");
         int contador = 1;
         actividades.CrearPanelesActividades(jPanel4, fecha1Inicio, CurrentUser.edicionExpotecnica, fecha1Fin, contador);
         lblCantidadActividades1.setText(String.valueOf(actividades.getCantidadDia1()));
