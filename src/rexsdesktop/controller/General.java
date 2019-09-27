@@ -5,6 +5,8 @@
  */
 package rexsdesktop.controller;
 
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +31,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import rexsdesktop.CurrentUser;
@@ -412,9 +417,50 @@ public class General {
         return new Db().countUbicacion();
     }
     
-    public void cargarMejoresProyectos(javax.swing.JPanel panel, String edicion){
+      public void cargarMejoresProyectos(javax.swing.JPanel panel, String edicion) {
         Db db = new Db();
-        
-    
+        db.ViewMejoresProyectos(edicion);
+        JPanel pro = new JPanel();
+        pro.setBackground(Color.white);
+        pro.setBounds(0, 0, 228, 250); //Sumarle 4 a los dos
+        pro.setLayout(new GridLayout(0, 1, 0, 7));
+        panel.add(pro);
+        for (int i = 0; i < 4; i++) {
+            JPanel Prin = new JPanel();
+            Prin.setBackground(Color.white);
+            Prin.setLayout(null);
+            Prin.setSize(200, 52);
+            //Prin.setBorder(new EtchedBorder());
+            pro.add(Prin);
+            JLabel name = new JLabel(db.NombreMejorProyecto.get(i));
+            name.setBounds(49, 11, 123, 14);
+            name.setFont(new java.awt.Font("Rubik Medium", 0, 12));
+            //name.setBorder(new EtchedBorder());
+            Prin.add(name);
+            JLabel esp = new JLabel(db.EspecialidadMejorProyecto.get(i));
+            esp.setBounds(49, 30, 110, 14);
+            esp.setFont(new java.awt.Font("Rubik", 0, 12));
+            esp.setForeground(new Color(135, 152, 173));
+            //esp.setBorder(new EtchedBorder());
+            Prin.add(esp);
+            JLabel prom = new JLabel(Double.toString(db.promedioSimple.get(i)), SwingConstants.CENTER);
+            prom.setBounds(194, 11, 28, 14);
+            prom.setFont(new java.awt.Font("Rubik", 0, 12));
+            // prom.setBorder(new EtchedBorder());
+            Prin.add(prom);
+            JLabel countVoto = new JLabel(String.valueOf(db.CantidadVotosMejorProyecto.get(i)) + "  votos", SwingConstants.CENTER);
+            countVoto.setBounds(170, 30, 54, 13);
+            countVoto.setFont(new java.awt.Font("Rubik", 0, 11));
+            countVoto.setForeground(new Color(135, 152, 173));
+            // countVoto.setBorder(new EtchedBorder());
+            Prin.add(countVoto);
+            JLabel icon = new JLabel();
+            icon.setBounds(13, 15, 28, 28);
+            //icon.setBorder(new EtchedBorder());
+            //icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/medal1.png")));
+            // prom.setBorder(new EtchedBorder());
+            //Prin.add(icon);
+        }
+
     }
 }

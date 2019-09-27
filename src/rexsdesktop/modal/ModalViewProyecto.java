@@ -13,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
@@ -22,14 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,7 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import rexsdesktop.CurrentUser;
@@ -62,9 +54,6 @@ import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
 import static rexsdesktop.view.Admin.cdProyectos;
 import static rexsdesktop.view.Admin.color;
-import static rexsdesktop.view.Admin.jcEspecialidad;
-import static rexsdesktop.view.Admin.jcNivel;
-import static rexsdesktop.view.Admin.jcSeccion;
 import static rexsdesktop.view.Admin.jsProyectos;
 import static rexsdesktop.view.Admin.pnlViewProyectos;
 
@@ -74,7 +63,7 @@ import static rexsdesktop.view.Admin.pnlViewProyectos;
  * @author Lulac
  */
 public class ModalViewProyecto extends javax.swing.JPanel {
-    
+
     public String idUbicacion;
     int contador = 0;
     ImageIcon Member = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member.png"));
@@ -110,16 +99,9 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
-            jcNivel.removeAllItems();
-            jcNivel.addItem("Seleccione un nivel");
             cdProyectos.removeAll();
             pnlViewProyectos.repaint();
             pnlViewProyectos.revalidate();
-            for (int i = 0; i < db.SNnivel.size(); i++) {
-                jcNivel.addItem(db.SNnivel.get(i));
-            }
-            jcEspecialidad.disable();
-            jcSeccion.disable();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
             cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
@@ -937,6 +919,11 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         cbxEspecialidad.setForeground(new java.awt.Color(46, 56, 77));
         cbxEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
         cbxEspecialidad.setPreferredSize(new java.awt.Dimension(56, 27));
+        cbxEspecialidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxEspecialidadItemStateChanged(evt);
+            }
+        });
 
         cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
@@ -1383,16 +1370,10 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                     if (cbxNivel.getSelectedItem().equals(String.valueOf("Primer año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
                         cbxEspecialidad.enable();
                         cbxEspecialidad.removeAllItems();
-                        cbxSeccionNivel.removeAllItems();
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
                             cbxEspecialidad.addItem(db.SNespecialidad.get(i));
                         }
                         cbxEspecialidad.removeItem(String.valueOf("Basica"));
-                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
-                        cbxSeccionNivel.enable();
-                        for (int i = 0; i < db.SNseccion.size(); i++) {
-                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
-                        }
                     } else {
                         cbxEspecialidad.removeAllItems();
                         cbxSeccionNivel.removeAllItems();
@@ -1409,8 +1390,12 @@ public class ModalViewProyecto extends javax.swing.JPanel {
                     }
 
                 } else {
-
+                    cbxEspecialidad.removeAllItems();
+                    cbxEspecialidad.addItem("Seleccione una especialidad");
+                    cbxEspecialidad.disable();
+                    cbxSeccionNivel.disable();
                 }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1475,13 +1460,29 @@ public class ModalViewProyecto extends javax.swing.JPanel {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             String alias = Locations.getAlias(idUbicacion);
             try {
-                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/"+alias+"?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
+                Desktop.getDesktop().browse(new URI("https://maps.mapwize.io/#/p/ITR/" + alias + "?k=be2e22efcc70dfb3&embed=true&menu=false&venueId=5c8ef893f9e6100016da65ac&organizationId=5c8ef687f9e6100016da6590&z=19"));
             } catch (Exception ex) {
                 System.out.println("Open map in web browser error: " + ex.getMessage());
             }
         }
         //
     }//GEN-LAST:event_btnVerMapaActionPerformed
+
+    private void cbxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxEspecialidadItemStateChanged
+
+        if (cbxNivel.getSelectedIndex() > 0) {
+            if (cbxEspecialidad.getSelectedIndex() > 0) {
+                Db db = new Db();
+                cbxSeccionNivel.removeAllItems();
+                db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                for (int i = 0; i < db.SNseccion.size(); i++) {
+                    cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                }
+                cbxSeccionNivel.enable();
+
+            }
+        }
+    }//GEN-LAST:event_cbxEspecialidadItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

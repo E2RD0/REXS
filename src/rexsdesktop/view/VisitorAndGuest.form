@@ -1190,17 +1190,17 @@
                                       <EmptySpace pref="84" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel228" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jcNivel" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                                          <Component id="jcNivel1" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace pref="102" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel215" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jcEspecialidad" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                                          <Component id="jcEspecialidad1" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace pref="102" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel229" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jcSeccion" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                                          <Component id="jcSeccion1" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace pref="52" max="32767" attributes="0"/>
                                       <Component id="btnFiltrarLista1" min="-2" pref="125" max="-2" attributes="0"/>
@@ -1223,18 +1223,18 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel228" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jcNivel" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="jcNivel1" min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel215" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jcEspecialidad" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="jcEspecialidad1" min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="btnFiltrarLista1" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel229" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jcSeccion" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="jcSeccion1" min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1266,7 +1266,7 @@
                         <Property name="text" type="java.lang.String" value="Nivel"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jcNivel">
+                    <Component class="javax.swing.JComboBox" name="jcNivel1">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Rubik" size="12" style="0"/>
@@ -1288,14 +1288,14 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jcNivelItemStateChanged"/>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jcNivel1ItemStateChanged"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jcEspecialidad">
+                    <Component class="javax.swing.JComboBox" name="jcEspecialidad1">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Rubik" size="12" style="0"/>
@@ -1316,6 +1316,9 @@
                           </Border>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jcEspecialidad1ItemStateChanged"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -1332,7 +1335,7 @@
                         <Property name="text" type="java.lang.String" value="Especialidad"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jcSeccion">
+                    <Component class="javax.swing.JComboBox" name="jcSeccion1">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Rubik" size="12" style="0"/>

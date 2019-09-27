@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import rexsdesktop.CurrentUser;
@@ -33,9 +32,6 @@ import rexsdesktop.model.Db;
 import rexsdesktop.view.Admin;
 import static rexsdesktop.view.Admin.cdProyectos;
 import static rexsdesktop.view.Admin.color;
-import static rexsdesktop.view.Admin.jcEspecialidad;
-import static rexsdesktop.view.Admin.jcNivel;
-import static rexsdesktop.view.Admin.jcSeccion;
 import static rexsdesktop.view.Admin.jsProyectos;
 import static rexsdesktop.view.Admin.pnlViewProyectos;
 
@@ -68,21 +64,13 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         try {
             General.getEdicion();
             Db db = new Db();
-            db.obtenerNivel();
             db.NumProyectos(CurrentUser.edicionExpotecnica);
-            jcNivel.removeAllItems();
-            jcNivel.addItem("Seleccione un nivel");
-            for (int i = 0; i < db.SNnivel.size(); i++) {
-                jcNivel.addItem(db.SNnivel.get(i));
-            }
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
             cdProyectos.removeAll();
             pnlViewProyectos.repaint();
             pnlViewProyectos.revalidate();
-            jcEspecialidad.disable();
-            jcSeccion.disable();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
             cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
@@ -278,6 +266,11 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         cbxEspecialidad.setForeground(new java.awt.Color(46, 56, 77));
         cbxEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
         cbxEspecialidad.setPreferredSize(new java.awt.Dimension(56, 27));
+        cbxEspecialidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxEspecialidadItemStateChanged(evt);
+            }
+        });
 
         cbxSeccionNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxSeccionNivel.setForeground(new java.awt.Color(46, 56, 77));
@@ -461,7 +454,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                                 imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
                         img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
                         jIMG.setIcon(new ImageIcon(img.getScaledInstance(jIMG.getWidth(), jIMG.getHeight(), Image.SCALE_DEFAULT)));
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(this, Validation.VerificadorImagen.mensaje, "Seleccionar imagen", JOptionPane.WARNING_MESSAGE);
                     }
@@ -488,16 +481,10 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                     if (cbxNivel.getSelectedItem().equals(String.valueOf("Primer año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || cbxNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
                         cbxEspecialidad.enable();
                         cbxEspecialidad.removeAllItems();
-                        cbxSeccionNivel.removeAllItems();
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
                             cbxEspecialidad.addItem(db.SNespecialidad.get(i));
                         }
                         cbxEspecialidad.removeItem(String.valueOf("Basica"));
-                        db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
-                        cbxSeccionNivel.enable();
-                        for (int i = 0; i < db.SNseccion.size(); i++) {
-                            cbxSeccionNivel.addItem(db.SNseccion.get(i));
-                        }
                     } else {
                         cbxEspecialidad.removeAllItems();
                         cbxEspecialidad.disable();
@@ -514,7 +501,13 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         }
                     }
 
+                } else {
+                    cbxEspecialidad.removeAllItems();
+                    cbxEspecialidad.addItem("Seleccione una especialidad");
+                    cbxEspecialidad.disable();
+                    cbxSeccionNivel.disable();
                 }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -529,6 +522,21 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarFotoProActionPerformed
+
+    private void cbxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxEspecialidadItemStateChanged
+        if (cbxNivel.getSelectedIndex() > 0) {
+            if (cbxEspecialidad.getSelectedIndex() > 0) {
+                Db db = new Db();
+                cbxSeccionNivel.removeAllItems();
+                db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
+                for (int i = 0; i < db.SNseccion.size(); i++) {
+                    cbxSeccionNivel.addItem(db.SNseccion.get(i));
+                }
+                cbxSeccionNivel.enable();
+
+            }
+        }
+    }//GEN-LAST:event_cbxEspecialidadItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

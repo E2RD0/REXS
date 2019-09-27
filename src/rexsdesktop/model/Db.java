@@ -290,6 +290,55 @@ public class Db {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="MostrarMejoresProyectos">
+    public ArrayList<Double> promedioSimple;
+    public ArrayList<String> NombreMejorProyecto;
+    public ArrayList<String> EspecialidadMejorProyecto;
+    public ArrayList<Integer> CantidadVotosMejorProyecto;
+
+    public void ViewMejoresProyectos(String edicion) {
+        try {
+
+            String sql = "SELECT TOP 4 AVG(promedioSimple), nombre,especialidad,COUNT(idVotacion) "
+                    + "from votacion v INNER JOIN proyecto p on v.idProyecto=p.idProyecto INNER JOIN "
+                    + "seccionNivel s on p.idSeccionNivel=s.idSeccionNivel INNER JOIN especialidad e on "
+                    + "s.idEspecialidad=e.idEspecialidad where edicion=(?) group by p.nombre,e.especialidad "
+                    + "order by AVG(promedioSimple) desc";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setString(1, edicion);
+            ResultSet rs = cmd.executeQuery();
+            promedioSimple = new ArrayList<>();
+            NombreMejorProyecto = new ArrayList<>();
+            EspecialidadMejorProyecto = new ArrayList<>();
+            CantidadVotosMejorProyecto = new ArrayList<>();
+            while (rs.next()) {
+                promedioSimple.add(rs.getDouble(1));
+                NombreMejorProyecto.add(rs.getString(2));
+                EspecialidadMejorProyecto.add(rs.getString(3));
+                CantidadVotosMejorProyecto.add(rs.getInt(4));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public int countVotos;
+
+    public void CountVotosMejoresProyectos(String edicion) {
+        try {
+
+            String sql = "select COUNT(idvotacion) from votacion v INNER JOIN proyecto p on v.idProyecto=p.idProyecto  where edicion=?";
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            cmd.setString(1, edicion);
+            ResultSet rs = cmd.executeQuery();
+
+            while (rs.next()) {
+                countVotos = rs.getInt(1);
+            }
+            System.out.println(countVotos);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="CRUD-Projects">
     public boolean agregarProyecto(String nombre, String descripcion, String edicion, int idSeccionNivel, byte[] immAsBytes) {

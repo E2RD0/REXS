@@ -1640,6 +1640,8 @@ public class Admin extends javax.swing.JFrame {
         jLabel293.setForeground(new java.awt.Color(135, 152, 173));
         jLabel293.setText("MEJORES PROYECTOS");
 
+        pnlViewMejoresProyectos.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout pnlViewMejoresProyectosLayout = new javax.swing.GroupLayout(pnlViewMejoresProyectos);
         pnlViewMejoresProyectos.setLayout(pnlViewMejoresProyectosLayout);
         pnlViewMejoresProyectosLayout.setHorizontalGroup(
@@ -1669,9 +1671,9 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(pnlMejoresProyectosLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel293)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlViewMejoresProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         jPanel129.setBackground(new java.awt.Color(255, 255, 255));
@@ -1904,6 +1906,11 @@ public class Admin extends javax.swing.JFrame {
         jcEspecialidad.setForeground(new java.awt.Color(135, 152, 173));
         jcEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
         jcEspecialidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcEspecialidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcEspecialidadItemStateChanged(evt);
+            }
+        });
 
         jLabel215.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel215.setForeground(new java.awt.Color(46, 56, 77));
@@ -4863,16 +4870,10 @@ public class Admin extends javax.swing.JFrame {
                     if (jcNivel.getSelectedItem().equals(String.valueOf("Primer año")) || jcNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || jcNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
                         jcEspecialidad.enable();
                         jcEspecialidad.removeAllItems();
-                        jcSeccion.removeAllItems();
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
                             jcEspecialidad.addItem(db.SNespecialidad.get(i));
                         }
                         jcEspecialidad.removeItem(String.valueOf("Basica"));
-                        db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
-                        jcSeccion.enable();
-                        for (int i = 0; i < db.SNseccion.size(); i++) {
-                            jcSeccion.addItem(db.SNseccion.get(i));
-                        }
                     } else {
                         jcEspecialidad.removeAllItems();
                         jcEspecialidad.disable();
@@ -4890,7 +4891,13 @@ public class Admin extends javax.swing.JFrame {
                         }
                     }
 
+                }else {
+                    jcEspecialidad.removeAllItems();
+                    jcEspecialidad.addItem("Seleccione una especialidad");
+                    jcEspecialidad.disable();
+                    jcSeccion.disable();
                 }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -5005,6 +5012,21 @@ public class Admin extends javax.swing.JFrame {
     private void btnCancelarModal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModal1ActionPerformed
         modal.dispose();
     }//GEN-LAST:event_btnCancelarModal1ActionPerformed
+
+    private void jcEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcEspecialidadItemStateChanged
+        if (jcNivel.getSelectedIndex() > 0) {
+            if (jcEspecialidad.getSelectedIndex() > 0) {
+                Db db = new Db();
+                jcSeccion.removeAllItems();
+                db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
+                for (int i = 0; i < db.SNseccion.size(); i++) {
+                    jcSeccion.addItem(db.SNseccion.get(i));
+                }
+                jcSeccion.enable();
+
+            }
+        }
+    }//GEN-LAST:event_jcEspecialidadItemStateChanged
 
     private void setColorInterfaz() {
         //        setBackground(new Color(24, 25, 27) );
@@ -5542,7 +5564,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSuperior;
     private javax.swing.JPanel pnlUbicaciones;
     private javax.swing.JPanel pnlUsuarios;
-    private javax.swing.JPanel pnlViewMejoresProyectos;
+    public static javax.swing.JPanel pnlViewMejoresProyectos;
     public static javax.swing.JPanel pnlViewProyectos;
     private javax.swing.JTextField txtAPIKey;
     private javax.swing.JPasswordField txtAjustesContraA;
@@ -5596,6 +5618,24 @@ public class Admin extends javax.swing.JFrame {
     }
 
     private void loadDashboard() {
+        try {
+            General g = new General();
+            g.getEdicion();
+            Db db = new Db();
+            db.CountVotosMejoresProyectos(CurrentUser.edicionExpotecnica);
+            if (db.countVotos > 30) {
+                g.cargarMejoresProyectos(pnlViewMejoresProyectos, CurrentUser.edicionExpotecnica);
+            } else {
+                JLabel lb12 = new JLabel();
+                lb12.setBounds(18, 60, 190, 60);
+                lb12.setForeground(new Color(46, 91, 255));
+                lb12.setText("<html>" + "Se necesitan más de 30 votos para mostrar las mejores valoraciones" + "</html>");
+                pnlViewMejoresProyectos.add(lb12);
+            }
+        } catch (Exception e) {
+            System.out.println("Mejores Proyectos"+ e.getMessage());
+        }
+
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.CEILING);
         Color verde = new java.awt.Color(45, 183, 68);

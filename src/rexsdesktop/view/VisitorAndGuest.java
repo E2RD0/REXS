@@ -124,6 +124,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         pnlActiveUbicaciones.setBackground(bgNormal);
         pnlActiveActividades.setBackground(bgNormal);
         makeActiveMenuItem(btnInicio, pnlActiveInicio, lblInicio, "Inicio");
+
     }
 
     /**
@@ -191,10 +192,10 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         pnlViewProyectos = new javax.swing.JPanel();
         jLabel214 = new javax.swing.JLabel();
         jLabel228 = new javax.swing.JLabel();
-        jcNivel = new javax.swing.JComboBox<>();
-        jcEspecialidad = new javax.swing.JComboBox<>();
+        jcNivel1 = new javax.swing.JComboBox<>();
+        jcEspecialidad1 = new javax.swing.JComboBox<>();
         jLabel215 = new javax.swing.JLabel();
-        jcSeccion = new javax.swing.JComboBox<>();
+        jcSeccion1 = new javax.swing.JComboBox<>();
         jLabel229 = new javax.swing.JLabel();
         btnFiltrarLista1 = new javax.swing.JButton();
         jLabel230 = new javax.swing.JLabel();
@@ -534,8 +535,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -896,29 +896,34 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         jLabel228.setForeground(new java.awt.Color(46, 56, 77));
         jLabel228.setText("Nivel");
 
-        jcNivel.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jcNivel.setForeground(new java.awt.Color(135, 152, 173));
-        jcNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un nivel" }));
-        jcNivel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
-        jcNivel.addItemListener(new java.awt.event.ItemListener() {
+        jcNivel1.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcNivel1.setForeground(new java.awt.Color(135, 152, 173));
+        jcNivel1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un nivel" }));
+        jcNivel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcNivel1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jcNivelItemStateChanged(evt);
+                jcNivel1ItemStateChanged(evt);
             }
         });
 
-        jcEspecialidad.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jcEspecialidad.setForeground(new java.awt.Color(135, 152, 173));
-        jcEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
-        jcEspecialidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcEspecialidad1.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcEspecialidad1.setForeground(new java.awt.Color(135, 152, 173));
+        jcEspecialidad1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una especialidad" }));
+        jcEspecialidad1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcEspecialidad1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcEspecialidad1ItemStateChanged(evt);
+            }
+        });
 
         jLabel215.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel215.setForeground(new java.awt.Color(46, 56, 77));
         jLabel215.setText("Especialidad");
 
-        jcSeccion.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
-        jcSeccion.setForeground(new java.awt.Color(135, 152, 173));
-        jcSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
-        jcSeccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
+        jcSeccion1.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
+        jcSeccion1.setForeground(new java.awt.Color(135, 152, 173));
+        jcSeccion1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
+        jcSeccion1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true));
 
         jLabel229.setFont(new java.awt.Font("Rubik", 0, 12)); // NOI18N
         jLabel229.setForeground(new java.awt.Color(46, 56, 77));
@@ -971,15 +976,15 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel228)
-                            .addComponent(jcNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcNivel1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel215)
-                            .addComponent(jcEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addGroup(pnlViewProyectosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel229)
-                            .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcSeccion1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jsProyectos))
@@ -996,16 +1001,16 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     .addGroup(pnlViewProyectosLayout.createSequentialGroup()
                         .addComponent(jLabel228)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jcNivel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlViewProyectosLayout.createSequentialGroup()
                         .addComponent(jLabel215)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jcEspecialidad1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnFiltrarLista1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlViewProyectosLayout.createSequentialGroup()
                         .addComponent(jLabel229)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcSeccion1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jsProyectos, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
         );
@@ -2003,14 +2008,13 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         try {
             Db db = new Db();
             General.getEdicion();
-            db.NumProyectos(CurrentUser.edicionExpotecnica);
             db.obtenerNivel();
             for (int i = 0; i < db.SNnivel.size(); i++) {
-                jcNivel.addItem(db.SNnivel.get(i));
+                jcNivel1.addItem(db.SNnivel.get(i));
             }
-
-            jcEspecialidad.disable();
-            jcSeccion.disable();
+            jcEspecialidad1.disable();
+            jcSeccion1.disable();
+            db.NumProyectos(CurrentUser.edicionExpotecnica);
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             try {
                 Projects cargarPaneles = new Projects();
@@ -2058,7 +2062,7 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                     jsProyectos.setBounds(0, 70, 808, 363);
                     break;
                 default:
-                    jsProyectos.setBounds(0, 70, 808, 363);
+                    jsProyectos.setBounds(0, 70, 808, 470);
             }
             pnlViewProyectos.add(jsProyectos);
         } catch (Exception e) {
@@ -2099,12 +2103,11 @@ public class VisitorAndGuest extends javax.swing.JFrame {
 
     private void btnProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProyectosMouseClicked
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        jcNivel.removeAllItems();
-        jcNivel.addItem("Seleccione un nivel");
-        jcEspecialidad.removeAllItems();
-        jcEspecialidad.addItem("Seleccione una especialidad");
+        jcNivel1.removeAllItems();
+        jcNivel1.addItem("Seleccione un nivel");
+        jcEspecialidad1.removeAllItems();
+        jcEspecialidad1.addItem("Seleccione una especialidad");
         cargarProyectos();
-
         pnlViewProyectos.repaint();
         pnlViewProyectos.revalidate();
         cdProyectos.repaint();
@@ -2241,56 +2244,56 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         modal.setVisible(true);
     }//GEN-LAST:event_jPanel17MouseClicked
 
-    private void jcNivelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcNivelItemStateChanged
+    private void jcNivel1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcNivel1ItemStateChanged
         Db db = new Db();
         db.obtenerEspecialidad();
-        jcSeccion.removeAllItems();
-        jcSeccion.addItem("Seleccione una sección");
+        jcSeccion1.removeAllItems();
+        jcSeccion1.addItem("Seleccione una sección");
         try {
             if (evt.getStateChange() == ItemEvent.SELECTED) {
-                if (jcNivel.getSelectedIndex() > 0) {
-                    if (jcNivel.getSelectedItem().equals(String.valueOf("Primer año")) || jcNivel.getSelectedItem().equals(String.valueOf("Segundo año")) || jcNivel.getSelectedItem().equals(String.valueOf("Tercer año"))) {
-                        jcEspecialidad.enable();
-                        jcEspecialidad.removeAllItems();
-                        jcSeccion.removeAllItems();
+                if (jcNivel1.getSelectedIndex() > 0) {
+                    if (jcNivel1.getSelectedItem().equals(String.valueOf("Primer año")) || jcNivel1.getSelectedItem().equals(String.valueOf("Segundo año")) || jcNivel1.getSelectedItem().equals(String.valueOf("Tercer año"))) {
+                        jcEspecialidad1.enable();
+                        jcEspecialidad1.removeAllItems();
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
-                            jcEspecialidad.addItem(db.SNespecialidad.get(i));
+                            jcEspecialidad1.addItem(db.SNespecialidad.get(i));
                         }
-                        jcEspecialidad.removeItem(String.valueOf("Basica"));
-                        db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
-                        jcSeccion.enable();
-                        for (int i = 0; i < db.SNseccion.size(); i++) {
-                            jcSeccion.addItem(db.SNseccion.get(i));
-                        }
+                        jcEspecialidad1.removeItem(String.valueOf("Basica"));
                     } else {
-                        jcEspecialidad.removeAllItems();
-                        jcEspecialidad.disable();
-                        jcSeccion.removeAllItems();
+                        jcEspecialidad1.removeAllItems();
+                        jcEspecialidad1.disable();
+                        jcSeccion1.removeAllItems();
 
                         for (int i = 0; i < db.SNespecialidad.size(); i++) {
-                            jcEspecialidad.addItem(db.SNespecialidad.get(i));
+                            jcEspecialidad1.addItem(db.SNespecialidad.get(i));
                         }
-                        jcEspecialidad.setSelectedItem("Basica");
+                        jcEspecialidad1.setSelectedItem("Basica");
 
-                        db.obtenerSeccion(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString());
-                        jcSeccion.enable();
+                        db.obtenerSeccion(jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString());
+                        jcSeccion1.enable();
                         for (int i = 0; i < db.SNseccion.size(); i++) {
-                            jcSeccion.addItem(db.SNseccion.get(i));
+                            jcSeccion1.addItem(db.SNseccion.get(i));
                         }
                     }
 
+                } else {
+                    jcEspecialidad1.removeAllItems();
+                    jcEspecialidad1.addItem("Seleccione una especialidad");
+                    jcEspecialidad1.disable();
+                    jcSeccion1.disable();
                 }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }//GEN-LAST:event_jcNivelItemStateChanged
+    }//GEN-LAST:event_jcNivel1ItemStateChanged
 
     private void btnFiltrarLista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarLista1ActionPerformed
 
         btnFiltrarLista1.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        if (jcNivel.getSelectedIndex() > 0) {
-            if (jcSeccion.getItemCount() != 0) {
+        if (jcNivel1.getSelectedIndex() > 0) {
+            if (jcSeccion1.getItemCount() != 0) {
 
                 if (label != null) {
                     pnlViewProyectos.remove(label);
@@ -2299,11 +2302,11 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                 pnlViewProyectos.repaint();
                 pnlViewProyectos.revalidate();
                 General.getEdicion();
-                Projects p = getNumProyectosFiltrados(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(),
-                        jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                Projects p = getNumProyectosFiltrados(jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString(),
+                        jcSeccion1.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
                 cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
                 Projects cargar = new Projects();
-                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString(), jcSeccion1.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
                 jsProyectos.setBorder(null);
                 if (color == 0) {
 
@@ -2402,6 +2405,21 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         }
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jcEspecialidad1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcEspecialidad1ItemStateChanged
+        if (jcNivel1.getSelectedIndex() > 0) {
+            if (jcEspecialidad1.getSelectedIndex() > 0) {
+                Db db = new Db();
+                jcSeccion1.removeAllItems();
+                db.obtenerSeccion(jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString());
+                for (int i = 0; i < db.SNseccion.size(); i++) {
+                    jcSeccion1.addItem(db.SNseccion.get(i));
+                }
+                jcSeccion1.enable();
+
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jcEspecialidad1ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -2522,9 +2540,9 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    public static javax.swing.JComboBox<String> jcEspecialidad;
-    public static javax.swing.JComboBox<String> jcNivel;
-    public static javax.swing.JComboBox<String> jcSeccion;
+    public static javax.swing.JComboBox<String> jcEspecialidad1;
+    public static javax.swing.JComboBox<String> jcNivel1;
+    public static javax.swing.JComboBox<String> jcSeccion1;
     public static javax.swing.JScrollPane jsProyectos;
     private javax.swing.JLabel lblActividades;
     private javax.swing.JLabel lblAyuda;
