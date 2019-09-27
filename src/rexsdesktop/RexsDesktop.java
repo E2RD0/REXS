@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import rexsdesktop.controller.General;
+import rexsdesktop.controller.Locations;
 import rexsdesktop.view.Login;
 
 /**
@@ -34,6 +35,7 @@ public class RexsDesktop {
                 inicio.setLocationRelativeTo(null);
                 inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 inicio.setVisible(true);
+                Locations.loadPlacesNamesId();
             });
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

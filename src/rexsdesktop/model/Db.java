@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.imageio.ImageIO;
 import rexsdesktop.CurrentUser;
@@ -35,20 +36,24 @@ public class Db {
     public Db() {
         cn = new DbConnection().conectar();
     }
-   
+
     public ArrayList<String> ubiArrayList;
 
-    public void cargarUbicacionesLogin() {
+    public HashMap cargarUbicacionesLogin() {
         try {
+            HashMap<String, String> ubicaciones = new HashMap<String, String>();
             String sql = "select ubicacion from ubicacion";
             Statement cmd = cn.createStatement();
             ResultSet rs = cmd.executeQuery(sql);
-            ubiArrayList = new ArrayList<>();
-            while (rs.next()){
-                ubiArrayList.add(Locations.getPlaceName(rs.getString(1)));
+            while (rs.next()) {
+                String idUbicacion = rs.getString(1);
+                ubicaciones.put(idUbicacion, Locations.getPlaceNameMapwize(idUbicacion));
             }
+            return ubicaciones;
         } catch (Exception e) {
+            System.out.println("Db.cargarUbicacionesLogin() error: " + e.getMessage());
         }
+        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Projects">

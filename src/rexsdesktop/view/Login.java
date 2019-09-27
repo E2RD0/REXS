@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
+import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 

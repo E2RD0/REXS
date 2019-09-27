@@ -31,6 +31,8 @@ import javax.swing.JComboBox;
 public class Locations {
 
     public static String error = "";
+    
+    public static HashMap ubicacionesNombres;
 
     /**
      * Método utilizado para cargar las ubicaciones de la API MapWize.
@@ -67,12 +69,20 @@ public class Locations {
         }
         return null;
     }
+    
+    public static void loadPlacesNamesId(){
+        Db db = new Db();
+        ubicacionesNombres = db.cargarUbicacionesLogin();
+    }
 
     /**
      * Método utilizado para cargar los nombres de las ubicaciones de la API
      * MapWize.
      */
-    public static String getPlaceName(String placeId) {
+    public static String getPlaceName(String idPlace){
+        return String.valueOf(ubicacionesNombres.get(idPlace));
+    }
+    public static String getPlaceNameMapwize(String placeId) {
         String placeName = "";
         try {
             String APIPlace = String.format("https://api.mapwize.io/v1/places/%s?api_key=%s", placeId, General.getMapwizeAPIKey());
@@ -156,6 +166,8 @@ public class Locations {
         }
         return places;
     }
+    
+    
 
     public static int getIdUbicacion(String ubicacion) {
         Db db = new Db();

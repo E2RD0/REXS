@@ -169,7 +169,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-//            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
+          ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -202,7 +202,7 @@ public class Projects {
                     modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
                     modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
-                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
                     db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
@@ -577,7 +577,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            //ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
+            ubi.setText(Locations.getPlaceName(db.PjUbicacion.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -609,7 +609,7 @@ public class Projects {
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
                     ModalViewProyectoPoint.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.idUbicacion = p.UbicacionP;
                     modalProye.id.setText(nuevo.getName());
                     db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
@@ -931,7 +931,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            //ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
+            ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -964,7 +964,7 @@ public class Projects {
                     modalProye.txtNombre.setText("<html>" + p.nombreP + "</html>");
                     modalProye.txtnombreEdit.setText(p.nombreP);
                     modalProye.txtDesc.setText(p.DescripcionP);
-                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.id.setText(nuevo.getName());
                     db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
                     modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
@@ -1332,7 +1332,7 @@ public class Projects {
 
             ubi.setBounds(23, 4, 170, 22);
             //ubi.setBorder(hola);
-            //ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
+            ubi.setText(Locations.getPlaceName(db.PjUbicacion2.get(i).trim()));
             info2.add(ubi);
 
             JLabel img3 = new JLabel();
@@ -1363,7 +1363,7 @@ public class Projects {
                     modalProye.txtEspecialidad.setText(p.EspecialidadP);
                     modalProye.txtSeccion.setText(p.SeccionP);
                     ModalViewProyectoPoint.txtNombre.setText("<html>" + p.nombreP + "</html>");
-                    //modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
+                    modalProye.txtUbiView.setText(Locations.getPlaceName(p.UbicacionP));
                     modalProye.id.setText(nuevo.getName());
                     db.PromDetalleVotos(2, Integer.parseInt(nuevo.getName()));
                     modalProye.NumCreatividad.setText(Double.toString(db.DetalleVoto));
