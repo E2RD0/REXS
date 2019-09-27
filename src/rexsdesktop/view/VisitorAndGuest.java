@@ -5,76 +5,28 @@
  */
 package rexsdesktop.view;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.event.ItemEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import rexsdesktop.CurrentUser;
+
 import rexsdesktop.controller.General;
 import java.awt.Cursor;
-import java.awt.event.ItemEvent;
-
-import groovy.swing.factory.SwingBorderFactory;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.LayoutManager;
-import java.awt.RenderingHints;
 import java.awt.event.ItemEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.math.RoundingMode;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-
 import javax.swing.JOptionPane;
 import rexsdesktop.CurrentUser;
 import javax.swing.SwingConstants;
 import static rexsdesktop.controller.Projects.getNumProyectosFiltrados;
-import rexsdesktop.controller.Sections;
-import rexsdesktop.controller.Validation;
-import rexsdesktop.modal.ModalModificarEstadoUsuario;
-import rexsdesktop.modal.ModalModificarTipoUsuario;
-import rexsdesktop.modal.ModalNuevaActividad;
-import rexsdesktop.modal.ModalNuevaEspecialidad;
-import rexsdesktop.modal.ModalNuevaSeccion;
-import rexsdesktop.modal.ModalNuevoEstadoUsuario;
-import rexsdesktop.modal.ModalNuevoNivel;
-import rexsdesktop.modal.ModalNuevoProyecto;
 import static rexsdesktop.modal.ModalNuevoProyecto.label;
-import rexsdesktop.modal.ModalNuevoTipoUsuario;
-import rexsdesktop.modal.ModalNuevoUsuario;
-import rexsdesktop.model.Db;
-import rexsdesktop.model.DbConnection;
-
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.Projects;
 import rexsdesktop.modal.ModalInformacionEspecialidades;
-import rexsdesktop.modal.ModalNuevoProyecto;
 import rexsdesktop.model.Db;
 
 /**

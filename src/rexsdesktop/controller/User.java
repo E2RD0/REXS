@@ -29,8 +29,6 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 import rexsdesktop.CurrentUser;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -49,7 +47,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarUsuario;
 import rexsdesktop.model.DbConnection;
-import rexsdesktop.model.ENV;
 
 /**
  * Clase que contiene los atributos y métodos de un usuario.
@@ -107,10 +104,10 @@ public class User {
         }
         return listaModelo;
     }
-    
+
     public DefaultComboBoxModel obtenerTipoUsuarioAdministrador() {
         DefaultComboBoxModel listaModelo = new DefaultComboBoxModel();
-        ResultSet rst = this.consulta("select * from tipoUsuario where idTipoUsuario != "+1+" order by idTipoUsuario");
+        ResultSet rst = this.consulta("select * from tipoUsuario where idTipoUsuario != " + 1 + " order by idTipoUsuario");
         try {
             while (rst.next()) {
                 listaModelo.addElement(rst.getString("tipo"));
@@ -838,7 +835,14 @@ public class User {
         JLabel nombreuser = null;
         panelesUsuarios = new ArrayList<>();
 
-        for (int i = 0; i < db.getCantidadUsuarios(); i++) {
+        int canti = 0;
+        if (CurrentUser.idUsuario != 1) {
+            canti = db.getCantidadUsuarios();
+        } else {
+            canti = db.getCantidadUsuarios2();
+        }
+
+        for (int i = 0; i < canti; i++) {
             Contenedor1 = new JPanel();
             panel.add(Contenedor1);
             panelesUsuarios.add(Contenedor1);

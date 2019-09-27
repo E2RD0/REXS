@@ -5,14 +5,10 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.CardLayout;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import rexsdesktop.controller.Sections;
-import static rexsdesktop.modal.ModalModificarSecciones.jLId;
 
 /**
  *

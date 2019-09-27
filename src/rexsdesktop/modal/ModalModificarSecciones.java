@@ -5,23 +5,11 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Point;
-import java.awt.Window;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Sections;
-import rexsdesktop.controller.User;
-import rexsdesktop.model.DbConnection;
-import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para modificar una sección.

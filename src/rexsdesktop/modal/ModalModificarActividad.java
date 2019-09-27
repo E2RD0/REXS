@@ -8,8 +8,6 @@ package rexsdesktop.modal;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,13 +15,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.view.Admin;
@@ -285,10 +279,10 @@ public class ModalModificarActividad extends javax.swing.JPanel {
         try {
             SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
             sdf.applyPattern("HH:mm:ss");
-            Date d = null;
-            Date d2 = null;
-            Date d3 = null;
-            Date d4 = null;
+            Date d;
+            Date d2;
+            Date d3;
+            Date d4;
             try {
                 d = sdf.parse(prueba);
                 d2 = sdf.parse(prueba2);

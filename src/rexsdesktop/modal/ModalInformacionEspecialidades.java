@@ -9,8 +9,10 @@ import java.awt.CardLayout;
 import javax.swing.JDialog;
 
 /**
+ * Clase que contiene la información de las distintas especialidades del ITR.
  *
  * @author Carlos Herrera
+ * @version 1.3
  */
 public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
@@ -293,7 +295,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel67.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel67.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel67.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel67.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel68.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel68.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -388,7 +390,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel59.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel59.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel59.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel59.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel60.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel60.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -407,7 +409,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
                         .addGap(39, 39, 39)
                         .addGroup(ContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(ContaLayout.createSequentialGroup()
                         .addGroup(ContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -481,7 +483,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel52.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel52.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel52.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel52.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel53.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel53.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -576,7 +578,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel45.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel45.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel45.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel46.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -671,7 +673,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel38.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel38.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel38.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel39.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -766,7 +768,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel31.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel31.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel32.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -861,7 +863,7 @@ public class ModalInformacionEspecialidades extends javax.swing.JPanel {
 
         jLabel24.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel24.setText("<html> <h2>Labororatorios Especializados:</h2> </html>");
+        jLabel24.setText("<html> <h2>Laboratorios Especializados:</h2> </html>");
 
         jLabel25.setFont(new java.awt.Font("Rubik", 0, 15)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

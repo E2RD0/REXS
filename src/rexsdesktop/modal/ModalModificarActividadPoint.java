@@ -5,34 +5,22 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.Locations;
-import rexsdesktop.view.Admin;
 
 /**
- * Clase que contiene el Panel para modificar y eliminar una actividad.
+ * Clase que contiene la información de una actividad.
  *
  * @author Carlos Herrera
- * @version 1.2
+ * @version 1.3
  */
 public class ModalModificarActividadPoint extends javax.swing.JPanel {
 

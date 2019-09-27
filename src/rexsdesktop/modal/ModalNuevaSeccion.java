@@ -5,13 +5,10 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Window;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Sections;
-import static rexsdesktop.modal.ModalModificarSecciones.jLId;
 
 /**
  * Clase que contiene el Panel para agregar una nueva sección.

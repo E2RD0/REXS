@@ -6,7 +6,6 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -17,11 +16,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import rexsdesktop.CurrentUser;
-import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
-import static rexsdesktop.view.LoginPoint.lblEdicion;
 
 /**
  *

@@ -9,15 +9,13 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
+import rexsdesktop.model.Db;
 
 /**
  *
@@ -581,6 +579,11 @@ public class LoginPoint extends javax.swing.JFrame {
                     txtEmail.setBackground(new java.awt.Color(249, 250, 255));
                     lblErrorEmailR.setText("");
                     CurrentUser.idTipoUsuario = 3;
+                    CurrentUser.nombreCompleto = nombre;
+                    Db db = new Db();
+                    int id = db.getIdUsuario(correo);
+                    CurrentUser.idUsuario = id;
+                    CurrentUser.email = correo;
                     ingresar(nombre);
                 } else {
                     if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
@@ -619,10 +622,7 @@ public class LoginPoint extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarModal1ActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        VisitorAndGuest clase1 = new VisitorAndGuest();
-        clase1.setVisible(true);
-        //Falta agregar el nombre o por lo menos enviarlo a la base
-        this.dispose();
+        ingresar("Invitado");
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped

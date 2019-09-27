@@ -5,7 +5,6 @@
  */
 package rexsdesktop.controller;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -27,13 +26,9 @@ import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarEspecialidad;
 import rexsdesktop.modal.ModalModificarNivel;
 import rexsdesktop.modal.ModalModificarSecciones;
-import static rexsdesktop.modal.ModalModificarSecciones.jLId;
-import rexsdesktop.modal.ModalNuevaSeccion;
 import rexsdesktop.modal.ModalSecciones;
-import static rexsdesktop.modal.ModalSecciones.jPanelSecciones;
 import rexsdesktop.model.Db;
 import rexsdesktop.model.DbConnection;
-import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene los atributos y métodos de una sección.

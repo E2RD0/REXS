@@ -29,7 +29,7 @@ public class DbConnection {
 
     try{ 
         Connection con = ds.getConnection();
-        System.out.println("Conexion exitosa");
+//        System.out.println("Conexion exitosa");
         cn = con;
     }
         // Handle any errors that may have occurred.

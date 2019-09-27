@@ -5,13 +5,10 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Window;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import rexsdesktop.controller.Sections;
 import rexsdesktop.view.Admin;
-import static rexsdesktop.view.Admin.jPanel12;
 
 /**
  * Clase que contiene el Panel para modificar una especialidad.
@@ -23,7 +20,7 @@ public class ModalModificarEspecialidad extends javax.swing.JPanel {
     /**
      * Creates new form ModalModificarEspecialidad
      */
-    DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel();
 
     public ModalModificarEspecialidad() {
         initComponents();

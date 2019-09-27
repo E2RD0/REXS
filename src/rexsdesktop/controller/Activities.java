@@ -12,16 +12,10 @@ import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import rexsdesktop.model.Db;
-import java.sql.ResultSet;
-import java.sql.Blob;
 import java.text.ParseException;
-//import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -32,7 +26,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarActividad;
 import rexsdesktop.modal.ModalModificarActividadPoint;
-import rexsdesktop.view.VisitorAndGuest;
 
 /**
  * Clase que contiene los atributos y métodos de una actividad.
@@ -52,6 +45,8 @@ public class Activities {
     private int cantidadDia1;
     private JDialog modal1;
     public String prueba;
+    
+    Db db = new Db();
 
     private Color colores = null;
     private ImageIcon icono = null;
@@ -71,7 +66,7 @@ public class Activities {
      * @param panel panel donde se visualizarán los datos
      */
     public void CrearPanelesActividades(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
-        Db db = new Db();
+        Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         db.NumActividades(inicio, edicion, fin);
         db.Actividades(inicio, edicion, fin);
         db.HorasInicioActividades(inicio, edicion, fin);
@@ -178,12 +173,14 @@ public class Activities {
             }
             //edit.setBorder(new EtchedBorder());
             Contenedor.add(edit);
+            Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
             Contenedor.addMouseListener(new MouseListener() {
                 Frame fr;
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     Contenedor = (JPanel) e.getSource();
 
                     String nombreAc;
@@ -249,6 +246,7 @@ public class Activities {
                     modal1.repaint();
                     modal1.setLocationRelativeTo(null);
                     modal1.setVisible(true);
+                    Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
 
                 @Override
@@ -292,7 +290,7 @@ public class Activities {
      * @param panel panel donde se visualizarán los datos
      */
     public void CrearPanelesActividadesPoint(javax.swing.JPanel panel, String inicio, String edicion, String fin, int contador) {
-        Db db = new Db();
+        Contenedor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         db.NumActividades(inicio, edicion, fin);
         db.Actividades(inicio, edicion, fin);
         db.HorasInicioActividades(inicio, edicion, fin);

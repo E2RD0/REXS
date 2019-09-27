@@ -5,11 +5,7 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Window;
-import javax.sound.sampled.LineEvent;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;

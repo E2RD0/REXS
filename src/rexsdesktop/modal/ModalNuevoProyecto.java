@@ -46,12 +46,13 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     public static JLabel label;
     //BufferedImage fotoProyecto = new javax.swing.b(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
 
+    public Db db = new Db();
+    
     /**
      * Creates new form ModalNuevoProyecto
      */
     public ModalNuevoProyecto() {
         initComponents();
-        Db db = new Db();
         db.obtenerNivel();
         for (int i = 0; i < db.SNnivel.size(); i++) {
             cbxNivel.addItem(db.SNnivel.get(i));
@@ -63,7 +64,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     public void cargarProyectos() {
         try {
             General.getEdicion();
-            Db db = new Db();
             db.NumProyectos(CurrentUser.edicionExpotecnica);
             if (label != null) {
                 pnlViewProyectos.remove(label);
@@ -371,7 +371,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
         try {
             btnAceptarModal.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            Db db = new Db();
             if (!txtnombreProyecto.getText().isEmpty() && !txtDesc.getText().isEmpty()) {
                 if (cbxNivel.getSelectedIndex() > 0) {
                     if (cbxSeccionNivel.getSelectedIndex() >= 0) {
@@ -471,7 +470,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCambiarFotoProActionPerformed
 
     private void cbxNivelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNivelItemStateChanged
-        Db db = new Db();
         db.obtenerEspecialidad();
         cbxSeccionNivel.removeAllItems();
         cbxSeccionNivel.addItem("Seleccione una sección");
@@ -526,7 +524,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     private void cbxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxEspecialidadItemStateChanged
         if (cbxNivel.getSelectedIndex() > 0) {
             if (cbxEspecialidad.getSelectedIndex() > 0) {
-                Db db = new Db();
                 cbxSeccionNivel.removeAllItems();
                 db.obtenerSeccion(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString());
                 for (int i = 0; i < db.SNseccion.size(); i++) {

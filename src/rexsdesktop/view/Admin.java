@@ -5,7 +5,6 @@
  */
 package rexsdesktop.view;
 
-import groovy.swing.factory.SwingBorderFactory;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -106,6 +105,9 @@ public class Admin extends javax.swing.JFrame {
     private Date dia4;
     public static int color = 0;
     public ChartPanel chartPanel;
+    public User cargar = new User();
+    public Projects proyectos = new Projects();
+    public Db db = new Db();
 
     public Admin() {
         /*Scrollbar Look and Feel*/
@@ -175,7 +177,6 @@ public class Admin extends javax.swing.JFrame {
     }
 
     private void cantidadesUsuarios() {
-        User cargar = new User();
         cargar.getCantidadUsuarios();
         jLUsuarioTotal.setText(String.valueOf((cargar.getCantidadUsuarios())));
         jLUsuarioActivos.setText(String.valueOf((cargar.getCantidadUsuariosActivos())));
@@ -4037,6 +4038,7 @@ public class Admin extends javax.swing.JFrame {
         jPanel15.removeAll();
 
         Activities actividades = new Activities();
+
         final String dia1 = "actividadesFechaInicio";
         final String dia2 = "actividadesDia2";
         final String dia3 = "actividadesDia3";
@@ -4141,7 +4143,7 @@ public class Admin extends javax.swing.JFrame {
             pnlViewProyectos.remove(label);
         }
         try {
-            Db db = new Db();
+
             General.getEdicion();
             db.NumProyectos(CurrentUser.edicionExpotecnica);
             db.obtenerNivel();
@@ -4153,8 +4155,7 @@ public class Admin extends javax.swing.JFrame {
             jcSeccion.disable();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             try {
-                Projects cargarPaneles = new Projects();
-                cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+                proyectos.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
             } catch (Exception e) {
                 System.out.println("hi " + e.getMessage());
             }
@@ -4824,7 +4825,6 @@ public class Admin extends javax.swing.JFrame {
         } else {
             jPanel1.removeAll();
         }
-        User cargar = new User();
 
         cargar.CrearPanelesUsuariosFiltrados(jPanel1, jTBuscar.getText(), jCEstadoUsuario.getSelectedItem().toString(), jCTipoUsuario.getSelectedItem().toString());
     }//GEN-LAST:event_btnFiltrarLista2ActionPerformed
@@ -4832,8 +4832,7 @@ public class Admin extends javax.swing.JFrame {
     private void btnLimpiarFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltroActionPerformed
         // TODO add your handling code here:
         Admin.jPanel1.removeAll();
-        User CargarUsuario = new User();
-        CargarUsuario.CrearPanelesUsuarios(Admin.jPanel1);
+        cargar.CrearPanelesUsuarios(Admin.jPanel1);
 
         jTBuscar.setText("");
     }//GEN-LAST:event_btnLimpiarFiltroActionPerformed
@@ -4891,7 +4890,7 @@ public class Admin extends javax.swing.JFrame {
                         }
                     }
 
-                }else {
+                } else {
                     jcEspecialidad.removeAllItems();
                     jcEspecialidad.addItem("Seleccione una especialidad");
                     jcEspecialidad.disable();
@@ -4920,8 +4919,7 @@ public class Admin extends javax.swing.JFrame {
                 Projects p = getNumProyectosFiltrados(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(),
                         jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
                 cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
-                Projects cargar = new Projects();
-                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                proyectos.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
                 jsProyectos.setBorder(null);
                 if (color == 0) {
 
@@ -5633,7 +5631,7 @@ public class Admin extends javax.swing.JFrame {
                 pnlViewMejoresProyectos.add(lb12);
             }
         } catch (Exception e) {
-            System.out.println("Mejores Proyectos"+ e.getMessage());
+            System.out.println("Mejores Proyectos" + e.getMessage());
         }
 
         DecimalFormat df = new DecimalFormat("##.##");
@@ -5707,17 +5705,18 @@ public class Admin extends javax.swing.JFrame {
     }
 
     private void loadUsuarios() {
-        Admin.jPanel1.removeAll();
+        jPanel1.removeAll();
+        jPanel1.repaint();
+        jPanel1.revalidate();
         cantidadesUsuarios();
-        User CargarUsuario = new User();
-        CargarUsuario.CrearPanelesUsuarios(jPanel1);
+        cargar.CrearPanelesUsuarios(jPanel1);
         int tipoU = CurrentUser.idTipoUsuario;
         if (tipoU == 1) {
-            jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());
-            jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+            jCTipoUsuario.setModel(cargar.obtenerTipoUsuarioSuperAdministrador());
+            jCEstadoUsuario.setModel(cargar.obtenerEstadoUsuario());
         } else if (tipoU == 2) {
-            jCTipoUsuario.setModel(CargarUsuario.obtenerTipoUsuarioAdministrador());
-            jCEstadoUsuario.setModel(CargarUsuario.obtenerEstadoUsuario());
+            jCTipoUsuario.setModel(cargar.obtenerTipoUsuarioAdministrador());
+            jCEstadoUsuario.setModel(cargar.obtenerEstadoUsuario());
         }
     }
 

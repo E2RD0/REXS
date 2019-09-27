@@ -5,12 +5,7 @@
  */
 package rexsdesktop.modal;
 
-import java.awt.Window;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
