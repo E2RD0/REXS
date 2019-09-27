@@ -17,10 +17,10 @@ public class ENV {
     public static final String DB_USER = "rexsdesktop";
     public static final String DB_PASSWORD = "123";
 
-    public static final String DB_HOST = "localhost";
+//    public static final String DB_HOST = "localhost";
 
     //Para servidor de base de datos
-    //public static final String DB_HOST="192.168.1.3";
+    public static final String DB_HOST="192.168.1.3";
     public static final int DB_PORT = 1433;
     public static final String DB_NAME = "dbrexs";
     public static final String ENCRYPTION_KEY = "A*29oO73SUVaYd29";

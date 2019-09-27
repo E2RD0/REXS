@@ -581,7 +581,15 @@ public class User {
         Db db = new Db();
         try {
             db.NumUsuarios();
-            int Numero = db.getCantidadUsuarios();
+            int Numero;
+            System.out.println(CurrentUser.idTipoUsuario);
+            if (CurrentUser.idTipoUsuario == 1) {
+                Numero = db.getCantidadUsuarios2();
+            } else {
+                Numero = db.getCantidadUsuarios();
+            }
+            System.out.println(Numero+"");
+
             return Numero;
         } catch (Exception e) {
         }
@@ -836,10 +844,11 @@ public class User {
         panelesUsuarios = new ArrayList<>();
 
         int canti = 0;
-        if (CurrentUser.idUsuario != 1) {
-            canti = db.getCantidadUsuarios();
-        } else {
+        int usu = CurrentUser.idTipoUsuario;
+        if (usu == 1) {
             canti = db.getCantidadUsuarios2();
+        } else {
+            canti = db.getCantidadUsuarios();
         }
 
         for (int i = 0; i < canti; i++) {

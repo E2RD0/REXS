@@ -1711,10 +1711,10 @@ public class Db {
 
             int tipoU = CurrentUser.idTipoUsuario;
             String sql;
-            if (tipoU == 1) {
-                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.idUsuario;
-            } else {
+            if (tipoU != 1) {
                 sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != " + 1 + "and u.idUsuario != " + CurrentUser.idUsuario;
+            } else {
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.idUsuario;
             }
 
             Statement st = cn.createStatement();
