@@ -47,7 +47,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     //BufferedImage fotoProyecto = new javax.swing.b(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
 
     public Db db = new Db();
-    
+
     /**
      * Creates new form ModalNuevoProyecto
      */
@@ -166,7 +166,6 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         jLabel67 = new javax.swing.JLabel();
         txtnombreProyecto = new javax.swing.JTextField();
         jLabel69 = new javax.swing.JLabel();
-        txtDesc = new javax.swing.JTextField();
         btnCambiarFotoPro = new javax.swing.JButton();
         btnEliminarFotoPro = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -178,6 +177,8 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         jLabel72 = new javax.swing.JLabel();
         cbxEspecialidad = new javax.swing.JComboBox<>();
         cbxSeccionNivel = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDesc1 = new javax.swing.JTextArea();
 
         jIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/profilePicture.png"))); // NOI18N
 
@@ -189,15 +190,15 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         txtnombreProyecto.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         txtnombreProyecto.setForeground(new java.awt.Color(46, 56, 77));
         txtnombreProyecto.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
+        txtnombreProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnombreProyectoActionPerformed(evt);
+            }
+        });
 
         jLabel69.setFont(new java.awt.Font("Rubik Medium", 0, 10)); // NOI18N
         jLabel69.setForeground(new java.awt.Color(176, 186, 201));
         jLabel69.setText("DESCRIPCIÓN");
-
-        txtDesc.setBackground(new java.awt.Color(249, 250, 255));
-        txtDesc.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
-        txtDesc.setForeground(new java.awt.Color(46, 56, 77));
-        txtDesc.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 231, 255), 1, true), javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15)));
 
         btnCambiarFotoPro.setBackground(new java.awt.Color(238, 238, 238));
         btnCambiarFotoPro.setFont(new java.awt.Font("Rubik", 0, 10)); // NOI18N
@@ -239,6 +240,11 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         btnCancelarModal.setForeground(new java.awt.Color(214, 54, 73));
         btnCancelarModal.setText("Cancelar");
         btnCancelarModal.setBorderPainted(false);
+        btnCancelarModal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModalActionPerformed(evt);
+            }
+        });
 
         cbxNivel.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
         cbxNivel.setForeground(new java.awt.Color(46, 56, 77));
@@ -277,6 +283,18 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         cbxSeccionNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una sección" }));
         cbxSeccionNivel.setPreferredSize(new java.awt.Dimension(56, 27));
 
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        txtDesc1.setBackground(new java.awt.Color(249, 250, 255));
+        txtDesc1.setColumns(20);
+        txtDesc1.setFont(new java.awt.Font("Rubik", 0, 11)); // NOI18N
+        txtDesc1.setLineWrap(true);
+        txtDesc1.setRows(5);
+        txtDesc1.setBorder(null);
+        txtDesc1.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jScrollPane1.setViewportView(txtDesc1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,19 +317,20 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                                         .addGap(51, 51, 51)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel67)
-                                    .addComponent(jLabel69)
-                                    .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                                    .addComponent(txtnombreProyecto))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(52, 52, 52)
                                 .addComponent(jLabel71)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel72)
-                                .addGap(33, 33, 33))))
+                                .addGap(33, 33, 33))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel67)
+                                        .addComponent(jLabel69)
+                                        .addComponent(txtnombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,11 +340,11 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbxNivel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
-                                .addComponent(cbxEspecialidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(31, 31, 31)
-                                .addComponent(cbxSeccionNivel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cbxEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxSeccionNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -346,8 +365,8 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         .addComponent(txtnombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16)
                         .addComponent(jLabel69)
-                        .addGap(1, 1, 1)
-                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70)
@@ -371,32 +390,31 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     private void btnAceptarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarModalActionPerformed
         try {
             btnAceptarModal.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            if (!txtnombreProyecto.getText().isEmpty() && !txtDesc.getText().isEmpty()) {
+            if (!txtnombreProyecto.getText().isEmpty() && !txtDesc1.getText().isEmpty()) {
                 if (cbxNivel.getSelectedIndex() > 0) {
                     if (cbxSeccionNivel.getSelectedIndex() >= 0) {
                         if (!db.proyectoExiste(txtnombreProyecto.getText())) {
                             if (img != null) {
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
-                                    txtDesc.setText(null);
+                                    txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();
                                     cargarProyectos();
                                     pnlViewProyectos.repaint();
                                     pnlViewProyectos.revalidate();
                                     cdProyectos.repaint();
                                     cdProyectos.revalidate();
-                                    Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
-                                    w.setVisible(false);
+
                                 } else {
                                     JOptionPane.showMessageDialog(this, "Error al ingresar el proyecto, inténtelo de nuevo.");
                                 }
                             } else {
 
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
-                                    txtDesc.setText(null);
+                                    txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();
                                     cargarProyectos();
 
@@ -404,8 +422,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                                     pnlViewProyectos.revalidate();
                                     cdProyectos.repaint();
                                     cdProyectos.revalidate();
-                                    Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
-                                    w.setVisible(false);
+
                                 } else {
                                     JOptionPane.showMessageDialog(this, "Error al ingresar el proyecto, inténtelo de nuevo.");
                                 }
@@ -535,6 +552,15 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cbxEspecialidadItemStateChanged
 
+    private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
+        Window w = SwingUtilities.getWindowAncestor(ModalNuevoProyecto.this);
+        w.setVisible(false);
+    }//GEN-LAST:event_btnCancelarModalActionPerformed
+
+    private void txtnombreProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreProyectoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnombreProyectoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarModal;
@@ -550,8 +576,9 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField txtDesc;
+    public javax.swing.JTextArea txtDesc1;
     private javax.swing.JTextField txtnombreProyecto;
     // End of variables declaration//GEN-END:variables
 }

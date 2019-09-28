@@ -11,9 +11,12 @@ import rexsdesktop.view.Admin;
 
 /**
  * Clase que contiene el Panel para agregar un nuevo nivel.
+ *
  * @author artur
  */
 public class ModalNuevoNivel extends javax.swing.JPanel {
+
+    public int DefineEsp;
 
     /**
      * Creates new form ModalNuevoNivel1
@@ -85,20 +88,20 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel67)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtNivelModal))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 16, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel67)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtNivelModal))
-                        .addContainerGap())))
+                        .addGap(0, 16, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,13 +110,13 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
                 .addComponent(jLabel67)
                 .addGap(1, 1, 1)
                 .addComponent(txtNivelModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAceptarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -123,17 +126,19 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
 
         try {
             if (txtNivelModal.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Existen campos vacios");}else{
-            Conexion.setNivel(txtNivelModal.getText());
-
-            if (Conexion.agregarNivel()) {
-                Admin.jPanel17.removeAll();
-                Sections CargarNivel = new Sections();
-                CargarNivel.CrearPanelesNivel(Admin.jPanel17);
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                JOptionPane.showMessageDialog(null, "Existen campos vacios");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al insertar datos");
-            }
+
+                Conexion.setNivel(txtNivelModal.getText());
+                if (Conexion.agregarNivel()) {
+                    Admin.jPanel17.removeAll();
+                    Sections CargarNivel = new Sections();
+                    CargarNivel.CrearPanelesNivel(Admin.jPanel17);
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al insertar datos");
+                }
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR GLOBAL");
@@ -142,11 +147,11 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
 
     private void txtNivelModalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNivelModalKeyTyped
         // TODO add your handling code here:
-        char validar=evt.getKeyChar();
-        
-        if(Character.isDigit(validar)){
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
             getToolkit().beep();
-            
+
             evt.consume();
             JOptionPane.showMessageDialog(null, "Ingresar solo Letras");
         }
@@ -154,7 +159,7 @@ public class ModalNuevoNivel extends javax.swing.JPanel {
 
     private void btnCancelarModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModalActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btnCancelarModalActionPerformed
 
 

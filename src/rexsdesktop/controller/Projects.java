@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
-import rexsdesktop.CurrentUser;
+import javax.swing.border.LineBorder;
 import static rexsdesktop.modal.ModalNuevoProyecto.img;
 import rexsdesktop.modal.ModalViewProyecto;
 import rexsdesktop.modal.ModalViewProyectoPoint;
@@ -92,7 +92,7 @@ public class Projects {
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
             nuevo.setBackground(Color.white);
-            // Border hola = new EtchedBorder();
+            nuevo.setBorder(new LineBorder(new Color(46, 92, 255), 1, true));
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
             JPanel imgPanel = new JPanel();
             imgPanel.setBackground(Color.white);
@@ -182,7 +182,8 @@ public class Projects {
             voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
             voto.setBounds(210, 4, 27, 20);
-            voto.setText("8.9");
+            db.PromProyecto(Integer.parseInt(nuevo.getName()));
+            voto.setText(String.valueOf(db.Prom));
             //voto.setBorder(hola);
             info2.add(voto);
 
@@ -500,8 +501,7 @@ public class Projects {
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
             nuevo.setBackground(Color.white);
-            // Border hola = new EtchedBorder();
-
+            nuevo.setBorder(new LineBorder(new Color(46, 92, 255), 1, true));
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
             JPanel imgPanel = new JPanel();
             imgPanel.setBackground(Color.white);
@@ -591,7 +591,8 @@ public class Projects {
             voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
             voto.setBounds(210, 4, 27, 20);
-            voto.setText("8.9");
+            db.PromProyecto(Integer.parseInt(nuevo.getName()));
+            voto.setText(String.valueOf(db.Prom));
             //voto.setBorder(hola);
             info2.add(voto);
 
@@ -855,7 +856,7 @@ public class Projects {
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
             nuevo.setBackground(Color.white);
-            // Border hola = new EtchedBorder();
+            nuevo.setBorder(new LineBorder(new Color(46, 92, 255), 1, true));
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
             JPanel imgPanel = new JPanel();
             imgPanel.setBackground(Color.white);
@@ -946,8 +947,8 @@ public class Projects {
             voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
             voto.setBounds(210, 4, 27, 20);
-            voto.setText("8.9");
-            //voto.setBorder(hola);
+            db.PromProyecto(Integer.parseInt(nuevo.getName()));
+            voto.setText(String.valueOf(db.Prom));
             info2.add(voto);
 
             nuevo.addMouseListener(new MouseListener() {
@@ -1256,8 +1257,7 @@ public class Projects {
             nuevo.setPreferredSize(new Dimension(377, 120));
             nuevo.setSize(new Dimension(377, 120));
             nuevo.setBackground(Color.white);
-            // Border hola = new EtchedBorder();
-
+            nuevo.setBorder(new LineBorder(new Color(46, 92, 255), 1, true));
             //Creando el segundo JPanel que contendrá la imagen a la Izquierda 
             JPanel imgPanel = new JPanel();
             imgPanel.setBackground(Color.white);
@@ -1348,8 +1348,8 @@ public class Projects {
             voto.setFont(new java.awt.Font("Rubik Light", 0, 12));
             voto.setForeground(new Color(34, 34, 34));
             voto.setBounds(210, 4, 27, 20);
-            voto.setText("8.9");
-            //voto.setBorder(hola);
+            db.PromProyecto(Integer.parseInt(nuevo.getName()));
+            voto.setText(String.valueOf(db.Prom));
             info2.add(voto);
 
             nuevo.addMouseListener(new MouseListener() {
