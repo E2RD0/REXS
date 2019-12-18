@@ -1402,6 +1402,7 @@ public class Db {
     }
     //Copiado
 
+    //Applaudo
     /**
      * Método utilizado para agregar un usuario nuevo.
      *
@@ -1412,28 +1413,28 @@ public class Db {
      * @param idEstadoUsuario identificador del estado del usuario.
      * @return retorna un valor booleano para ser utilizado en el controlador.
      */
-    public boolean agregarUsuario(String nombreCompleto, String email, String claveHash, int idTipoUsuario, int idEstadoUsuario) {
-        boolean r = false;
-        try {
-            String query = "INSERT INTO usuario(nombreCompleto, email, clave, idTipoUsuario, idEstadoUsuario)"
-                    + "VALUES(?,?,?,?,?)";
-            PreparedStatement cmd = cn.prepareStatement(query);
-            cmd.setString(1, nombreCompleto);
-            cmd.setString(2, email);
-            cmd.setString(3, claveHash);
-            cmd.setInt(4, idTipoUsuario);
-            cmd.setInt(5, idEstadoUsuario);
-            if (cmd.executeUpdate() > 0) {
-                r = true;
-            }
-            cmd.close();
-            cn.close();
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
-
-        return r;
-    }
+//    public boolean agregarUsuario(String nombreCompleto, String email, String claveHash, int idTipoUsuario, int idEstadoUsuario) {
+//        boolean r = false;
+//        try {
+//            String query = "INSERT INTO usuario(nombreCompleto, email, clave, idTipoUsuario, idEstadoUsuario)"
+//                    + "VALUES(?,?,?,?,?)";
+//            PreparedStatement cmd = cn.prepareStatement(query);
+//            cmd.setString(1, nombreCompleto);
+//            cmd.setString(2, email);
+//            cmd.setString(3, claveHash);
+//            cmd.setInt(4, idTipoUsuario);
+//            cmd.setInt(5, idEstadoUsuario);
+//            if (cmd.executeUpdate() > 0) {
+//                r = true;
+//            }
+//            cmd.close();
+//            cn.close();
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e);
+//        }
+//
+//        return r;
+//    }
 
     /**
      * Método utilizado para actualizar el perfil de un usuario seleccionado.
@@ -1463,18 +1464,18 @@ public class Db {
         return r;
     }
 
-    public boolean usuarioExiste(String email) {
-        try {
-            String query = "SELECT * FROM usuario WHERE email = ?";
-            PreparedStatement cmd = cn.prepareStatement(query);
-            cmd.setString(1, email);
-            ResultSet rs = cmd.executeQuery();
-            return rs.next();
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-            return true;
-        }
-    }
+//    public boolean usuarioExiste(String email) {
+//        try {
+//            String query = "SELECT * FROM usuario WHERE email = ?";
+//            PreparedStatement cmd = cn.prepareStatement(query);
+//            cmd.setString(1, email);
+//            ResultSet rs = cmd.executeQuery();
+//            return rs.next();
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e);
+//            return true;
+//        }
+//    }
 
     public String getHash(String email) {
         try {
@@ -1544,39 +1545,39 @@ public class Db {
         }
     }
 
-    public int getIdTipoUsuario(String tipo) {
-        try {
-            String query = "SELECT idTipoUsuario FROM tipoUsuario WHERE tipo = ?";
-            PreparedStatement cmd = cn.prepareStatement(query);
-            cmd.setString(1, tipo);
-            ResultSet rs = cmd.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else {
-                return 3;
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-            return 3;
-        }
-    }
+//    public int getIdTipoUsuario(String tipo) {
+//        try {
+//            String query = "SELECT idTipoUsuario FROM tipoUsuario WHERE tipo = ?";
+//            PreparedStatement cmd = cn.prepareStatement(query);
+//            cmd.setString(1, tipo);
+//            ResultSet rs = cmd.executeQuery();
+//            if (rs.next()) {
+//                return rs.getInt(1);
+//            } else {
+//                return 3;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e);
+//            return 3;
+//        }
+//    }
 
-    public int getIdEstadoUsuario(String estado) {
-        try {
-            String query = "SELECT idEstadoUsuario FROM estadoUsuario WHERE estado = ?";
-            PreparedStatement cmd = cn.prepareStatement(query);
-            cmd.setString(1, estado);
-            ResultSet rs = cmd.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else {
-                return 1;
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-            return 1;
-        }
-    }
+//    public int getIdEstadoUsuario(String estado) {
+//        try {
+//            String query = "SELECT idEstadoUsuario FROM estadoUsuario WHERE estado = ?";
+//            PreparedStatement cmd = cn.prepareStatement(query);
+//            cmd.setString(1, estado);
+//            ResultSet rs = cmd.executeQuery();
+//            if (rs.next()) {
+//                return rs.getInt(1);
+//            } else {
+//                return 1;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e);
+//            return 1;
+//        }
+//    }
 
     public boolean actualizarContraUsuario(String hash, int id) {
         boolean r = false;

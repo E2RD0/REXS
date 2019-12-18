@@ -19,7 +19,9 @@ import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.User;
+import rexsdesktop.controller.UserAcces;
 import rexsdesktop.controller.Validation;
+import rexsdesktop.model.UserInterface;
 
 /**
  *
@@ -167,11 +169,15 @@ public class Login extends javax.swing.JFrame {
      * Método para registrar un usuario en el sistema
      *
      */
-    private void registrarse() {
+    //@Override
+    public void register() {
+
         try {
             String nombre = txtNombreCompletoR.getText();
             String correo = txtEmailR.getText();
             String password = String.valueOf(txtPasswordR.getPassword());
+
+            UserAcces userA = new UserAcces();
 
             if (!Validation.VerificadorNombre.verify(nombre)) {
                 txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
@@ -192,35 +198,80 @@ public class Login extends javax.swing.JFrame {
             lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
             lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
             if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
-                if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
-                    txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
-                    lblErrorEmailR.setText("");
-                    cambiarCardLayoutPanel("Exito");
-                    resetCampos();
-                    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                    executorService.scheduleAtFixedRate(new Runnable() {
-                        @Override
-                        public void run() {
-                            cambiarCardLayoutPanel("InicioSesion");
-                            executorService.shutdownNow();
-                        }
-                    }, 2, 1, TimeUnit.SECONDS);
-
-                } else {
-                    if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
-                        txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
-                        lblErrorEmailR.setText(User.mensajeError);
-                    } else {
-                        JOptionPane.showMessageDialog(this, User.mensajeError);
+                //Applaudo 2.0
+                userA.register(nombre, correo, password, "Visitante", "Activo");
+                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+                lblErrorEmailR.setText("");
+                cambiarCardLayoutPanel("Exito");
+                resetCampos();
+                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                executorService.scheduleAtFixedRate(new Runnable() {
+                    @Override
+                    public void run() {
+                        cambiarCardLayoutPanel("InicioSesion");
+                        executorService.shutdownNow();
                     }
-                }
-            }
+                }, 2, 1, TimeUnit.SECONDS);
 
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al registrar", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+//    private void registrarse(){        
+//        try {
+//            String nombre = txtNombreCompletoR.getText();
+//            String correo = txtEmailR.getText();
+//            String password = String.valueOf(txtPasswordR.getPassword());
+//
+//            if (!Validation.VerificadorNombre.verify(nombre)) {
+//                txtNombreCompletoR.setBackground(new java.awt.Color(255, 204, 204));
+//            } else {
+//                txtNombreCompletoR.setBackground(new java.awt.Color(249, 250, 255));
+//            }
+//            if (!Validation.VerificadorEmail.verify(correo)) {
+//                txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+//            } else {
+//                txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+//            }
+//            if (!Validation.VerificadorPassword.verify(password)) {
+//                txtPasswordR.setBackground(new java.awt.Color(255, 204, 204));
+//            } else {
+//                txtPasswordR.setBackground(new java.awt.Color(249, 250, 255));
+//            }
+//            lblErrorPasswordR.setText(Validation.VerificadorPassword.mensaje);
+//            lblErrorEmailR.setText(Validation.VerificadorEmail.mensaje);
+//            lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
+//            if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo) && Validation.VerificadorPassword.verify(password)) {
+//                if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
+//                    txtEmailR.setBackground(new java.awt.Color(249, 250, 255));
+//                    lblErrorEmailR.setText("");
+//                    cambiarCardLayoutPanel("Exito");
+//                    resetCampos();
+//                    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+//                    executorService.scheduleAtFixedRate(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            cambiarCardLayoutPanel("InicioSesion");
+//                            executorService.shutdownNow();
+//                        }
+//                    }, 2, 1, TimeUnit.SECONDS);
+//
+//                } else {
+//                    if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
+//                        txtEmailR.setBackground(new java.awt.Color(255, 204, 204));
+//                        lblErrorEmailR.setText(User.mensajeError);
+//                    } else {
+//                        JOptionPane.showMessageDialog(this, User.mensajeError);
+//                    }
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Error al registrar", "ERROR", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
     /**
      * Método para enviar el correo con el PIN para recuperar la clave de un
      * usuario.
@@ -1163,7 +1214,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerificarCodigoActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        registrarse();
+        register();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void txtNombreCompletoRKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompletoRKeyReleased
@@ -1236,7 +1287,7 @@ public class Login extends javax.swing.JFrame {
         char teclaPresionada = evt.getKeyChar();
 
         if (teclaPresionada == KeyEvent.VK_ENTER) {
-            registrarse();
+//            registrarse();
         }
     }//GEN-LAST:event_txtPasswordRKeyTyped
 
@@ -1376,4 +1427,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JPasswordField txtPasswordR;
     // End of variables declaration//GEN-END:variables
+
 }

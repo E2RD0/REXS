@@ -47,6 +47,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import rexsdesktop.modal.ModalModificarUsuario;
 import rexsdesktop.model.DbConnection;
+import rexsdesktop.model.UserModel;
 
 /**
  * Clase que contiene los atributos y métodos de un usuario.
@@ -57,8 +58,8 @@ import rexsdesktop.model.DbConnection;
 public class User {
 
     public int idUsuario;
-    public String nombreCompleto;
-    public String email;
+    private String nombreCompleto;
+    private String email;
     public String hash;
     public BufferedImage fotoPerfil;
     public int idTipoUsuario;
@@ -130,6 +131,11 @@ public class User {
         }
         return listaModelo;
     }
+    
+    //Applaudo
+    
+    Encryption enc = new Encryption();
+    
     //FILTRAR USUARIOS
     JPanel ContenedorFiltrarUsuarios;
 
@@ -277,7 +283,7 @@ public class User {
         try {
             String sql = "INSERT INTO usuario (nombreCompleto,email,clave,idTipoUsuario,idEstadoUsuario) " + "VALUES (?,?,?,?,?);";
             PreparedStatement stm = getCn().prepareStatement(sql);
-            String Encriptado = hashPW(getClave());
+            String Encriptado = enc.hashPW(getClave());
             stm.setString(1, getNombreCompleto());
             stm.setString(2, getEmail());
             stm.setString(3, Encriptado);
@@ -301,7 +307,7 @@ public class User {
         try {
             String sql = "INSERT INTO usuario (nombreCompleto,email,clave,idTipoUsuario,idEstadoUsuario) " + "VALUES (?,?,?,?,?);";
             try (PreparedStatement stm = getCn().prepareStatement(sql)) {
-                String Encriptado = hashPW(getClave());
+                String Encriptado = enc.hashPW(getClave());
                 stm.setString(1, getNombreCompleto());
                 stm.setString(2, getEmail());
                 stm.setString(3, Encriptado);
@@ -324,9 +330,9 @@ public class User {
         try {
             String sql = "UPDATE usuario SET nombreCompleto= ?, email = ?, clave = ?, idTipoUsuario = ?, idEstadoUsuario = ? WHERE idUsuario = ?;";
             PreparedStatement stm = cn.prepareStatement(sql);
-            String Encriptado = hashPW(getClave());
-            stm.setString(1, nombreCompleto);
-            stm.setString(2, email);
+            String Encriptado = enc.hashPW(getClave());
+            stm.setString(1, getNombreCompleto());
+            stm.setString(2, getEmail());
             stm.setString(3, Encriptado);
             stm.setInt(4, idTipoUsuario);
             stm.setInt(5, idEstadoUsuario);
@@ -436,14 +442,15 @@ public class User {
         return respuesta;
     }
 
-    //Arturo
+    //Applaudo
+    protected static Db db = new Db();
+    protected static UserModel uM = new UserModel();
     public static boolean nuevoUsuario(String nombreCompleto, String email, String clave, String tipoUsuario, String estadoUsuario) {
-        Db db = new Db();
-        if (!db.usuarioExiste(email)) {
-            String hash = hashPW(clave);
-            int idTipoUsuario = db.getIdTipoUsuario(tipoUsuario);
-            int idEstadoUsuario = db.getIdEstadoUsuario(estadoUsuario);
-            if (db.agregarUsuario(nombreCompleto, email, hash, idTipoUsuario, idEstadoUsuario)) {
+        if (!uM.usuarioExiste(email)) {
+            String hash = Encryption.hashPW(clave);
+            int idTipoUsuario = uM.getIdTipoUsuario(tipoUsuario);
+            int idEstadoUsuario = uM.getIdEstadoUsuario(estadoUsuario);
+            if (uM.agregarUsuario(nombreCompleto, email, hash, idTipoUsuario, idEstadoUsuario)) {
                 mensajeError = "";
                 return true;
             } else {
@@ -518,7 +525,7 @@ public class User {
 
     public static boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id) {
         Db db = new Db();
-        if (!db.usuarioExiste(email) || email.equals(CurrentUser.email)) {
+        if (!uM.usuarioExiste(email) || email.equals(CurrentUser.email)) {
             if (db.actualizarPerfilUsuario(nombreCompleto, email, id)) {
                 mensajeError = "";
                 return true;
@@ -535,8 +542,8 @@ public class User {
     public static boolean actualizarContraUsuario(String oldPassword, String newPassword, int id) {
         Db db = new Db();
         mensajeError = "";
-        if (compareHash(oldPassword, db.getHash(id))) {
-            String hash = hashPW(newPassword);
+        if (Encryption.compareHash(oldPassword, db.getHash(id))) {
+            String hash = Encryption.hashPW(newPassword);
             if (db.actualizarContraUsuario(hash, id)) {
                 mensajeError = "";
                 return true;
@@ -550,7 +557,7 @@ public class User {
     public static boolean recuperarContraUsuario(String newPassword, String correo) {
         Db db = new Db();
         mensajeError = "";
-        String hash = hashPW(newPassword);
+        String hash = Encryption.hashPW(newPassword);
         if (db.actualizarContraUsuario2(hash, correo)) {
             mensajeError = "";
             return true;
@@ -563,18 +570,7 @@ public class User {
 
     public static boolean usuarioExiste(String email) {
         Db db = new Db();
-        return db.usuarioExiste(email);
-    }
-
-    public static String hashPW(String pw) {
-        String bcHash = "";
-        try {
-            String pw256 = toSHA256(pw);
-            bcHash = BCrypt.hashpw(pw256, BCrypt.gensalt(12));
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Error hashing: " + ex);
-        }
-        return bcHash;
+        return uM.usuarioExiste(email);
     }
 
     public int getCantidadUsuarios() {
@@ -612,11 +608,11 @@ public class User {
             String hash = db.getHash(email);
             if (hash != null) {
                 hash = hash.trim();
-                if (compareHash(password, hash)) {
+                if (Encryption.compareHash(password, hash)) {
                     User u = getUser(email);
                     CurrentUser.idUsuario = u.idUsuario;
-                    CurrentUser.nombreCompleto = u.nombreCompleto;
-                    CurrentUser.email = u.email;
+                    CurrentUser.nombreCompleto = u.getNombreCompleto();
+                    CurrentUser.email = u.getEmail();
                     CurrentUser.fotoPerfil = u.fotoPerfil;
                     CurrentUser.hash = u.hash;
                     CurrentUser.idTipoUsuario = u.idTipoUsuario;
@@ -636,8 +632,8 @@ public class User {
     public static void cargarDatosUsuarioActual(int id) {
         User u = getUser(id);
         CurrentUser.idUsuario = u.idUsuario;
-        CurrentUser.nombreCompleto = u.nombreCompleto;
-        CurrentUser.email = u.email;
+        CurrentUser.nombreCompleto = u.getNombreCompleto();
+        CurrentUser.email = u.getEmail();
         CurrentUser.fotoPerfil = u.fotoPerfil;
         CurrentUser.hash = u.hash;
         CurrentUser.idTipoUsuario = u.idTipoUsuario;
@@ -650,7 +646,7 @@ public class User {
             ResultSet rs = db.getUsuario(email);
             User u = new User();
             u.idUsuario = rs.getInt(1);
-            u.nombreCompleto = rs.getString(2);
+            u.setNombreCompleto(rs.getString(2));
             Blob imgAsBlob = rs.getBlob(3);
             if (imgAsBlob != null) {
                 byte[] imgAsBytes = imgAsBlob.getBytes(1, (int) imgAsBlob.length());
@@ -658,7 +654,7 @@ public class User {
                 BufferedImage imgFromDb = ImageIO.read(in);
                 u.fotoPerfil = imgFromDb;
             }
-            u.email = rs.getString(4);
+            u.setEmail(rs.getString(4));
             u.hash = rs.getString(5);
             u.idTipoUsuario = rs.getInt(6);
             u.idEstadoUsuario = rs.getInt(7);
@@ -675,7 +671,7 @@ public class User {
             ResultSet rs = db.getUsuario(id);
             User u = new User();
             u.idUsuario = rs.getInt(1);
-            u.nombreCompleto = rs.getString(2);
+            u.setNombreCompleto(rs.getString(2));
             Blob imgAsBlob = rs.getBlob(3);
             if (imgAsBlob != null) {
                 byte[] imgAsBytes = imgAsBlob.getBytes(1, (int) imgAsBlob.length());
@@ -683,7 +679,7 @@ public class User {
                 BufferedImage imgFromDb = ImageIO.read(in);
                 u.fotoPerfil = imgFromDb;
             }
-            u.email = rs.getString(4);
+            u.setEmail(rs.getString(4));
             u.hash = rs.getString(5);
             u.idTipoUsuario = rs.getInt(6);
             u.idEstadoUsuario = rs.getInt(7);
@@ -694,39 +690,14 @@ public class User {
         }
     }
 
-    private static boolean compareHash(String pw, String hash) {
-        try {
-            pw = toSHA256(pw);
-            return BCrypt.checkpw(pw, hash);
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Error hashing: " + ex);
-            return false;
-        }
-    }
-
-    private static String toSHA256(String text) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(text.getBytes(StandardCharsets.UTF_8));
-
-        StringBuffer hexString = new StringBuffer();
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
-
     public static int getIdEstadoUsuario(String estado) {
         Db db = new Db();
-        return db.getIdEstadoUsuario(estado);
+        return uM.getIdEstadoUsuario(estado);
     }
 
     public static int getIdTipoUsuario(String tipo) {
         Db db = new Db();
-        return db.getIdTipoUsuario(tipo);
+        return uM.getIdTipoUsuario(tipo);
     }
 
     public static boolean actualizarFotoPerfil(BufferedImage img, int idUsuario) {

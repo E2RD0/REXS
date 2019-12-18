@@ -16,6 +16,7 @@ import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.model.Db;
+import rexsdesktop.model.UserModel;
 
 /**
  *
@@ -571,7 +572,7 @@ public class LoginPoint extends javax.swing.JFrame {
         }
         lblErrorNombre.setText(Validation.VerificadorNombre.mensaje);
     }//GEN-LAST:event_txtNombreKeyReleased
-
+    UserModel uM = new UserModel();
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         try {
             String nombre = txtNombre.getText();
@@ -599,7 +600,7 @@ public class LoginPoint extends javax.swing.JFrame {
                     Db db = new Db();
                     int id = db.getIdUsuario(correo);
                     CurrentUser.idUsuario = id;
-                    CurrentUser.idTipoUsuario = db.getIdTipoUsuario("Visitante");
+                    CurrentUser.idTipoUsuario = uM.getIdTipoUsuario("Visitante");
                     CurrentUser.email = correo;
                     ingresar(nombre);
                 } else {
