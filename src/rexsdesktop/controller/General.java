@@ -238,7 +238,7 @@ public class General {
         Db db = new Db();
         try {
             String fecha = db.getEdicion();
-            CurrentUser.edicionExpotecnica = fecha;
+            CurrentUser.setEdicionExpotecnica(fecha);
             return fecha;
         } catch (Exception e) {
             System.out.println(e.getMessage());

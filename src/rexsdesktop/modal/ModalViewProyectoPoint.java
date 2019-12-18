@@ -45,8 +45,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio3.setMaximum(10);
         lblPuntajeFinal.setVisible(false);
         jLabel14.setEnabled(false);
-        if (CurrentUser.idUsuario != 0) {
-            if (Votes.existeVoto(CurrentUser.idUsuario, idProyecto)) {
+        if (CurrentUser.getIdUsuario() != 0) {
+            if (Votes.existeVoto(CurrentUser.getIdUsuario(), idProyecto)) {
                 yaExiste();
             }
         }
@@ -62,7 +62,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio2.setEnabled(false);
         criterio3.setEnabled(false);
         lblPuntajeFinal.setVisible(true);
-        lblPuntajeFinal.setText("Puntaje final: " + String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.idUsuario, idProyecto)));
+        lblPuntajeFinal.setText("Puntaje final: " + String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.getIdUsuario(), idProyecto)));
     }
 
     /**
@@ -654,7 +654,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterioInnovacion.add((double) criterio3.getValue());
         criterioInnovacion.add("Innovación");
 
-        Votes.ingresarVotacion(CurrentUser.idUsuario, idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);
+        Votes.ingresarVotacion(CurrentUser.getIdUsuario(), idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);
         yaExiste();
     }//GEN-LAST:event_btnVotarActionPerformed
 

@@ -594,13 +594,13 @@ public class LoginPoint extends javax.swing.JFrame {
                 if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
                     txtEmail.setBackground(new java.awt.Color(249, 250, 255));
                     lblErrorEmailR.setText("");
-                    CurrentUser.idTipoUsuario = 3;
-                    CurrentUser.nombreCompleto = nombre;
+                    CurrentUser.setIdTipoUsuario(3);
+                    CurrentUser.setNombreCompleto(nombre);
                     Db db = new Db();
                     int id = db.getIdUsuario(correo);
-                    CurrentUser.idUsuario = id;
-                    CurrentUser.idTipoUsuario = db.getIdTipoUsuario("Visitante");
-                    CurrentUser.email = correo;
+                    CurrentUser.setIdUsuario(id);
+                    CurrentUser.setIdTipoUsuario(db.getIdTipoUsuario("Visitante"));
+                    CurrentUser.setEmail(correo);
                     ingresar(nombre);
                 } else {
                     if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {

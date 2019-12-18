@@ -318,7 +318,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                     String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
                     int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
 
-                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.edicionExpotecnica, dFin, encargado, idUbicacion)) {
+                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.getEdicionExpotecnica(), dFin, encargado, idUbicacion)) {
                         JOptionPane.showMessageDialog(null, "Actividad ingresada");
                         resetarCampos();
                         Activities acti = new Activities();

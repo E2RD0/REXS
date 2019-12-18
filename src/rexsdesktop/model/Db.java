@@ -1700,10 +1700,10 @@ public class Db {
      */
     public void NumUsuarios() {
         try {
-            int tipoU = CurrentUser.idTipoUsuario;
+            int tipoU = CurrentUser.getIdTipoUsuario();
             String sql;
 
-            sql = "select COUNT(idUsuario) from usuario where idTipoUsuario != " + 1 + "and idUsuario != " + CurrentUser.idUsuario;
+            sql = "select COUNT(idUsuario) from usuario where idTipoUsuario != " + 1 + "and idUsuario != " + CurrentUser.getIdUsuario();
             String sql2 = "select COUNT(idUsuario) from usuario where idUsuario !=" + tipoU;
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -1748,12 +1748,12 @@ public class Db {
     public void MostrarUsuarios() {
         try {
 
-            int tipoU = CurrentUser.idTipoUsuario;
+            int tipoU = CurrentUser.getIdTipoUsuario();
             String sql;
             if (tipoU != 1) {
-                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != " + 1 + "and u.idUsuario != " + CurrentUser.idUsuario;
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != " + 1 + "and u.idUsuario != " + CurrentUser.getIdUsuario();
             } else {
-                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.idUsuario;
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.getIdUsuario();
             }
 
             Statement st = cn.createStatement();
@@ -2289,7 +2289,7 @@ public class Db {
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
         boolean respuesta = false;
         try {
-            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != " + CurrentUser.getIdUsuario();
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
@@ -2309,7 +2309,7 @@ public class Db {
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != " + CurrentUser.idUsuario;
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != " + CurrentUser.getIdUsuario();
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);

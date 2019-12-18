@@ -6,6 +6,7 @@
 package rexsdesktop.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -19,6 +20,7 @@ import rexsdesktop.CurrentUser;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.User;
+import rexsdesktop.controller.User_;
 import rexsdesktop.controller.Validation;
 
 /**
@@ -91,75 +93,79 @@ public class Login extends javax.swing.JFrame {
      * Método para iniciar sesión en el sistema
      *
      */
-    private void iniciarSesion() {
-        setCursor(Cursor.WAIT_CURSOR);
-        String email = txtEmail.getText();
-        String password = String.valueOf(txtPassword.getPassword());
+    private void iniciarSesion(String email, String password) {
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        Color bgColorTxtNormal = new Color(249, 250, 255);
+        Color bgColorTxtError = new Color(255, 204, 204);
         try {
-            if (!Validation.VerificadorLogin.verify(email, password)) {
-                if (!"".equals(Validation.VerificadorLogin.mensajeEmail)) {
-                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                } else {
-                    txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-                }
-                if (!"".equals(Validation.VerificadorLogin.mensajePassword)) {
-                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
-                } else {
-                    txtPassword.setBackground(new java.awt.Color(249, 250, 255));
-                }
-                lblErrorEmail.setText(Validation.VerificadorLogin.mensajeEmail);
-                lblErrorPassword.setText(Validation.VerificadorLogin.mensajePassword);
-            } else {
-                txtEmail.setBackground(new java.awt.Color(249, 250, 255));
-                txtPassword.setBackground(new java.awt.Color(249, 250, 255));
+            Validation.VerificadorLogin vl = new Validation().new VerificadorLogin(email, password);
+            if(vl.verify()){
+                /*Reset styles of textboxes*/
+                txtEmail.setBackground(bgColorTxtNormal);
+                txtPassword.setBackground(bgColorTxtNormal);
                 lblErrorEmail.setText("");
                 lblErrorPassword.setText("");
-                if (User.iniciarSesion(email, password)) {
+                
+                if (User_.logIn(email, password)) {
                     //  System.out.println("Inicio Correcto");
-                    if (CurrentUser.idEstadoUsuario == User.getIdEstadoUsuario("Activo")) {
-                        if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Administrador") || CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Superadministrador")) {
+                    if (CurrentUser.getIdEstadoUsuario() == User.getIdEstadoUsuario("Activo")) {
+                        if (CurrentUser.getIdTipoUsuario()== User.getIdTipoUsuario("Administrador") || CurrentUser.getIdTipoUsuario() == User.getIdTipoUsuario("Superadministrador")) {
                             Admin fAdmin = new Admin();
                             this.setVisible(false);
                             fAdmin.setLocationRelativeTo(null);
                             fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
                             fAdmin.setVisible(true);
                             this.dispose();
-                            General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
+                            General.agregarBitacora("IniciarSesion", CurrentUser.getIdUsuario());
                             General.getEdicion();
-                            Admin.lblEdicion.setText(CurrentUser.edicionExpotecnica);
+                            Admin.lblEdicion.setText(CurrentUser.getEdicionExpotecnica());
                             //Admin.cargarActividades();
 
-                        } else if (CurrentUser.idTipoUsuario == User.getIdTipoUsuario("Visitante")) {
+                        } else if (CurrentUser.getIdTipoUsuario() == User.getIdTipoUsuario("Visitante")) {
                             VisitorAndGuest va  = new VisitorAndGuest();
                             this.setVisible(false);
                             va.setLocationRelativeTo(null);
                             va.setDefaultCloseOperation(EXIT_ON_CLOSE);
                             va.setVisible(true);
                             this.dispose();
-                            General.agregarBitacora("IniciarSesion", CurrentUser.idUsuario);
+                            General.agregarBitacora("IniciarSesion", CurrentUser.getIdUsuario());
                             General.getEdicion();
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
-                            txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                            txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                            txtEmail.setBackground(bgColorTxtError);
+                            txtPassword.setBackground(bgColorTxtError);
                         }
                     } else {
                         lblErrorGeneral.setText("El usuario ha sido bloqueado o eliminado.");
-                        txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                        txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                        txtEmail.setBackground(bgColorTxtError);
+                            txtPassword.setBackground(bgColorTxtError);
                     }
                 } else {
                     lblErrorGeneral.setText("Usuario o contraseña incorrectos");
-                    txtEmail.setBackground(new java.awt.Color(255, 204, 204));
-                    txtPassword.setBackground(new java.awt.Color(255, 204, 204));
+                    txtEmail.setBackground(bgColorTxtError);
+                    txtPassword.setBackground(bgColorTxtError);
                     System.out.println("Incio Incorrecto");
+                }
+            }
+            else{
+                lblErrorEmail.setText(vl.getMensajeEmail());
+                lblErrorPassword.setText(vl.getMensajePassword());
+                if (vl.getMensajeEmail().isEmpty()) {
+                    txtEmail.setBackground(bgColorTxtNormal);
+                } else {
+                    txtEmail.setBackground(bgColorTxtError);
+                }
+                if (vl.getMensajePassword().isEmpty()) {
+                    txtPassword.setBackground(bgColorTxtNormal);
+                } else {
+                    txtPassword.setBackground(bgColorTxtError);
                 }
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al ingresar", "ERROR", JOptionPane.ERROR_MESSAGE);
         } finally {
-            setCursor(Cursor.DEFAULT_CURSOR);
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
         }
     }
 
@@ -1134,7 +1140,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCardInicioSesion1ActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        iniciarSesion();
+        iniciarSesion(txtEmail.getText(), String.valueOf(txtPassword.getPassword()));
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnCardInicioSesion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardInicioSesion2ActionPerformed
@@ -1228,7 +1234,7 @@ public class Login extends javax.swing.JFrame {
 
         if (teclaPresionada == KeyEvent.VK_ENTER) {
             btnIniciarSesion.requestFocus();
-            iniciarSesion();
+            iniciarSesion(txtEmail.getText(), String.valueOf(txtPassword.getPassword()));
         }
     }//GEN-LAST:event_txtPasswordKeyTyped
 
@@ -1263,7 +1269,7 @@ public class Login extends javax.swing.JFrame {
             LoginPoint login2 = new LoginPoint();
             login2.setVisible(true);
             General.getEdicion();
-            LoginPoint.lblEdicion.setText(CurrentUser.edicionExpotecnica);
+            LoginPoint.lblEdicion.setText(CurrentUser.getEdicionExpotecnica());
             this.dispose();
         }
     }//GEN-LAST:event_txtEmailKeyPressed

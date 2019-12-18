@@ -518,7 +518,7 @@ public class User {
 
     public static boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id) {
         Db db = new Db();
-        if (!db.usuarioExiste(email) || email.equals(CurrentUser.email)) {
+        if (!db.usuarioExiste(email) || email.equals(CurrentUser.getEmail())) {
             if (db.actualizarPerfilUsuario(nombreCompleto, email, id)) {
                 mensajeError = "";
                 return true;
@@ -582,8 +582,8 @@ public class User {
         try {
             db.NumUsuarios();
             int Numero;
-            System.out.println(CurrentUser.idTipoUsuario);
-            if (CurrentUser.idTipoUsuario == 1) {
+            System.out.println(CurrentUser.getIdTipoUsuario());
+            if (CurrentUser.getIdTipoUsuario() == 1) {
                 Numero = db.getCantidadUsuarios2();
             } else {
                 Numero = db.getCantidadUsuarios();
@@ -614,13 +614,13 @@ public class User {
                 hash = hash.trim();
                 if (compareHash(password, hash)) {
                     User u = getUser(email);
-                    CurrentUser.idUsuario = u.idUsuario;
-                    CurrentUser.nombreCompleto = u.nombreCompleto;
-                    CurrentUser.email = u.email;
-                    CurrentUser.fotoPerfil = u.fotoPerfil;
-                    CurrentUser.hash = u.hash;
-                    CurrentUser.idTipoUsuario = u.idTipoUsuario;
-                    CurrentUser.idEstadoUsuario = u.idEstadoUsuario;
+                    CurrentUser.setIdUsuario(u.idUsuario);
+                    CurrentUser.setNombreCompleto(u.nombreCompleto);
+                    CurrentUser.setEmail(u.email);
+                    CurrentUser.setFotoPerfil(u.fotoPerfil);
+                    CurrentUser.setHash(u.hash);
+                    CurrentUser.setIdTipoUsuario(u.idTipoUsuario);
+                    CurrentUser.setIdEstadoUsuario(u.idEstadoUsuario);
                     return true;
                 } else {
                     return false;
@@ -635,13 +635,13 @@ public class User {
 
     public static void cargarDatosUsuarioActual(int id) {
         User u = getUser(id);
-        CurrentUser.idUsuario = u.idUsuario;
-        CurrentUser.nombreCompleto = u.nombreCompleto;
-        CurrentUser.email = u.email;
-        CurrentUser.fotoPerfil = u.fotoPerfil;
-        CurrentUser.hash = u.hash;
-        CurrentUser.idTipoUsuario = u.idTipoUsuario;
-        CurrentUser.idEstadoUsuario = u.idEstadoUsuario;
+        CurrentUser.setIdUsuario(u.idUsuario);
+        CurrentUser.setNombreCompleto(u.nombreCompleto);
+        CurrentUser.setEmail(u.email);
+        CurrentUser.setFotoPerfil(u.fotoPerfil);
+        CurrentUser.setHash(u.hash);
+        CurrentUser.setIdTipoUsuario(u.idTipoUsuario);
+        CurrentUser.setIdEstadoUsuario(u.idEstadoUsuario);
     }
 
     public static User getUser(String email) {
@@ -844,7 +844,7 @@ public class User {
         panelesUsuarios = new ArrayList<>();
 
         int canti = 0;
-        int usu = CurrentUser.idTipoUsuario;
+        int usu = CurrentUser.getIdTipoUsuario();
         if (usu == 1) {
             canti = db.getCantidadUsuarios2();
         } else {

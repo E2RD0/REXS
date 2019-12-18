@@ -144,25 +144,58 @@ public class Validation {
      * @author Eduardo
      * @version 1.2
      */
-    public static class VerificadorLogin {
+    public class VerificadorLogin {
 
-        public static String mensajeEmail = "";
-        public static String mensajePassword = "";
+        /**
+         * @return the mensajeEmail
+         */
+        public String getMensajeEmail() {
+            return mensajeEmail;
+        }
 
-        public static boolean verify(String email, String password) {
-            mensajeEmail = "";
-            mensajePassword = "";
+        /**
+         * @param mensajeEmail the mensajeEmail to set
+         */
+        public void setMensajeEmail(String mensajeEmail) {
+            this.mensajeEmail = mensajeEmail;
+        }
+
+        /**
+         * @return the mensajePassword
+         */
+        public String getMensajePassword() {
+            return mensajePassword;
+        }
+
+        /**
+         * @param mensajePassword the mensajePassword to set
+         */
+        public void setMensajePassword(String mensajePassword) {
+            this.mensajePassword = mensajePassword;
+        }
+        
+        String email;
+        String password;
+        private String mensajeEmail = "";
+        private String mensajePassword = "";
+        
+        public VerificadorLogin(String email, String password){
+            this.email = email;
+            this.password = password;
+        }
+
+        public boolean verify() {
+            setMensajeEmail("");
+            setMensajePassword("");
             if (isStringEmptyOrNull(email) || isStringEmptyOrNull(password)) {
                 if (isStringEmptyOrNull(password)) {
-                    mensajePassword = "El campo no puede estar vacío.";
+                    setMensajePassword("El campo no puede estar vacío.");
                 }
                 if (isStringEmptyOrNull(email)) {
-                    mensajeEmail = "El campo no puede estar vacío.";
+                    setMensajeEmail("El campo no puede estar vacío.");
                 }
                 return false;
             } else {
-                mensajeEmail = "";
-                mensajePassword = "";
                 return true;
             }
         }

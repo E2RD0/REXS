@@ -70,8 +70,8 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     public VisitorAndGuest() {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
-        if (CurrentUser.idUsuario != 0) {
-                    lblNombreUsuario.setText(CurrentUser.nombreCompleto);
+        if (CurrentUser.getIdUsuario() != 0) {
+                    lblNombreUsuario.setText(CurrentUser.getNombreCompleto());
         }
         pnlActiveInicio.setBackground(bgNormal);
         pnlActiveProyectos.setBackground(bgNormal);
@@ -1932,23 +1932,23 @@ public class VisitorAndGuest extends javax.swing.JFrame {
         String fecha5Fin = fecha5 + " 23:59:59";
 
         int contador = 1;
-        actividades.CrearPanelesActividadesPoint(jPanel4, fecha1Inicio, CurrentUser.edicionExpotecnica, fecha1Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel4, fecha1Inicio, CurrentUser.getEdicionExpotecnica(), fecha1Fin, contador);
         lblCantidadActividades1.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel6, fecha2Inicio, CurrentUser.edicionExpotecnica, fecha2Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel6, fecha2Inicio, CurrentUser.getEdicionExpotecnica(), fecha2Fin, contador);
         lblCantidadActividades2.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel5, fecha3Inicio, CurrentUser.edicionExpotecnica, fecha3Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel5, fecha3Inicio, CurrentUser.getEdicionExpotecnica(), fecha3Fin, contador);
         lblCantidadActividades3.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel8, fecha4Inicio, CurrentUser.edicionExpotecnica, fecha4Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel8, fecha4Inicio, CurrentUser.getEdicionExpotecnica(), fecha4Fin, contador);
         lblCantidadActividades4.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividadesPoint(jPanel7, fecha5Inicio, CurrentUser.edicionExpotecnica, fecha5Fin, contador);
+        actividades.CrearPanelesActividadesPoint(jPanel7, fecha5Inicio, CurrentUser.getEdicionExpotecnica(), fecha5Fin, contador);
         lblCantidadActividades5.setText(String.valueOf(actividades.getCantidadDia1()));
 //        actividades.resetearIdioma();
     }
@@ -1968,11 +1968,11 @@ public class VisitorAndGuest extends javax.swing.JFrame {
             }
             jcEspecialidad1.disable();
             jcSeccion1.disable();
-            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            db.NumProyectos(CurrentUser.getEdicionExpotecnica());
             cdProyectos.setLayout(new GridLayout(0, 3, 15, 20));
             try {
                 Projects cargarPaneles = new Projects();
-                cargarPaneles.CrearPanelesProyectosPoint(cdProyectos, CurrentUser.edicionExpotecnica);
+                cargarPaneles.CrearPanelesProyectosPoint(cdProyectos, CurrentUser.getEdicionExpotecnica());
             } catch (Exception e) {
                 System.out.println("hi " + e.getMessage());
             }
@@ -2045,8 +2045,8 @@ public class VisitorAndGuest extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel32MouseClicked
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
-        if(CurrentUser.idUsuario != 0){
-            General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+        if(CurrentUser.getIdUsuario() != 0){
+            General.agregarBitacora("CerrarSesion", CurrentUser.getIdUsuario());
         }
         CurrentUser.clear();
         LoginPoint login = new LoginPoint();
@@ -2259,10 +2259,10 @@ public class VisitorAndGuest extends javax.swing.JFrame {
                 pnlViewProyectos.revalidate();
                 General.getEdicion();
                 Projects p = getNumProyectosFiltrados(jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString(),
-                        jcSeccion1.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                        jcSeccion1.getSelectedItem().toString(), CurrentUser.getEdicionExpotecnica());
                 cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
                 Projects cargar = new Projects();
-                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString(), jcSeccion1.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                cargar.FiltroPanelesProyectos(cdProyectos, jcNivel1.getSelectedItem().toString(), jcEspecialidad1.getSelectedItem().toString(), jcSeccion1.getSelectedItem().toString(), CurrentUser.getEdicionExpotecnica());
                 jsProyectos.setBorder(null);
                 if (color == 0) {
 

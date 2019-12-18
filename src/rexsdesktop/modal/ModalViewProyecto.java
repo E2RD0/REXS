@@ -95,7 +95,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             General.getEdicion();
             Db db = new Db();
             db.obtenerNivel();
-            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            db.NumProyectos(CurrentUser.getEdicionExpotecnica());
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
@@ -104,7 +104,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             pnlViewProyectos.revalidate();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
-            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.getEdicionExpotecnica());
             jsProyectos.setBorder(null);
             if (color == 0) {
 

@@ -64,7 +64,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     public void cargarProyectos() {
         try {
             General.getEdicion();
-            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            db.NumProyectos(CurrentUser.getEdicionExpotecnica());
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
@@ -73,7 +73,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             pnlViewProyectos.revalidate();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
-            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.getEdicionExpotecnica());
             jsProyectos.setBorder(null);
             if (color == 0) {
 
@@ -396,7 +396,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         if (!db.proyectoExiste(txtnombreProyecto.getText())) {
                             if (img != null) {
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
                                     txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();
@@ -412,7 +412,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                             } else {
 
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.edicionExpotecnica, p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
                                     txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();

@@ -24,7 +24,7 @@ public class ModalNuevoUsuario extends javax.swing.JPanel {
     public ModalNuevoUsuario() {
         initComponents();
         User Conexion = new User();
-        int tipoU = CurrentUser.idTipoUsuario;
+        int tipoU = CurrentUser.getIdTipoUsuario();
         User CargarUsuario = new User();
         if (tipoU == 1) {
             cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());

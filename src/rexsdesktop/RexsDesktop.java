@@ -39,8 +39,8 @@ public class RexsDesktop {
             });
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                if (CurrentUser.idUsuario != 0) {
-                    General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
+                if (CurrentUser.getIdUsuario() != 0) {
+                    General.agregarBitacora("CerrarSesion", CurrentUser.getIdUsuario());
                 }
             }));
         } catch (Exception e) {
