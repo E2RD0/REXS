@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.view.Admin;
@@ -318,7 +318,7 @@ public class ModalNuevaActividad extends javax.swing.JPanel {
                     String ubicacion = (String) cbxUbicacionModal.getSelectedItem();
                     int idUbicacion = Locations.getIdUbicacion(String.valueOf(map.get(ubicacion)));
 
-                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, CurrentUser.getEdicionExpotecnica(), dFin, encargado, idUbicacion)) {
+                    if (Activities.nuevaActividad(nombre, descripcion, dInicio, Session.getInstance().getEdicionExpotecnica(), dFin, encargado, idUbicacion)) {
                         JOptionPane.showMessageDialog(null, "Actividad ingresada");
                         resetarCampos();
                         Activities acti = new Activities();

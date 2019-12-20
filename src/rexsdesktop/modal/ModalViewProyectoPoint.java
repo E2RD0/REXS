@@ -12,10 +12,11 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Projects;
 import static rexsdesktop.controller.Projects.getNumIMG;
+import rexsdesktop.controller.User_;
 import rexsdesktop.controller.Votes;
 import rexsdesktop.model.Db;
 
@@ -29,6 +30,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
     public static int idProyecto;
     public String idUbicacion;
     int contador = 0;
+    private User_ u = Session.getInstance().getUser();
 
     /**
      * Creates new form ModalViewProyecto
@@ -45,8 +47,8 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio3.setMaximum(10);
         lblPuntajeFinal.setVisible(false);
         jLabel14.setEnabled(false);
-        if (CurrentUser.getIdUsuario() != 0) {
-            if (Votes.existeVoto(CurrentUser.getIdUsuario(), idProyecto)) {
+        if (u.getIdUsuario() != 0) {
+            if (Votes.existeVoto(u.getIdUsuario(), idProyecto)) {
                 yaExiste();
             }
         }
@@ -62,7 +64,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterio2.setEnabled(false);
         criterio3.setEnabled(false);
         lblPuntajeFinal.setVisible(true);
-        lblPuntajeFinal.setText("Puntaje final: " + String.valueOf(Votes.getPromedioFinalVoto(CurrentUser.getIdUsuario(), idProyecto)));
+        lblPuntajeFinal.setText("Puntaje final: " + String.valueOf(Votes.getPromedioFinalVoto(u.getIdUsuario(), idProyecto)));
     }
 
     /**
@@ -654,7 +656,7 @@ public class ModalViewProyectoPoint extends javax.swing.JPanel {
         criterioInnovacion.add((double) criterio3.getValue());
         criterioInnovacion.add("Innovación");
 
-        Votes.ingresarVotacion(CurrentUser.getIdUsuario(), idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);
+        Votes.ingresarVotacion(u.getIdUsuario(), idProyecto, criterioExpo, criterioCreatividad, criterioInnovacion);
         yaExiste();
     }//GEN-LAST:event_btnVotarActionPerformed
 

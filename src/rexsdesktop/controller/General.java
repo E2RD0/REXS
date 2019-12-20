@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.Scalr.*;
 import rexsdesktop.model.ENV;
 
@@ -238,7 +238,7 @@ public class General {
         Db db = new Db();
         try {
             String fecha = db.getEdicion();
-            CurrentUser.setEdicionExpotecnica(fecha);
+            Session.getInstance().setEdicionExpotecnica(fecha);
             return fecha;
         } catch (Exception e) {
             System.out.println(e.getMessage());

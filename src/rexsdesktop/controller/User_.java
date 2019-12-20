@@ -6,8 +6,9 @@
 package rexsdesktop.controller;
 
 import java.awt.image.BufferedImage;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.model.UserModel;
+import rexsdesktop.model.UserRepository;
 
 /**
  *
@@ -22,32 +23,23 @@ public class User_{
     private BufferedImage fotoPerfil;
     private int idTipoUsuario;
     private int idEstadoUsuario;
-    /*public User_(int id, String nombre, String email, String hash, BufferedImage foto, int idTipoUsuario, int idEstadoUsuario){
-        setIdUsuario(id);
-        setNombreCompleto(nombre);
-        setEmail(email);
-        setHash(hash);
-        setFotoPerfil(foto);
-        setIdTipoUsuario(idTipoUsuario);
-        setIdEstadoUsuario(idEstadoUsuario);
-    }*/
-    public static boolean usuarioExiste(String email) {
-        return new UserModel().userExists(email);
+
+    private UserRepository uRepository;
+    
+    public User_(){
+        uRepository = new UserModel();
     }
-    public static boolean logIn(String email, String password) {
-        if (UserModel.userExists(email)) {
-            String hash = UserModel.getHash(email);
+    public boolean userExists(String email) {
+        return uRepository.userExists(email);
+    }
+    public boolean logIn(String email, String password) {
+        if (new UserModel().userExists(email)) {
+            String hash = uRepository.getHash(email);
             if (hash != null) {
                 hash = hash.trim();
                 if (Authentication.compareHash(password, hash)) {
-                    User_ u = UserModel.getUser(email);
-                    CurrentUser.setIdUsuario(u.getIdUsuario());
-                    CurrentUser.setNombreCompleto(u.getNombreCompleto());
-                    CurrentUser.setEmail(u.getEmail());
-                    CurrentUser.setFotoPerfil(u.getFotoPerfil());
-                    CurrentUser.setHash(u.getHash());
-                    CurrentUser.setIdTipoUsuario(u.getIdTipoUsuario());
-                    CurrentUser.setIdEstadoUsuario(u.getIdEstadoUsuario());
+                    User_ u = uRepository.getUser(email);
+                    Session.getInstance().setUser(u);
                     return true;
                 } else {
                     return false;
@@ -58,6 +50,11 @@ public class User_{
         } else {
             return false;
         }
+    }
+    public void reloadData(){
+        User_ u = Session.getInstance().getUser();
+        int id = u.getIdUsuario();
+        Session.getInstance().setUser(uRepository.getUser(id));
     }
     
     

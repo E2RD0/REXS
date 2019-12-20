@@ -27,7 +27,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.imageio.ImageIO;
-import rexsdesktop.CurrentUser;
 import java.util.UUID;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -75,6 +74,9 @@ public class User {
     //Mo
     //Arturo
     public static String mensajeError = "";
+
+    private rexsdesktop.Session s = rexsdesktop.Session.getInstance();
+    private User_ u = s.getUser();
 
     //Arturo
     public User() {
@@ -518,7 +520,8 @@ public class User {
 
     public static boolean actualizarPerfilUsuario(String nombreCompleto, String email, int id) {
         Db db = new Db();
-        if (!db.usuarioExiste(email) || email.equals(CurrentUser.getEmail())) {
+        User_ u = rexsdesktop.Session.getInstance().getUser();
+        if (!db.usuarioExiste(email) || email.equals(u.getEmail())) {
             if (db.actualizarPerfilUsuario(nombreCompleto, email, id)) {
                 mensajeError = "";
                 return true;
@@ -582,13 +585,13 @@ public class User {
         try {
             db.NumUsuarios();
             int Numero;
-            System.out.println(CurrentUser.getIdTipoUsuario());
-            if (CurrentUser.getIdTipoUsuario() == 1) {
+            System.out.println(u.getIdTipoUsuario());
+            if (u.getIdTipoUsuario() == 1) {
                 Numero = db.getCantidadUsuarios2();
             } else {
                 Numero = db.getCantidadUsuarios();
             }
-            System.out.println(Numero+"");
+            System.out.println(Numero + "");
 
             return Numero;
         } catch (Exception e) {
@@ -604,44 +607,6 @@ public class User {
         } catch (Exception e) {
         }
         return 0;
-    }
-
-    public static boolean iniciarSesion(String email, String password) {
-        Db db = new Db();
-        if (usuarioExiste(email)) {
-            String hash = db.getHash(email);
-            if (hash != null) {
-                hash = hash.trim();
-                if (compareHash(password, hash)) {
-                    User u = getUser(email);
-                    CurrentUser.setIdUsuario(u.idUsuario);
-                    CurrentUser.setNombreCompleto(u.nombreCompleto);
-                    CurrentUser.setEmail(u.email);
-                    CurrentUser.setFotoPerfil(u.fotoPerfil);
-                    CurrentUser.setHash(u.hash);
-                    CurrentUser.setIdTipoUsuario(u.idTipoUsuario);
-                    CurrentUser.setIdEstadoUsuario(u.idEstadoUsuario);
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public static void cargarDatosUsuarioActual(int id) {
-        User u = getUser(id);
-        CurrentUser.setIdUsuario(u.idUsuario);
-        CurrentUser.setNombreCompleto(u.nombreCompleto);
-        CurrentUser.setEmail(u.email);
-        CurrentUser.setFotoPerfil(u.fotoPerfil);
-        CurrentUser.setHash(u.hash);
-        CurrentUser.setIdTipoUsuario(u.idTipoUsuario);
-        CurrentUser.setIdEstadoUsuario(u.idEstadoUsuario);
     }
 
     public static User getUser(String email) {
@@ -844,7 +809,7 @@ public class User {
         panelesUsuarios = new ArrayList<>();
 
         int canti = 0;
-        int usu = CurrentUser.getIdTipoUsuario();
+        int usu = u.getIdTipoUsuario();
         if (usu == 1) {
             canti = db.getCantidadUsuarios2();
         } else {

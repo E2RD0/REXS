@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
+import rexsdesktop.controller.User_;
 import rexsdesktop.view.Login;
 
 /**
@@ -39,8 +40,9 @@ public class RexsDesktop {
             });
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                if (CurrentUser.getIdUsuario() != 0) {
-                    General.agregarBitacora("CerrarSesion", CurrentUser.getIdUsuario());
+                User_ u = Session.getInstance().getUser();
+                if (u != null) {
+                    General.agregarBitacora("CerrarSesion", u.getIdUsuario());
                 }
             }));
         } catch (Exception e) {

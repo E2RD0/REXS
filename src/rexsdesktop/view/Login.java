@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.User;
@@ -105,30 +105,32 @@ public class Login extends javax.swing.JFrame {
                 txtPassword.setBackground(bgColorTxtNormal);
                 lblErrorEmail.setText("");
                 lblErrorPassword.setText("");
-                
-                if (User_.logIn(email, password)) {
+                User_ u = new User_();
+                if (u.logIn(email, password)) {
+                    Session s = Session.getInstance();
+                    u = s.getUser();
                     //  System.out.println("Inicio Correcto");
-                    if (CurrentUser.getIdEstadoUsuario() == User.getIdEstadoUsuario("Activo")) {
-                        if (CurrentUser.getIdTipoUsuario()== User.getIdTipoUsuario("Administrador") || CurrentUser.getIdTipoUsuario() == User.getIdTipoUsuario("Superadministrador")) {
+                    if (u.getIdEstadoUsuario() == User.getIdEstadoUsuario("Activo")) {
+                        if (u.getIdTipoUsuario()== User.getIdTipoUsuario("Administrador") || u.getIdTipoUsuario() == User.getIdTipoUsuario("Superadministrador")) {
                             Admin fAdmin = new Admin();
                             this.setVisible(false);
                             fAdmin.setLocationRelativeTo(null);
                             fAdmin.setDefaultCloseOperation(EXIT_ON_CLOSE);
                             fAdmin.setVisible(true);
                             this.dispose();
-                            General.agregarBitacora("IniciarSesion", CurrentUser.getIdUsuario());
+                            General.agregarBitacora("IniciarSesion", u.getIdUsuario());
                             General.getEdicion();
-                            Admin.lblEdicion.setText(CurrentUser.getEdicionExpotecnica());
+                            Admin.lblEdicion.setText(s.getEdicionExpotecnica());
                             //Admin.cargarActividades();
 
-                        } else if (CurrentUser.getIdTipoUsuario() == User.getIdTipoUsuario("Visitante")) {
+                        } else if (u.getIdTipoUsuario() == User.getIdTipoUsuario("Visitante")) {
                             VisitorAndGuest va  = new VisitorAndGuest();
                             this.setVisible(false);
                             va.setLocationRelativeTo(null);
                             va.setDefaultCloseOperation(EXIT_ON_CLOSE);
                             va.setVisible(true);
                             this.dispose();
-                            General.agregarBitacora("IniciarSesion", CurrentUser.getIdUsuario());
+                            General.agregarBitacora("IniciarSesion", u.getIdUsuario());
                             General.getEdicion();
                         } else {
                             lblErrorGeneral.setText("El usuario no tiene los permisos necesarios.");
@@ -165,7 +167,7 @@ public class Login extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al ingresar", "ERROR", JOptionPane.ERROR_MESSAGE);
         } finally {
-            setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -1269,7 +1271,7 @@ public class Login extends javax.swing.JFrame {
             LoginPoint login2 = new LoginPoint();
             login2.setVisible(true);
             General.getEdicion();
-            LoginPoint.lblEdicion.setText(CurrentUser.getEdicionExpotecnica());
+            LoginPoint.lblEdicion.setText(Session.getInstance().getEdicionExpotecnica());
             this.dispose();
         }
     }//GEN-LAST:event_txtEmailKeyPressed

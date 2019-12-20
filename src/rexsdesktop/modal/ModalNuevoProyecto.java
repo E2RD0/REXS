@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Projects;
 import static rexsdesktop.controller.Projects.getIdSeccionNivel;
@@ -44,6 +44,8 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
 
     public static BufferedImage img;
     public static JLabel label;
+    
+    private Session s = Session.getInstance();
     //BufferedImage fotoProyecto = new javax.swing.b(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
 
     public Db db = new Db();
@@ -64,7 +66,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
     public void cargarProyectos() {
         try {
             General.getEdicion();
-            db.NumProyectos(CurrentUser.getEdicionExpotecnica());
+            db.NumProyectos(s.getEdicionExpotecnica());
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
@@ -73,7 +75,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
             pnlViewProyectos.revalidate();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
-            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.getEdicionExpotecnica());
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, s.getEdicionExpotecnica());
             jsProyectos.setBorder(null);
             if (color == 0) {
 
@@ -396,7 +398,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                         if (!db.proyectoExiste(txtnombreProyecto.getText())) {
                             if (img != null) {
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), s.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
                                     txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();
@@ -412,7 +414,7 @@ public class ModalNuevoProyecto extends javax.swing.JPanel {
                             } else {
 
                                 Projects p = getIdSeccionNivel(cbxNivel.getSelectedItem().toString(), cbxEspecialidad.getSelectedItem().toString(), cbxSeccionNivel.getSelectedItem().toString());
-                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), CurrentUser.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
+                                if (Projects.nuevoProyecto(txtnombreProyecto.getText(), txtDesc1.getText(), s.getEdicionExpotecnica(), p.getIdSeccionNivel, img)) {
                                     txtnombreProyecto.setText(null);
                                     txtDesc1.setText(null);
                                     Admin.cdProyectos.removeAll();

@@ -20,8 +20,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.imageio.ImageIO;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.Locations;
+import rexsdesktop.controller.User_;
 
 /**
  * Clase utilizada como modelo o capa de gestión de datos.
@@ -1694,29 +1695,30 @@ public class Db {
     public ArrayList<String> tipo;
     public ArrayList<String> fecha;
     public ArrayList<String> estado;
+    private Session s = Session.getInstance();
+    private User_ u = s.getUser();
 
     /**
      * Método utilizado para obtener la cantidad de usuarios registrados.
      */
     public void NumUsuarios() {
         try {
-            int tipoU = CurrentUser.getIdTipoUsuario();
-            String sql;
+            String sql = "select COUNT(idUsuario) from usuario where idTipoUsuario != 1 and idUsuario != ?";
+            String sql2 = "select COUNT(idUsuario) from usuario where idUsuario != ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, u.getIdUsuario());
+            ResultSet rs = ps.executeQuery();
 
-            sql = "select COUNT(idUsuario) from usuario where idTipoUsuario != " + 1 + "and idUsuario != " + CurrentUser.getIdUsuario();
-            String sql2 = "select COUNT(idUsuario) from usuario where idUsuario !=" + tipoU;
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
+            if (rs.next()) {
                 setCantidadUsuarios(rs.getInt(1));
                 //System.out.println(getCantidadProyecto());
             }
 
-            Statement st2 = cn.createStatement();
-            ResultSet rs2 = st.executeQuery(sql2);
+            PreparedStatement ps2 = cn.prepareStatement(sql2);
+            ps2.setInt(1, u.getIdTipoUsuario());
+            ResultSet rs2 = ps2.executeQuery();
 
-            while (rs2.next()) {
+            if (rs2.next()) {
                 setCantidadUsuarios2(rs2.getInt(1));
                 //System.out.println(getCantidadProyecto());
             }
@@ -1748,15 +1750,16 @@ public class Db {
     public void MostrarUsuarios() {
         try {
 
-            int tipoU = CurrentUser.getIdTipoUsuario();
+            int tipoU = u.getIdTipoUsuario();
             String sql;
             if (tipoU != 1) {
-                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != " + 1 + "and u.idUsuario != " + CurrentUser.getIdUsuario();
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idTipoUsuario != 1 and u.idUsuario != ?";
             } else {
-                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != " + CurrentUser.getIdUsuario();
+                sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario u INNER JOIN estadoUsuario e on u.idEstadoUsuario=e.idEstadoUsuario INNER JOIN tipoUsuario t on u.idTipoUsuario=t.idTipoUsuario and u.idUsuario != ?";
             }
-
-            Statement st = cn.createStatement();
+            
+            PreparedStatement st = cn.prepareStatement(sql);
+            st.setInt(1, u.getIdUsuario());
             ResultSet rs = st.executeQuery(sql);
             idUsuario = new ArrayList<>();
             nombreCompleto = new ArrayList<>();
@@ -2289,11 +2292,12 @@ public class Db {
     public ResultSet NumUsuariosFiltrados(String nombre, String idE, String idT) {
         boolean respuesta = false;
         try {
-            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != " + CurrentUser.getIdUsuario();
+            String sql = "select COUNT(idUsuario)  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo = ? and nombreCompleto like ? and idUsuario != ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
             cmd.setString(3, "%" + nombre + "%");
+            cmd.setInt(4, Session.getInstance().getUser().getIdUsuario());
             ResultSet rs = cmd.executeQuery();
             if (rs.next()) {
                 return rs;
@@ -2309,11 +2313,12 @@ public class Db {
     public void MostrarUsuariosFiltrados(String nombre, String idE, String idT) {
         try {
 
-            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != " + CurrentUser.getIdUsuario();
+            String sql = "select idUsuario,nombreCompleto, email, fechaRegistro, tipo, estado  from usuario, estadoUsuario, tipoUsuario where usuario.idTipoUsuario=tipoUsuario.idTipoUsuario and usuario.idEstadoUsuario=estadoUsuario.idEstadoUsuario and estadoUsuario.estado=? and tipoUsuario.tipo =? and nombreCompleto like ? and idUsuario != ?";
             PreparedStatement cmd = cn.prepareStatement(sql);
             cmd.setString(1, idE);
             cmd.setString(2, idT);
             cmd.setString(3, "%" + nombre + "%");
+            cmd.setInt(4, Session.getInstance().getUser().getIdUsuario());
             ResultSet rs = cmd.executeQuery();
 
             idUsuario2 = new ArrayList<>();

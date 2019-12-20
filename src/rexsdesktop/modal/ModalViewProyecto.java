@@ -33,7 +33,7 @@ import static javax.swing.SwingConstants.CENTER;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
 import rexsdesktop.controller.Projects;
@@ -69,7 +69,8 @@ public class ModalViewProyecto extends javax.swing.JPanel {
     ImageIcon Member = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member.png"));
     ImageIcon Member2 = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/Member2.png"));
     ImageIcon fotoProyecto = new javax.swing.ImageIcon(getClass().getResource("/rexsdesktop/view/resources/fotoProyecto.png"));
-
+    
+    private Session s = Session.getInstance();
     /**
      * Creates new form ModalViewProyecto
      */
@@ -95,7 +96,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             General.getEdicion();
             Db db = new Db();
             db.obtenerNivel();
-            db.NumProyectos(CurrentUser.getEdicionExpotecnica());
+            db.NumProyectos(s.getEdicionExpotecnica());
             if (label != null) {
                 pnlViewProyectos.remove(label);
             }
@@ -104,7 +105,7 @@ public class ModalViewProyecto extends javax.swing.JPanel {
             pnlViewProyectos.revalidate();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             Projects cargarPaneles = new Projects();
-            cargarPaneles.CrearPanelesProyectos(cdProyectos, CurrentUser.getEdicionExpotecnica());
+            cargarPaneles.CrearPanelesProyectos(cdProyectos, s.getEdicionExpotecnica());
             jsProyectos.setBorder(null);
             if (color == 0) {
 

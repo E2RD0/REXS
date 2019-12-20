@@ -12,8 +12,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.User;
+import rexsdesktop.controller.User_;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.model.Db;
 
@@ -47,6 +48,9 @@ public class LoginPoint extends javax.swing.JFrame {
     private Color darkBlue = new Color(46, 91, 255);
     private Color darkPanel = new Color(37, 37, 37);
     private Color darknormal = new Color(46, 56, 77);
+    
+    private Session s = Session.getInstance();
+    private User_ u = s.getUser();
 
     /**
      * Creates new form LoginPoint
@@ -594,13 +598,13 @@ public class LoginPoint extends javax.swing.JFrame {
                 if (User.nuevoUsuario(nombre, correo, password, "Visitante", "Activo")) {
                     txtEmail.setBackground(new java.awt.Color(249, 250, 255));
                     lblErrorEmailR.setText("");
-                    CurrentUser.setIdTipoUsuario(3);
-                    CurrentUser.setNombreCompleto(nombre);
+                    u.setIdTipoUsuario(3);
+                    u.setNombreCompleto(nombre);
                     Db db = new Db();
                     int id = db.getIdUsuario(correo);
-                    CurrentUser.setIdUsuario(id);
-                    CurrentUser.setIdTipoUsuario(db.getIdTipoUsuario("Visitante"));
-                    CurrentUser.setEmail(correo);
+                    u.setIdUsuario(id);
+                    u.setIdTipoUsuario(db.getIdTipoUsuario("Visitante"));
+                    u.setEmail(correo);
                     ingresar(nombre);
                 } else {
                     if ("<html>Ya existe un usuario con la dirección de<br>correo electrónico.</html>".equals(User.mensajeError)) {
