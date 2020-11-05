@@ -1,14 +1,14 @@
 # REXS
 Sistema de guía para la Expotécnica Ricaldone.
 
-Con esta aplicación de escritorio hecha con Java y Microsoft SQL Server, se pueden ver los diversos proyectos y actividades que habrán en la Expotécnica Ricaldone 2019.
-El objetivo es el servir de guía para aquellas personas que nunca han visitado las instalaciones del ITR, para ello a través de un mapa interactivo del interior del colegio se puede ver dónde esta un proyecto o actividad, para ello se hace uso de <a href="https://www.mapwize.io/">Mapwize.</a>
+Con esta aplicación de escritorio hecha con Java y Microsoft SQL Server, se pueden ver los diversos proyectos y actividades que tendrán lugar en la Expotécnica Ricaldone 2019.
+El objetivo es el servir de guía para aquellas personas que nunca han visitado las instalaciones del ITR, para ello a través de un mapa interactivo del interior del colegio se puede ver dónde está ubicado un proyecto o actividad, para ello se hace uso de <a href="https://www.mapwize.io/">Mapwize.</a>
 
 Aparte de la ubicación se muestra la información general de las actividades: nombre, descripción, encargado y horario, y de los proyectos: nombre, descripción, integrantes y fotografías.
 
-Para incentivar la visita de todos los proyectos y que las personas puedan dar su opinión, se puede dar un puntaje a estos en diversos criterios tales como creatividad, exposición e innovación.
+Para incentivar la visita de todos los proyectos y que las personas puedan dar su opinión, se puede dar un puntaje a estos, en diversos criterios tales como creatividad, exposición e innovación.
 
-El sistema cuenta con dos apartados, uno para gestionar toda la información, y otro para el usuario final.
+El sistema cuenta con dos apartados, uno para gestionar toda la información (administrador), y otro para el usuario final (visitantes).
 
 <h2>Imágenes del sistema.</h2>
 
