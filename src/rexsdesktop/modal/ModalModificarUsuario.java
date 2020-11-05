@@ -6,7 +6,7 @@
 package rexsdesktop.modal;
 
 import javax.swing.JOptionPane;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.User;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.view.Admin;
@@ -23,7 +23,7 @@ public class ModalModificarUsuario extends javax.swing.JPanel {
     public ModalModificarUsuario() {
         initComponents();
         User Conexion = new User();
-        int tipoU = CurrentUser.idTipoUsuario;
+        int tipoU = Session.getInstance().getUser().getIdTipoUsuario();
         User CargarUsuario = new User();
         if (tipoU == 1) {
             cbxTipoUsuarioModal.setModel(CargarUsuario.obtenerTipoUsuarioSuperAdministrador());

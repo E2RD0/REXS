@@ -41,7 +41,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.ColorUIResource;
-import rexsdesktop.CurrentUser;
+import rexsdesktop.Session;
 import rexsdesktop.controller.Activities;
 import rexsdesktop.controller.General;
 import rexsdesktop.controller.Locations;
@@ -69,6 +69,7 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import static rexsdesktop.controller.Projects.getNumProyectosFiltrados;
 import rexsdesktop.controller.Sections;
+import rexsdesktop.controller.User_;
 import rexsdesktop.controller.Validation;
 import rexsdesktop.modal.ModalModificarEstadoUsuario;
 import rexsdesktop.modal.ModalModificarTipoUsuario;
@@ -108,6 +109,8 @@ public class Admin extends javax.swing.JFrame {
     public User cargar = new User();
     public Projects proyectos = new Projects();
     public Db db = new Db();
+    private Session s = Session.getInstance();
+    private User_ u = s.getUser();
 
     public Admin() {
         /*Scrollbar Look and Feel*/
@@ -120,11 +123,11 @@ public class Admin extends javax.swing.JFrame {
         /*END Scrollbar Look and Feel*/
         initComponents();
         /*Form Stuff*/
-        lblNombreUsuario.setText(CurrentUser.nombreCompleto);
+        lblNombreUsuario.setText(u.getNombreCompleto());
         setIconImage(new ImageIcon(getClass().getResource("resources/IconoREXS.png")).getImage());
         this.setTitle("REXS");
         //Permisos de usuarios
-        if (CurrentUser.idTipoUsuario == 1) {
+        if (u.getIdTipoUsuario() == 1) {
             btnAjustesActividades.setVisible(true);
             btnEliminarActividades.setVisible(true);
             jPanel43.setVisible(true);
@@ -4076,25 +4079,26 @@ public class Admin extends javax.swing.JFrame {
         String fecha3Fin = fecha3 + " 23:59:59";
         String fecha4Fin = fecha4 + " 23:59:59";
         String fecha5Fin = fecha5 + " 23:59:59";
+        Session s = Session.getInstance();
         //System.out.println("Helow 3");
         int contador = 1;
-        actividades.CrearPanelesActividades(jPanel4, fecha1Inicio, CurrentUser.edicionExpotecnica, fecha1Fin, contador);
+        actividades.CrearPanelesActividades(jPanel4, fecha1Inicio, s.getEdicionExpotecnica(), fecha1Fin, contador);
         lblCantidadActividades1.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividades(jPanel12, fecha2Inicio, CurrentUser.edicionExpotecnica, fecha2Fin, contador);
+        actividades.CrearPanelesActividades(jPanel12, fecha2Inicio, s.getEdicionExpotecnica(), fecha2Fin, contador);
         lblCantidadActividades2.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividades(jPanel13, fecha3Inicio, CurrentUser.edicionExpotecnica, fecha3Fin, contador);
+        actividades.CrearPanelesActividades(jPanel13, fecha3Inicio, s.getEdicionExpotecnica(), fecha3Fin, contador);
         lblCantidadActividades3.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividades(jPanel14, fecha4Inicio, CurrentUser.edicionExpotecnica, fecha4Fin, contador);
+        actividades.CrearPanelesActividades(jPanel14, fecha4Inicio, s.getEdicionExpotecnica(), fecha4Fin, contador);
         lblCantidadActividades4.setText(String.valueOf(actividades.getCantidadDia1()));
         contador++;
 
-        actividades.CrearPanelesActividades(jPanel15, fecha5Inicio, CurrentUser.edicionExpotecnica, fecha5Fin, contador);
+        actividades.CrearPanelesActividades(jPanel15, fecha5Inicio, s.getEdicionExpotecnica(), fecha5Fin, contador);
         lblCantidadActividades5.setText(String.valueOf(actividades.getCantidadDia1()));
 //        actividades.resetearIdioma();
 
@@ -4117,7 +4121,7 @@ public class Admin extends javax.swing.JFrame {
             cbEdicionExpotecnica.addItem(String.valueOf(edicion));
             edicion++;
         }
-        cbEdicionExpotecnica.setSelectedItem(CurrentUser.edicionExpotecnica);
+        cbEdicionExpotecnica.setSelectedItem(s.getEdicionExpotecnica());
     }
 
     private void eliminarActividades() {
@@ -4144,7 +4148,7 @@ public class Admin extends javax.swing.JFrame {
         try {
 
             General.getEdicion();
-            db.NumProyectos(CurrentUser.edicionExpotecnica);
+            db.NumProyectos(s.getEdicionExpotecnica());
             db.obtenerNivel();
             for (int i = 0; i < db.SNnivel.size(); i++) {
                 jcNivel.addItem(db.SNnivel.get(i));
@@ -4154,7 +4158,7 @@ public class Admin extends javax.swing.JFrame {
             jcSeccion.disable();
             cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
             try {
-                proyectos.CrearPanelesProyectos(cdProyectos, CurrentUser.edicionExpotecnica);
+                proyectos.CrearPanelesProyectos(cdProyectos, s.getEdicionExpotecnica());
             } catch (Exception e) {
                 System.out.println("hi " + e.getMessage());
             }
@@ -4497,7 +4501,7 @@ public class Admin extends javax.swing.JFrame {
                     modal.dispose();
                     JOptionPane.showMessageDialog(null, "Fechas y edición guardadas");
                     cargarActividades();
-                    lblEdicion.setText(CurrentUser.edicionExpotecnica);
+                    lblEdicion.setText(s.getEdicionExpotecnica());
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al ingresar las edición de Expotécnica");
                 }
@@ -4561,7 +4565,7 @@ public class Admin extends javax.swing.JFrame {
                 if (newPassword.equals(newPasswordC)) {
                     txtAjustesContraNC.setBackground(new java.awt.Color(249, 250, 255));
                     lblAErrorContraNC.setText("");
-                    if (User.actualizarContraUsuario(password, newPassword, CurrentUser.idUsuario)) {
+                    if (User.actualizarContraUsuario(password, newPassword, u.getIdUsuario())) {
                         JOptionPane.showMessageDialog(this, "Se cambio la contraseña.", "Cambio de contraseña", JOptionPane.INFORMATION_MESSAGE);
                         txtAjustesContraA.setBackground(new java.awt.Color(249, 250, 255));
                         txtAjustesContraN.setBackground(new java.awt.Color(249, 250, 255));
@@ -4596,8 +4600,8 @@ public class Admin extends javax.swing.JFrame {
         lblAErrorEmail.setText(Validation.VerificadorEmail.mensaje);
         lblAErrorNombre.setText(Validation.VerificadorNombre.mensaje);
         if (Validation.VerificadorNombre.verify(nombre) && Validation.VerificadorEmail.verify(correo)) {
-            if (!(CurrentUser.email.equals(correo) && CurrentUser.nombreCompleto.equals(nombre))) {
-                if (User.actualizarPerfilUsuario(nombre, correo, CurrentUser.idUsuario)) {
+            if (!(u.getEmail().equals(correo) && u.getNombreCompleto().equals(nombre))) {
+                if (User.actualizarPerfilUsuario(nombre, correo, u.getIdUsuario())) {
                     txtAjustesEmail.setBackground(new java.awt.Color(249, 250, 255));
                     lblAErrorEmail.setText("");
                     JOptionPane.showMessageDialog(this, "Datos actualizados con exito", "Actualizar perfil", JOptionPane.INFORMATION_MESSAGE);
@@ -4631,7 +4635,7 @@ public class Admin extends javax.swing.JFrame {
                         BufferedImage img = new BufferedImage(imgOriginal.getWidth(),
                                 imgOriginal.getHeight(), BufferedImage.TYPE_INT_RGB);
                         img.createGraphics().drawImage(imgOriginal, 0, 0, Color.WHITE, null);
-                        if (User.actualizarFotoPerfil(img, CurrentUser.idUsuario)) {
+                        if (User.actualizarFotoPerfil(img, u.getIdUsuario())) {
                             JOptionPane.showMessageDialog(this, "Foto de perfil actualizada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
                             loadAjustes();
                         } else {
@@ -4652,7 +4656,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambiarFotoPerfilActionPerformed
 
     private void btnEliminarFotoPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFotoPerfilActionPerformed
-        if (User.eliminarFotoPerfil(CurrentUser.idUsuario)) {
+        if (User.eliminarFotoPerfil(u.getIdUsuario())) {
             JOptionPane.showMessageDialog(this, "Foto de perfil eliminada con éxito.", "Actualizar foto de perfil", JOptionPane.INFORMATION_MESSAGE);
             loadAjustes();
         } else {
@@ -4781,9 +4785,9 @@ public class Admin extends javax.swing.JFrame {
             archivo = URLDecoder.decode(archivo, "UTF-8");
             JasperReport report = JasperCompileManager.compileReport(archivo);
             Map parametros = new HashMap();
-            parametros.put("NombreUsuario", CurrentUser.nombreCompleto);
+            parametros.put("NombreUsuario", u.getNombreCompleto());
             if (buttonGroupReportes.isSelected(jrbActividades.getModel())) {
-                parametros.put("edicion", CurrentUser.edicionExpotecnica);
+                parametros.put("edicion", s.getEdicionExpotecnica());
             }
             JasperPrint print = JasperFillManager.fillReport(report, parametros, con.conectar());
             JasperViewer visor = new JasperViewer(print, false);;
@@ -4803,8 +4807,8 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActividadesActionPerformed
 
     private void btnCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarSesionMouseClicked
-        General.agregarBitacora("CerrarSesion", CurrentUser.idUsuario);
-        CurrentUser.clear();
+        General.agregarBitacora("CerrarSesion", u.getIdUsuario());
+        s.clear();
         Login login = new Login();
         this.setVisible(false);
         login.setLocationRelativeTo(null);
@@ -4916,9 +4920,9 @@ public class Admin extends javax.swing.JFrame {
                 pnlViewProyectos.revalidate();
                 General.getEdicion();
                 Projects p = getNumProyectosFiltrados(jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(),
-                        jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                        jcSeccion.getSelectedItem().toString(), s.getEdicionExpotecnica());
                 cdProyectos.setLayout(new GridLayout(0, 2, 15, 20));
-                proyectos.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), CurrentUser.edicionExpotecnica);
+                proyectos.FiltroPanelesProyectos(cdProyectos, jcNivel.getSelectedItem().toString(), jcEspecialidad.getSelectedItem().toString(), jcSeccion.getSelectedItem().toString(), s.getEdicionExpotecnica());
                 jsProyectos.setBorder(null);
                 if (color == 0) {
 
@@ -5581,15 +5585,15 @@ public class Admin extends javax.swing.JFrame {
      *
      */
     private void loadAjustes() {
-        User.cargarDatosUsuarioActual(CurrentUser.idUsuario);
-        txtAjustesNombre.setText(CurrentUser.nombreCompleto);
-        txtAjustesEmail.setText(CurrentUser.email);
-        if (CurrentUser.fotoPerfil != null) {
+        Session.getInstance().reloadUserData();
+        txtAjustesNombre.setText(u.getNombreCompleto());
+        txtAjustesEmail.setText(u.getEmail());
+        if (u.getFotoPerfil() != null) {
             btnEliminarFotoPerfil.setEnabled(true);
             try {
-                BufferedImage icon = General.resizeSquare(CurrentUser.fotoPerfil, 128);
+                BufferedImage icon = General.resizeSquare(u.getFotoPerfil(), 128);
                 lblFotoPerfil.setIcon(new ImageIcon(icon));
-                BufferedImage icon2 = General.resizeSquare(CurrentUser.fotoPerfil, 38);
+                BufferedImage icon2 = General.resizeSquare(u.getFotoPerfil(), 38);
                 lblNombreUsuario.setIcon(new ImageIcon(icon2));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -5619,9 +5623,9 @@ public class Admin extends javax.swing.JFrame {
             General g = new General();
             g.getEdicion();
             Db db = new Db();
-            db.CountVotosMejoresProyectos(CurrentUser.edicionExpotecnica);
+            db.CountVotosMejoresProyectos(s.getEdicionExpotecnica());
             if (db.countVotos > 10) {
-                g.cargarMejoresProyectos(pnlViewMejoresProyectos, CurrentUser.edicionExpotecnica);
+                g.cargarMejoresProyectos(pnlViewMejoresProyectos, s.getEdicionExpotecnica());
             } else {
                 JLabel lb12 = new JLabel();
                 lb12.setBounds(18, 60, 190, 60);
@@ -5709,7 +5713,7 @@ public class Admin extends javax.swing.JFrame {
         jPanel1.revalidate();
         cantidadesUsuarios();
         cargar.CrearPanelesUsuarios(jPanel1);
-        int tipoU = CurrentUser.idTipoUsuario;
+        int tipoU = u.getIdTipoUsuario();
         if (tipoU == 1) {
             jCTipoUsuario.setModel(cargar.obtenerTipoUsuarioSuperAdministrador());
             jCEstadoUsuario.setModel(cargar.obtenerEstadoUsuario());

@@ -34,7 +34,7 @@ public class DbConnection {
     }
         // Handle any errors that may have occurred.
         catch (SQLException e) {
-            System.out.println("Fallo: " + e);
+            System.out.println("Fallo en conexion db: " + e);
         }
     return cn;
     };
